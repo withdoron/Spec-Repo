@@ -256,7 +256,7 @@ Spec-Repo/
 │   └── nonprofit-node.md # Church/nonprofit archetype
 └── checklists/
     ├── 7-day-plan.md   # Execution plan
-    ├── new-node.md     # New node setup
+    ├── new-node.md     # New node setup (clone for Tier 3 or create new archetype)
     └── pilot-launch.md # Pre-launch checklist
 ```
 
