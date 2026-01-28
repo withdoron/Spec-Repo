@@ -10,6 +10,8 @@
 |----------|---------|
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical patterns, data models, APIs |
 | [ENTITY-SYSTEM.md](./ENTITY-SYSTEM.md) | Archetype and goals-based dashboard system |
+| [CURRENT-STATE.md](./CURRENT-STATE.md) | What exists now and what needs work |
+| [INTEGRATION-PLAN.md](./INTEGRATION-PLAN.md) | Step-by-step plan for Event Module integration |
 | [STYLE-GUIDE.md](./STYLE-GUIDE.md) | Visual design standards (Gold Standard) |
 | [COMPONENTS.md](./COMPONENTS.md) | Detailed UI component specifications |
 | [DECISIONS.md](./DECISIONS.md) | Decision log with context |
