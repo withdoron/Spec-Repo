@@ -9,14 +9,14 @@
 | Document | Purpose |
 |----------|---------|
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical patterns, data models, APIs |
-| [ENTITY-SYSTEM.md](./ENTITY-SYSTEM.md) | Archetype and goals-based dashboard system |
-| [CURRENT-STATE.md](./CURRENT-STATE.md) | What exists now and what needs work |
-| [INTEGRATION-PLAN.md](./INTEGRATION-PLAN.md) | Step-by-step plan for Event Module integration |
 | [STYLE-GUIDE.md](./STYLE-GUIDE.md) | Visual design standards (Gold Standard) |
 | [COMPONENTS.md](./COMPONENTS.md) | Detailed UI component specifications |
+| [TIER-SYSTEM.md](./TIER-SYSTEM.md) | Tier definitions and feature matrix |
+| [ENTITY-SYSTEM.md](./ENTITY-SYSTEM.md) | Archetype and goals-based dashboard |
+| [CURRENT-STATE.md](./CURRENT-STATE.md) | What currently exists |
+| [INTEGRATION-PLAN.md](./INTEGRATION-PLAN.md) | Phase 2 implementation steps |
 | [DECISIONS.md](./DECISIONS.md) | Decision log with context |
 | [WORKFLOW.md](./WORKFLOW.md) | Development workflow |
-| `.cursorrules` | Rules for Cursor AI agent (auto-read by Cursor) |
 
 ---
 
@@ -80,13 +80,17 @@ LocalLane supports many entity types, not just businesses:
 
 ## Tier System
 
-### Business Tiers
+See [TIER-SYSTEM.md](./TIER-SYSTEM.md) for complete documentation.
 
-| Tier | Name | Cost | Location | Key Features |
-|------|------|------|----------|--------------|
-| 1 | **Standard** | Free | Community Node | Basic profile, submit free events (reviewed) |
-| 2 | **Storefront** | $X/mo | Community Node | Enhanced profile, punch pass acceptance, analytics |
-| 3 | **Partner** | Earned | Own Partner Node | Full mini-app, custom branding, priority placement |
+### Quick Reference
+
+| Tier Level | Code Value | Display Name | Cost |
+|------------|------------|--------------|------|
+| Tier 1 | `basic` | Basic | Free |
+| Tier 2 | `standard` | Standard | $X/month |
+| Tier 3 | `partner` | Partner | Earned + $Y/month |
+
+**Always use code values** (`basic`, `standard`, `partner`) in database and code.
 
 ### Tier 3 Criteria (Earned)
 - 4.5+ star rating
@@ -251,15 +255,15 @@ Spec-Repo/
 ├── STYLE-GUIDE.md      # Visual standards
 ├── COMPONENTS.md       # UI component specs
 ├── DECISIONS.md        # Decision log
+├── CURSOR-RULES.md     # Rules for Cursor agent
 ├── WORKFLOW.md         # Development workflow
-├── .cursorrules        # Rules for Cursor AI agent (auto-read)
 ├── archetypes/
 │   ├── _template.md    # Template for new archetypes
 │   ├── event-node.md   # Event coordinator archetype
 │   └── nonprofit-node.md # Church/nonprofit archetype
 └── checklists/
     ├── 7-day-plan.md   # Execution plan
-    ├── new-node.md     # New node setup (clone for Tier 3 or create new archetype)
+    ├── new-node.md     # New node setup
     └── pilot-launch.md # Pre-launch checklist
 ```
 

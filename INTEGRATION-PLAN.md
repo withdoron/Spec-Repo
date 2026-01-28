@@ -14,10 +14,12 @@
 
 ## Pre-Work: Decisions Made
 
-**Tier Naming:** Using 3-tier system
-- **Standard** (Free) — Tier 1
-- **Storefront** (Paid) — Tier 2  
-- **Partner** (Earned + Paid) — Tier 3
+**Tier Naming:** Using existing code values (3-tier system)
+- **`basic`** (Free) — Tier 1, displayed as "Basic"
+- **`standard`** (Paid) — Tier 2, displayed as "Standard"
+- **`partner`** (Earned + Paid) — Tier 3, displayed as "Partner"
+
+**Note:** Code uses `basic`/`standard`/`partner`. See TIER-SYSTEM.md for details.
 
 **Wizard Step Order:** Goals before Details
 - New: Archetype → Goals → Details → Plan → Review
@@ -172,15 +174,22 @@ Events created here do NOT need to sync anywhere - they're already in the Commun
 ```
 Create a hook or context that provides the current organization's tier:
 
-useTier() or useOrganization() should return:
-- tier: 'standard' | 'storefront' | 'partner'
+useOrganization() should return:
+- organization: the full organization object
+- tier: 'basic' | 'standard' | 'partner'
 - tierLevel: 1 | 2 | 3
-- canUsePunchPass: boolean (Storefront+)
-- canAutoPublish: boolean (Storefront+)
-- isPartner: boolean
-- etc.
+- canUsePunchPass: boolean (true for standard+)
+- canAutoPublish: boolean (true for standard+)
+- canUseMultipleTickets: boolean (true for standard+)
+- canUseCheckIn: boolean (true for standard+)
+- isPartner: boolean (true for partner only)
 
-This should read from the organization record in the database.
+Tier level mapping:
+- 'basic' = 1
+- 'standard' = 2
+- 'partner' = 3
+
+This should read from the business.subscription_tier field in the database.
 Include a dev mode override (like Event Node's Settings) for testing.
 ```
 
@@ -190,22 +199,26 @@ Include a dev mode override (like Event Node's Settings) for testing.
 ```
 Apply tier-based visibility throughout Business Dashboard:
 
-STANDARD (Tier 1):
-- Can create events (go to review queue)
+BASIC (Tier 1 - subscription_tier === 'basic'):
+- Can create events (go to review queue, status = 'pending_review')
 - Show "Pending Review" badge on submitted events
-- Hide Punch Pass section
-- Hide "Multiple Tickets" option
+- Hide Punch Pass section (show lock icon + "Standard tier required")
+- Hide "Multiple Tickets" option (show lock icon)
 - Hide analytics/stats (or show limited)
 - Show upgrade prompts where features are locked
 
-STOREFRONT (Tier 2):
-- All Standard features
-- Events auto-publish (no review)
+STANDARD (Tier 2 - subscription_tier === 'standard'):
+- All Basic features
+- Events auto-publish (status = 'published')
 - Punch Pass Eligible option available
 - Full analytics
 - Check-in feature
 
+PARTNER (Tier 3 - subscription_tier === 'partner'):
+- Uses own Partner Node, not Community Node dashboard
+
 Use the same UI patterns as Event Node (lock icon, upgrade CTA).
+Check tier with: tierLevel >= 2 for standard+ features
 ```
 
 ---
@@ -315,16 +328,16 @@ After implementation, test:
 - [ ] Can edit an existing event
 - [ ] Can delete an event
 
-### Standard Tier Flow
+### Basic Tier Flow (subscription_tier = 'basic')
 - [ ] Punch Pass option is locked with upgrade CTA
 - [ ] Multiple Tickets is locked
 - [ ] Created event shows "Pending Review" status
 - [ ] Cannot access check-in feature
 
-### Storefront Tier Flow
+### Standard Tier Flow (subscription_tier = 'standard')
 - [ ] Punch Pass option is available
 - [ ] Can set punch cost
-- [ ] Created event auto-publishes
+- [ ] Created event auto-publishes (status = 'published')
 - [ ] Can see Punch Pass earnings
 - [ ] Check-in feature accessible
 

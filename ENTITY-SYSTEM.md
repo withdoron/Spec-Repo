@@ -108,16 +108,18 @@ Step 5: REVIEW
 
 Tiers determine feature limits and capabilities within each module.
 
-| Tier | Name | Cost | Key Differences |
-|------|------|------|-----------------|
-| 1 | **Standard** | Free | Basic features, events go to review queue |
-| 2 | **Storefront** | $X/mo | Full features, auto-publish, Punch Pass acceptance |
-| 3 | **Partner** | $Y/mo + Earned | Own standalone app (Partner Node) |
+| Tier | Code Value | Display Name | Cost | Key Differences |
+|------|------------|--------------|------|-----------------|
+| 1 | `basic` | Basic | Free | Basic features, events go to review queue |
+| 2 | `standard` | Standard | $X/mo | Full features, auto-publish, Punch Pass acceptance |
+| 3 | `partner` | Partner | $Y/mo + Earned | Own standalone app (Partner Node) |
+
+**Note:** Always use the code values (`basic`, `standard`, `partner`) in database and code.
 
 ### Tier → Feature Matrix
 
-| Feature | Tier 1 | Tier 2 | Tier 3 |
-|---------|--------|--------|--------|
+| Feature | Basic (Tier 1) | Standard (Tier 2) | Partner (Tier 3) |
+|---------|----------------|-------------------|------------------|
 | Create Events | ✅ (reviewed) | ✅ (auto-publish) | ✅ (own node) |
 | Event Analytics | ❌ | ✅ | ✅ |
 | Accept Punch Pass | ❌ | ✅ | ✅ |
@@ -132,14 +134,14 @@ Tiers determine feature limits and capabilities within each module.
 
 Some goals require minimum tier:
 
-| Goal | Minimum Tier |
-|------|--------------|
-| Host Events | Tier 1 |
-| List in Directory | Tier 1 |
-| Accept Punch Pass | Tier 2 |
-| Manage Bookings | Tier 2 |
-| Sell Products | Tier 2 |
-| Post Announcements | Tier 1 |
+| Goal | Minimum Tier | Code Value |
+|------|--------------|------------|
+| Host Events | Tier 1 | `basic` |
+| List in Directory | Tier 1 | `basic` |
+| Accept Punch Pass | Tier 2 | `standard` |
+| Manage Bookings | Tier 2 | `standard` |
+| Sell Products | Tier 2 | `standard` |
+| Post Announcements | Tier 1 | `basic` |
 
 ---
 
@@ -218,8 +220,8 @@ Entity {
   
   // Onboarding selections
   archetypeId: string,       // 'venue', 'event_organizer', etc.
-  goals: string[],           // ['host_events', 'accept_punch_pass']
-  tier: number,              // 1, 2, or 3
+  goals: string[],          // ['host_events', 'accept_punch_pass']
+  tier: number,             // 1, 2, or 3
   
   // Basic info
   name: string,
@@ -236,7 +238,7 @@ Entity {
   hours: Hours[],
   photos: string[],
   categories: string[],
-  networks: string[],        // ['recess', 'homeschool']
+  networks: string[],       // ['recess', 'homeschool']
   
   // Status
   status: 'pending' | 'active' | 'suspended',
