@@ -1,264 +1,308 @@
-# 7-Day Execution Plan
+# 7-Day Pilot Launch Plan
 
-> Daily goals to get from "spec complete" to "pilot ready"
-> Start Date: 2026-01-28 (Tomorrow)
-
----
-
-## Overview
-
-**Goal:** Event Node + Community Node working together, ready for homeschool group pilot
-
-**Success Criteria:**
-- [ ] Event created in Event Node appears in Community Node
-- [ ] Punch pass (demo mode) can be "purchased" and "redeemed"
-- [ ] At least one real user (homeschool group contact) can use it
-- [ ] You can explain the system confidently to potential partners
+> Revised execution plan for homeschool pilot launch.
+> Updated: 2026-01-28
 
 ---
 
-## Day 1 (Tuesday): Foundation & Flow Verification
+## Goal
 
-### Morning: Verify the Development Flow
-
-**Goal:** Confirm Cursor → GitHub → Base44 works end-to-end
-
-- [ ] Open Cursor with both repos (events-node, community-node)
-- [ ] Make a tiny visible change in Event Node (e.g., change a button label)
-- [ ] Save in Cursor
-- [ ] Push to GitHub
-- [ ] Open Base44
-- [ ] Use Preview mode to verify the change appears
-- [ ] If it works: Publish the change
-- [ ] Verify it's live
-
-**If this fails:** Stop and troubleshoot. Document any issues.
-
-### Afternoon: Set Up Spec-Repo
-
-- [ ] Clone Spec-Repo to Cursor
-- [ ] Copy all the files I created (README.md, ARCHITECTURE.md, etc.) into it
-- [ ] Push to GitHub
-- [ ] Verify all files are visible at https://github.com/withdoron/Spec-Repo
-
-### Evening: Document What Exists
-
-- [ ] Take screenshots of current Event Node UI (for reference)
-- [ ] Take screenshots of current Community Node UI
-- [ ] Note what works well vs. what needs fixing
-- [ ] Add notes to the archetype specs
-
-**Day 1 Deliverable:** Working dev flow confirmed, Spec-Repo populated
+**Get a working event flow for the homeschool group pilot:**
+- Event organizers can create/manage events
+- Events appear on Community Node
+- Users can browse and RSVP
+- Punch Pass demo mode functional
 
 ---
 
-## Day 2 (Wednesday): Event Node Polish
+## Day 1 (Today) ✅ COMPLETE
 
-### Focus: Make Event Node solid before worrying about Community Node
+### Objective: Foundation & Documentation
 
-**Goal:** Event creation and display work flawlessly
+- [x] Spec-Repo populated with all documents
+- [x] Push to GitHub
+- [x] Style guide complete with Gold Standard
+- [x] Components guide created
+- [x] Development workflow documented
+- [x] Current state assessed via screenshots
+- [x] Google Docs mirror set up
 
-- [ ] Test event creation flow end-to-end
-- [ ] Fix any bugs in event creation
-- [ ] Verify events sync to Community Node
-- [ ] Test event editing (does it update in Community Node?)
-- [ ] Test event deletion (does it remove from Community Node?)
-- [ ] Verify network tagging works (Recess, Homeschool, etc.)
-
-### If Time Permits:
-
-- [ ] Review Event Node code structure
-- [ ] Document any technical debt or cleanup needed
-- [ ] Add any missing loading/error states
-
-**Day 2 Deliverable:** Event Node create/edit/delete fully functional
+### Deliverables
+- Spec-Repo live on GitHub
+- Google Docs mirror readable by Claude
+- Clear understanding of current state
 
 ---
 
-## Day 3 (Thursday): Community Node Assessment
+## Day 2: Community Node Cleanup
 
-### Morning: Review Current State
+### Objective: Clean up Community Node, fix visual inconsistencies
 
-**Goal:** Understand what needs to happen to Community Node
+### Tasks
 
-- [ ] Open Community Node in Base44 preview
-- [ ] Walk through every screen
-- [ ] List what's working well
-- [ ] List what's broken or confusing
-- [ ] List what shouldn't exist (cruft)
+**Morning: Visual Fixes**
+- [ ] Fix Admin Panel to dark theme
+  - Change `bg-white` to `bg-slate-950`
+  - Update all light-colored elements
+  
+- [ ] Fix organizer name display
+  - Event detail shows "Event Spoke" → should show business name
+  - Trace data flow: Event Node → sync → Community Node display
+  - Ensure business name is included in sync payload
 
-### Afternoon: Make the Call
+**Afternoon: Remove Unused Features**
+- [ ] Audit existing pages/features in Community Node
+- [ ] Hide/remove features not needed for pilot:
+  - [ ] Directory (defer to post-pilot)
+  - [ ] Boost feature (outdated concept)
+  - [ ] Any other cruft identified
+  
+- [ ] Simplify navigation to pilot essentials:
+  - Browse Events
+  - My Lane (user dashboard)
+  - Dashboard (organizer)
 
-Based on review, decide:
+**Evening: Verification**
+- [ ] Test event sync still works
+- [ ] Verify dark theme throughout
+- [ ] Screenshot key screens for review
 
-**Option A: Salvage**
-- Keep existing structure
-- Fix the broken parts
-- Delete the cruft
-- Estimated effort: 2-3 days
-
-**Option B: Rebuild Core**
-- Keep UI components you like
-- Rebuild the page structure
-- Fresh start on navigation
-- Estimated effort: 4-5 days
-
-- [ ] Document decision in DECISIONS.md
-- [ ] Create task list for chosen option
-
-**Day 3 Deliverable:** Clear plan for Community Node (salvage or rebuild)
-
----
-
-## Day 4 (Friday): Community Node Work (Part 1)
-
-### Based on Day 3 Decision
-
-**If Salvage:**
-- [ ] Delete identified cruft
-- [ ] Fix broken navigation
-- [ ] Ensure events from Event Node display correctly
-- [ ] Verify basic user account works
-
-**If Rebuild:**
-- [ ] Set up clean page structure
-- [ ] Implement home page
-- [ ] Implement events listing page
-- [ ] Connect to Event Node data
-
-### Must Have by End of Day:
-
-- [ ] Home page loads without errors
-- [ ] Events from Event Node are visible
-- [ ] Basic navigation works
-
-**Day 4 Deliverable:** Community Node showing events from Event Node
+### Deliverables
+- Community Node visually consistent (dark theme)
+- Organizer name displays correctly
+- Unused features hidden
+- Clean navigation
 
 ---
 
-## Day 5 (Saturday): Punch Pass (Demo Mode)
+## Day 3: User Flow
 
-### Focus: Get punch pass UX working without real payments
+### Objective: Enable user registration and basic interaction
+
+### Tasks
+
+**Morning: User Authentication**
+- [ ] Verify user registration flow works
+- [ ] Verify login/logout works
+- [ ] Test password reset (if implemented)
+
+**Afternoon: User Features**
+- [ ] RSVP to events (basic)
+  - User clicks "RSVP" on event
+  - Shows confirmation
+  - Event shows RSVP count
+  
+- [ ] "My Events" or "My Saved" view
+  - User can see events they've RSVPed to
+  - Can cancel RSVP
+
+**Evening: Testing**
+- [ ] Create test user account
+- [ ] Go through full flow: register → browse → RSVP → view my events
+- [ ] Fix any issues
+
+### Deliverables
+- Users can register/login
+- Users can RSVP to events
+- Users can see their RSVPed events
+
+---
+
+## Day 4: Punch Pass Demo Mode
+
+### Objective: Implement Punch Pass purchase and redemption (demo only)
+
+### Tasks
 
 **Morning: Purchase Flow**
-- [ ] User can view available punch passes
-- [ ] User can "purchase" a pass (fake money, full UX)
-- [ ] Pass appears in user's wallet/account
-- [ ] Balance is tracked
+- [ ] Create Punch Pass purchase UI
+  - Show pack options (10 for $100, 20 for $180, 30 for $255)
+  - "Demo Mode" badge clearly visible
+  - Mock checkout process (no real payment)
+  
+- [ ] Store purchased passes in user account
+  - Track balance (punches remaining)
+  - Track expiration (12 months from "purchase")
 
 **Afternoon: Redemption Flow**
-- [ ] Event can be marked as "accepts punch pass"
-- [ ] User can select punch pass at RSVP
-- [ ] Balance is deducted
-- [ ] Confirmation shown to user
+- [ ] At RSVP time, show Punch Pass option
+  - "Use 3 Punches" button if user has balance
+  - Or "Pay $30" if no balance
+  
+- [ ] Deduct punches on RSVP
+  - Update balance
+  - Show confirmation
 
-**Keep It Simple:**
-- No QR codes yet (manual selection is fine)
-- No complex validation (trust the user for now)
-- Demo prices shown but no real payment
+**Evening: Verification**
+- [ ] Test full flow: Buy pack → RSVP with punches → Balance updates
+- [ ] Verify FIFO logic (oldest pack used first)
+- [ ] Handle edge cases (not enough punches, expired pack)
 
-**Day 5 Deliverable:** Punch pass purchase and redemption working (demo mode)
-
----
-
-## Day 6 (Sunday): Integration & Testing
-
-### Morning: End-to-End Testing
-
-Walk through complete user journeys:
-
-**Journey 1: Event Discovery**
-- [ ] Open Community Node
-- [ ] Browse events
-- [ ] Filter by network (Recess, Homeschool)
-- [ ] View event details
-- [ ] RSVP to event
-
-**Journey 2: Event Creation**
-- [ ] Open Event Node
-- [ ] Create new event
-- [ ] Add to Recess network
-- [ ] Enable punch pass
-- [ ] Publish
-- [ ] Verify appears in Community Node
-
-**Journey 3: Punch Pass**
-- [ ] Purchase punch pass on Community Node
-- [ ] Find event that accepts passes
-- [ ] Use punch pass to "pay" for RSVP
-- [ ] Verify balance updated
-
-### Afternoon: Fix Critical Bugs
-
-- [ ] Fix any blockers found in testing
-- [ ] Don't worry about polish — focus on "it works"
-
-**Day 6 Deliverable:** All three journeys work end-to-end
+### Deliverables
+- Users can "purchase" punch packs (demo)
+- Users can see their balance
+- Users can redeem punches at RSVP
+- Clear "Demo Mode" indication throughout
 
 ---
 
-## Day 7 (Monday): Pilot Prep
+## Day 5: Event Node Polish
 
-### Morning: Final Polish
+### Objective: Ensure Event Node is production-ready
 
-- [ ] Fix any remaining critical bugs
-- [ ] Ensure error messages are user-friendly
-- [ ] Test on mobile device
-- [ ] Test with slow network
+### Tasks
 
-### Afternoon: Prepare for Users
+**Morning: Sync Verification**
+- [ ] Create test event in Event Node
+- [ ] Verify it appears in Community Node
+- [ ] Verify all fields sync correctly:
+  - Title, description
+  - Date, time, duration
+  - Location
+  - Image
+  - Punch cost
+  - Categories
+  - Networks (Recess, etc.)
+  - **Business name** (not "Event Spoke")
 
-- [ ] Create 2-3 test events (real upcoming events if possible)
-- [ ] Set up a test punch pass
-- [ ] Write simple instructions for homeschool group contact
-- [ ] Prepare talking points for demo
+**Afternoon: Edge Cases**
+- [ ] Test event update → sync updates
+- [ ] Test event delete → removes from Community
+- [ ] Test draft events (don't sync until published)
 
-### Evening: Soft Launch
+**Evening: Dashboard Polish**
+- [ ] Verify stats are accurate
+- [ ] Verify Punch Pass earnings display
+- [ ] Clean up any visual issues
 
-- [ ] Share link with homeschool group contact
-- [ ] Walk them through creating their first event
-- [ ] Get initial feedback
-- [ ] Document any issues
-
-**Day 7 Deliverable:** First real user creating real events!
-
----
-
-## Daily Standup Template
-
-At the start of each day, review:
-
-1. **Yesterday:** What did I complete?
-2. **Today:** What am I focusing on?
-3. **Blockers:** What's stopping me?
-
-Document in a simple daily log if helpful.
+### Deliverables
+- Event sync is bulletproof
+- All event fields display correctly
+- Event Node dashboard is clean
 
 ---
 
-## If You Fall Behind
+## Day 6: End-to-End Testing
 
-**Priority order (must-haves for pilot):**
+### Objective: Complete flow testing, fix critical bugs
 
-1. Dev flow works (Day 1) — Can't do anything without this
-2. Event creation works (Day 2) — Core feature
-3. Events show in Community Node (Day 4) — Integration proof
-4. Basic user can browse (Day 4) — Users need to see something
+### Tasks
 
-**Nice-to-haves (can defer):**
-- Punch pass (can demo later)
-- Advanced filtering
-- Polish and animations
+**Morning: Happy Path Testing**
+- [ ] **Organizer flow:**
+  1. Login to Event Node
+  2. Create event with all fields
+  3. Publish event
+  4. Verify appears in Community Node
+  
+- [ ] **User flow:**
+  1. Register on Community Node
+  2. Browse events
+  3. View event detail
+  4. Purchase Punch Pack (demo)
+  5. RSVP with punches
+  6. View My Events
+
+**Afternoon: Edge Case Testing**
+- [ ] User with no punches tries to use Punch Pass
+- [ ] Event at capacity (if implemented)
+- [ ] User tries to RSVP twice
+- [ ] Mobile browser testing (iOS Safari, Android Chrome)
+
+**Evening: Bug Fixes**
+- [ ] Fix any critical bugs found
+- [ ] Document known issues (non-blocking)
+- [ ] Update Spec-Repo with any decisions made
+
+### Deliverables
+- All happy paths work
+- No critical bugs
+- Known issues documented
 
 ---
 
-## Support
+## Day 7: Pilot Prep & Soft Launch
 
-When stuck:
-1. Check the Spec-Repo for guidance
-2. Start a new Claude conversation, share the spec, ask for help
-3. For Base44 issues: Check their docs or support
+### Objective: Prepare for real users, soft launch
+
+### Tasks
+
+**Morning: Content**
+- [ ] Add 5-10 real events for pilot
+  - Mix of free and paid
+  - Different categories
+  - Different networks
+  
+- [ ] Verify realistic data displays well
+- [ ] Remove any test data
+
+**Afternoon: User Prep**
+- [ ] Create simple user guide (1-page)
+  - How to browse events
+  - How to RSVP
+  - How to use Punch Pass
+  
+- [ ] Set up feedback collection
+  - Google Form or similar
+  - Link in app footer
+  
+- [ ] Brief pilot users (homeschool group leaders)
+
+**Evening: Launch**
+- [ ] Final verification
+- [ ] Publish to production
+- [ ] Share link with pilot group
+- [ ] Monitor for immediate issues
+
+### Deliverables
+- Real events populated
+- User guide ready
+- Feedback mechanism in place
+- Soft launch complete
 
 ---
 
-*Update this plan daily based on actual progress. Reality > Plan.*
+## Success Criteria
+
+By end of Day 7:
+
+- [ ] Event created in Event Node appears in Community Node within 5 minutes
+- [ ] User can register, browse, and RSVP
+- [ ] Punch Pass demo mode works end-to-end
+- [ ] At least 5 real events from homeschool group
+- [ ] At least 3 pilot users have successfully used the system
+- [ ] No critical bugs blocking basic flow
+
+---
+
+## Risk Mitigation
+
+| Risk | Mitigation |
+|------|-----------|
+| Sync breaks | Have manual entry fallback in Community Node |
+| Auth issues | Test thoroughly on Day 3, have backup login method |
+| Punch Pass complexity | Keep demo mode simple, defer edge cases |
+| Time overrun | Cut Punch Pass to Day 8 if needed, launch with just RSVP |
+
+---
+
+## Daily Standup Questions
+
+At the end of each day, answer:
+1. What did I complete today?
+2. What's blocking me?
+3. Am I on track for Day 7 launch?
+
+---
+
+## Post-Pilot (Day 8+)
+
+After successful pilot:
+- [ ] Gather feedback
+- [ ] Prioritize fixes based on user input
+- [ ] Begin Phase 2: Real payments, more features
+- [ ] Consider Nonprofit Node archetype
+
+---
+
+*Update this document as tasks complete. Check off items as you go.*

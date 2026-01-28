@@ -1,0 +1,139 @@
+# LocalLane Ecosystem Rules
+
+## Source of Truth
+The Spec-Repo (https://github.com/withdoron/Spec-Repo) is the single source of truth for:
+- Architecture patterns
+- Style guide (Gold Standard design)
+- Component specifications
+- Decisions and constraints
+- Archetype specifications
+
+## Before Making Changes
+
+### 1. Always Read Spec-Repo First
+- README.md - Overview and current status
+- ARCHITECTURE.md - Technical patterns
+- STYLE-GUIDE.md - UI standards (CRITICAL)
+- COMPONENTS.md - Component specifications
+- DECISIONS.md - Constraints and decisions
+
+### 2. Follow Established Patterns
+- Use events-node as reference implementation
+- Copy shared configs (tailwind.config.js, package.json)
+- Follow node folder structure from ARCHITECTURE.md
+- Use existing components before creating new ones
+
+### 3. Update Spec-Repo When Making Decisions
+- New decision? → Add to DECISIONS.md first
+- Architecture change? → Update ARCHITECTURE.md
+- Style change? → Update STYLE-GUIDE.md
+- New component pattern? → Add to COMPONENTS.md
+
+## Style Guide Compliance (CRITICAL)
+
+### Colors - MUST USE
+BACKGROUNDS:
+  Page:        bg-slate-950
+  Surface:     bg-slate-900
+  Elevated:    bg-slate-800
+
+ACCENT (Gold):
+  Primary:     bg-amber-500
+  Hover:       bg-amber-400
+  Active:      bg-amber-600
+  Text:        text-amber-500
+
+TEXT:
+  Primary:     text-white or text-slate-100
+  Secondary:   text-slate-300
+  Muted:       text-slate-400
+  On Gold:     text-black
+
+BORDERS:
+  Default:     border-slate-800
+  Subtle:      border-white/10
+  Selected:    border-amber-500
+
+### Colors - NEVER USE
+- bg-white or any light backgrounds
+- bg-blue-*, bg-green-*, bg-pink-* (generic template colors)
+- Colorful icons (red trash, green check, blue link)
+- Gradients
+
+### Icons
+- text-amber-500 (for emphasis/active)
+- text-white or text-slate-400 (for default state)
+- No functional color-coding
+
+## Architecture Patterns
+- Config Sync: Parent → Child (polling every 5 min)
+- Data Push: Child → Parent (POST on create/update)
+- Punch Pass: Real-time verification via Community Node
+- Follow exact request/response formats in ARCHITECTURE.md
+- Use ARCHITECTURE.md schemas
+
+## Component Patterns
+Before creating new components:
+1. Check if it exists in COMPONENTS.md
+2. Check if events-node has a similar component
+3. If creating new, add to COMPONENTS.md first
+
+Required component classes:
+- Primary Button: "bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-black font-bold rounded-lg transition-colors"
+- Secondary Button: "bg-transparent border border-slate-600 text-slate-300 hover:border-amber-500 hover:text-amber-500 rounded-lg transition-all"
+- Card: "bg-slate-900 border border-slate-800 rounded-xl p-6"
+- Input: "bg-slate-800 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-amber-500"
+- Badge (Gold): "bg-amber-500 text-black px-2 py-1 text-xs font-semibold rounded-full"
+
+## Folder Structure
+Every node must follow:
+node-name/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── api/
+│   ├── config/
+│   ├── hooks/
+│   └── utils/
+├── functions/
+├── tailwind.config.js
+├── package.json
+└── README.md
+
+## Quality Checklist
+Before committing:
+- [ ] Follows STYLE-GUIDE.md colors and patterns
+- [ ] Uses components from COMPONENTS.md
+- [ ] Matches ARCHITECTURE.md patterns
+- [ ] Uses shared configs (tailwind, package.json)
+- [ ] Follows node folder structure
+- [ ] No light backgrounds
+- [ ] Icons are gold or white only
+- [ ] Any new decisions documented in DECISIONS.md
+
+## Common Mistakes to Avoid
+- ❌ bg-white (use bg-slate-900)
+- ❌ Colored icons (use text-amber-500 or text-slate-400)
+- ❌ Generic button colors (use bg-amber-500)
+- ❌ Direct database access from child node (push to parent)
+- ❌ Hardcoded config (fetch from parent)
+
+## When Deviating from Spec
+1. Document first - Update the relevant spec file
+2. Explain why - Add to DECISIONS.md with reasoning
+3. Get approval - For major changes, flag for Doron
+4. Update everywhere - Ensure all affected docs are updated
+
+## Quick Reference
+Files to read before any work:
+1. STYLE-GUIDE.md (colors, components)
+2. COMPONENTS.md (patterns)
+3. ARCHITECTURE.md (technical patterns)
+
+Key principles:
+- Dark theme only
+- Gold accent color
+- Trust the spec
+- Update spec before deviating
+
+Remember: Spec-Repo is the external brain. Always reference it before implementing.
