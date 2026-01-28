@@ -119,10 +119,12 @@ font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
 ### Secondary Button (Outline)
 
 ```jsx
-<button className="bg-transparent border border-slate-600 text-slate-300 px-4 py-2 rounded-lg hover:border-amber-500 hover:text-amber-500 hover:bg-slate-800/50 transition-all">
+<button className="bg-transparent border border-slate-600 text-slate-300 px-4 py-2 rounded-lg hover:bg-transparent hover:border-amber-500 hover:text-amber-500 transition-all">
   Secondary Action
 </button>
 ```
+
+**Important:** Always include `hover:bg-transparent` to override shadcn/ui Button's default `hover:bg-accent` which causes a white background flash. Outline buttons should maintain a transparent background on hover, showing only the gold border and amber text.
 
 ### Ghost Button (Navigation/Links)
 

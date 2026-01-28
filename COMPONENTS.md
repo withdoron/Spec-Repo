@@ -13,6 +13,8 @@ Last updated: 2026-01-28
 
 ## Button Components
 
+> **Note:** We use shadcn/ui Button component. When using `variant="outline"`, always override hover background with `hover:bg-transparent` to prevent white flash.
+
 ### PrimaryButton
 
 **Usage:** Main CTAs, form submissions, important actions
@@ -48,17 +50,19 @@ className={cn(
 
 ### SecondaryButton (Outline)
 
-**Usage:** Secondary actions, cancel buttons
+**Usage:** Secondary actions, cancel buttons, Edit buttons
 
 ```jsx
 className={cn(
   "bg-transparent border border-slate-600",
   "text-slate-300",
-  "hover:border-amber-500 hover:text-amber-500 hover:bg-slate-800/50",
+  "hover:bg-transparent hover:border-amber-500 hover:text-amber-500",
   "rounded-lg transition-all duration-200",
   // ... sizes
 )}
 ```
+
+**Critical:** When using shadcn/ui Button with `variant="outline"`, always add `hover:bg-transparent` to the className to override the default `hover:bg-accent` behavior. This prevents the white background flash and maintains the dark theme aesthetic. Only the border and text should change on hover (to gold/amber).
 
 ### GhostButton
 
