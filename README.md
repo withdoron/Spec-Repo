@@ -9,6 +9,7 @@
 | Document | Purpose |
 |----------|---------|
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical patterns, data models, APIs |
+| [ENTITY-SYSTEM.md](./ENTITY-SYSTEM.md) | Archetype and goals-based dashboard system |
 | [STYLE-GUIDE.md](./STYLE-GUIDE.md) | Visual design standards (Gold Standard) |
 | [COMPONENTS.md](./COMPONENTS.md) | Detailed UI component specifications |
 | [DECISIONS.md](./DECISIONS.md) | Decision log with context |
