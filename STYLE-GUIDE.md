@@ -5,143 +5,110 @@
 
 ---
 
-## Status: ✅ EXTRACTED FROM CODE
+## Status: ✅ COMPLETE
 
-Last reviewed: 2026-01-27  
-Source: `events-node` and `community-node` tailwind.config.js (identical)
-
----
-
-## Design System: shadcn/ui
-
-Both nodes use **shadcn/ui** — a component library built on Radix UI primitives with Tailwind CSS. This is excellent because:
-
-- Components are consistent and accessible
-- Easy to customize via CSS variables
-- Well-documented: https://ui.shadcn.com
-
-### Key Dependencies
-
-```json
-{
-  "tailwindcss": "^3.x",
-  "tailwindcss-animate": "^1.x",
-  "@radix-ui/*": "various",
-  "@tanstack/react-query": "^5.x"
-}
-```
+Last updated: 2026-01-27  
+Source: Local Lane Blueprint + existing tailwind.config.js
 
 ---
 
-## Color System
+## The "Gold Standard" Design Philosophy
 
-Colors are defined using **CSS variables** with HSL values. This allows for easy theming and dark mode support.
+From the Blueprint:
 
-### How It Works
+> "Local Lane is a premium, trusted community platform. We avoid generic 'template' colors (blue/green/pink)."
 
-In `tailwind.config.js`, colors reference CSS variables:
-```javascript
-primary: {
-  DEFAULT: 'hsl(var(--primary))',
-  foreground: 'hsl(var(--primary-foreground))'
-}
-```
+**Core Principles:**
+- Uniformity builds trust
+- No functional color-coding (no red hearts, no green money signs)
+- Icons are Gold or White only
+- Dark, premium feel
 
-The actual HSL values are defined in your CSS (likely `index.css` or `globals.css`):
+---
+
+## Color Palette
+
+### Primary Brand Colors
+
+| Name | Tailwind Class | Hex | Usage |
+|------|----------------|-----|-------|
+| **Background** | `bg-slate-900` | `#0f172a` | Page backgrounds, dark surfaces |
+| **Local Lane Gold** | `text-amber-500` / `bg-amber-500` | `#f59e0b` | Primary accent, CTAs, brand identity |
+| **Gold (hover)** | `bg-amber-600` | `#d97706` | Hover states on gold elements |
+| **Text Primary** | `text-white` | `#ffffff` | Main text on dark backgrounds |
+| **Text Secondary** | `text-white/70` | `rgba(255,255,255,0.7)` | Muted text, captions |
+| **Borders** | `border-white/10` | `rgba(255,255,255,0.1)` | Subtle dividers, card borders |
+
+### Semantic Colors (Use Sparingly)
+
+| Name | Tailwind Class | Usage |
+|------|----------------|-------|
+| Success | `text-emerald-500` | Confirmations, check marks |
+| Warning | `text-amber-400` | Cautions (use gold family) |
+| Error | `text-red-500` | Errors, destructive actions |
+| Info | `text-blue-400` | Informational (rare) |
+
+### Trust Tier Colors
+
+| Tier | Color | Badge Style |
+|------|-------|-------------|
+| **Standard (Free)** | Slate/Gray | `bg-slate-700 text-white` |
+| **Storefront (Paid)** | Amber/Gold | `bg-amber-500 text-slate-900` |
+| **Partner** | Gold with emphasis | `bg-amber-500 text-slate-900` + icon |
+
+### Network Badge Colors
+
+| Network | Style | Notes |
+|---------|-------|-------|
+| **Recess** | Gold badge | Movement/fitness/play |
+| **TCA** | Gold badge | Arts/trades/skills |
+| **Homeschool** | Gold badge | Education network |
+
+**Rule:** All network badges use the same gold styling. Differentiate by text/icon, not color.
+
+---
+
+## CSS Variables (shadcn/ui)
+
+Your apps use shadcn/ui with CSS variables. Here's how to align them with the Local Lane brand:
+
 ```css
 :root {
-  --primary: 222 47% 11%;
-  --primary-foreground: 210 40% 98%;
-  /* etc. */
-}
-```
-
-### Semantic Color Tokens
-
-| Token | CSS Variable | Usage |
-|-------|--------------|-------|
-| `background` | `--background` | Page backgrounds |
-| `foreground` | `--foreground` | Default text color |
-| `card` | `--card` | Card backgrounds |
-| `card-foreground` | `--card-foreground` | Text on cards |
-| `popover` | `--popover` | Dropdown/popover backgrounds |
-| `popover-foreground` | `--popover-foreground` | Text in popovers |
-| `primary` | `--primary` | Primary buttons, links |
-| `primary-foreground` | `--primary-foreground` | Text on primary elements |
-| `secondary` | `--secondary` | Secondary buttons |
-| `secondary-foreground` | `--secondary-foreground` | Text on secondary elements |
-| `muted` | `--muted` | Muted backgrounds |
-| `muted-foreground` | `--muted-foreground` | Muted/secondary text |
-| `accent` | `--accent` | Accent highlights |
-| `accent-foreground` | `--accent-foreground` | Text on accent elements |
-| `destructive` | `--destructive` | Delete/danger actions |
-| `destructive-foreground` | `--destructive-foreground` | Text on destructive buttons |
-| `border` | `--border` | Borders, dividers |
-| `input` | `--input` | Input field borders |
-| `ring` | `--ring` | Focus rings |
-
-### Chart Colors (for data visualization)
-
-| Token | Variable |
-|-------|----------|
-| `chart-1` | `--chart-1` |
-| `chart-2` | `--chart-2` |
-| `chart-3` | `--chart-3` |
-| `chart-4` | `--chart-4` |
-| `chart-5` | `--chart-5` |
-
-### Sidebar Colors (for navigation)
-
-| Token | Variable |
-|-------|----------|
-| `sidebar` | `--sidebar-background` |
-| `sidebar-foreground` | `--sidebar-foreground` |
-| `sidebar-primary` | `--sidebar-primary` |
-| `sidebar-accent` | `--sidebar-accent` |
-| `sidebar-border` | `--sidebar-border` |
-
----
-
-## To Get Actual Color Values
-
-The CSS variables are defined in your CSS file. To document the actual colors:
-
-1. Open `src/index.css` (or wherever your CSS variables are defined)
-2. Look for the `:root` block
-3. Document the HSL values here
-
-**Action item:** Paste the contents of your `index.css` `:root` block here so we can complete the color documentation.
-
----
-
-## Trust Tier Colors (To Be Defined)
-
-We need to add custom colors for the tier system. Recommendation:
-
-| Tier | Suggested Color | CSS Variable |
-|------|-----------------|--------------|
-| Tier 1 (Free) | Slate/Gray | `--tier-free` |
-| Tier 2 (Pro) | Blue | `--tier-pro` |
-| Tier 3 (Partner) | Gold/Amber | `--tier-partner` |
-
-Add to your CSS:
-```css
-:root {
-  --tier-free: 215 16% 47%;      /* slate-500 */
-  --tier-pro: 217 91% 60%;       /* blue-500 */
-  --tier-partner: 45 93% 47%;    /* amber-500 */
-}
-```
-
-Add to `tailwind.config.js`:
-```javascript
-colors: {
-  // ... existing colors
-  tier: {
-    free: 'hsl(var(--tier-free))',
-    pro: 'hsl(var(--tier-pro))',
-    partner: 'hsl(var(--tier-partner))',
-  }
+  /* Backgrounds */
+  --background: 222 47% 11%;        /* slate-900 */
+  --foreground: 210 40% 98%;        /* white-ish */
+  
+  /* Cards & Surfaces */
+  --card: 217 33% 17%;              /* slate-800 */
+  --card-foreground: 210 40% 98%;
+  
+  /* Primary (Gold) */
+  --primary: 38 92% 50%;            /* amber-500 */
+  --primary-foreground: 222 47% 11%; /* dark text on gold */
+  
+  /* Secondary */
+  --secondary: 217 33% 17%;         /* slate-800 */
+  --secondary-foreground: 210 40% 98%;
+  
+  /* Muted */
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  
+  /* Accent (same as primary for Local Lane) */
+  --accent: 38 92% 50%;
+  --accent-foreground: 222 47% 11%;
+  
+  /* Destructive */
+  --destructive: 0 84% 60%;         /* red-500 */
+  --destructive-foreground: 210 40% 98%;
+  
+  /* Borders & Inputs */
+  --border: 217 33% 17%;
+  --input: 217 33% 17%;
+  --ring: 38 92% 50%;               /* gold focus ring */
+  
+  /* Radius */
+  --radius: 0.5rem;
 }
 ```
 
@@ -149,339 +116,178 @@ colors: {
 
 ## Typography
 
-### Font Family
+### Font Stack
 
 ```css
-/* Primary font */
-font-family: ______;
-
-/* Monospace (for codes, IDs) */
-font-family: ______;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 ```
 
-### Font Sizes
-
-| Name | Size | Line Height | Usage |
-|------|------|-------------|-------|
-| xs | 0.75rem (12px) | 1rem | Captions, fine print |
-| sm | 0.875rem (14px) | 1.25rem | Secondary text |
-| base | 1rem (16px) | 1.5rem | Body text |
-| lg | 1.125rem (18px) | 1.75rem | Large body |
-| xl | 1.25rem (20px) | 1.75rem | Subheadings |
-| 2xl | 1.5rem (24px) | 2rem | Section headings |
-| 3xl | 1.875rem (30px) | 2.25rem | Page titles |
-| 4xl | 2.25rem (36px) | 2.5rem | Hero titles |
+(Using system fonts for performance. Can add custom font later if branding requires.)
 
 ### Font Weights
 
-| Name | Weight | Usage |
-|------|--------|-------|
-| normal | 400 | Body text |
-| medium | 500 | Emphasis |
-| semibold | 600 | Subheadings |
-| bold | 700 | Headings, buttons |
+| Weight | Usage |
+|--------|-------|
+| 400 (normal) | Body text |
+| 500 (medium) | Emphasis, labels |
+| 600 (semibold) | Subheadings |
+| 700 (bold) | Headings, buttons |
 
 ---
 
-## Spacing
+## Component Patterns
 
-Use Tailwind's default spacing scale:
-
-| Class | Value | Usage |
-|-------|-------|-------|
-| `p-1`, `m-1` | 0.25rem (4px) | Tight spacing |
-| `p-2`, `m-2` | 0.5rem (8px) | Compact elements |
-| `p-4`, `m-4` | 1rem (16px) | Standard spacing |
-| `p-6`, `m-6` | 1.5rem (24px) | Section padding |
-| `p-8`, `m-8` | 2rem (32px) | Large sections |
-
----
-
-## Components
-
-### Buttons
-
-#### Primary Button
+### Primary Button (Gold)
 
 ```jsx
-<button className="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-dark transition-colors">
+<button className="bg-amber-500 text-slate-900 px-4 py-2 rounded-lg font-semibold hover:bg-amber-600 transition-colors">
   Primary Action
 </button>
 ```
 
-#### Secondary Button
+### Secondary Button (Dark with Border)
 
 ```jsx
-<button className="bg-secondary text-white px-4 py-2 rounded-lg font-medium hover:bg-secondary-dark transition-colors">
+<button className="bg-transparent border border-white/10 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/5 transition-colors">
   Secondary Action
 </button>
 ```
 
-#### Outline Button
+### Card
 
 ```jsx
-<button className="border border-primary text-primary px-4 py-2 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors">
-  Outline Action
-</button>
-```
-
-#### Disabled Button
-
-```jsx
-<button className="bg-gray-300 text-gray-500 px-4 py-2 rounded-lg font-medium cursor-not-allowed" disabled>
-  Disabled
-</button>
-```
-
-### Cards
-
-```jsx
-<div className="bg-surface rounded-xl shadow-sm border border-border p-6">
-  <h3 className="text-lg font-semibold text-text-primary">Card Title</h3>
-  <p className="text-text-secondary mt-2">Card content goes here.</p>
+<div className="bg-slate-800 border border-white/10 rounded-xl p-6">
+  <h3 className="text-white font-semibold">Card Title</h3>
+  <p className="text-white/70 mt-2">Card content goes here.</p>
 </div>
 ```
 
-### Input Fields
+### Badge (Network/Tier)
 
 ```jsx
-<input 
-  type="text"
-  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-  placeholder="Enter text..."
-/>
-```
-
-### Badges
-
-#### Tier Badges
-
-```jsx
-// Tier 1
-<span className="px-2 py-1 text-xs font-medium bg-tier1 text-white rounded-full">
-  Free
-</span>
-
-// Tier 2
-<span className="px-2 py-1 text-xs font-medium bg-tier2 text-white rounded-full">
-  Pro
-</span>
-
-// Tier 3
-<span className="px-2 py-1 text-xs font-medium bg-tier3 text-white rounded-full flex items-center gap-1">
-  <TrustIcon size={12} /> Partner
-</span>
-```
-
-#### Network Badges
-
-```jsx
-<span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+<span className="bg-amber-500 text-slate-900 px-2 py-1 text-xs font-semibold rounded-full">
   Recess
 </span>
 ```
 
-### Trust Stars
+### Input Field
 
 ```jsx
-<div className="flex items-center gap-1">
-  {[1, 2, 3, 4, 5].map((star) => (
-    <StarIcon 
-      key={star}
-      className={star <= rating ? "text-yellow-400 fill-current" : "text-gray-300"}
-      size={16}
-    />
-  ))}
-  <span className="text-sm text-text-secondary ml-1">({reviewCount})</span>
-</div>
-```
-
----
-
-## Layout Patterns
-
-### Page Container
-
-```jsx
-<div className="min-h-screen bg-background">
-  <header className="bg-surface border-b border-border">
-    {/* Header content */}
-  </header>
-  
-  <main className="max-w-7xl mx-auto px-4 py-8">
-    {/* Page content */}
-  </main>
-  
-  <footer className="bg-surface border-t border-border mt-auto">
-    {/* Footer content */}
-  </footer>
-</div>
-```
-
-### Card Grid
-
-```jsx
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {items.map((item) => (
-    <Card key={item.id} item={item} />
-  ))}
-</div>
-```
-
-### Form Layout
-
-```jsx
-<form className="space-y-6">
-  <div>
-    <label className="block text-sm font-medium text-text-primary mb-1">
-      Field Label
-    </label>
-    <input type="text" className="..." />
-  </div>
-  
-  <div>
-    <label className="block text-sm font-medium text-text-primary mb-1">
-      Another Field
-    </label>
-    <input type="text" className="..." />
-  </div>
-  
-  <button type="submit" className="...">
-    Submit
-  </button>
-</form>
+<input 
+  type="text"
+  className="w-full bg-slate-800 border border-white/10 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder:text-white/40"
+  placeholder="Enter text..."
+/>
 ```
 
 ---
 
 ## Icons
 
-### Recommended Icon Library
+### Rules
 
-Use **Lucide React** for consistent icons across all nodes.
+1. **Color:** Icons are **Gold (`text-amber-500`)** or **White (`text-white`)** only
+2. **No functional color-coding** — Don't use red for delete, green for success in icons
+3. **Consistency:** Use the same icon library throughout (Lucide React recommended)
 
-```bash
-npm install lucide-react
-```
+### Example
 
 ```jsx
-import { Calendar, MapPin, Users, Star, Check, X } from 'lucide-react';
+import { Calendar, MapPin, Star, Ticket } from 'lucide-react';
+
+// Gold icons for emphasis
+<Calendar className="text-amber-500" size={20} />
+
+// White icons for navigation/secondary
+<MapPin className="text-white" size={20} />
 ```
 
-### Common Icons
+---
 
-| Concept | Icon | Usage |
-|---------|------|-------|
-| Events | `Calendar` | Event listings |
-| Location | `MapPin` | Addresses |
-| People | `Users` | Attendees, members |
-| Rating | `Star` | Trust scores |
-| Success | `Check` | Confirmations |
-| Error | `X` | Errors, close |
-| Punch Pass | `Ticket` | Pass actions |
-| Business | `Store` | Business listings |
+## Layout Patterns
+
+### Page Container (Dark Theme)
+
+```jsx
+<div className="min-h-screen bg-slate-900">
+  <header className="bg-slate-800 border-b border-white/10">
+    {/* Header content */}
+  </header>
+  
+  <main className="max-w-7xl mx-auto px-4 py-8">
+    {/* Page content */}
+  </main>
+</div>
+```
+
+### Two-Sided Dashboard (from Blueprint)
+
+The Blueprint specifies separating:
+
+1. **The "Living Room"** (Main Dashboard) — For browsing users
+   - Personalized feed
+   - Saved items
+   - Event discovery
+
+2. **The "Back Office"** (Host Wizard) — For business owners
+   - Create organization
+   - Manage listings
+   - Analytics
+
+Don't mix these UX patterns. Keep them distinct.
+
+---
+
+## Do's and Don'ts
+
+### ✅ Do
+
+- Use gold for primary actions and brand emphasis
+- Use dark backgrounds consistently
+- Keep icons monochromatic (gold or white)
+- Use subtle borders (`border-white/10`)
+- Maintain high contrast for readability
+
+### ❌ Don't
+
+- Use bright, generic colors (blue buttons, pink accents)
+- Use colorful icons (red hearts, green checkmarks)
+- Use light/white backgrounds (dark theme only)
+- Mix multiple accent colors
+- Use gradients (keep it flat)
 
 ---
 
 ## Responsive Breakpoints
 
-Use Tailwind's default breakpoints:
+Use Tailwind defaults:
 
-| Breakpoint | Min Width | Usage |
-|------------|-----------|-------|
-| `sm` | 640px | Large phones |
-| `md` | 768px | Tablets |
-| `lg` | 1024px | Laptops |
-| `xl` | 1280px | Desktops |
-| `2xl` | 1536px | Large screens |
+| Breakpoint | Min Width |
+|------------|-----------|
+| `sm` | 640px |
+| `md` | 768px |
+| `lg` | 1024px |
+| `xl` | 1280px |
 
-### Mobile-First Pattern
-
+Mobile-first approach:
 ```jsx
-<div className="
-  grid 
-  grid-cols-1      /* Mobile: 1 column */
-  md:grid-cols-2   /* Tablet: 2 columns */
-  lg:grid-cols-3   /* Desktop: 3 columns */
-  gap-4
-">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 ```
 
 ---
 
-## Animation
+## Quick Reference
 
-### Transitions
-
-```css
-/* Standard transition for interactive elements */
-transition-colors duration-200 ease-in-out
-
-/* For layout changes */
-transition-all duration-300 ease-in-out
 ```
-
-### Hover States
-
-All interactive elements should have visible hover states:
-
-```jsx
-// Good
-<button className="bg-primary hover:bg-primary-dark transition-colors">
-
-// Bad (no feedback)
-<button className="bg-primary">
+Background:     bg-slate-900    #0f172a
+Surface:        bg-slate-800    #1e293b
+Gold:           bg-amber-500    #f59e0b
+Gold Hover:     bg-amber-600    #d97706
+Text:           text-white      #ffffff
+Text Muted:     text-white/70
+Border:         border-white/10
 ```
 
 ---
 
-## Accessibility
-
-### Color Contrast
-
-- Text on backgrounds must meet WCAG AA (4.5:1 for normal text)
-- Use color + another indicator (icon, underline) for important states
-
-### Focus States
-
-All interactive elements need visible focus states:
-
-```jsx
-<button className="... focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-```
-
-### Screen Reader Support
-
-```jsx
-// Decorative icons
-<StarIcon aria-hidden="true" />
-
-// Informational icons
-<StarIcon aria-label="4 out of 5 stars" />
-
-// Hidden text for context
-<span className="sr-only">Open menu</span>
-```
-
----
-
-## Dark Mode (Future)
-
-Currently not implemented. When we add it:
-
-- Use CSS variables for colors
-- Respect system preference
-- Provide manual toggle
-
----
-
-## To Do
-
-- [ ] Extract actual colors from existing tailwind.config.js
-- [ ] Document any existing component patterns
-- [ ] Add screenshots of current UI as reference
-- [ ] Define any custom Tailwind extensions
-
----
-
-*This document is maintained in the Spec-Repo. Update when visual standards change.*
+*This style guide reflects the "Gold Standard" design system from the Local Lane Blueprint. All nodes must follow these patterns.*
