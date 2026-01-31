@@ -309,6 +309,8 @@ community-node/src/
 
 ## Known Issues & Future Work
 
+**Completed (removed):** Boost/Bump system removed (DEC-021). Ranking is now trust-based: Rating → Reviews → Recency. No paid placement.
+
 ### Issues to Address
 
 | Issue | Priority | Notes |

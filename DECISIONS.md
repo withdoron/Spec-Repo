@@ -476,6 +476,48 @@ Adding `pointer-events-none` to the component does NOT fix it — the internal s
 
 ---
 
+### DEC-021: Remove Boost/Bump System
+
+**Date:** 2026-01-31
+
+**Context:** The Community Node had a boost/bump system where paid tiers received "bumps" that could promote a business listing in search results and a "Featured Nearby" section on the homepage. Standard tier got 3 bumps/month, Partner got 10. The system included manual boosts, Smart Auto-Boost (automatic boosting for under-exposed locations), Featured Nearby section, Featured Band in search results, and per-slice/per-owner fairness caps.
+
+**Decision:** Remove the entire boost system. Replace with trust-based ranking: Rating → Reviews → Recency. No paid placement.
+
+**Rationale:** The boost system contradicted LocalLane's core values:
+- Mission says "No ads, no spam — just real local community"
+- Positioning says "Human curation over algorithms" and "Trust-first"
+- Pay-for-placement undermines the neutral local utility positioning
+- With a small pilot community, boosting is meaningless — everyone fits on one screen
+- Trust and dependability should drive visibility, not payment tier
+
+**What was removed:**
+- 8 files deleted (autoBoostConfig, autoBoostUtils, locationUtils, featuredLocationsUtils, FeaturedNearbySection, searchFeaturedUtils, LocationBoostBanner)
+- Boost logic stripped from: rankingUtils, BusinessCard, AdminBusinessTable, AdminLocationsTable, LocationsSection, BusinessDashboardDetail, Search, Home, Directory, CategoryPage, BusinessEditDrawer, LocationEditDialog, AdminFilters, BusinessOnboarding
+- "Boosted" column removed from Admin business table
+- "Smart Auto-Boost" toggle removed from Admin and Dashboard location tables
+- "Bumps remaining" display removed from Dashboard
+- "Featured Nearby" section removed from Homepage
+
+**What was kept:**
+- Location entity (still useful for addresses, future maps)
+- Admin Locations table (shows Location, City, Views, Edit)
+- Tier badges on BusinessCard (informational, not ranking-affecting)
+- Event-level boost_end_at references (separate concept: steward curation)
+- Region filtering (independent of boosts)
+- Analytics/tracking system (useful beyond boost tracking)
+
+**New ranking algorithm:**
+1. Rating (descending)
+2. Review count (descending)
+3. Created date (newest first)
+
+No tier-based ordering. No paid priority.
+
+**Status:** ✅ Complete
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church
