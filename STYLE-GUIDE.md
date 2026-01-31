@@ -7,7 +7,7 @@
 
 ## Status: ✅ COMPLETE
 
-Last updated: 2026-01-28
+Last updated: 2026-01-31
 Sources: Blueprint Master Doc, existing style doc, live app screenshots
 
 ---
@@ -75,6 +75,27 @@ From the Blueprint:
 | **Warning** | `text-amber-400` | Cautions (stays in gold family) |
 | **Error** | `text-red-500` / `bg-red-500` | Errors, destructive actions |
 | **Info** | `text-blue-400` | Informational (rare) |
+
+### Destructive Action Colors
+
+**Exception to the "no functional color-coding" rule:** Destructive actions use color to clearly signal danger to users.
+
+| Action | Text Color | Button Background | Usage |
+|--------|------------|-------------------|-------|
+| **Delete** | `text-red-500` | `bg-red-500 hover:bg-red-400` | Permanent removal |
+| **Cancel Event** | `text-orange-500` | `bg-orange-500 hover:bg-orange-400` | Soft cancellation |
+
+**Rationale:** Users need clear visual warning before destructive actions. Red/orange are universally understood as "caution" colors.
+
+**Where to use:**
+- Dropdown menu items for delete/cancel
+- Confirmation dialog action buttons
+- Inline delete buttons (if used)
+
+**Where NOT to use:**
+- Status badges (use text labels instead)
+- Icons in non-destructive contexts
+- General UI accents
 
 ---
 

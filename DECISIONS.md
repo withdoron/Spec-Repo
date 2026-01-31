@@ -341,6 +341,22 @@ Combined with:
 
 ---
 
+### DEC-017: Red/Orange for Destructive Actions
+
+**Date:** 2026-01-31
+
+**Context:** Style Guide specified no functional color-coding (icons/actions should be gold or white only). However, destructive actions like Delete and Cancel Event need clear visual warning.
+
+**Decision:** Allow red and orange for destructive actions only:
+- Delete: `text-red-500` / `bg-red-500`
+- Cancel Event: `text-orange-500` / `bg-orange-500`
+
+**Rationale:** User safety trumps strict style consistency. Red/orange are universally understood danger signals. Limited to destructive contexts only—not for general status indicators.
+
+**Status:** ✅ Active
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church
