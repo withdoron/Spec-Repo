@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-01-30
+> Last Updated: 2026-01-31
 
 ---
 
@@ -72,7 +72,7 @@ Each decision includes:
 
 **Rationale:** Faster than building from scratch. Event Node's editor was already polished.
 
-**Status:** ✅ Active — Phase 1 complete. Phase 2 (modal, recurring, etc.) planned for post-pilot.
+**Status:** ✅ Complete — Full feature parity achieved (2026-01-31). See DEC-019.
 
 ---
 
@@ -352,6 +352,125 @@ Combined with:
 - Cancel Event: `text-orange-500` / `bg-orange-500`
 
 **Rationale:** User safety trumps strict style consistency. Red/orange are universally understood danger signals. Limited to destructive contexts only—not for general status indicators.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-018: Replace Radix UI Primitives with Pure Divs in Controlled Toggle Contexts
+
+**Date:** 2026-01-31
+
+**Context:** shadcn/ui Checkbox and Switch components (built on Radix UI primitives) have internal state management that conflicts with controlled mode. When a parent div onClick toggles state → the component re-renders with a new `checked` prop → Radix's internal state sync fires `onCheckedChange` → which triggers another state update → infinite render loop ("Maximum update depth exceeded").
+
+This was hit three times:
+1. Accessibility checkboxes in EventEditor (Checkbox component)
+2. Recurring events toggle in EventEditor (Switch component)
+3. Punch Pass toggle in EventEditor (Switch component)
+
+Adding `pointer-events-none` to the component does NOT fix it — the internal state sync fires regardless of pointer events.
+
+**Decision:** When a parent element handles click to toggle state, replace shadcn Checkbox/Switch with pure CSS visual equivalents:
+
+**Checkbox replacement:**
+```jsx
+<div className={cn(
+  "h-4 w-4 rounded border flex items-center justify-center",
+  isChecked ? "bg-amber-500 border-amber-500" : "border-slate-600 bg-transparent"
+)}>
+  {isChecked && <svg className="h-3 w-3 text-black" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>}
+</div>
+```
+
+**Switch replacement:**
+```jsx
+<div className={cn(
+  "relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 pointer-events-none",
+  isOn ? "bg-amber-500" : "bg-slate-600"
+)}>
+  <span className={cn(
+    "inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform",
+    isOn ? "translate-x-5" : "translate-x-0.5"
+  )} />
+</div>
+```
+
+**Rule:** When a parent div has `onClick` to toggle state, any Checkbox/Switch inside MUST be a pure visual div with zero internal state. Standalone Switches (no parent onClick) can still use the shadcn component.
+
+**Rationale:** Radix primitives are designed as uncontrolled-first with optional controlled mode. Their internal state reconciliation creates render loops in our click-delegation pattern. Pure CSS divs have zero state management overhead.
+
+**Status:** ✅ Active — Applied to all toggle tiles in EventEditor
+
+---
+
+### DEC-019: EventEditor ↔ EventFormV2 Feature Parity Complete
+
+**Date:** 2026-01-31
+
+**Context:** EventEditor (Community Node, used by Tier 1 & 2 businesses) was missing many features present in EventFormV2 (Event Node, used by Partner Nodes). Users switching between the two experienced different UX, which undermined trust and consistency.
+
+**Decision:** Achieve full feature and interaction parity between the two forms. The following were added to EventEditor to match EventFormV2:
+
+**Features added:**
+- End time / end date picker (duration mode or end time mode)
+- Virtual event support (URL + platform fields)
+- Location TBD toggle
+- Multiple ticket types (name, price, limit — tier-gated)
+- Recurring events (weekly/biweekly, day selection, end date)
+- Accessibility features (admin-managed checkboxes)
+- Accept RSVPs toggle
+- Additional notes textarea
+- Draft auto-save (localStorage, 30s interval)
+- Save as Draft button
+- Multi-image upload (up to 3 with hero designation)
+- Event type multi-select chips (replaced dropdown)
+- Pricing type 2×2 grid layout (replaced single row)
+
+**Interaction parity:**
+- Clickable tile toggles (Recurring, Punch Pass) — click anywhere on the row
+- Info banners ("Each occurrence will be created as a separate event")
+- Punch Pass warnings ("Cannot be free") and earnings display
+- Three-tier button hierarchy: Cancel (ghost) / Save as Draft (outline) / Publish (primary)
+
+**What intentionally differs:**
+- EventEditor uses `useOrganization()` hook (Community Node tier check)
+- EventFormV2 uses `useOrganizationTier()` hook (Event Node tier check)
+- EventEditor sends `punch_pass_accepted` (backend field name), EventFormV2 sends `punch_pass_eligible`
+- EventEditor sends `event_type` (single) + `event_types` (array); backend uses single field
+
+**Rationale:** Users should feel like they're using the same product regardless of which node they're in. Consistency builds trust — a core LocalLane principle.
+
+**Status:** ✅ Active — Full parity achieved. Future changes to either form should be mirrored.
+
+---
+
+### DEC-020: Event Entity Schema Expanded
+
+**Date:** 2026-01-31
+
+**Context:** The Event entity gained several new fields during the EventEditor parity work. These need to be documented as the canonical schema.
+
+**Decision:** The Event entity now includes these additional fields beyond the original spec:
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `is_virtual` | boolean | Whether event is virtual/online |
+| `virtual_url` | string | Meeting link (Zoom, etc.) |
+| `virtual_platform` | string | Platform name |
+| `is_location_tbd` | boolean | Location not yet determined |
+| `event_types` | string[] | Multi-select (array), backend also stores first as `event_type` |
+| `ticket_types` | JSON | Array of { name, price, quantity_limit } |
+| `is_recurring` | boolean | Whether event repeats |
+| `recurrence_pattern` | string | 'weekly' or 'biweekly' |
+| `recurrence_days` | string[] | ['Mon', 'Wed', etc.] |
+| `recurrence_end_date` | ISO datetime | When recurring series ends |
+| `accessibility_features` | string[] | From admin-managed config |
+| `accepts_rsvps` | boolean | Whether RSVPs are enabled |
+| `additional_notes` | string | Free-text notes |
+
+**Backend note:** Base44 schema may not have all these fields defined. Fields are sent in the create/update payload and stored if the schema accepts them. Fields not in the schema are silently dropped.
+
+**Rationale:** Document the full intended schema even if Base44 doesn't enforce all fields. This serves as the target schema for when we move to a more structured database.
 
 **Status:** ✅ Active
 

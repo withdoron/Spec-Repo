@@ -1,7 +1,7 @@
 # Current Implementation State
 
 > What currently exists in the LocalLane ecosystem.
-> Last Updated: 2026-01-30 (End of Session)
+> Last Updated: 2026-01-31 (End of Session)
 
 ---
 
@@ -9,11 +9,13 @@
 
 The Community Node is functional with:
 - ✅ Event browsing and display
-- ✅ Business Dashboard with Event Editor
+- ✅ Business Dashboard with full-featured Event Editor
 - ✅ Admin Panel with sidebar navigation
-- ✅ Admin-managed configuration (Event Types, Networks, Age Groups, Durations)
+- ✅ Admin-managed configuration (Event Types, Networks, Age Groups, Durations, Accessibility)
 - ✅ Tier-based feature gating
 - ✅ Three-tier system (Basic/Standard/Partner)
+- ✅ Staff & instructor management
+- ✅ Full EventEditor ↔ EventFormV2 feature parity
 
 ---
 
@@ -59,7 +61,8 @@ Community Node
     ├── EVENTS
     │   ├── Event Types ✅
     │   ├── Age Groups ✅
-    │   └── Durations ✅
+    │   ├── Durations ✅
+    │   └── Accessibility ✅
     └── ONBOARDING
         ├── Business (placeholder)
         └── User (placeholder)
@@ -81,7 +84,9 @@ Community Node
 | Age Groups config | ✅ Done | Add/Edit/Delete |
 | Durations config | ✅ Done | Add/Edit/Delete |
 | Networks config | ✅ Done | Add/Edit/Delete |
+| Accessibility config | ✅ Done | Add/Edit/Delete with sort order, reorderable |
 | Settings panel | ✅ Done | General settings |
+| Config item reordering | ✅ Done | Up/down arrows on all ConfigSection lists |
 
 ### Business Dashboard
 
@@ -89,27 +94,39 @@ Community Node
 |---------|--------|-------|
 | Business selector | ✅ Done | Shows businesses owned by user |
 | Owner linking | ✅ Done | Links businesses by owner_user_id |
-| Event Editor | ✅ Done | Full form with all fields |
-| Tier gating | ✅ Done | Punch Pass locked for basic tier |
-| Dynamic config | ✅ Done | Loads Event Types, Networks, etc. from Admin config |
+| Event Editor | ✅ Done | Full form with all fields (see Event Editor section) |
+| Tier gating | ✅ Done | Punch Pass, Multiple Tickets locked for basic tier |
+| Dynamic config | ✅ Done | Loads Event Types, Networks, Age Groups, Durations, Accessibility from Admin config |
 | Delete business | ✅ Done | Hard delete with confirmation |
 
-### Event Editor
+### Event Editor (Full Parity with Event Node)
 
 | Feature | Status | Notes |
 |---------|--------|-------|
 | Basic fields | ✅ Done | Title, description, date, time, location |
-| Image upload | ✅ Done | Single image via Base44 UploadFile |
-| Pricing options | ✅ Done | Free, Single Price, Pay What You Wish |
-| Punch Pass | ✅ Done | Toggle + punch cost (1-5), tier-gated |
-| Event Type | ✅ Done | Dropdown from admin config |
+| Multi-image upload | ✅ Done | Up to 3 images with hero designation |
+| End time / end date | ✅ Done | Duration mode or end time mode with optional end date |
+| Virtual event support | ✅ Done | URL + platform fields |
+| Location TBD toggle | ✅ Done | Chip button toggle |
+| Pricing options | ✅ Done | Free, Single Price, Multiple Tickets, Pay What You Wish (2×2 grid) |
+| Multiple ticket types | ✅ Done | Name, price, limit per tier (tier-gated) |
+| Punch Pass | ✅ Done | Clickable tile toggle + punch cost (1-5) + earnings text, tier-gated |
+| Punch Pass warnings | ✅ Done | "Cannot be free" warning, earnings per redemption display |
+| Event Type | ✅ Done | Multi-select chips from admin config |
 | Networks | ✅ Done | Multi-select chips from admin config |
 | Age/Audience | ✅ Done | Dropdown from admin config |
 | Duration presets | ✅ Done | Dropdown from admin config |
 | Capacity | ✅ Done | Number input |
+| Recurring events | ✅ Done | Clickable tile toggle, weekly/biweekly pattern, day selection, end date |
+| Recurring info banner | ✅ Done | "Each occurrence will be created as a separate event" |
+| Accessibility features | ✅ Done | Checkboxes from admin config (custom div, not shadcn) |
+| Accept RSVPs toggle | ✅ Done | Switch toggle |
+| Additional notes | ✅ Done | Textarea |
+| Draft auto-save | ✅ Done | localStorage every 30s, restore on reopen |
+| Save as Draft button | ✅ Done | Three-tier button hierarchy |
+| Button hierarchy | ✅ Done | Cancel (ghost) / Save as Draft (outline) / Publish (primary) |
 | Status by tier | ✅ Done | Basic → pending_review, Standard+ → published |
 | LockedFeature UI | ✅ Done | Lock icon + upgrade CTA for gated features |
-| Modal display | ✅ Done | Opens as dialog overlay |
 
 ### Configuration System
 
@@ -119,6 +136,7 @@ Community Node
 | useConfigMutation | ✅ Done | Writes to AdminSettings |
 | Default config | ✅ Done | Fallback values in defaultConfig.js |
 | Admin UI (ConfigSection) | ✅ Done | Reusable list with Add/Edit/Delete |
+| Config reordering | ✅ Done | Up/down arrow buttons in ConfigSection |
 
 ### Staff & Instructor System
 
@@ -170,18 +188,31 @@ Community Node
   end_date: ISO datetime,
   duration_minutes: number,
   location: string,
-  thumbnail_url: string,      // Hero image
-  pricing_type: 'free' | 'single_price' | 'pay_what_you_wish',
+  is_virtual: boolean,
+  virtual_url: string,
+  virtual_platform: string,
+  is_location_tbd: boolean,
+  thumbnail_url: string,      // Hero image (first from images array)
+  pricing_type: 'free' | 'single_price' | 'multiple_tickets' | 'pay_what_you_wish',
   price: number,
   is_free: boolean,
   is_pay_what_you_wish: boolean,
   min_price: number,
+  ticket_types: JSON,         // Array of { name, price, quantity_limit }
   punch_pass_accepted: boolean,
   punch_cost: number,         // 1-5
-  event_type: string,         // Single value
-  network: string,            // Single value (first from array)
+  event_type: string,         // Single value (first from event_types array)
+  event_types: string[],      // Multi-select array
+  network: string,            // Single value (first from networks array)
   age_info: string,
   capacity: number,
+  is_recurring: boolean,
+  recurrence_pattern: string, // 'weekly' | 'biweekly'
+  recurrence_days: string[],  // ['Mon', 'Wed', etc.]
+  recurrence_end_date: ISO datetime,
+  accessibility_features: string[],
+  accepts_rsvps: boolean,
+  additional_notes: string,
   status: 'pending_review' | 'published' | 'draft',
   is_active: boolean,
 }
@@ -221,7 +252,6 @@ business.instructors = ['user_id_1', 'user_id_2', ...]
     status: 'invited',
     invited_at: '2026-01-30T...',
   },
-  // ...
 ]
 
 // Role badge colors
@@ -247,7 +277,7 @@ community-node/src/
 │   │   ├── AdminSidebar.jsx         # Sidebar navigation
 │   │   ├── AdminLayout.jsx          # Layout wrapper
 │   │   ├── config/
-│   │   │   └── ConfigSection.jsx    # Reusable config list
+│   │   │   └── ConfigSection.jsx     # Reusable config list (with reordering)
 │   │   ├── AdminBusinessTable.jsx
 │   │   ├── AdminFilters.jsx
 │   │   ├── AdminLocationsTable.jsx
@@ -255,7 +285,7 @@ community-node/src/
 │   │   └── BusinessEditDrawer.jsx
 │   │
 │   ├── dashboard/
-│   │   ├── EventEditor.jsx          # Event creation/edit form
+│   │   ├── EventEditor.jsx          # Event creation/edit form (full parity)
 │   │   ├── widgets/
 │   │   │   ├── EventsWidget.jsx
 │   │   │   ├── OverviewWidget.jsx
@@ -269,7 +299,7 @@ community-node/src/
 │
 ├── hooks/
 │   ├── useConfig.js                 # Config read/write hooks
-│   └── useOrganization.js          # Tier checking hook
+│   └── useOrganization.js           # Tier checking hook
 │
 └── utils/
     └── defaultConfig.js             # Default config values
@@ -288,39 +318,20 @@ community-node/src/
 | Business.staff field doesn't exist | Low | Using AdminSettings for roles/invites as workaround |
 | Calendar picker light theme | Low | Needs dark theme styling |
 | Dialog X button hard to see | Low | Dark on dark |
-| Some white flash on hover | Low | Minor style issues |
 
-### Staff System Complete ✅
-
-The full staff management system is now functional:
-- Owners can add/remove staff with role selection
-- Non-users can be invited by email
-- Invites auto-link when user creates account and visits dashboard
-- Staff see businesses they're part of with "TEAM" badge
-- Permission-based UI (staff can't modify team, only view)
-- 403 errors handled gracefully (Team Member placeholder)
-
-### Phase 2 (Upcoming)
-
-| Task | Priority | Notes |
-|------|----------|-------|
-| Recurring Events | High | "This event repeats" pattern |
-| Multiple Tickets | High | Ticket types with different prices |
-| Event End Time Picker | Medium | Currently duration-only |
-| Custom permissions per person | Medium | Override default role permissions |
-| Permission checking in app | Medium | Enforce permissions throughout app |
-| Platform Settings (Tiers config) | Medium | Configure tier names, prices, features |
-| Punch Pass Settings | Medium | Platform fee %, price per punch |
-| Onboarding Configuration | Medium | Archetypes, goals, feature matrix |
-
-### Post-Feature Work
+### Upcoming Work
 
 | Task | Priority | Notes |
 |------|----------|-------|
 | Permission Gating | Medium | Who can create/edit events, manage staff, etc. |
 | Tier Gating | Medium | Which features unlock at each tier |
+| Custom permissions per person | Medium | Override default role permissions |
+| Permission checking in app | Medium | Enforce permissions throughout app |
+| Platform Settings (Tiers config) | Medium | Configure tier names, prices, features |
+| Punch Pass Settings | Medium | Platform fee %, price per punch |
+| Onboarding Configuration | Medium | Archetypes, goals, feature matrix |
 | Venue Configuration | Low | When venues archetype activated |
-| Polish Pass | Low | Fix all style issues |
+| Polish Pass | Low | Fix remaining style issues |
 
 ---
 
@@ -329,7 +340,7 @@ The full staff management system is now functional:
 | Tier | Code Value | Display | Features |
 |------|------------|---------|----------|
 | 1 | `basic` | Basic | Events (reviewed), basic listing |
-| 2 | `standard` | Standard | Auto-publish, Punch Pass, analytics |
+| 2 | `standard` | Standard | Auto-publish, Punch Pass, Multiple Tickets, analytics |
 | 3 | `partner` | Partner | Own Partner Node, full autonomy |
 
 See [TIER-SYSTEM.md](./TIER-SYSTEM.md) for complete documentation.
@@ -347,6 +358,7 @@ Current keys:
 - platform_config:events:event_types
 - platform_config:events:age_groups
 - platform_config:events:duration_presets
+- platform_config:events:accessibility_features
 - platform_config:platform:networks
 ```
 
@@ -370,9 +382,10 @@ See [CONFIG-SYSTEM.md](./CONFIG-SYSTEM.md) for complete documentation.
 | `/Admin/events/types` | Event Types config |
 | `/Admin/events/age-groups` | Age Groups config |
 | `/Admin/events/durations` | Durations config |
+| `/Admin/events/accessibility` | Accessibility Features config |
 | `/Admin/onboarding/business` | Business onboarding config (placeholder) |
 | `/Admin/onboarding/user` | User onboarding config (placeholder) |
 
 ---
 
-*This document reflects the actual implementation state as of 2026-01-30.*
+*This document reflects the actual implementation state as of 2026-01-31.*
