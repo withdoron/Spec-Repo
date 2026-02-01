@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-01-31
+> Last Updated: 2026-02-01
 
 ---
 
@@ -476,68 +476,108 @@ Adding `pointer-events-none` to the component does NOT fix it — the internal s
 
 ---
 
-### DEC-021: Remove Boost/Bump System
+### DEC-021: Replace Star Ratings with Recommendation System
 
-**Date:** 2026-01-31
+**Date:** 2026-02-01
 
-**Context:** The Community Node had a boost/bump system where paid tiers received "bumps" that could promote a business listing in search results and a "Featured Nearby" section on the homepage. Standard tier got 3 bumps/month, Partner got 10. The system included manual boosts, Smart Auto-Boost (automatic boosting for under-exposed locations), Featured Nearby section, Featured Band in search results, and per-slice/per-owner fairness caps.
+**Context:** The original system used traditional 1-5 star ratings with a Review entity. Star ratings are anonymous, gameable, and don't build trust — they tell you what strangers think, not what your neighbors experienced.
 
-**Decision:** Remove the entire boost system. Replace with trust-based ranking: Rating → Reviews → Recency. No paid placement.
+**Decision:** Replace the entire star-rating system with a trust-first recommendation model:
 
-**Rationale:** The boost system contradicted LocalLane's core values:
-- Mission says "No ads, no spam — just real local community"
-- Positioning says "Human curation over algorithms" and "Trust-first"
-- Pay-for-placement undermines the neutral local utility positioning
-- With a small pilot community, boosting is meaningless — everyone fits on one screen
-- Trust and dependability should drive visibility, not payment tier
+| Type | What It Is | Accountability |
+|------|-----------|---------------|
+| **Nod** | "I recommend this" | Name attached, one-click |
+| **Story** | Detailed experience | Name attached, narrative |
+| **Vouch** (Phase 2) | Weighted endorsement | Earned trust, higher weight |
 
-**What was removed:**
-- 8 files deleted (autoBoostConfig, autoBoostUtils, locationUtils, featuredLocationsUtils, FeaturedNearbySection, searchFeaturedUtils, LocationBoostBanner)
-- Boost logic stripped from: rankingUtils, BusinessCard, AdminBusinessTable, AdminLocationsTable, LocationsSection, BusinessDashboardDetail, Search, Home, Directory, CategoryPage, BusinessEditDrawer, LocationEditDialog, AdminFilters, BusinessOnboarding
-- "Boosted" column removed from Admin business table
-- "Smart Auto-Boost" toggle removed from Admin and Dashboard location tables
-- "Bumps remaining" display removed from Dashboard
-- "Featured Nearby" section removed from Homepage
+**New entity:** `Recommendation` with fields: business_id, user_id, user_name, type, content, service_used, photos, is_active.
 
-**What was kept:**
-- Location entity (still useful for addresses, future maps)
-- Admin Locations table (shows Location, City, Views, Edit)
-- Tier badges on BusinessCard (informational, not ranking-affecting)
-- Event-level boost_end_at references (separate concept: steward curation)
-- Region filtering (independent of boosts)
-- Analytics/tracking system (useful beyond boost tracking)
+**New business fields:** `recommendation_count`, `nod_count`, `story_count` (replace `review_count`, `average_rating`).
 
-**New ranking algorithm:**
-1. Rating (descending)
-2. Review count (descending)
-3. Created date (newest first)
+**New components:** TrustSignal (badge display), StoryCard (story rendering), NodAvatars (avatar row).
 
-No tier-based ordering. No paid priority.
+**Ranking:** Recommendations count → Story count → Newest. No paid placement.
 
-**Status:** ✅ Complete
+**Removed:** StarRating.jsx, ReviewCard.jsx, all Review.filter queries, star rating display from BusinessCard/BusinessProfile/OverviewWidget/BusinessDashboardDetail.
+
+**Rationale:** LocalLane's differentiator is trust over algorithms. Anonymous star ratings undermine that. "Your neighbor Sarah recommends this plumber" is more powerful than "4.2 stars from 47 reviews." Names create accountability, which creates quality.
+
+**Status:** ✅ Active — Phase 1 (Nod + Story) complete. Phase 2 (Vouch) planned.
 
 ---
 
-### DEC-022: Recommendations Replace Star Ratings
+### DEC-022: Remove Boost/Bump Paid Placement System
 
 **Date:** 2026-01-31
 
-**Context:** WriteReview page was a generic star-rating form with no verification, no identity requirement, and vulnerability to gaming. This contradicts LocalLane's core trust proposition.
+**Context:** The codebase contained a boost system allowing businesses to pay for promoted placement in search results. This included boost credits, boost duration, boost badges, and admin settings for boost configuration.
 
-**Decision:** Replace the entire review system with a three-layer recommendation model (Nod, Story, Vouch) that has no star ratings, requires real identity, and routes negative experiences through private channels.
+**Decision:** Remove the entire boost system. Files affected:
+- rankingUtils.jsx — removed boost scoring and "featured" band
+- BusinessCard.jsx — removed boost badge and boost-related props
+- AdminSettingsPanel.jsx — removed boost duration setting
+- OverviewWidget.jsx — removed "Boost Credits" stat card
+- Home.jsx — removed boost-based featured business queries
+- SearchResultsSection.jsx — simplified to single grid (no featured/regular bands)
 
-**Rationale:**
-- Star ratings invite gaming and complaint culture
-- Anonymous reviews undermine trust-based platform
-- Positive-signal-first aligns with mission ("spreads good news, promotes healthy community")
-- Public identity on recommendations prevents most abuse
-- Private concern routing mirrors how real communities handle problems
+**Rationale:** Paid placement directly contradicts LocalLane's "trust over ads" mission. If businesses can buy visibility, the ranking system is compromised. Revenue comes from tier subscriptions and punch pass transactions, not advertising.
 
-**Full spec:** See [RECOMMENDATION-SYSTEM.md](./RECOMMENDATION-SYSTEM.md).
+**Status:** ✅ Active — All boost code removed. Zero references remain.
 
-**Status:** ✅ Active
+---
 
-**Made by:** Doron + Claude
+### DEC-023: Gold Standard Dark Theme — Complete Coverage
+
+**Date:** 2026-02-01
+
+**Context:** Many pages and components had light-theme holdovers (bg-white, bg-slate-50, text-slate-900, bg-amber-100, etc.) despite the Gold Standard specifying dark-only design.
+
+**Decision:** Systematically convert every page and component to dark theme. Approach was page-by-page audit with targeted find-and-replace prompts.
+
+**Pages converted:** Home, Directory (rebuilt from scratch), CategoryPage, BusinessProfile, Search, BusinessOnboarding (tier icons), BusinessDashboardDetail (full conversion + recommendation migration).
+
+**Global fix:** CSS variables in index.css updated to dark palette. Radix UI tab hover states overridden globally to prevent white background flash.
+
+**Pattern established for tier icon backgrounds:**
+- Partner: `bg-amber-500/20` + `text-amber-500`
+- Standard: `bg-blue-500/20` + `text-blue-400`
+- Basic: `bg-slate-800` + `text-slate-400`
+
+**Rationale:** Visual inconsistency undermines trust. Users seeing white flashes or light-themed sections breaks the premium feel. Dark theme is the brand.
+
+**Status:** ✅ Complete — No light-theme holdovers remain.
+
+---
+
+### DEC-024: Dead Code Cleanup — Remove 10 Unused Files
+
+**Date:** 2026-02-01
+
+**Context:** After the recommendation system migration, boost removal, and CategoryPage rebuild, several files had zero imports anywhere in the codebase.
+
+**Decision:** Delete all files with zero import references:
+
+**Deleted (zero imports):**
+1. StarRating.jsx — replaced by TrustSignal
+2. ReviewCard.jsx — replaced by StoryCard
+3. OverviewWidget.tsx.jsx — exact duplicate
+4. MigrateCategories.jsx — one-time migration, completed
+5. migrateCategoriesScript.jsx — helper for above
+6. cleanupDuplicates.jsx — helper for above
+7. resetCategories.jsx — helper for above
+8. Categories.jsx — replaced by CategoryPage
+9. BusinessSelector.jsx — never imported
+10. BusinessSelector.tsx.jsx — duplicate of above
+
+**Kept (confirmed active):**
+- SpokeDetails.jsx — used in Admin Partners tab
+- BuildLane.jsx — shelved but planned future feature
+
+**Also cleaned:** pages.config.js (removed MigrateCategories and Categories entries), stale Review.filter queries from BusinessProfile and BusinessDashboardDetail.
+
+**Rationale:** Dead code creates confusion for AI agents (Cursor, Claude) scanning the codebase. Clean code = faster iteration.
+
+**Status:** ✅ Complete
 
 ---
 
