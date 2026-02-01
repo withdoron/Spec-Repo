@@ -581,9 +581,88 @@ Adding `pointer-events-none` to the component does NOT fix it — the internal s
 
 ---
 
+### DEC-025: Entity Permission Security Audit
+
+**Date:** 2026-02-01
+
+**Context:** All 20 Base44 entities were set to "Public" with full read/write/delete access for any authenticated user. This meant any logged-in user could read, modify, or delete any record in the system.
+
+**Decision:** Three-phase permission lockdown:
+
+- **Phase 1 (Complete):** Delete unused entities (Review, Bump), lock down AdminAuditLog and Concern
+- **Phase 2 (Complete):** Lock down PunchPass (3 entities), Region, Archetype, CategoryGroup, SubCategory
+- **Phase 3 (Planned):** Remaining 10 entities require service role function migration before permissions can be tightened
+
+**Entities locked down (11 of 18):**
+- AdminAuditLog: Admin-only read/create/update, delete disabled
+- Concern: Authenticated create, admin-only read/update/delete
+- PunchPass: Owner-only read, admin-only create/update/delete
+- PunchPassTransaction: Owner-only read, admin-only create/update/delete
+- PunchPassUsage: Owner-only read, admin-only create/update/delete
+- Region, Archetype, CategoryGroup, SubCategory: Public read, admin-only create/update/delete
+
+**Phase 3 entities (require service role functions):**
+Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, SpokeEvent, CategoryClick
+
+**Rationale:** Critical security vulnerability. Public write access to entities like AdminSettings or Business means any user could modify platform configuration or other businesses' data.
+
+**Status:** ✅ Phase 1 & 2 Complete — ⏳ Phase 3 Deferred (requires code changes)
+
+---
+
+### DEC-026: Dead Code Cleanup — Review/Bump/Boost Remnants
+
+**Date:** 2026-02-01
+
+**Context:** After removing the Review and Bump entities (DEC-025) and migrating to the recommendation system (DEC-021, DEC-022), legacy code references remained in the codebase.
+
+**Decision:** Remove all remaining references to:
+- `review_count` fallbacks in OverviewWidget, TrustSignal, rankingUtils
+- `average_rating` references
+- `Star` icon import in BusinessDashboardDetail (legacy review usage)
+- `'reviews'` sort option in Search.jsx
+- `src/components/reviews/` folder (if still present)
+- Global sweep for `StarRating`, `ReviewCard`, `WriteReview`, `boost_credits`, `boost_duration`
+
+**Rationale:** Dead code confuses AI agents scanning the codebase and creates false signals about system capabilities. Clean code = faster iteration.
+
+**Status:** ✅ Complete
+
+---
+
+### DEC-027: Microbusiness as Next Archetype
+
+**Date:** 2026-02-01
+
+**Context:** After Events archetype stabilizes, need to prove the archetype system scales. Previously decided Nonprofit/Church (see earlier strategic decision). Revisited based on market opportunity.
+
+**Decision:** The next archetype after Events will be Microbusiness — people who sell from home, dog walkers, tutors, lawn care, cottage food operators, etc.
+
+**Options Considered:**
+
+| Option | Pros | Cons |
+|--------|------|------|
+| Nonprofit/Church | Real test case (Doron's church) | Narrower audience |
+| **Microbusiness** | Huge underserved market, expands user base, aligns with "support local" | No single test case |
+
+**Reasoning:** Microbusinesses are the most underserved segment in local commerce. They don't fit Yelp, they're too small for a website, and they usually just have Instagram or word-of-mouth. LocalLane can be their digital storefront. This archetype also grows the platform's user base directly — every dog walker, home baker, and tutor becomes both a business and a community member.
+
+**Key Differences from Events Archetype:**
+- No physical venue (service area or home-based instead)
+- Solo operator vs. team (may not need staff management)
+- Portfolio/showcase emphasis over event calendar
+- Service listings instead of event listings
+- Booking/scheduling potential (future)
+
+**Consequences:** Onboarding wizard needs new paths for microbusiness. Will reveal which features are truly universal vs. archetype-specific.
+
+**Status:** ⏳ Planned — Design conversation needed before implementation
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
-### Next Archetype: Nonprofit/Church
+### Next Archetype: Nonprofit/Church (Superseded by DEC-027)
 
 **Decision:** The second archetype (after Events) will be nonprofit/church organizations.
 

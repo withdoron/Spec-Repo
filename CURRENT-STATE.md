@@ -1,60 +1,55 @@
-# Current Implementation State
+# Current State
 
-> What currently exists in the Community Node codebase.
-> Last Updated: 2026-02-01
+> Reflects actual implementation state as of 2026-02-01.
 
 ---
 
-## Overview
+## Platform Overview
 
-The Community Node is the central hub of the LocalLane ecosystem. It serves Tier 1 (Basic) and Tier 2 (Standard) businesses, providing event management, business profiles, a recommendation system, and admin tools. Tier 3 (Partner) businesses operate their own Partner Nodes that sync content up to the Community Node.
-
-**Stack:** React, TanStack Query, Tailwind CSS, shadcn/ui, Base44 backend
-**Theme:** Gold Standard dark theme (slate-950 background, amber-500 accent)
-**Design System:** See [STYLE-GUIDE.md](./STYLE-GUIDE.md) and [COMPONENTS.md](./COMPONENTS.md)
+**Community Node:** locallane.app (the hub)
+**Event Node:** Partner Node template for event organizers
+**Stack:** React, Vite, Tailwind CSS, TanStack Query, shadcn/ui, Base44 backend
+**Design:** Gold Standard dark theme (slate-950 bg, amber-500 accent)
+**Stripe:** SDKs installed (`@stripe/react-stripe-js`, `@stripe/stripe-js`), no integration wired up yet
 
 ---
 
 ## Pages & Routes
 
-### Public Pages
+### Main Pages
 
 | Route | Component | Status | Notes |
 |-------|-----------|--------|-------|
-| `/Home` | Home.jsx | ✅ Done | Hero, upcoming events, featured businesses |
-| `/Events` | Events.jsx | ✅ Done | Browse/filter events, calendar view |
-| `/Directory` | Directory.jsx | ✅ Done | Category grid → business browsing |
-| `/CategoryPage` | CategoryPage.jsx | ✅ Done | Subcategory filters, business list |
-| `/BusinessProfile` | BusinessProfile.jsx | ✅ Done | Public profile with recommendations |
-| `/Search` | Search.jsx | ✅ Done | Full-text search with trust-based ranking |
-| `/Recommend` | Recommend.jsx | ✅ Done | Nod/Story submission (replaces old WriteReview) |
-| `/PunchPass` | PunchPass.jsx | ✅ Exists | Punch pass management (demo mode) |
-| `/MyLane` | MyLane.jsx | ✅ Exists | Personal feed (mock data, placeholder) |
+| `/` | Home.jsx | ✅ Done | Landing page |
+| `/Events` | Events.jsx | ✅ Done | Browse events with filters |
+| `/Directory` | Directory.jsx | ✅ Done | Business listings with search |
+| `/Search` | Search.jsx | ✅ Done | Full-text search with sort options |
+| `/BusinessProfile/:id` | BusinessProfile.jsx | ✅ Done | Public business page |
+| `/CategoryPage/:slug` | CategoryPage.jsx | ✅ Done | Category browse page |
+| `/PunchPass` | PunchPass.jsx | ✅ Done | Punch Pass balance and management (demo mode) |
+| `/CheckIn` | CheckIn.jsx | ✅ Done | Event check-in with PIN validation |
+| `/Recommend/:id` | Recommend.jsx | ✅ Done | Nod/Story submission form |
+| `/MyLane` | MyLane.jsx | ⏳ Placeholder | User dashboard — not yet built |
 
-### Business Owner Pages
-
-| Route | Component | Status | Notes |
-|-------|-----------|--------|-------|
-| `/BusinessDashboard` | BusinessDashboard.jsx | ✅ Done | Multi-business selector, archetype-based widgets |
-| `/BusinessOnboarding` | BusinessOnboarding.jsx | ✅ Done | 5-step wizard (archetype → details → goals → plan → review) |
-
-### Admin Pages
+### Business Dashboard
 
 | Route | Component | Status | Notes |
 |-------|-----------|--------|-------|
-| `/Admin` | Admin.jsx | ✅ Done | Sidebar navigation, routed sections |
-| `/Admin/businesses` | AdminBusinessTable | ✅ Done | Business CRUD with cascade delete |
-| `/Admin/users` | (placeholder) | ⏳ Planned | User management |
-| `/Admin/locations` | AdminLocationsTable | ✅ Done | Location management |
-| `/Admin/partners` | SpokeDetails | ✅ Done | Partner Node connections |
-| `/Admin/networks` | ConfigSection | ✅ Done | Network config (Recess, TCA, etc.) |
-| `/Admin/tiers` | (placeholder) | ⏳ Planned | Tier configuration |
-| `/Admin/punch-pass` | (placeholder) | ⏳ Planned | Punch Pass settings |
+| `/business-dashboard` | BusinessDashboard.jsx | ✅ Done | Multi-business selector + widget layout |
+| (selected business) | BusinessDashboardDetail.jsx | ✅ Done | Profile editing, locations, tier upgrade |
+
+### Admin Panel
+
+| Route | Component | Status | Notes |
+|-------|-----------|--------|-------|
+| `/Admin` | Admin.jsx | ✅ Done | Steward admin panel |
 | `/Admin/settings` | AdminSettingsPanel | ✅ Done | General platform settings |
 | `/Admin/events/types` | ConfigSection | ✅ Done | Event type management |
 | `/Admin/events/age-groups` | ConfigSection | ✅ Done | Age group management |
 | `/Admin/events/durations` | ConfigSection | ✅ Done | Duration preset management |
 | `/Admin/events/accessibility` | ConfigSection | ✅ Done | Accessibility features management |
+| `/Admin/tiers` | (placeholder) | ⏳ Planned | Tier configuration |
+| `/Admin/punch-pass` | (placeholder) | ⏳ Planned | Punch Pass settings |
 
 ### Other Registered Pages
 
@@ -65,42 +60,43 @@ The Community Node is the central hub of the LocalLane ecosystem. It serves Tier
 
 ---
 
+## Dashboard Widgets
+
+Dashboard flow:
+1. User has no businesses → Shows PersonalDashboard
+2. User has businesses, none selected → Shows BusinessCard grid
+3. Business selected → Shows archetype-based widget layout
+
+| Widget | File | Status | Notes |
+|--------|------|--------|-------|
+| OverviewWidget | `widgets/OverviewWidget.jsx` | ✅ Done | Recommendations, Stories, Profile Views |
+| EventsWidget | `widgets/EventsWidget.jsx` | ✅ Done | Event list + create/edit/duplicate/cancel/delete via EventEditor |
+| StaffWidget | `widgets/StaffWidget.jsx` | ✅ Done | Staff management UI, invites, role assignment |
+| FinancialWidget | `widgets/FinancialWidget.jsx` | ✅ Exists | Basic placeholder |
+| BusinessDashboardDetail | `BusinessDashboardDetail.jsx` | ✅ Done | Profile editing, locations, tier upgrade |
+
+---
+
 ## Recommendation System (Replaced Reviews)
 
 The old star-rating review system has been fully removed and replaced with a trust-first recommendation system. See [DECISIONS.md DEC-021](./DECISIONS.md) for rationale.
 
 ### How It Works
 
-| Type | What It Is | User Action |
-|------|-----------|-------------|
-| **Nod** | "I recommend this business" | One click, name attached |
-| **Story** | Detailed experience narrative | Write about service used, what happened |
-| **Vouch** | Weighted trust endorsement | Phase 2 — not yet implemented |
-
-### Recommendation Entity
-
-```javascript
-{
-  id: UUID,
-  business_id: UUID,
-  user_id: UUID,
-  user_name: string,
-  type: 'nod' | 'story',        // 'vouch' in Phase 2
-  content: string,               // Story text (stories only)
-  service_used: string,          // What they used (stories only)
-  photos: string[],              // Photo URLs (stories only)
-  is_active: boolean,
-  created_date: ISO datetime
-}
-```
+| Type | What It Is | User Action | Trust Weight |
+|------|-----------|-------------|-------------|
+| **Nod** | "I recommend this business" | One click, name attached | 1x |
+| **Story** | Detailed experience narrative | Write about service used, what happened | 2x |
+| **Vouch** | Verified trust endorsement | Must have existing Nod or Story | 3x |
 
 ### Business Entity Fields for Recommendations
 
 ```javascript
 {
-  recommendation_count: number,  // Total nods + stories
-  nod_count: number,             // Quick nods only
-  story_count: number,           // Detailed stories only
+  recommendation_count: number,  // Total nods + stories + vouches
+  nod_count: number,
+  story_count: number,
+  vouch_count: number,
 }
 ```
 
@@ -115,129 +111,25 @@ The old star-rating review system has been fully removed and replaced with a tru
 ### Ranking Algorithm
 
 Trust-based ranking in `rankingUtils.jsx`:
-1. **Primary:** Recommendation count (nods + stories, descending)
+1. **Primary:** Weighted recommendation score (nod x1 + story x2 + vouch x3, descending)
 2. **Secondary:** Story count (richer engagement, descending)
 3. **Tertiary:** Newest first
 
 No paid placement. No tier-based ordering. No boost system.
 
----
+### Private Concern System
 
-## Event System
-
-### Event Editor
-
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Basic fields | ✅ Done | Title, description, date, time, location |
-| Image upload | ✅ Done | Up to 3 images with hero designation |
-| Pricing options | ✅ Done | Free, Single Price, Pay What You Wish |
-| Punch Pass | ✅ Done | Toggle + punch cost (1-5), tier-gated |
-| Event Type | ✅ Done | Multi-select chips from admin config |
-| Networks | ✅ Done | Multi-select chips from admin config |
-| Age/Audience | ✅ Done | Dropdown from admin config |
-| Duration presets | ✅ Done | Dropdown from admin config |
-| Capacity | ✅ Done | Number input |
-| Status by tier | ✅ Done | Basic → pending_review, Standard+ → published |
-| LockedFeature UI | ✅ Done | Lock icon + upgrade CTA for gated features |
-| End time picker | ✅ Done | Duration mode or explicit end time |
-| Virtual events | ✅ Done | URL + platform fields |
-| Location TBD | ✅ Done | Toggle for undetermined locations |
-| Multiple ticket types | ✅ Done | Name, price, limit (tier-gated) |
-| Recurring events | ✅ Done | Weekly/biweekly, day selection, end date |
-| Accessibility features | ✅ Done | Admin-managed checkboxes |
-| Accept RSVPs | ✅ Done | Toggle |
-| Additional notes | ✅ Done | Free-text textarea |
-| Draft auto-save | ✅ Done | localStorage, 30s interval |
-| Save as Draft | ✅ Done | Separate button from Publish |
-
-### Event Entity
-
-```javascript
-{
-  id: UUID,
-  business_id: UUID,
-  title: string,
-  description: string,
-  date: ISO datetime,
-  end_date: ISO datetime,
-  duration_minutes: number,
-  location: string,
-  thumbnail_url: string,
-  pricing_type: 'free' | 'single_price' | 'pay_what_you_wish',
-  price: number,
-  is_free: boolean,
-  is_pay_what_you_wish: boolean,
-  min_price: number,
-  punch_pass_accepted: boolean,
-  punch_cost: number,           // 1-5
-  event_type: string,           // Single value (first from array)
-  event_types: string[],        // Multi-select array
-  network: string,              // Single value (first from array)
-  age_info: string,
-  capacity: number,
-  status: 'pending_review' | 'published' | 'draft',
-  is_active: boolean,
-  is_virtual: boolean,
-  virtual_url: string,
-  virtual_platform: string,
-  is_location_tbd: boolean,
-  ticket_types: JSON,           // [{ name, price, quantity_limit }]
-  is_recurring: boolean,
-  recurrence_pattern: string,   // 'weekly' | 'biweekly'
-  recurrence_days: string[],    // ['Mon', 'Wed', etc.]
-  recurrence_end_date: ISO datetime,
-  accessibility_features: string[],
-  accepts_rsvps: boolean,
-  additional_notes: string,
-}
-```
-
----
-
-## Business Dashboard
-
-### Architecture
-
-The dashboard uses archetype-based widget configuration:
-
-```javascript
-const DASHBOARD_CONFIG = {
-  location/venue: ['Overview', 'Events', 'Staff', 'Financials', 'CheckIn'],
-  service/talent: ['Overview', 'Schedule', 'Portfolio', 'Reviews'],
-  community:      ['Overview', 'Events', 'Members', 'Donations'],
-  organizer:      ['Overview', 'Ticketing', 'Marketing', 'Team'],
-};
-```
-
-### Dashboard Flow
-
-1. User has no businesses → Shows PersonalDashboard
-2. User has businesses, none selected → Shows BusinessCard grid
-3. Business selected → Shows archetype-based widget layout
-
-### Dashboard Widgets
-
-| Widget | File | Status | Notes |
-|--------|------|--------|-------|
-| OverviewWidget | `widgets/OverviewWidget.jsx` | ✅ Done | Recommendations, Stories, Profile Views |
-| EventsWidget | `widgets/EventsWidget.jsx` | ✅ Done | Event list + create/edit via EventEditor |
-| StaffWidget | `widgets/StaffWidget.jsx` | ✅ Done | Staff management, invites, roles |
-| FinancialWidget | `widgets/FinancialWidget.jsx` | ✅ Exists | Basic placeholder |
-| BusinessDashboardDetail | `BusinessDashboardDetail.jsx` | ✅ Done | Profile editing, locations, tier upgrade |
-
-### Business Roles
-
-| Role | Badge Color | Can Create Events | Can Edit All Events | Can Manage Staff |
-|------|------------|-------------------|---------------------|------------------|
-| Owner | Amber | ✅ | ✅ | ✅ |
-| Manager | Purple | ✅ | ✅ | ✅ |
-| Instructor | Blue | ❌ | Own only | ❌ |
-| Staff | Outline | ❌ | ❌ | ❌ |
+Negative feedback is handled privately through the Concern entity:
+- Any authenticated user can submit a concern
+- Concerns are routed to platform stewards (admin-only read)
+- Not displayed publicly — no public negative reviews
+- Admin can update status and add notes
 
 ---
 
 ## Staff & Instructor System
+
+### What's Built (UI & Data Layer)
 
 | Feature | Status | Notes |
 |---------|--------|-------|
@@ -249,7 +141,39 @@ const DASHBOARD_CONFIG = {
 | Pending invites display | ✅ Done | Separate section with "Pending" badge |
 | Auto-link on dashboard load | ✅ Done | Pending invites matched on visit |
 | 403 permission handling | ✅ Done | Staff see "Team Member" placeholder |
-| Custom permissions per person | ⏳ Planned | Override default role permissions |
+
+### What's NOT Built (Permission Enforcement)
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Permission enforcement in app | ❌ Not started | Roles are labels only — not enforced in EventsWidget, etc. |
+| Custom permissions per person | ❌ Not started | Override default role permissions |
+| Instructor can edit assigned events only | ❌ Not started | Currently no "assigned event" concept |
+| Staff member restricted view | ❌ Not started | Staff see same widgets as owners |
+| Role-based widget visibility | ❌ Not started | All widgets visible regardless of role |
+
+### Role Permission Matrix (Designed, NOT Enforced)
+
+| Permission | Owner | Manager | Instructor | Staff |
+|------------|-------|---------|------------|-------|
+| can_create_events | ✅ | ✅ | ❌ | ❌ |
+| can_edit_all_events | ✅ | ✅ | ❌ | ❌ |
+| can_edit_assigned_events | ✅ | ✅ | ✅ | ❌ |
+| can_manage_staff | ✅ | ✅ | ❌ | ❌ |
+| can_view_analytics | ✅ | ✅ | Limited | ❌ |
+| can_use_checkin | ✅ | ✅ | ✅ | ✅ |
+
+**Current reality:** EventsWidget has a loose `allowEdit` check and the action dropdown checks for `['owner', 'manager']`, but this is a UI-only check, not systematic enforcement. StaffWidget shows "Add Staff" button only for owner/manager. No other permission checks exist.
+
+### Business Roles (Visual)
+
+| Role | Badge Color |
+|------|------------|
+| Owner | Amber (`bg-amber-500 text-black`) |
+| Manager | Purple (`bg-purple-500 text-white`) |
+| Instructor | Blue (`bg-blue-500 text-white`) |
+| Staff | Outline (`border-slate-500 text-slate-300`) |
+| Pending | Amber outline (`border-amber-500 text-amber-500`) |
 
 ### Staff Data Storage
 
@@ -258,6 +182,24 @@ const DASHBOARD_CONFIG = {
 // Roles: AdminSettings key 'staff_roles:{business_id}'
 // Invites: AdminSettings key 'staff_invites:{business_id}'
 ```
+
+---
+
+## Event Management
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Create event | ✅ Done | Full form with all fields via EventEditor |
+| Edit event | ✅ Done | Opens EventEditor with existing data |
+| Delete event | ✅ Done | Soft delete (is_active: false) with confirmation |
+| Cancel event | ✅ Done | Sets status: 'cancelled' with confirmation |
+| Duplicate event | ✅ Done | Creates copy with "(Copy)" suffix |
+| Recurring events | ✅ Done | Weekly/biweekly with day-of-week selection |
+| Event images | ✅ Done | Image upload in EventEditor |
+| Punch Pass pricing | ✅ Done | Toggle + punch cost (demo mode) |
+| Multi-ticket pricing | ✅ Done | Tiered ticket types |
+| Accessibility features | ✅ Done | Checkbox list from admin config |
+| Event list with actions | ✅ Done | Desktop table + mobile cards |
 
 ---
 
@@ -289,73 +231,47 @@ platform_config:{domain}:{config_type}
 
 ---
 
-## Business Entity
+## Security — Entity Permissions
 
-```javascript
-{
-  id: UUID,
-  name: string,
-  description: string,
-  owner_user_id: UUID,
-  owner_email: string,
-  subscription_tier: 'basic' | 'standard' | 'partner',
-  archetype: string,
-  main_category: string,
-  subcategories: string[],
-  city: string,
-  state: string,
-  status: 'active' | 'inactive',
-  instructors: UUID[],          // Staff user IDs
-  recommendation_count: number,
-  nod_count: number,
-  story_count: number,
-  photos: string[],
-  services: JSON[],             // [{ name, starting_price, description }]
-  accepts_silver: boolean,
-}
-```
+### Completed (Phase 1 & 2) — 11 of 18 Entities Locked
 
----
+| Entity | Read | Create | Update | Delete |
+|--------|------|--------|--------|--------|
+| AdminAuditLog | Admin | Admin | Admin | Disabled |
+| Concern | Admin | Authenticated | Admin | Admin |
+| PunchPass | Owner | Admin | Admin | Admin |
+| PunchPassTransaction | Owner | Admin | Admin | Admin |
+| PunchPassUsage | Owner | Admin | Admin | Admin |
+| Region | Public | Admin | Admin | Admin |
+| Archetype | Public | Admin | Admin | Admin |
+| CategoryGroup | Public | Admin | Admin | Admin |
+| SubCategory | Public | Admin | Admin | Admin |
 
-## Dark Theme Status
+### Deleted Entities
+- Review (replaced by Recommendation — DEC-021)
+- Bump (boost system removed — DEC-022)
 
-All pages and components now use the Gold Standard dark theme. No light-theme holdovers remain.
+### Phase 3 — Deferred (Requires Service Role Functions)
 
-### Theme Completed
+These entities still have overly permissive settings and need code changes before lockdown:
 
-- ✅ Home, Events, Directory, CategoryPage, Search
-- ✅ BusinessProfile, BusinessOnboarding, Recommend
-- ✅ BusinessDashboard, BusinessDashboardDetail, all widgets
-- ✅ OverviewWidget (rewritten from light theme)
-- ✅ Admin Panel (sidebar, tables, drawers, config sections)
-- ✅ Header/Navigation (dropdown menus, mobile menu)
-- ✅ All tier cards and icon backgrounds use `bg-amber-500/20`, `bg-blue-500/20`, `bg-slate-800`
+Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, SpokeEvent, CategoryClick
 
-### CSS Variables
-
-Global CSS variables in `index.css` are set for the dark theme. Radix UI tab hover states are overridden globally to prevent white flash.
+See DEC-025 for full context.
 
 ---
 
-## Dead Code Removed
+## Stripe Integration Status
 
-The following were removed during the Jan 31 – Feb 1 cleanup:
-
-| File | Reason |
-|------|--------|
-| `StarRating.jsx` | Replaced by TrustSignal |
-| `ReviewCard.jsx` | Replaced by StoryCard |
-| `OverviewWidget.tsx.jsx` | Duplicate of OverviewWidget.jsx |
-| `MigrateCategories.jsx` | One-time migration tool, job done |
-| `migrateCategoriesScript.jsx` | Helper for above |
-| `cleanupDuplicates.jsx` | Helper for above |
-| `resetCategories.jsx` | Helper for above |
-| `Categories.jsx` | Replaced by CategoryPage |
-| `BusinessSelector.jsx` | Never imported (dashboard uses inline grid) |
-| `BusinessSelector.tsx.jsx` | Duplicate of above |
-| `src/components/reviews/` folder | Empty after deletions |
-
-Also removed: All Review.filter queries from BusinessProfile and BusinessDashboardDetail. Boost system completely removed (see DEC-022).
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Frontend SDKs | ✅ Installed | `@stripe/react-stripe-js` v3.10, `@stripe/stripe-js` v5.10 |
+| Stripe account | ⚠️ Needs setup | Current connected account is not LocalLane — need dedicated account |
+| Products/Prices | ❌ None | No products, customers, or subscriptions created |
+| Stripe Connect | ❌ Not started | Needed for business payouts (Punch Pass revenue) |
+| Checkout flow | ❌ Not started | Punch Pass purchase is demo mode only |
+| Webhook handling | ❌ Not started | No server-side Stripe event processing |
+| Subscription billing | ❌ Not started | Business tier subscriptions not wired up |
 
 ---
 
@@ -370,6 +286,7 @@ community-node/src/
 │   ├── BusinessProfile.jsx
 │   ├── BuildLane.jsx               # Shelved
 │   ├── CategoryPage.jsx
+│   ├── CheckIn.jsx
 │   ├── Directory.jsx
 │   ├── Events.jsx
 │   ├── Home.jsx
@@ -406,6 +323,10 @@ community-node/src/
 │   │       ├── OverviewWidget.jsx
 │   │       ├── FinancialWidget.jsx
 │   │       └── StaffWidget.jsx
+│   │
+│   ├── events/
+│   │   ├── EventFormV2.jsx
+│   │   └── EventTable.jsx
 │   │
 │   ├── locations/
 │   │   └── formatAddress.js
@@ -446,33 +367,33 @@ community-node/src/
 
 ## Remaining Work
 
-### High Priority — Features
+### High Priority — Revenue & Safety
 
 | Task | Notes |
 |------|-------|
-| Concern system (Phase 1.5) | ConcernForm, private routing to steward, admin view |
-| Vouch system (Phase 2) | Trust weighting, business owner responses |
+| Stripe Connect integration | Real payments for Punch Pass, business tier subscriptions |
+| Concern system UI | ConcernForm component, admin review panel |
+| Permission enforcement | Make staff roles actually control what users see and do |
 
-### Medium Priority — Platform
+### Medium Priority — User Experience
 
 | Task | Notes |
 |------|-------|
+| MyLane user dashboard | User RSVPs, recommendations, punch passes, saved events |
+| Microbusiness archetype | Onboarding + dashboard for solo operators (DEC-027) |
 | Platform Settings (Tiers config) | Configure tier names, prices, features in Admin |
 | Punch Pass Settings | Platform fee %, price per punch in Admin |
-| Onboarding Configuration | Archetypes, goals, feature matrix in Admin |
-| User Management in Admin | View/manage users |
-| Staff auto-link completion | Full invite flow with email notifications |
-| Custom permissions per person | Override default role permissions |
 
-### Lower Priority — Post-Pilot
+### Lower Priority — Polish & Scale
 
 | Task | Notes |
 |------|-------|
+| Security Phase 3 | Service role functions for remaining 10 entities |
+| Onboarding configuration | Archetypes, goals, feature matrix in Admin |
+| User management in Admin | View/manage users |
+| Staff auto-link completion | Full invite flow with email notifications |
 | BuildLane feed personalization | Shelved — concept exists |
-| Event Editor as modal | Currently inline in widget |
 | Recurring events refinement | Edge cases, cancellation handling |
-| Venue Configuration | When venues archetype activated |
-| Permission enforcement | Check permissions throughout app |
 
 ---
 

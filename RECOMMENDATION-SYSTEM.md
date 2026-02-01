@@ -420,7 +420,7 @@ Replace `StarRating` + rating text with a `TrustSignal` component:
 
 ## Decision Record
 
-See [DECISIONS.md](./DECISIONS.md#dec-022-recommendations-replace-star-ratings) — DEC-022.
+See [DECISIONS.md](./DECISIONS.md#dec-021-replace-star-ratings-with-recommendation-system) — DEC-021.
 
 ---
 
