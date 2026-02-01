@@ -1,0 +1,49 @@
+{
+  "name": "PlatformConfig",
+  "type": "object",
+  "title": "Platform Config",
+  "description": "Stores platform configuration (event types, networks, age groups, etc.) for Admin-managed, congruent options across nodes.",
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "Config domain: platform, events, venues, services, onboarding",
+      "enum": ["platform", "events", "venues", "services", "onboarding"]
+    },
+    "config_type": {
+      "type": "string",
+      "description": "Type of config: event_types, networks, age_groups, business_tiers, etc.",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "items": {
+      "type": "array",
+      "description": "Array of config items (value, label, icon, active, sort_order, etc.)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": { "type": "string" },
+          "label": { "type": "string" },
+          "icon": { "type": "string" },
+          "description": { "type": "string" },
+          "active": { "type": "boolean", "default": true },
+          "sort_order": { "type": "integer", "default": 0 },
+          "min_tier": { "type": "string" },
+          "parent": { "type": "string" },
+          "metadata": { "type": "object" }
+        }
+      },
+      "default": []
+    },
+    "allow_partner_additions": {
+      "type": "boolean",
+      "description": "Whether partners can add custom items (future)",
+      "default": false
+    },
+    "allow_partner_disable": {
+      "type": "boolean",
+      "description": "Whether partners can hide items (future)",
+      "default": false
+    }
+  },
+  "required": ["domain", "config_type", "items"]
+}

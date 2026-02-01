@@ -12,6 +12,7 @@
 | [STYLE-GUIDE.md](./STYLE-GUIDE.md) | Visual design standards (Gold Standard) |
 | [COMPONENTS.md](./COMPONENTS.md) | Detailed UI component specifications |
 | [TIER-SYSTEM.md](./TIER-SYSTEM.md) | Tier definitions and feature matrix |
+| [RECOMMENDATION-SYSTEM.md](./RECOMMENDATION-SYSTEM.md) | Trust-first Nod/Story/Vouch system (replaces star ratings) |
 | [ENTITY-SYSTEM.md](./ENTITY-SYSTEM.md) | Archetype and goals-based dashboard |
 | [CURRENT-STATE.md](./CURRENT-STATE.md) | What currently exists |
 | [INTEGRATION-PLAN.md](./INTEGRATION-PLAN.md) | Phase 2 implementation steps |
@@ -257,6 +258,7 @@ Spec-Repo/
 ├── DECISIONS.md        # Decision log
 ├── CURSOR-RULES.md     # Rules for Cursor agent
 ├── WORKFLOW.md         # Development workflow
+├── RECOMMENDATION-SYSTEM.md  # Nod/Story/Vouch (replaces star ratings)
 ├── archetypes/
 │   ├── _template.md    # Template for new archetypes
 │   ├── event-node.md   # Event coordinator archetype

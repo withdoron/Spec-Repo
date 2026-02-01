@@ -518,6 +518,29 @@ No tier-based ordering. No paid priority.
 
 ---
 
+### DEC-022: Recommendations Replace Star Ratings
+
+**Date:** 2026-01-31
+
+**Context:** WriteReview page was a generic star-rating form with no verification, no identity requirement, and vulnerability to gaming. This contradicts LocalLane's core trust proposition.
+
+**Decision:** Replace the entire review system with a three-layer recommendation model (Nod, Story, Vouch) that has no star ratings, requires real identity, and routes negative experiences through private channels.
+
+**Rationale:**
+- Star ratings invite gaming and complaint culture
+- Anonymous reviews undermine trust-based platform
+- Positive-signal-first aligns with mission ("spreads good news, promotes healthy community")
+- Public identity on recommendations prevents most abuse
+- Private concern routing mirrors how real communities handle problems
+
+**Full spec:** See [RECOMMENDATION-SYSTEM.md](./RECOMMENDATION-SYSTEM.md).
+
+**Status:** ✅ Active
+
+**Made by:** Doron + Claude
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church
