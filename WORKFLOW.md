@@ -7,10 +7,13 @@
 ## The Workflow
 
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Claude    │ ─► │  Spec-Repo  │ ─► │   Cursor    │ ─► │   GitHub    │ ─► │   Base44    │
-│  (Strategy) │    │   (Truth)   │    │   (Code)    │    │  (Version)  │    │   (Live)    │
-└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+┌─────────────┐    ┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Claude    │ ─► │  Spec-Repo  │ ─► │ Claude Code  │ ─► │   GitHub    │ ─► │   Base44    │
+│   (Chat)    │    │   (Truth)   │    │  + Cursor    │    │  (Version)  │    │   (Live)    │
+└─────────────┘    └─────────────┘    └──────────────┘    └─────────────┘    └─────────────┘
+       │                                      │
+       └──── claude.md ◄─────────────────────┘
+              (shared memory)
 ```
 
 ### Step-by-Step
@@ -40,45 +43,51 @@
 
 ## Division of Labor
 
-### Claude (Brain - Strategy & Architecture)
+### Claude Chat (Strategy & Architecture)
 
 **Does:**
-- Architecture decisions
-- Spec writing and updates
-- Strategic planning
-- Code review via screenshots/paste
-- Generating files for Cursor
+- Architecture decisions, spec writing, strategic planning
+- Cursor/Claude Code prompt generation
+- Code review via screenshots
+- Spec-repo audit and maintenance
+- Pattern detection → skill creation triggers
 
 **Doesn't:**
-- Direct code editing
-- GitHub pushes
-- Browse repos (technical limitation)
+- Direct code editing or GitHub pushes
+- Make implementation decisions without Doron's approval on big items
 
-### Cursor (Hands - Code Implementation)
+### Claude Code (Codebase-Aware Implementation)
 
 **Does:**
-- Reading all code files directly
-- Implementing features
-- Following Spec-Repo patterns
-- Finding unused code
-- Refactoring
-- Pushing to GitHub
+- Multi-file refactors, audits, bulk changes
+- Reads `claude.md` at session start (project conventions)
+- Updates `claude.md` when mistakes occur or patterns emerge
+- Executes Cursor-style prompts with full codebase awareness
+
+**Doesn't:**
+- Make architectural decisions (flags and asks)
+- Work on strategic planning (that's Chat)
+
+### Cursor (Targeted Code Implementation)
+
+**Does:**
+- Feature builds from copy-paste prompts
+- Single-file or focused multi-file changes
+- Quick fixes with exact find/replace
 
 **Doesn't:**
 - Make architectural decisions alone
 - Deviate from spec without updating it
 
-### Doron (Vision - Decisions & Testing)
+### Doron (Vision & Decisions)
 
 **Does:**
-- Final decisions on big questions
-- Field testing with users
-- Sales and relationship building
-- Approving major changes
+- Final decisions, field testing, business relationships
+- Tests in browser, reports with screenshots
+- Approves major changes before implementation
 
 **Doesn't:**
-- Need to write code
-- Need to understand technical details
+- Need to write code or understand implementation details
 
 ---
 
@@ -109,31 +118,25 @@
 
 ---
 
-## Claude Conversation Starter
+## Starting a Session
 
-When starting a new Claude conversation, paste this:
+### Claude Chat
+Starting a new Claude Chat conversation in the LocalLane project automatically loads project knowledge (spec-repo + private docs). State what you're working on today.
+
+### Claude Code
+Claude Code reads `claude.md` at the start of every session. The file contains project conventions, known pitfalls, architecture patterns, and the Gold Standard design rules. After every session, update it:
 
 ```
-I'm working on the LocalLane ecosystem. 
-
-Spec-Repo Google Docs:
-- README: [paste link]
-- STYLE-GUIDE: [paste link]
-- ARCHITECTURE: [paste link]
-
-Current status:
-- Community Node: Events display working, needs user accounts
-- Event Node: Functional, syncing to Community Node
-- Pilot target: Homeschool group
-
-Before making any recommendations, please review these docs to understand:
-1. The node-based architecture
-2. The tier system (Standard → Storefront → Partner)
-3. The "Gold Standard" design (dark theme, amber accent)
-4. Existing decisions and constraints
-
-Today I'm working on: [YOUR TASK]
+Update claude.md if anything should be prevented in future
 ```
+
+### Session SOP
+1. **Plan** — Describe goals in Chat, Claude writes prompts
+2. **Build** — Run prompts in Claude Code or Cursor
+3. **Test** — Check results in browser, report back
+4. **Learn** — Update claude.md with new conventions or pitfalls
+5. **Document** — Update spec-repo if decisions were made
+6. **Push** — Single descriptive commit to GitHub
 
 ---
 

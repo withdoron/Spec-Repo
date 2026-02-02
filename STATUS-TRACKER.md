@@ -75,19 +75,33 @@
 | Landing page routing (logged-in → MyLane) | 15 min | Route "/" to MyLane for authenticated users |
 | Autofill white flash on dark inputs | 15 min | CSS `autofill:` style overrides |
 | Test user full_name in published env | 5 min | Log in as test user → Settings → save name |
+| Update DECISIONS.md with DEC-025 through DEC-028 | 15 min | Copy from decisions-additions.md |
+| Replace STRIPE-CONNECT.md with v2 | 10 min | Copy STRIPE-CONNECT-v2.md over existing |
 
 ---
 
 ## 🚧 NEXT UP (Before Pilot)
 
-### Stripe Connect Integration
-- [ ] Connect Stripe account to platform
-- [ ] Business onboarding → Stripe Connect account creation
-- [ ] Punch Pass payment processing (exit demo mode)
-- [ ] Payout flow to businesses
-- [ ] Transaction fee (15%) implementation
-- **Spec:** STRIPE-CONNECT.md exists
+### Stripe Payments (Community Pass Model)
+- [ ] Phase A: Platform Setup — Stripe account config, products, webhook URL
+- [ ] Phase B: Business Tier Subscriptions — real billing for business tiers
+- [ ] Phase C: Business Connect Onboarding — link bank accounts
+- [ ] Phase D: Community Pass Subscriptions — user membership billing
+- [ ] Phase E: Direct Purchases — `on_behalf_of` checkout flow
+- [ ] Phase F: Revenue Share Distribution — monthly pool distribution
+- **Spec:** STRIPE-CONNECT.md (revised 2026-02-02, aligned with DEC-025)
+- **Legal:** Must complete legal checklist before Phase B (see LEGAL-RESEARCH.md)
 - **Priority:** HIGH — blocks real money flowing through platform
+
+### Organism Phase 1 — The Seed
+- [ ] Create `useVitality` hook (calculate from existing MyLane data)
+- [ ] Create `CommunityOrganism.jsx` component (CSS + SVG animation)
+- [ ] Place in MyLane GreetingHeader alongside greeting and punch badge
+- [ ] 3-5 visual states: Seed → Sprouting → Growing → Thriving → Resting
+- **Spec:** ORGANISM-CONCEPT.md (private repo)
+- **Priority:** MEDIUM — buildable in single session, high differentiator
+- **Dependencies:** None — uses data already queried in MyLane
+- **Note:** Decision filter for all features: "Does this make the organism more alive?" (DEC-026)
 
 ### Security Audit Phase 3
 - [ ] Base44 permission warnings addressed
@@ -224,6 +238,35 @@ Strategy and concept docs maintained in private repository.
 - Punch Pass stays free tier (drives transaction revenue)
 - User Settings captures personal info only, business/tax info goes on Business entity + Stripe Connect
 - Notifications deferred to post-pilot
+
+---
+
+## Session Log — 2026-02-02
+
+**Shipped today:**
+1. Codebase health audit (44 findings, 31 quick fixes executed)
+2. Dark theme compliance fixes (14 violations fixed across 5 files)
+3. Dead code cleanup (7 items removed from BusinessOnboarding)
+4. Tier hook consistency refactor (3 files using useOrganization())
+5. Unused dependencies removed (8 packages)
+6. claude.md created for Claude Code sessions
+7. claude.md updated with 5 new conventions (DEC-028, toggle knobs, tier hooks, file organization, large file guidance)
+8. ORGANISM-CONCEPT.md written (private repo) — north star vision
+9. COMMUNITY-PASS.md written (private repo) — membership model
+10. STRIPE-CONNECT.md rewritten to align with Community Pass (DEC-025)
+11. DECISIONS.md updated with DEC-025 through DEC-028
+12. Spec-repo audit completed — all docs checked against north star
+
+**Decisions made:**
+- DEC-025: Community Pass replaces stored-value Punch Pass
+- DEC-026: Organism Concept adopted as north star
+- DEC-027: Private repo for sensitive strategy
+- DEC-028: Status indicator color policy for admin/dashboard
+
+**Workflow improvements:**
+- claude.md established as bridge between Chat and Claude Code
+- Session SOP: plan → build → test → update claude.md → document → push
+- Skill creation trigger: flag on second occurrence of a pattern
 
 ---
 

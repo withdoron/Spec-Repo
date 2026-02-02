@@ -576,6 +576,50 @@ GitHub dev → Base44 Staging (separate app)
 
 ---
 
+## Community Health Data Layer
+
+LocalLane's north star is making community health visible (DEC-026). This requires a data pipeline that transforms platform activity into vitality signals.
+
+### Data Signals
+
+The platform already generates the raw signals needed:
+
+| Signal | Source Entity | Already Queried? |
+|--------|--------------|-----------------|
+| RSVPs created | RSVP | ✅ Yes (MyLane) |
+| Event attendance (check-ins) | PunchPassUsage | ✅ Yes (CheckIn) |
+| Recommendations given | Recommendation | ✅ Yes (MyLane) |
+| Community Pass activity | PunchPass | ✅ Yes (MyLane) |
+| Days active | User (last_active) | ⚠️ Needs field |
+| New businesses | Business (created_date) | ✅ Yes (MyLane) |
+| Concerns resolved | Concern (status) | ✅ Yes (Admin) |
+
+### Vitality Computation
+
+Vitality scores are calculated client-side from data already fetched. No new API calls needed for Phase 1. The score drives visual state but is never shown as a number.
+
+Three scales (fractal pattern):
+- **Personal** — one user's community participation
+- **Network** — aggregate across a pass network's members
+- **Community** — aggregate of all networks plus community-wide signals
+
+Vitality formulas and thresholds are documented in the private repo (ORGANISM-CONCEPT.md).
+
+### Organism Component Architecture
+
+```
+useVitality(userId)          → Computes personal vitality from existing data
+CommunityOrganism.jsx       → Renders animated visual based on vitality state
+  ├── Phase 1: CSS + SVG     (no dependencies)
+  ├── Phase 2: Lottie         (mood responses)
+  ├── Phase 3: Canvas         (network identity blending)
+  └── Phase 4: Three.js       (social organisms)
+```
+
+The organism is ambient, not dominant. It lives in MyLane GreetingHeader and reflects real data — not artificial engagement signals.
+
+---
+
 ## Backup & Recovery
 
 ### What's Backed Up

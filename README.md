@@ -8,16 +8,21 @@
 
 | Document | Purpose |
 |----------|---------|
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical patterns, data models, APIs |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical patterns, data models, vitality data layer |
 | [STYLE-GUIDE.md](./STYLE-GUIDE.md) | Visual design standards (Gold Standard) |
 | [COMPONENTS.md](./COMPONENTS.md) | Detailed UI component specifications |
 | [TIER-SYSTEM.md](./TIER-SYSTEM.md) | Tier definitions and feature matrix |
-| [RECOMMENDATION-SYSTEM.md](./RECOMMENDATION-SYSTEM.md) | Trust-first Nod/Story/Vouch system (replaces star ratings) |
+| [RECOMMENDATION-SYSTEM.md](./RECOMMENDATION-SYSTEM.md) | Trust-first Nod/Story/Vouch system |
 | [ENTITY-SYSTEM.md](./ENTITY-SYSTEM.md) | Archetype and goals-based dashboard |
+| [MYLANE.md](./MYLANE.md) | MyLane spec — user dashboard with organism placement |
+| [USER-TIERS.md](./USER-TIERS.md) | User tier definitions (Free/Member) |
+| [STATUS-TRACKER.md](./STATUS-TRACKER.md) | Project status, roadmap, and session logs |
 | [CURRENT-STATE.md](./CURRENT-STATE.md) | What currently exists |
+| [STRIPE-CONNECT.md](./STRIPE-CONNECT.md) | Stripe integration (Community Pass model) |
 | [INTEGRATION-PLAN.md](./INTEGRATION-PLAN.md) | Phase 2 implementation steps |
+| [ADMIN-ARCHITECTURE.md](./ADMIN-ARCHITECTURE.md) | Admin panel structure |
 | [DECISIONS.md](./DECISIONS.md) | Decision log with context |
-| [WORKFLOW.md](./WORKFLOW.md) | Development workflow |
+| [WORKFLOW.md](./WORKFLOW.md) | Development workflow and session SOP |
 
 ---
 

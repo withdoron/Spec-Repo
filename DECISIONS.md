@@ -660,6 +660,115 @@ Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, Spo
 
 ---
 
+### DEC-028: Community Pass Replaces Stored-Value Punch Pass
+
+**Date:** 2026-02-02
+
+**Context:** Legal research (LEGAL-RESEARCH.md) revealed that the original Punch Pass design — buy credits redeemable at unaffiliated businesses — constitutes money transmission under Oregon ORS 717. The multi-merchant stored-value model requires a money transmitter license not feasible at bootstrap scale.
+
+**Decision:** Restructure from stored-value credits to a membership subscription model (Community Pass). Users pay a monthly subscription fee to LocalLane. They receive "punches" as membership access tokens, not stored value. Businesses receive revenue share from the membership pool, not per-transaction transfers.
+
+**Key changes from old model:**
+- Subscription replaces one-time credit purchase
+- Monthly punch expiration replaces 12-month window
+- Revenue-share pool replaces per-redemption settlement
+- Zero commission on direct purchases (businesses are merchant of record via `on_behalf_of`)
+- No unredeemed balance liability (membership benefits, not stored value)
+
+**Rationale:** Eliminates money transmitter licensing requirement. Creates predictable recurring revenue. Aligns with proven models (1Pass, ClassPass, gym memberships). Better product: membership encourages exploration, stored value encourages hoarding.
+
+**Consequences:**
+- STRIPE-CONNECT.md must be rewritten to reflect new charge model
+- Settlement logic changes from per-redemption to monthly pool distribution
+- PunchPass entity fields evolve (see COMMUNITY-PASS.md)
+- Need revenue share agreements with participating businesses
+- Need professional legal review confirming structure before money flows
+
+**Status:** ✅ Active — Approved direction. Implementation pending Stripe setup.
+
+**Reference:** COMMUNITY-PASS.md (private repo) contains full concept. LEGAL-RESEARCH.md contains the legal analysis.
+
+---
+
+### DEC-029: Organism Concept as North Star
+
+**Date:** 2026-02-02
+
+**Context:** LocalLane needed a differentiating vision beyond "another business directory." The platform's mission (revitalize local commerce, fund youth scholarships) needed a user-facing expression that makes community health visible and meaningful.
+
+**Decision:** Adopt the Organism Concept as the platform's north star vision. The organism is a living, animated visual element that reflects community health at three fractal scales: personal, network, and community. It mirrors real participation rather than creating artificial engagement. Decision filter for new features: "Does this make the organism more alive?"
+
+**Principles:**
+- Mirror, don't manipulate (reflect reality, no artificial urgency)
+- Growth, not points (no badges, leaderboards, or XP)
+- Seasons, not streaks (rest periods are healthy, not failures)
+- Connection, not competition (organisms don't compete)
+
+**Rationale:** No competing platform offers anything like this. Creates genuine emotional connection to community health data. Aligns incentives: the organism thrives when the community thrives, not when the algorithm extracts attention.
+
+**Consequences:**
+- Phase 1 is buildable now using existing data in MyLane
+- Four implementation phases from CSS/SVG → Lottie → Canvas → social organisms
+- Network passes (Recess, Creative Alliance, Harvest, Gathering Circle) each get organism identity
+- MyLane GreetingHeader is the first home for the organism
+
+**Status:** ✅ Active — North star vision. Build incrementally.
+
+**Reference:** ORGANISM-CONCEPT.md (private repo) contains full vision, lifecycle states, vitality formulas, and technical approach.
+
+---
+
+### DEC-030: Private Repository for Sensitive Strategy
+
+**Date:** 2026-02-02
+
+**Context:** Public spec-repo contained competitive strategy, legal research, and revenue model details. While repos are public for development convenience (DEC: Repositories Are Public), strategy documents give away LocalLane's most differentiated thinking.
+
+**Decision:** Create `locallane-private` repository for sensitive documents. Public spec-repo may reference that private concepts exist but must not reproduce strategy details, revenue formulas, competitive analysis, or legal reasoning.
+
+**Documents moved to private:**
+- ORGANISM-CONCEPT.md
+- COMMUNITY-PASS.md
+- LEGAL-RESEARCH.md
+- SILVER-BARTER-CONCEPT.md
+
+**Rationale:** Competitive advantage is in the vision and model, not the code. Code repos can stay public. Strategy stays private.
+
+**Consequences:**
+- Claude project sync established for private repo collaboration
+- Public spec docs must be audited for leaked strategy details
+- New sensitive docs default to private repo
+- Public docs can say "see private repo" for full context
+
+**Status:** ✅ Active
+
+---
+
+### DEC-031: Status Indicator Color Policy
+
+**Date:** 2026-02-02
+
+**Context:** Codebase audit found inconsistent use of blue, teal, and other colors for status indicators in admin and dashboard contexts. Needed a clear policy that respects the Gold Standard while allowing functional color variety.
+
+**Decision:** Adopt the following color policy for admin/dashboard status indicators:
+
+| Color | Usage | Example |
+|-------|-------|---------|
+| Amber (`amber-500`) | Primary/active states | Active subscriptions, current selections |
+| Blue (`bg-blue-500/20 text-blue-400`) | Informational/neutral status | "Standard" tier badge, info callouts |
+| Teal (`bg-teal-500/20 text-teal-400`) | Wizard selection states | Onboarding step selection, toggle active |
+| Red/Orange | Destructive actions only | Delete confirmation, error states |
+
+**Scope:** Admin panel and business dashboard only. Public-facing UI (Directory, Events, MyLane) stays strictly amber + white + slate.
+
+**Rationale:** Pure amber-only in admin contexts makes it hard to distinguish between different status types. Functional color provides information hierarchy without violating the Gold Standard on pages users see.
+
+**Status:** ✅ Active
+
+**Reference:** Also encoded in claude.md under "Status Indicator Colors."
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)

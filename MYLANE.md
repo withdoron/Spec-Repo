@@ -54,6 +54,8 @@ MyLane adapts based on what the user has *done*, not how long they've been on th
 
 **Design principle:** The page feels useful immediately. A new user sees real community activity without having done anything. Walking into a town square, not filling out a form.
 
+**State 1: Explorer** — Organism state: Seed (small, still, dim — a point of potential)
+
 ### State 2: Engaged (Has Activity)
 
 **Who:** Has RSVP'd to events, given Nods or Stories, followed businesses, used Punch Pass.
@@ -67,6 +69,8 @@ MyLane adapts based on what the user has *done*, not how long they've been on th
 
 **Design principle:** MyLane starts reflecting *you*. It earned the right to personalize because it has real signal — not survey answers.
 
+**State 2: Engaged** — Organism state: Sprouting or Growing (form taking shape, colors developing)
+
 ### State 3: Connected (Regular User)
 
 **Who:** Multiple recommendations, regular event attendance, active punch pass usage.
@@ -79,6 +83,8 @@ MyLane adapts based on what the user has *done*, not how long they've been on th
 - Deeper community stats (events attended, businesses supported)
 
 **Design principle:** Full personalization. The platform knows you well enough to surface both what you want AND what you didn't know you'd enjoy.
+
+**State 3: Connected** — Organism state: Thriving (vibrant, complex, animated)
 
 ---
 
@@ -361,6 +367,8 @@ Replace the current MyLane.jsx placeholder. Real data, no mocks.
 
 1. **MyLane.jsx** — Page shell. Fetches user data, determines state, renders sections.
 2. **GreetingHeader** — "Good morning, {name}" + Punch Pass balance badge + settings gear icon
+
+> **Organism Placement (DEC-026):** The GreetingHeader is the first home for the personal organism (Phase 1). The organism component sits alongside the greeting and punch badge, providing an ambient visual reflection of the user's community vitality. See ORGANISM-CONCEPT.md (private repo) for the full vision and implementation phases.
 3. **HappeningSoonSection** — Queries upcoming events in region, filter pills, grid/scroll
 4. **NewInCommunitySection** — Queries businesses where `created_date` > 30 days ago AND `recommendation_count` < 3. Horizontal scroll with "New to LocalLane" badge.
 5. **UpcomingEventsSection** — Queries user's RSVP'd events. Conditional: only renders if RSVPs exist. (Depends on RSVP implementation.)
@@ -441,6 +449,7 @@ This spec establishes the following decisions:
 - **New entities get dedicated spotlight** — not buried in trust-ranked lists
 - **Discovery includes deliberate diversity** — "Outside Your Lane" prevents filter bubbles
 - **Architecture supports future user tiers** — sections conditionally render based on tier
+- **Organism lives in MyLane GreetingHeader** — Phase 1 placement per DEC-026 and ORGANISM-CONCEPT.md
 
 See also: [USER-TIERS.md](./USER-TIERS.md) for the user tier philosophy and roadmap.
 
