@@ -350,4 +350,8 @@ Today I'm working on: [YOUR TASK]
 
 ---
 
+Additional strategy and business documents are maintained privately.
+
+---
+
 *This spec is the external brain for LocalLane development. Always reference before implementing.*
