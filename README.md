@@ -269,9 +269,14 @@ Spec-Repo/
 │   ├── event-node.md   # Event coordinator archetype
 │   └── nonprofit-node.md # Church/nonprofit archetype
 └── checklists/
-    ├── 7-day-plan.md   # Execution plan
-    ├── new-node.md     # New node setup
-    └── pilot-launch.md # Pre-launch checklist
+    ├── LAUNCH-CHECKLIST.md    # Master launch roadmap (5 phases)
+    ├── farm-program-launch.md # Active Phase 1 working checklist
+    ├── new-node.md            # New node setup
+    └── archive/
+        ├── 7-day-plan-v1.md       # Original 7-day plan
+        ├── 7-day-plan-v2.md       # Replaced by LAUNCH-CHECKLIST.md
+        ├── pilot-launch-v1.md     # Original pilot launch
+        └── pilot-launch-v2.md     # Replaced by LAUNCH-CHECKLIST.md
 ```
 
 ---
