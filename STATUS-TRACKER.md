@@ -75,7 +75,7 @@
 | Landing page routing (logged-in → MyLane) | 15 min | Route "/" to MyLane for authenticated users |
 | Autofill white flash on dark inputs | 15 min | CSS `autofill:` style overrides |
 | Test user full_name in published env | 5 min | Log in as test user → Settings → save name |
-| Update DECISIONS.md with DEC-025 through DEC-028 | 15 min | Copy from decisions-additions.md |
+| Update DECISIONS.md with DEC-028 through DEC-031 | 15 min | Copy from decisions-additions.md |
 | Replace STRIPE-CONNECT.md with v2 | 10 min | Copy STRIPE-CONNECT-v2.md over existing |
 
 ---
@@ -89,7 +89,7 @@
 - [ ] Phase D: Community Pass Subscriptions — user membership billing
 - [ ] Phase E: Direct Purchases — `on_behalf_of` checkout flow
 - [ ] Phase F: Revenue Share Distribution — monthly pool distribution
-- **Spec:** STRIPE-CONNECT.md (revised 2026-02-02, aligned with DEC-025)
+- **Spec:** STRIPE-CONNECT.md (revised 2026-02-02, aligned with DEC-028)
 - **Legal:** Must complete legal checklist before Phase B (see LEGAL-RESEARCH.md)
 - **Priority:** HIGH — blocks real money flowing through platform
 
@@ -101,7 +101,7 @@
 - **Spec:** ORGANISM-CONCEPT.md (private repo)
 - **Priority:** MEDIUM — buildable in single session, high differentiator
 - **Dependencies:** None — uses data already queried in MyLane
-- **Note:** Decision filter for all features: "Does this make the organism more alive?" (DEC-026)
+- **Note:** Decision filter for all features: "Does this make the organism more alive?" (DEC-029)
 
 ### Security Audit Phase 3
 - [ ] Base44 permission warnings addressed
@@ -253,15 +253,15 @@ Strategy and concept docs maintained in private repository.
 7. claude.md updated with 5 new conventions (DEC-028, toggle knobs, tier hooks, file organization, large file guidance)
 8. ORGANISM-CONCEPT.md written (private repo) — north star vision
 9. COMMUNITY-PASS.md written (private repo) — membership model
-10. STRIPE-CONNECT.md rewritten to align with Community Pass (DEC-025)
-11. DECISIONS.md updated with DEC-025 through DEC-028
+10. STRIPE-CONNECT.md rewritten to align with Community Pass (DEC-028)
+11. DECISIONS.md updated with DEC-028 through DEC-031
 12. Spec-repo audit completed — all docs checked against north star
 
 **Decisions made:**
-- DEC-025: Community Pass replaces stored-value Punch Pass
-- DEC-026: Organism Concept adopted as north star
-- DEC-027: Private repo for sensitive strategy
-- DEC-028: Status indicator color policy for admin/dashboard
+- DEC-028: Community Pass replaces stored-value Punch Pass
+- DEC-029: Organism Concept adopted as north star
+- DEC-030: Private repo for sensitive strategy
+- DEC-031: Status indicator color policy for admin/dashboard
 
 **Workflow improvements:**
 - claude.md established as bridge between Chat and Claude Code

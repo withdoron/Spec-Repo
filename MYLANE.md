@@ -368,7 +368,7 @@ Replace the current MyLane.jsx placeholder. Real data, no mocks.
 1. **MyLane.jsx** — Page shell. Fetches user data, determines state, renders sections.
 2. **GreetingHeader** — "Good morning, {name}" + Punch Pass balance badge + settings gear icon
 
-> **Organism Placement (DEC-026):** The GreetingHeader is the first home for the personal organism (Phase 1). The organism component sits alongside the greeting and punch badge, providing an ambient visual reflection of the user's community vitality. See ORGANISM-CONCEPT.md (private repo) for the full vision and implementation phases.
+> **Organism Placement (DEC-029):** The GreetingHeader is the first home for the personal organism (Phase 1). The organism component sits alongside the greeting and punch badge, providing an ambient visual reflection of the user's community vitality. See ORGANISM-CONCEPT.md (private repo) for the full vision and implementation phases.
 3. **HappeningSoonSection** — Queries upcoming events in region, filter pills, grid/scroll
 4. **NewInCommunitySection** — Queries businesses where `created_date` > 30 days ago AND `recommendation_count` < 3. Horizontal scroll with "New to LocalLane" badge.
 5. **UpcomingEventsSection** — Queries user's RSVP'd events. Conditional: only renders if RSVPs exist. (Depends on RSVP implementation.)
@@ -449,7 +449,7 @@ This spec establishes the following decisions:
 - **New entities get dedicated spotlight** — not buried in trust-ranked lists
 - **Discovery includes deliberate diversity** — "Outside Your Lane" prevents filter bubbles
 - **Architecture supports future user tiers** — sections conditionally render based on tier
-- **Organism lives in MyLane GreetingHeader** — Phase 1 placement per DEC-026 and ORGANISM-CONCEPT.md
+- **Organism lives in MyLane GreetingHeader** — Phase 1 placement per DEC-029 and ORGANISM-CONCEPT.md
 
 See also: [USER-TIERS.md](./USER-TIERS.md) for the user tier philosophy and roadmap.
 

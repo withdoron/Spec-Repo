@@ -578,7 +578,7 @@ GitHub dev → Base44 Staging (separate app)
 
 ## Community Health Data Layer
 
-LocalLane's north star is making community health visible (DEC-026). This requires a data pipeline that transforms platform activity into vitality signals.
+LocalLane's north star is making community health visible (DEC-029). This requires a data pipeline that transforms platform activity into vitality signals.
 
 ### Data Signals
 

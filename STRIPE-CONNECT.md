@@ -16,7 +16,7 @@ LocalLane uses **Stripe** for three distinct payment flows:
 
 The key architectural insight: LocalLane collects subscription revenue and distributes revenue share to businesses from its own operating income. Users never pay businesses through LocalLane — they either use membership access tokens (punches) or purchase directly from the business.
 
-### What Changed (DEC-025)
+### What Changed (DEC-028)
 
 This spec was originally built around a stored-value credit model (Separate Charges and Transfers). Legal research identified that model as money transmission under Oregon ORS 717. The Community Pass membership model eliminates that risk. See DECISIONS.md DEC-028 for the full decision record.
 
