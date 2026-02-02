@@ -82,7 +82,38 @@
 
 ## 🚧 NEXT UP (Before Pilot)
 
-### Stripe Payments (Community Pass Model)
+### 🚀 Launch Roadmap
+
+Three phases, in order. Each unlocks the next.
+
+#### Phase 1: Farm Program (Content-First Launch) — NOW
+Real businesses, real events, no code changes needed. The platform is ready for this today.
+
+- [ ] Onboard 3-5 farm/food businesses (create accounts, set up profiles)
+- [ ] Each business creates 2-3 real events (farm tours, workshops, markets)
+- [ ] Facebook post driving community awareness (posted 2026-02-02)
+- [ ] First real users browse, RSVP, attend
+- [ ] Collect feedback from businesses and attendees
+- [ ] Identify friction points before adding complexity
+- **Why first:** Proves the platform works with real people. Generates the activity data the organism will eventually reflect. Builds the relationships that Community Pass revenue share depends on.
+- **What's needed:** Doron's time onboarding businesses. Zero code.
+- **Success criteria:** 3+ businesses with events, 10+ real RSVPs, feedback collected
+- **Checklist:** See `checklists/farm-program-launch.md`
+
+#### Phase 2: Organism Phase 1 — The Seed
+Single build session. Makes the platform feel alive before money flows.
+
+- [ ] Create `useVitality` hook (calculate from existing MyLane data)
+- [ ] Create `CommunityOrganism.jsx` component (CSS + SVG animation)
+- [ ] Place in MyLane GreetingHeader alongside greeting and punch badge
+- [ ] 3-5 visual states: Seed → Sprouting → Growing → Thriving → Resting
+- **Spec:** ORGANISM-CONCEPT.md (private repo)
+- **Dependencies:** None — uses data already queried in MyLane
+- **Note:** Decision filter for all features: "Does this make the organism more alive?" (DEC-029)
+
+#### Phase 3: Stripe Payments (Community Pass Model)
+Real money. Gated behind legal checklist.
+
 - [ ] Phase A: Platform Setup — Stripe account config, products, webhook URL
 - [ ] Phase B: Business Tier Subscriptions — real billing for business tiers
 - [ ] Phase C: Business Connect Onboarding — link bank accounts
@@ -92,16 +123,6 @@
 - **Spec:** STRIPE-CONNECT.md (revised 2026-02-02, aligned with DEC-028)
 - **Legal:** Must complete legal checklist before Phase B (see LEGAL-RESEARCH.md)
 - **Priority:** HIGH — blocks real money flowing through platform
-
-### Organism Phase 1 — The Seed
-- [ ] Create `useVitality` hook (calculate from existing MyLane data)
-- [ ] Create `CommunityOrganism.jsx` component (CSS + SVG animation)
-- [ ] Place in MyLane GreetingHeader alongside greeting and punch badge
-- [ ] 3-5 visual states: Seed → Sprouting → Growing → Thriving → Resting
-- **Spec:** ORGANISM-CONCEPT.md (private repo)
-- **Priority:** MEDIUM — buildable in single session, high differentiator
-- **Dependencies:** None — uses data already queried in MyLane
-- **Note:** Decision filter for all features: "Does this make the organism more alive?" (DEC-029)
 
 ### Security Audit Phase 3
 - [ ] Base44 permission warnings addressed
