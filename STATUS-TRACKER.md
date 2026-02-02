@@ -196,12 +196,12 @@
 | INTEGRATION-PLAN.md | Stripe + platform integration | ✅ Current |
 | STRIPE-CONNECT.md | Stripe Connect spec | ✅ Current |
 | UX-WALKTHROUGH-2026-02-01.md | Chrome audit findings | ✅ Current |
-| SILVER-BARTER-CONCEPT.md | Silver barter network concept | ✅ Current |
-| MEAL-PLANNING-CONCEPT.md | Meal planning concept | ✅ Current |
 | CURSOR-QUICK-WINS.md | Quick fix prompts | ✅ Complete |
 | CURSOR-MYLANE-PHASE1.md | MyLane build prompt | ✅ Complete |
 | CURSOR-RSVP-SYSTEM.md | RSVP build prompt | ✅ Complete |
 | CURSOR-SETTINGS-AND-ADMIN-USERS.md | Settings + Admin Users prompt | ✅ Complete |
+
+Strategy and concept docs maintained in private repository.
 
 ---
 
