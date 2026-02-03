@@ -133,7 +133,43 @@
 
 ---
 
-## Phase 4: Community Pass & The Heart
+## Phase 4: Joy Coins System
+*The mechanics that make Community Pass work*
+
+**Data Foundation:**
+- [ ] JoyCoins entity created (balance, transactions, reservations)
+- [ ] Transaction states implemented (available, reserved, spent, refunded, forfeited, expired)
+- [ ] Relationship to User, Event, Business, RSVP entities defined
+
+**Event Creator Controls:**
+- [ ] Network selection (pulls from admin config)
+- [ ] Joy Coin cost setting per event
+- [ ] Capacity controls (total vs Joy Coin member spots)
+- [ ] Frequency limits (per day/week/month)
+- [ ] Refund policy selection
+
+**Member Experience:**
+- [ ] Joy Coin balance display in MyLane
+- [ ] Cost visibility on events
+- [ ] Reservation status tracking
+- [ ] Transaction history
+
+**RSVP Integration:**
+- [ ] Reserve Joy Coins on RSVP
+- [ ] Deduct on check-in/attendance
+- [ ] Refund on cancellation (per policy)
+- [ ] Forfeit on no-show
+
+**Business Analytics:**
+- [ ] Redemption dashboard
+- [ ] Capacity utilization metrics
+- [ ] Revenue share tracking
+
+**Done when:** A member can RSVP to an event using Joy Coins, attend, and have it properly tracked. Business can see redemption data.
+
+---
+
+## Phase 5: Community Pass & The Heart
 *Revenue flowing, Organism comes alive*
 
 **Community Pass Pricing Research (Before Any Pricing in UI):**
@@ -156,7 +192,7 @@
 - [ ] Success state → MyLane with pass badge visible
 - [ ] Pass benefits reflected in UI (discounts shown at participating businesses)
 
-**Community Pass Launch (Phase 4):**
+**Community Pass Launch (Phase 5):**
 
 ### Member Experience
 - [ ] Tier selection during signup (Individual/Duo/Family/Family+)
@@ -196,7 +232,7 @@
 
 ---
 
-## Phase 5: Expand & Scale
+## Phase 6: Expand & Scale
 *Growth beyond pilot*
 
 - [ ] Second business vertical (beyond Farm Program)
