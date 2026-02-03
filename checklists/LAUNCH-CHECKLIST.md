@@ -53,6 +53,28 @@
 - [ ] Privacy Policy: verify membership framing (not prepaid balance)
 - [ ] User-facing copy audit: MyLane, Business Dashboard, Event Detail
 
+**Community Pass Foundation (Phase 1):**
+
+### Legal & Structure
+- [ ] Professional legal review for membership model (~$100-200)
+- [ ] Revenue share agreement template drafted
+- [ ] Terms of Service updated for membership framing (not stored value)
+- [ ] Oregon-specific review for revenue share pool
+- [ ] Ticket transfer language reviewed
+
+### Pricing Validation
+- [ ] Talk to 5+ "interested" respondents about pricing
+- [ ] Test founding member concept reception
+- [ ] Validate ticket quantities feel sufficient per tier
+- [ ] Confirm access window model makes sense to partner businesses
+- [ ] Document final pricing decision in COMMUNITY-PASS.md
+
+### Brand Foundation
+- [ ] MISSION-VISION-VALUES.md published to Spec-Repo
+- [ ] Tagline finalized: "Local Lane — Where community be-comes alive."
+- [ ] Core messaging reviewed against book frameworks
+- [ ] No discount/savings language in any copy
+
 **Done when:** Stranger test passes — someone can register, browse, RSVP, find support, on mobile. No "punch card" language visible anywhere.
 
 ---
@@ -66,6 +88,27 @@
 - [ ] Event RSVP flow tested end-to-end
 - [ ] Business claim flow tested
 - [ ] At least 1 non-Doron admin user
+
+**Access Window Implementation (Phase 2):**
+
+### Event Archetype Updates
+- [ ] Add Community Pass settings to event creation
+  - [ ] Accept Community Pass toggle
+  - [ ] Days/hours available
+  - [ ] Capacity per window
+  - [ ] Ticket cost (1-5, set by business)
+  - [ ] Access type (free entry / discounted / special)
+  - [ ] RSVP required toggle
+  - [ ] No-show policy (Flexible / Moderate / Strict)
+- [ ] Access windows display in business dashboard
+- [ ] Access windows appear in member discovery (MyLane)
+
+### Ticket System
+- [ ] Member ticket balance tracking
+- [ ] Ticket deduction on scan/booking
+- [ ] Monthly ticket reset (no rollover)
+- [ ] Ticket transfer (member-to-member) flow
+- [ ] Cancellation handling per no-show policy
 
 **Done when:** Platform has enough real content to feel alive.
 
@@ -112,6 +155,37 @@
 - [ ] Stripe Checkout integration for subscription
 - [ ] Success state → MyLane with pass badge visible
 - [ ] Pass benefits reflected in UI (discounts shown at participating businesses)
+
+**Community Pass Launch (Phase 4):**
+
+### Member Experience
+- [ ] Tier selection during signup (Individual/Duo/Family/Family+)
+- [ ] Founding member pricing flag
+- [ ] Ticket balance visible in MyLane
+- [ ] Available access windows in discovery feed
+- [ ] Booking flow with ticket cost display
+- [ ] Scan/check-in at business
+- [ ] Monthly "your impact" summary (not savings-focused)
+
+### Business Experience
+- [ ] Revenue share dashboard
+- [ ] Scan history and attribution
+- [ ] Access window management
+- [ ] Capacity and booking visibility
+- [ ] No-show tracking
+
+### Revenue System
+- [ ] Stripe Connect for revenue share payouts
+- [ ] 75/25 split calculation
+- [ ] Scan-based allocation logic
+- [ ] Monthly payout cycle
+- [ ] Business payment history
+
+### Network Identity
+- [ ] Four networks defined (Recess, Creative Alliance, Harvest, Gathering Circle)
+- [ ] Network tagging for businesses/events
+- [ ] Member interest mapping to networks
+- [ ] Merch strategy documented (future)
 
 **Organism Phase 1:**
 - [ ] Personal creature concept defined
