@@ -24,7 +24,36 @@
 **Known Bugs:**
 - [ ] Settings: Display name update doesn't save / drawer doesn't close
 
-**Done when:** Stranger test passes — someone can register, browse, RSVP, find support, on mobile.
+**Onboarding — Business (Events Archetype Only):**
+- [ ] Simplify wizard to Events archetype only (hide other archetypes for now)
+- [ ] Fix step order: Archetype → Goals → Details → Tier → Review
+- [ ] Goals step shows: Host Events, Accept Community Pass, List in Directory
+- [ ] Tier recommendation based on goals (Accept Community Pass → Standard)
+- [ ] Success screen with "Create your first event" CTA
+- [ ] Mobile-friendly wizard (test on phone)
+
+**Onboarding — User (Lightweight):**
+- [ ] Welcome screen after signup (before MyLane)
+- [ ] "What brings you to LocalLane?" interest capture (checkboxes)
+- [ ] "Interested in Community Pass when it launches?" (Yes / Maybe later)
+- [ ] Data stored for future outreach
+- [ ] Skippable — user can go straight to MyLane
+
+**The Good News (Newsletter):**
+- [ ] Email capture in footer (simple: email input + "Join The Good News")
+- [ ] One-time prompt after first RSVP ("You're in! Want community wins in your inbox?")
+- [ ] Newsletter list created (Mailchimp, Buttondown, or similar)
+- [ ] First issue drafted (can wait until Phase 2 content exists)
+
+**Language Audit — Community Pass (LEGAL):**
+- [ ] Full codebase search for "punch" — replace with Community Pass terminology
+- [ ] UI audit: no references to "punch card" or "stored value"
+- [ ] Database fields: document any legacy field names (don't rename yet, just document)
+- [ ] Terms of Service: verify Community Pass language (not stored value)
+- [ ] Privacy Policy: verify membership framing (not prepaid balance)
+- [ ] User-facing copy audit: MyLane, Business Dashboard, Event Detail
+
+**Done when:** Stranger test passes — someone can register, browse, RSVP, find support, on mobile. No "punch card" language visible anywhere.
 
 ---
 
@@ -64,17 +93,32 @@
 ## Phase 4: Community Pass & The Heart
 *Revenue flowing, Organism comes alive*
 
+**Community Pass Pricing Research (Before Any Pricing in UI):**
+- [ ] Comparable models research (co-ops, CSAs, community memberships)
+- [ ] Value-to-member math (what savings justify what price?)
+- [ ] Revenue share sustainability analysis
+- [ ] Eugene market pricing tolerance check
+- [ ] Talk to 5+ "Interested in Community Pass" respondents from Phase 1
+- [ ] Pricing decision documented in COMMUNITY-PASS.md
+
 **Stripe Setup (D-F):**
-- [ ] D. Community Pass subscription product created
+- [ ] D. Community Pass subscription product created (price from research above)
 - [ ] E. Webhook handling for subscription events
 - [ ] F. Revenue share pool logic implemented
+
+**Community Pass Purchase Flow:**
+- [ ] Upgrade prompt in MyLane for free users
+- [ ] Community Pass benefits explanation screen
+- [ ] Stripe Checkout integration for subscription
+- [ ] Success state → MyLane with pass badge visible
+- [ ] Pass benefits reflected in UI (discounts shown at participating businesses)
 
 **Organism Phase 1:**
 - [ ] Personal creature concept defined
 - [ ] First visual element in MyLane
 - [ ] Creature responds to real participation data
 
-**Done when:** First paying Community Pass member, Organism visible.
+**Done when:** First paying Community Pass member, Organism visible, pricing validated by research.
 
 ---
 
