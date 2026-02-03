@@ -137,9 +137,9 @@
 *The mechanics that make Community Pass work*
 
 **Data Foundation:**
-- [ ] JoyCoins entity created (balance, transactions, reservations)
-- [ ] Transaction states implemented (available, reserved, spent, refunded, forfeited, expired)
-- [ ] Relationship to User, Event, Business, RSVP entities defined
+- [x] JoyCoins entity created (balance, transactions, reservations)
+- [x] Transaction states implemented (available, reserved, spent, refunded, forfeited, expired)
+- [x] Relationship to User, Event, Business, RSVP entities defined
 
 **Event Creator Controls:**
 - [ ] Network selection (pulls from admin config)

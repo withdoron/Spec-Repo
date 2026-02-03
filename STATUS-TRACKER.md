@@ -242,7 +242,28 @@ Strategy and concept docs maintained in private repository.
 
 ## Session Log — 2026-02-03
 
-Book frameworks research complete (12 books synthesized into marketing stack). Homeschool PE interest post to Facebook groups for The Circuit climbing gym. Base44 announced native mobile app publishing. Joy Coins system spec initiated. COMMUNITY-PASS.md rewritten with Joy Coins terminology, network pass naming, event creator controls, transaction states, and analytics. Strategy prompt prepared for dedicated spec session.
+Shipped today:
+
+- Joy Coins Phase 1 Data Foundation complete
+- JoyCoins entity (balance tracking per user)
+- JoyCoinTransactions entity (immutable audit trail)
+- JoyCoinReservations entity (RSVP coin holds)
+- HouseholdMembers entity (family members for group RSVPs)
+- Events entity expanded (10 new Joy Coin fields)
+- RSVPs entity expanded (8 new fields: party size, check-in tracking)
+- Security rules locked down for all 4 new entities
+
+Phase 1 checklist status:
+
+- [x] JoyCoins entity created
+- [x] JoyCoinTransactions entity created
+- [x] JoyCoinReservations entity created
+- [x] HouseholdMembers entity created
+- [x] Events entity fields added
+- [x] RSVPs entity fields added
+- [x] Security rules for all new entities
+
+Next up: Phase 2 — Core Flows (RSVP with Joy Coins, balance display, transaction history)
 
 ---
 
