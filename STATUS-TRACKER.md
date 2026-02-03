@@ -244,7 +244,7 @@ Strategy and concept docs maintained in private repository.
 
 Shipped today:
 
-- Joy Coins Phase 1 Data Foundation complete
+**Phase 1 — Data Foundation:**
 - JoyCoins entity (balance tracking per user)
 - JoyCoinTransactions entity (immutable audit trail)
 - JoyCoinReservations entity (RSVP coin holds)
@@ -253,17 +253,26 @@ Shipped today:
 - RSVPs entity expanded (8 new fields: party size, check-in tracking)
 - Security rules locked down for all 4 new entities
 
-Phase 1 checklist status:
+**Phase 2 — Core Flows:**
+8. useJoyCoins hook (balance, transactions, reservations queries)
+9. JoyCoinsCard component in MyLane dashboard
+10. JoyCoinsHistory page (/my-lane/transactions)
+11. RSVP flow: Joy Coin reserve on RSVP, balance check, cost display
+12. Cancel flow: refund/forfeit logic per event policy (flexible/moderate/strict)
+13. UI: coin badges on EventCard, cost display in EventDetailModal
+14. UI: cancel confirmation with refund/forfeit warning for Joy Coin RSVPs
 
-- [x] JoyCoins entity created
-- [x] JoyCoinTransactions entity created
-- [x] JoyCoinReservations entity created
-- [x] HouseholdMembers entity created
-- [x] Events entity fields added
-- [x] RSVPs entity fields added
-- [x] Security rules for all new entities
+**Joy Coins implementation status:**
+- [x] Phase 1: Data Foundation (entities, fields, security)
+- [x] Phase 2: Core Flows (RSVP, balance display, transactions, cancel/refund)
+- [ ] Phase 3: Household & Party (party size selector, household management)
+- [ ] Phase 4: Transfers & Business Tools (member transfers, check-in mode, analytics)
+- [ ] Phase 5: Automation & Polish (no-show processing, monthly grants, revenue share)
+- [ ] Phase 6: Payouts (Stripe Connect — deferred until Phase 3 Legal complete)
 
-Next up: Phase 2 — Core Flows (RSVP with Joy Coins, balance display, transaction history)
+**Post-Phase 5 action:** Run Claude Code full codebase review before moving to Phase 6.
+
+**Next up:** Phase 3 — Household & Party (party size selector in RSVP, optional household member management)
 
 ---
 
