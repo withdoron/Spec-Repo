@@ -262,17 +262,26 @@ Shipped today:
 13. UI: coin badges on EventCard, cost display in EventDetailModal
 14. UI: cancel confirmation with refund/forfeit warning for Joy Coin RSVPs
 
+**Phase 3 — Household & Party:**
+15. Party size selector in RSVP flow (+/- buttons, max limit)
+16. Total Joy Coin cost calculation (partySize × event cost)
+17. HouseholdManager component (add/edit/delete family members)
+18. Household section in Settings page
+19. Household link in MyLane dashboard
+20. Optional party composition selector (pick who's going by name)
+21. party_composition stored on RSVP when names selected
+
 **Joy Coins implementation status:**
 - [x] Phase 1: Data Foundation (entities, fields, security)
 - [x] Phase 2: Core Flows (RSVP, balance display, transactions, cancel/refund)
-- [ ] Phase 3: Household & Party (party size selector, household management)
+- [x] Phase 3: Household & Party (party size selector, household management)
 - [ ] Phase 4: Transfers & Business Tools (member transfers, check-in mode, analytics)
 - [ ] Phase 5: Automation & Polish (no-show processing, monthly grants, revenue share)
 - [ ] Phase 6: Payouts (Stripe Connect — deferred until Phase 3 Legal complete)
 
 **Post-Phase 5 action:** Run Claude Code full codebase review before moving to Phase 6.
 
-**Next up:** Phase 3 — Household & Party (party size selector in RSVP, optional household member management)
+**Next up:** Phase 4 — Transfers & Business Tools (member transfers, check-in mode, business analytics)
 
 ---
 
