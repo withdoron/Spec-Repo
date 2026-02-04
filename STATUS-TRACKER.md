@@ -255,6 +255,14 @@ Strategy and concept docs maintained in private repository.
 
 **Shipped today (afternoon session):**
 
+**Total items shipped 2026-02-03: 62**
+- Joy Coins Phases 1-5 complete
+- Event Creator Controls complete
+- Business-level Joy Coins complete
+- Punch Pass → Joy Coins migration started
+- UI polish and filters complete
+- Language audit backlog documented
+
 *Bug Fixes:*
 41. AdminSidebar "Punch Pass" removed (language audit item)
 42. Settings/Household "saved automatically" clarification added
@@ -269,6 +277,31 @@ Strategy and concept docs maintained in private repository.
 *Audits:*
 48. Pre-build audit: Mapped EventEditor.jsx structure
 49. Post-build audit: Found missing prefill, fixed
+
+*Business-Level Joy Coins:*
+50. Added `accepts_joy_coins` field to Business entity (Base44)
+51. Added Joy Coins toggle to BusinessDashboardDetail.jsx
+52. Added Joy Coins badge to BusinessProfile.jsx
+53. Added Joy Coins badge to BusinessCard.jsx (directory listing)
+54. Updated FilterModal: "Punch Pass Accepted" → "Accepts Joy Coins"
+
+*Punch Pass Cleanup:*
+55. Removed Punch Pass section from EventEditor.jsx (Joy Coins replaces it)
+
+*Audit completed:*
+56. Full codebase Punch Pass audit: 24 files, ~140 references identified
+57. Language audit backlog created for remaining Punch Pass → Joy Coins migration
+
+*Joy Coins UI Polish:*
+58. Compact Joy Coins layout in EventEditor (inline field pairs)
+
+*Joy Coins Filters:*
+59. Directory filter: "Accepts Silver" → "Joy Coins", checks `accepts_joy_coins`
+60. Events filter: Fixed to check `joy_coin_enabled` (was broken)
+61. FilterModal: Updated label and icon to Joy Coins
+
+*Team Identity:*
+62. Mycelia + Doron = gardeners tending the Organism. Lane Avatar (mushroom) is the Organism itself.
 
 **Joy Coins Event Creator Controls status:**
 - [x] Network selection (already existed)
