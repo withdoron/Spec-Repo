@@ -280,4 +280,50 @@ When updating Spec-Repo:
 
 ---
 
+## Audit SOP
+
+Standard operating procedure for new features:
+
+| Stage | What Happens | Who |
+|-------|--------------|-----|
+| **Plan** | Strategy doc written, entities designed, security modeled | Claude Chat + Doron |
+| **Audit (Pre-Build)** | Claude Code reviews spec against codebase patterns, flags gaps | Claude Code |
+| **Revise** | Fix issues found in audit, update spec | Claude Chat + Doron |
+| **Build** | Implementation in phases per spec | Cursor / Claude Code |
+| **Audit (Post-Build)** | Security review, pattern compliance, test coverage | Claude Code |
+| **Legal** | Update Terms of Service, Privacy Policy as needed | Doron + Legal review |
+| **Ship** | Merge, publish, document in STATUS-TRACKER | Doron |
+
+### Pre-Build Audit Checklist
+
+Claude Code reviews:
+1. Entity schema — field types, naming, FKs match existing patterns
+2. Security model — RLS rules achievable, admin permissions clear
+3. Admin integration — sidebar placement, routes, UI patterns
+4. Hooks & data flow — query patterns, pagination, real-time needs
+5. UI/UX consistency — placement, mobile, empty states
+6. Organism integration — data supports future visualization
+7. Gaps & risks — underspecified areas, edge cases, dependencies
+
+### Post-Build Audit Checklist
+
+Claude Code reviews:
+1. Security rules implemented correctly
+2. No console errors or warnings
+3. Mobile responsive
+4. Dark theme compliance (STYLE-GUIDE.md)
+5. Loading and error states handled
+6. Admin tools functional
+7. No hardcoded values that should be config
+
+### Legal Documentation Trigger
+
+Any feature that introduces:
+- New user-generated content → Terms of Service update
+- New data collection → Privacy Policy update
+- New third-party services → Privacy Policy disclosure
+- Payment or financial data → Both + potential regulatory review
+
+---
+
 *This workflow ensures consistency across all nodes in the LocalLane ecosystem.*
