@@ -285,6 +285,34 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Backlog: Punch Pass → Joy Coins Language Audit
+
+**Status:** Deferred (non-blocking for launch)
+
+Per DEC-028, Joy Coins replaces Punch Pass. Audit found 24 files with ~140 references.
+
+**Priority 1 — User-facing text (5 files):**
+- [ ] GreetingHeader.jsx — "Punches" → "Joy Coins"
+- [ ] Layout.jsx — "Punch Pass" nav → "Joy Coins" or remove
+- [ ] Terms.jsx — Legal text update
+- [ ] Support.jsx — "punch-based system" text
+
+**Priority 2 — Field/variable names (5 files):**
+- [ ] useUserState.js — punchPass → joyCoins
+- [ ] useOrganization.js — canUsePunchPass → canUseJoyCoins
+- [ ] EventCard.jsx — remove punch variables
+- [ ] EventDetailModal.jsx — remove punch variables
+
+**Priority 3 — Legacy removal (6+ items):**
+- [ ] PunchPass.jsx page — delete or redirect
+- [ ] pages.config.js — remove PunchPass route
+- [ ] functions/setPunchPassPin.ts — migrate to Joy Coins
+- [ ] functions/validatePunchPass.ts — replace with Joy Coins
+- [ ] AdminUsersSection.jsx — punch balance → Joy Coins balance
+- [ ] PunchPass entities — archive or migrate data
+
+---
+
 Shipped today:
 
 **Phase 1 — Data Foundation:**
