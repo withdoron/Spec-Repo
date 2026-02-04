@@ -251,6 +251,40 @@ Strategy and concept docs maintained in private repository.
 
 ## Session Log — 2026-02-03
 
+## Session Log — 2026-02-03 (continued)
+
+**Shipped today (afternoon session):**
+
+*Bug Fixes:*
+41. AdminSidebar "Punch Pass" removed (language audit item)
+42. Settings/Household "saved automatically" clarification added
+
+*Event Creator Controls (LAUNCH-CHECKLIST Phase 4):*
+43. Joy Coins UI already existed in EventEditor.jsx — audit confirmed
+44. Added joy_coin_unlimited toggle
+45. Added frequency_limit_count + frequency_limit_period (attendance limits)
+46. Added adults_only toggle
+47. Fixed Joy Coins prefill when editing existing events
+
+*Audits:*
+48. Pre-build audit: Mapped EventEditor.jsx structure
+49. Post-build audit: Found missing prefill, fixed
+
+**Joy Coins Event Creator Controls status:**
+- [x] Network selection (already existed)
+- [x] Joy Coin cost setting per event (already existed)
+- [x] Capacity controls — joy_coin_spots + joy_coin_unlimited
+- [x] Frequency limits — frequency_limit_count + frequency_limit_period
+- [x] Refund policy selection (already existed)
+- [x] Adults only toggle (bonus)
+
+**Phase 6 still blocked on:**
+1. LAUNCH-CHECKLIST Phase 3 Legal items
+2. Service role function migration
+3. PIN validation server-side
+
+---
+
 Shipped today:
 
 **Phase 1 — Data Foundation:**
