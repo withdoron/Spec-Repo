@@ -311,7 +311,8 @@ Shipped today:
 - [x] Phase 3: Household & Party (party size selector, household management)
 - [x] Phase 4: Transfers & Business Tools (member transfers, check-in mode, analytics)
 - [x] Phase 5: Automation & Polish (no-show processing, monthly grants, revenue share)
-- [ ] Phase 6: Payouts (Stripe Connect — deferred until Phase 3 Legal complete)
+- [x] Event Creator Controls (UI for businesses to configure Joy Coins on events)
+- [ ] Phase 6: Payouts (Stripe Connect — blocked, see dependencies below)
 
 **🎯 NEXT ACTION:** Run Claude Code full codebase review before moving to Phase 6.
 
