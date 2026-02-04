@@ -295,10 +295,15 @@ Shipped today:
 31. No-show button in CheckInMode for ended events
 32. processMonthlyGrants.js — grant automation (single user, batch, cohort)
 33. Monthly grant resets balance (no rollover), tracks expired coins
-34. calculateRevenueShare.js — revenue share calculation for businesses
-35. Revenue share: 75/25 split, $3.33/coin value, $2.50/coin to business
-36. JoyCoinsAdminPanel — admin UI for grants, no-shows, and revenue reports
+34. calculateRevenueShare.js — revenue share calculation (75/25 split)
+35. Revenue report in admin: per-business breakdown, monthly totals
+36. JoyCoinsAdminPanel — admin UI for grants, no-shows, revenue reports
 37. Admin sidebar integration under /Admin/joy-coins
+
+**Audit — 2026-02-03:**
+38. Claude Code full audit: 46 pass, 9 warn, 0 fail
+39. Quick fixes applied: console.error removed, category colors fixed
+40. Known limitations documented: atomicity, PIN validation (temporary)
 
 **Joy Coins implementation status:**
 - [x] Phase 1: Data Foundation (entities, fields, security)
