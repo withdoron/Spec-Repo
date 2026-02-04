@@ -360,7 +360,11 @@ Today I'm working on: [YOUR TASK]
 
 ---
 
-Additional strategy and business documents are maintained privately.
+Additional strategy and business documents are maintained privately:
+
+| Document | Repo | Purpose |
+|----------|------|---------|
+| USER-GROUPS-v1.md | locallane-private | User Groups spec (Phase 4) |
 
 ---
 

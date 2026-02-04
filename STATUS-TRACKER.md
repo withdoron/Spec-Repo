@@ -183,6 +183,15 @@ Real money. Gated behind legal checklist.
 
 ## 🔮 VISION (Future Features)
 
+### User Groups (Phase 4)
+- [ ] Private groups for friends/family coordination
+- [ ] Group chat + private events
+- [ ] Shared awareness (see when group members attend public events)
+- [ ] Group organism pulse (infrastructure for creature visualization)
+- [ ] Admin moderation tools
+- **Spec:** USER-GROUPS-v1.md (private repo)
+- **Status:** Planned — Phase 4, after Stripe/payments
+
 ### Silver Barter Network
 - [ ] Phase 1: Badge and filter (near-term, mostly exists)
 - [ ] Phase 2: Silver Network dedicated view

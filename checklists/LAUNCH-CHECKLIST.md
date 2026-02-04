@@ -133,7 +133,58 @@
 
 ---
 
-## Phase 4: Joy Coins System
+## Phase 4: User Groups
+*Private coordination for people who know each other*
+
+**Spec:** USER-GROUPS-v1.md (private repo)
+
+### Phase 4A: Foundation
+- [ ] Create user_groups entity in Base44
+- [ ] Create user_group_members entity
+- [ ] Create user_group_messages entity
+- [ ] Create user_group_events entity
+- [ ] Create user_group_event_rsvps entity
+- [ ] Create user_group_invites entity
+- [ ] Security rules for all 6 entities (user + admin)
+- [ ] Basic group CRUD (create, view, soft delete)
+- [ ] Member management (add existing users, remove, leave)
+- [ ] Invite flow (email invites, accept/decline)
+
+### Phase 4B: Communication
+- [ ] Group chat UI (flat, no threading)
+- [ ] Message display with sender + timestamp
+- [ ] Chat input with send
+- [ ] MyLane "My Groups" section
+
+### Phase 4C: Private Events
+- [ ] Create private event form
+- [ ] Event display in group view
+- [ ] RSVP buttons (going/maybe/can't)
+- [ ] Private events appear in member's MyLane calendar
+- [ ] Gathering detection (for organism pulse)
+
+### Phase 4D: Shared Awareness
+- [ ] Query public RSVPs for group members
+- [ ] Display "X members going to [Event]" in group view
+- [ ] Link to public event detail
+
+### Phase 4E: Organism Infrastructure
+- [ ] Pulse calculation logic (cron or on-demand)
+- [ ] Streak tracking
+- [ ] Data ready for future visualization
+
+### Phase 4F: Admin Tools
+- [ ] GroupsSection list view with filters
+- [ ] GroupDetailDrawer (members, activity, moderation tabs)
+- [ ] Suspend/unsuspend group action
+- [ ] Remove member action (admin override)
+- [ ] AdminSidebar updated with Groups link
+
+**Done when:** Users can create private groups, invite friends, chat, create private events, RSVP. Admins can view and moderate. Organism pulse calculating in background.
+
+---
+
+## Phase 5: Joy Coins System
 *The mechanics that make Community Pass work*
 
 **Data Foundation:**
@@ -169,7 +220,7 @@
 
 ---
 
-## Phase 5: Community Pass & The Heart
+## Phase 6: Community Pass & The Heart
 *Revenue flowing, Organism comes alive*
 
 **Community Pass Pricing Research (Before Any Pricing in UI):**
@@ -192,7 +243,7 @@
 - [ ] Success state → MyLane with pass badge visible
 - [ ] Pass benefits reflected in UI (discounts shown at participating businesses)
 
-**Community Pass Launch (Phase 5):**
+**Community Pass Launch (Phase 6):**
 
 ### Member Experience
 - [ ] Tier selection during signup (Individual/Duo/Family/Family+)
@@ -232,7 +283,7 @@
 
 ---
 
-## Phase 6: Expand & Scale
+## Phase 7: Expand & Scale
 *Growth beyond pilot*
 
 - [ ] Second business vertical (beyond Farm Program)

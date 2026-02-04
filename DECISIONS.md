@@ -850,6 +850,35 @@ Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, Spo
 
 ---
 
+### DEC-032: User Groups as Phase 2 Feature
+
+**Date:** 2026-02-03
+
+**Context:** Users need a way to coordinate with people they already know — parents planning around kids' friend groups, neighbors organizing block activities, friend groups scheduling hangouts. This is distinct from public community features.
+
+**Decision:** Implement User Groups as a Phase 2 feature (now Phase 4 in checklist). Groups are fully private, invite-only, with chat, private events, and shared awareness of public event attendance. The group organism pulse tracks real-world gatherings, not message volume.
+
+**Key Design Choices:**
+- Fully private (no discoverability, no public groups in V1)
+- Private events are the heartbeat (gatherings feed the creature, not chat volume)
+- Flat chat only (no threading in V1)
+- Admin tools for moderation (suspend group, remove member)
+- MyLane placement (groups are part of your lane, not a separate app section)
+
+**Rationale:** Differentiates from generic messaging apps by focusing on real-world coordination. Aligns with Organism Concept — the group creature reflects actual gatherings, not engagement metrics. Builds trust through privacy-first design.
+
+**Consequences:**
+- 6 new Base44 entities required
+- Admin panel gets Groups section under MANAGEMENT
+- Organism pulse infrastructure built before visualization
+- Future expansion points architected (business groups, threaded messages, invite links)
+
+**Status:** ✅ Planned — Phase 4 in launch sequence
+
+**Reference:** USER-GROUPS-v1.md (private repo) contains full spec.
+
+---
+
 ## Decision Template
 
 ```markdown
