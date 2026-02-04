@@ -281,17 +281,29 @@ Shipped today:
 28. Transfer UI with search, amount selection, confirmation flow
 29. Transfer transactions recorded for both sender and recipient
 
+**Phase 5 — Automation & Polish:**
+30. processNoShows.js — batch and single-event no-show processing
+31. No-show button in CheckInMode for ended events
+32. processMonthlyGrants.js — grant automation (single user, batch, cohort)
+33. Monthly grant resets balance (no rollover), tracks expired coins
+34. calculateRevenueShare.js — revenue share calculation for businesses
+35. Revenue share: 75/25 split, $3.33/coin value, $2.50/coin to business
+36. JoyCoinsAdminPanel — admin UI for grants, no-shows, and revenue reports
+37. Admin sidebar integration under /Admin/joy-coins
+
 **Joy Coins implementation status:**
 - [x] Phase 1: Data Foundation (entities, fields, security)
 - [x] Phase 2: Core Flows (RSVP, balance display, transactions, cancel/refund)
 - [x] Phase 3: Household & Party (party size selector, household management)
 - [x] Phase 4: Transfers & Business Tools (member transfers, check-in mode, analytics)
-- [ ] Phase 5: Automation & Polish (no-show processing, monthly grants, revenue share)
+- [x] Phase 5: Automation & Polish (no-show processing, monthly grants, revenue share)
 - [ ] Phase 6: Payouts (Stripe Connect — deferred until Phase 3 Legal complete)
 
-**Post-Phase 5 action:** Run Claude Code full codebase review before moving to Phase 6.
+**🎯 NEXT ACTION:** Run Claude Code full codebase review before moving to Phase 6.
 
-**Next up:** Phase 5 — Automation & Polish (no-show batch processing, monthly grant automation, revenue share calculation)
+Phase 6 (Stripe Connect payouts) is deferred until:
+1. Claude Code review complete
+2. Phase 3 Legal items resolved (professional legal review, revenue share agreements)
 
 ---
 
