@@ -271,17 +271,27 @@ Shipped today:
 20. Optional party composition selector (pick who's going by name)
 21. party_composition stored on RSVP when names selected
 
+**Phase 4 — Transfers & Business Tools:**
+22. CheckInMode component (attendee list, search, PIN entry)
+23. CheckInWidget for business dashboard (upcoming events quick access)
+24. Check-in flow: RSVP marked checked_in, reservation redeemed, transaction created
+25. JoyCoinsAnalyticsWidget (redemptions, attendance rate, recent activity)
+26. Analytics integrated into business dashboard for location/venue archetypes
+27. Joy Coin transfer between members (search, send, receive)
+28. Transfer UI with search, amount selection, confirmation flow
+29. Transfer transactions recorded for both sender and recipient
+
 **Joy Coins implementation status:**
 - [x] Phase 1: Data Foundation (entities, fields, security)
 - [x] Phase 2: Core Flows (RSVP, balance display, transactions, cancel/refund)
 - [x] Phase 3: Household & Party (party size selector, household management)
-- [ ] Phase 4: Transfers & Business Tools (member transfers, check-in mode, analytics)
+- [x] Phase 4: Transfers & Business Tools (member transfers, check-in mode, analytics)
 - [ ] Phase 5: Automation & Polish (no-show processing, monthly grants, revenue share)
 - [ ] Phase 6: Payouts (Stripe Connect — deferred until Phase 3 Legal complete)
 
 **Post-Phase 5 action:** Run Claude Code full codebase review before moving to Phase 6.
 
-**Next up:** Phase 4 — Transfers & Business Tools (member transfers, check-in mode, business analytics)
+**Next up:** Phase 5 — Automation & Polish (no-show batch processing, monthly grant automation, revenue share calculation)
 
 ---
 
