@@ -867,6 +867,18 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-036: AccessWindow Capacity Per-Person
+
+**Date:** 2026-02-06
+
+**Context:** The AccessWindow entity lets businesses set Joy Coin hours with optional capacity limits. Question was whether capacity should be per-family (household unit) or per-person (individual headcount).
+
+**Decision:** Per-person. Family sizes vary — a family of 2 and a family of 6 have very different capacity impact. Per-person gives businesses precise control over how many bodies are in their space at any given time.
+
+**Status:** ✅ Active
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)

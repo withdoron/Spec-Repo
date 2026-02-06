@@ -284,6 +284,30 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-06
+
+**Focus:** Build Protocol creation + Business Dashboard v2 strategy spec
+
+**Shipped today:**
+- BUILD-PROTOCOL.md — universal 13-phase build sequence for all features
+- BUSINESS-DASHBOARD-v2.md — complete strategy spec replacing INTEGRATION-PLAN.md
+- DEC-036: AccessWindow capacity per-person (not per-family)
+- README.md updated with new file references
+
+**Key decisions:**
+- Build Protocol established as the standard for how every feature ships
+- Business Dashboard restructured around 5 tabs: Home (Story), Joy Coins (Controls), Revenue (Proof), Events (Engine), Settings (Profile)
+- AccessWindow entity designed for peak/off-peak Joy Coin hour management
+- Capacity set to per-person (family sizes vary)
+- Dashboard build estimated at 19-27 hours across 8 sequential builds
+
+**Next up:**
+- Build 1: AccessWindow entity + hooks + security (Foundation)
+- Decide: show estimated revenue before Stripe is live?
+- Decide: minimum business count for network comparison data
+
+---
+
 ## Session Log — 2026-02-03
 
 ## Session Log — 2026-02-03 (continued)
