@@ -284,6 +284,45 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-05 (Build Sprint)
+
+### 2026-02-05 — Business Dashboard v2 Build Sprint (Builds 1-6)
+
+**What shipped:**
+- Build 1: AccessWindow entity created in Base44, useAccessWindows and useBusinessRevenue hooks
+- Build 2: BusinessDashboard.jsx refactored from widget stack to 5-tab navigation (Home, Joy Coins, Revenue, Events, Settings) with Home tab showing real stat cards and narrative line
+- Build 3: AccessWindowManager + AccessWindowModal — full CRUD for Joy Coin access hours with empty states, pause/resume, delete confirmation, pricing tip
+- Build 4: RevenueOverview — monthly pool share, DEC-037 estimated payout banner, collapsible "How Pool Share Works", by-event table, by-day bar chart, empty state
+- Build 5: Skipped — Events tab already functional with EventEditor and Joy Coin controls
+- Build 6: BusinessSettings — business profile card, subscription status with tier display, StaffWidget integration, dev tier override for testing
+
+**Tier gating confirmed working:**
+- Basic tier: Lock + upgrade prompt on Joy Coins and Revenue tabs
+- Standard tier: Full access to all tabs
+- Dev tier override: One-click switching in Settings (dev only)
+
+**New files:**
+- src/hooks/useAccessWindows.js
+- src/hooks/useBusinessRevenue.js
+- src/components/dashboard/AccessWindowManager.jsx
+- src/components/dashboard/AccessWindowModal.jsx
+- src/components/dashboard/RevenueOverview.jsx
+- src/components/dashboard/BusinessSettings.jsx
+
+**New entity:**
+- AccessWindow (Base44) — business_id, day_of_week, start_time, end_time, coin_cost, capacity, is_active, label
+
+**Decisions applied:** DEC-036 (capacity per-person), DEC-037 (show estimated revenue), DEC-038 (network comparison min 10)
+
+**Build 8 backlog:**
+- Wire CheckInMode overlay (pre-existing bug — state set but component never rendered)
+- Remove 6 unused imports from BusinessDashboard.jsx
+- Optional: upgrade bar chart to recharts
+
+**Remaining:** Build 7 (Surface Integration) and Build 8 (Polish + Audit) deferred to next session.
+
+---
+
 ## Session Log — 2026-02-06
 
 **Focus:** Build Protocol creation + Business Dashboard v2 strategy spec
