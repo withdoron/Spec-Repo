@@ -19,7 +19,8 @@
 | [STATUS-TRACKER.md](./STATUS-TRACKER.md) | Project status, roadmap, and session logs |
 | [CURRENT-STATE.md](./CURRENT-STATE.md) | What currently exists |
 | [STRIPE-CONNECT.md](./STRIPE-CONNECT.md) | Stripe integration (Community Pass model) |
-| [INTEGRATION-PLAN.md](./INTEGRATION-PLAN.md) | Phase 2 implementation steps |
+| [BUILD-PROTOCOL.md](./BUILD-PROTOCOL.md) | Universal build sequence — how every feature ships. ✅ Current |
+| [BUSINESS-DASHBOARD-v2.md](./BUSINESS-DASHBOARD-v2.md) | Business Dashboard v2 strategy spec (replaces INTEGRATION-PLAN.md) |
 | [ADMIN-ARCHITECTURE.md](./ADMIN-ARCHITECTURE.md) | Admin panel structure |
 | [DECISIONS.md](./DECISIONS.md) | Decision log with context |
 | [WORKFLOW.md](./WORKFLOW.md) | Development workflow and session SOP |
