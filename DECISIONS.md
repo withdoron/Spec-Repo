@@ -879,6 +879,30 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-037: Show Estimated Revenue Before Stripe Connect
+
+**Date:** 2026-02-06
+
+**Context:** The Revenue tab displays pool share amounts, but Stripe Connect won't be active until a later phase. Question was whether to show dollar amounts before real payouts are possible.
+
+**Decision:** Yes — show estimated revenue with a persistent banner: "Estimated payout · Deposits begin when Stripe Connect activates." Businesses need to see the value story building in real time, not discover it after payments are wired up.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-038: Network Comparison Minimum 10 Businesses
+
+**Date:** 2026-02-06
+
+**Context:** The Revenue tab includes a Network Position section showing percentile rankings and elasticity signals. With few businesses, these metrics are meaningless and potentially feel invasive.
+
+**Decision:** Require 10+ businesses in the network before showing percentile rankings, network averages, or comparison data. Below 10, hide the Network Position section entirely. Individual business stats (their own revenue, scans, trends) always show regardless of network size.
+
+**Status:** ✅ Active
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)

@@ -617,7 +617,7 @@ This spec covers Phases 0-6. When it's time to build (Phase 7+), the sequence is
 | Should AccessWindow capacity be per-family or per-person? | Per-person — family sizes vary, per-person gives businesses precise capacity control | Decided — per-person |
 | Show actual dollar amounts in Revenue tab before Stripe is live? | Show estimated amounts based on calculation, with a note "Payouts begin when Stripe Connect is active" | Yes — before Build 4 |
 | Should the Pricing Insight recommendation engine exist at launch? | No — V1 is just the business choosing 1-3 coins with a simple explanation. Intelligence layer after we have scan data. | Decided — DEC in COMMUNITY-PASS.md |
-| Network comparison data — what's the minimum businesses needed? | 10+ businesses in the network before showing percentile/comparison data. Below that, hide the section. | Yes — before Build 4 |
+| Network comparison data — what's the minimum businesses needed? | 10+ businesses in the network before showing percentile/comparison data. Below that, hide the section. | Decided — DEC-038: minimum 10 businesses |
 
 ---
 
