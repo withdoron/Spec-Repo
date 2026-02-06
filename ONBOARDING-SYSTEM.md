@@ -226,8 +226,8 @@ Step 5: REVIEW
     {
       value: 'standard',
       label: 'Standard',
-      price: '$29/month',
-      price_amount: 29,
+      price: '$79/month',
+      price_amount: 79,
       billing_period: 'month',
       description: 'Everything you need to grow',
       badge_color: 'amber',
@@ -238,8 +238,8 @@ Step 5: REVIEW
     {
       value: 'partner',
       label: 'Partner',
-      price: 'By invitation',
-      price_amount: null,
+      price: '$149/month (by invitation)',
+      price_amount: 149,
       billing_period: null,
       description: 'For established businesses ready to scale',
       badge_color: 'purple',

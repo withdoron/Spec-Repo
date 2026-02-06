@@ -249,6 +249,41 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-05
+
+**Focus:** Pricing strategy deep dive and decision locking
+
+**Decisions locked (4 new):**
+- DEC-032: Community Pass pricing — $49 base / $39 additional / 12 coins each
+- DEC-033: Joy Coin pool model — coins not people, household shares pool
+- DEC-034: Business tier pricing — Free / $79 Standard / $149 Partner
+- DEC-035: Earn-Your-Pass — kids work farms/markets to earn access
+
+**Research completed:**
+- Crabtree's Simple Numbers: price for 10-15% profit, pay yourself market rate, protect margins
+- ClassPass anti-model: extracts value, $6-15/visit to studios, 94% first-timers, <2% conversion
+- 1Pass Eugene: 11K passes, 69K scans, $9.50/scan avg — validates scan-based pool in Eugene
+- Eugene gym pricing: climbing $75-91/mo adult, gymnastics $80-120/mo per kid, trampoline $25/mo
+- Off-peak strategy: 30-50% empty capacity weekdays, incremental revenue pitch to businesses
+- Operating costs modeled: ~$5,450/mo, breakeven ~200 memberships
+
+**Key insight:** Memberships are coin allocations, not person assignments. Simplifies everything — billing, UX, no "who's on the plan" tracking.
+
+**Docs requiring update:**
+- COMMUNITY-PASS.md → full rewrite (private repo)
+- DECISIONS.md → add DEC-032 through DEC-035
+- STRIPE-CONNECT.md → update product tables with real prices
+- TIER-SYSTEM.md → lock business pricing
+- LAUNCH-CHECKLIST.md → check off pricing items, add new sections
+
+**Next up:**
+- Apply doc updates to repos
+- Founding member rate decision
+- Marketing deck (two versions: families + businesses)
+- Launch buildout roadmap
+
+---
+
 ## Session Log — 2026-02-03
 
 ## Session Log — 2026-02-03 (continued)

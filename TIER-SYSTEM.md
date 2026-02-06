@@ -1,7 +1,7 @@
 # Tier System
 
 > Defines the business/organization tier system for LocalLane.
-> Updated: 2026-01-28
+> Updated: 2026-02-05
 
 ---
 
@@ -15,9 +15,25 @@ LocalLane uses a 3-tier system for businesses and organizations. Tiers determine
 
 | Tier Level | Code Value | Display Name | Cost | Description |
 |------------|------------|--------------|------|-------------|
-| **Tier 1** | `basic` | Basic | Free | Entry level, events go to review |
-| **Tier 2** | `standard` | Standard | $X/month | Full features, auto-publish, Punch Pass |
-| **Tier 3** | `partner` | Partner | Earned + $Y/month | Own Partner Node, full autonomy |
+| **Tier 1** | `basic` | Basic | Free | Entry level — listing, events (reviewed), directory presence |
+| **Tier 2** | `standard` | Standard | $79/month | Full features, auto-publish, Community Pass pool, analytics, business network |
+| **Tier 3** | `partner` | Partner | $149/month (earned) | Own Partner Node, full autonomy, enhanced features |
+
+**Founding deal:** Standard tier businesses get first 3 months free.
+
+### What Businesses Get (Beyond Features)
+
+Business tiers are a separate product from Community Pass. Standard and Partner businesses are part of a **local business network** — think Eugene executive membership or chamber of commerce energy, but connected to real customer flow.
+
+**Network benefits include:**
+- Community Pass foot traffic (Joy Coin scans = revenue from pool)
+- Business events and problem-solving workshops
+- Visibility in the LocalLane directory and newsletter (The Good News)
+- Analytics dashboard with network-wide insights
+- Connection to other local business owners
+- Organic marketing from member social media and word of mouth
+
+**The pitch isn't just "list your business." It's "join a living network that sends you customers and connects you with other owners who get it."**
 
 ### Database Values
 

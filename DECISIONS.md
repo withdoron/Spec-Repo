@@ -769,6 +769,104 @@ Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, Spo
 
 ---
 
+### DEC-032: Community Pass Pricing Locked
+
+**Date:** 2026-02-05
+
+**Context:** Extensive pricing research completed: Greg Crabtree's Simple Numbers framework, ClassPass competitive analysis, 1Pass Eugene comparable, Eugene gymnastics/climbing/trampoline pricing, off-peak revenue strategy. Needed to lock pricing to move forward with Stripe integration and marketing.
+
+**Decision:** Community Pass pricing locked at:
+- Base membership: $49/mo (12 Joy Coins)
+- Each additional allocation: $39/mo (12 Joy Coins)
+- 75/25 split: 75% of net revenue (after Stripe fees) to business pool, 25% to LocalLane
+- Unused coins flow to scholarship pool at month's end
+- Monthly billing cycle — coins reset each period
+
+**Household examples:**
+- Solo: $49/mo, 12 coins
+- Couple / Power User: $88/mo, 24 coins
+- Family of 4: $166/mo, 48 coins
+
+**Market validation:**
+- The Circuit climbing family membership: $200/mo
+- Two kids in gymnastics (Eugene): $160-240/mo for one activity
+- ClassPass: $89/mo for one person with limited credits
+- 1Pass Eugene: $60 one-time, summer only, kids only — proved scan-based revenue share works in Eugene
+
+**Founding member rates:** TBD — to be decided before launch. Suggested ~$39 base / ~$29 additional.
+**Explorer Pass (seasonal):** Higher price, more coins. Summer product. Pricing deferred until base proves out.
+
+**Rationale:** Crabtree principle — price for profit from day one, easier to lower than raise. $166/mo for a family of 4 is still less than most single-activity memberships. Per-coin business payout of $2.50-2.97 is defensible as incremental revenue on empty capacity.
+
+**Status:** ✅ Active — Locked
+
+---
+
+### DEC-033: Joy Coin Pool Model (Coins, Not People)
+
+**Date:** 2026-02-05
+
+**Context:** Original model assigned additional members (people) to the membership. Reframed: the $39 add-on is additional Joy Coins to the household pool, not an additional person.
+
+**Decision:** Memberships are coin allocations, not person assignments. A household buys a base (12 coins) and as many additional allocations (12 coins each) as they want. The family shares one pool. No tracking individuals, no "who's on the plan" management.
+
+If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 wants 48 coins, they buy base + 3 add-ons for $166. The membership doesn't care who uses the coins.
+
+**Rationale:** Simpler billing, simpler UX, no awkward "how many people" questions. Promotes family flow — the household decides how movement gets distributed. Aligns with Organism philosophy: the family moves as one unit.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-034: Business Tier Pricing Locked
+
+**Date:** 2026-02-05
+
+**Context:** Business tier pricing had been discussed but never formally locked. Needed to finalize alongside Community Pass pricing. Business tiers are a separate product from Community Pass — they include network membership, community of business owners, events, problem-solving (chamber of commerce energy).
+
+**Decision:** Business tier pricing locked at:
+
+| Tier | Code | Monthly | What They Get |
+|------|------|---------|---------------|
+| Basic | `basic` | Free | Listing, events (reviewed before publish), directory presence |
+| Standard | `standard` | $79/mo | Auto-publish events, Community Pass participation, analytics, revenue share from Joy Coin pool, business network membership |
+| Partner | `partner` | $149/mo | Earned status, own branded node, full autonomy, enhanced features |
+
+**Founding business deal:** First 3 months free at Standard tier. Gives LocalLane time to prove value before businesses see a charge.
+
+**Partner tier remains earned** (see existing strategic decision). Requirements: 6+ months at Standard, 4.5+ rating, engagement threshold, 3+ vouches, zero violations.
+
+**Rationale:** $79/mo Standard is where businesses access the Joy Coin pool — their incentive to upgrade. $149/mo Partner is premium earned tier. Business tiers are a separate value proposition from Community Pass: being part of a local business network with events, problem-solving, visibility, and customer flow.
+
+**Status:** ✅ Active — Locked
+
+---
+
+### DEC-035: Earn-Your-Pass Program
+
+**Date:** 2026-02-05
+
+**Context:** Community Pass includes a scholarship program (unused coins flow to families in need). But Doron identified a deeper opportunity: kids can earn their pass through community contribution rather than only receiving it as charity.
+
+**Decision:** Establish an Earn-Your-Pass program where kids work at participating farms and/or farmers markets to earn their monthly Community Pass access. A month of consistent contribution earns a month of pass access.
+
+**Initial pathways:**
+- Farm work during growing season
+- Farmers market assistance (setup, booths, cleanup)
+- Future: expand to other community contribution pathways
+
+**Principles:**
+- This is participation in the Organism, not charity
+- "Teach a man to fish" — opportunity over handout
+- The farm feeds the market, the market feeds the community, the community feeds the kids, the kids feed the farm. Circulation.
+- Tracking is manual at first (farm coordinator confirms contribution)
+
+**Rationale:** Aligns with LocalLane's core philosophy of circulation over extraction. Kids aren't passive recipients — they're active contributors to the community. Creates deeper connection between youth, local agriculture, and the broader network. Powerful story for The Good News newsletter and community building.
+
+**Status:** ✅ Active — Initial program design. Implementation details TBD.
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)
@@ -850,7 +948,7 @@ Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, Spo
 
 ---
 
-### DEC-032: User Groups as Phase 2 Feature
+### DEC-036: User Groups as Phase 2 Feature
 
 **Date:** 2026-02-03
 

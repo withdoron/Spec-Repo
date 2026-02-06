@@ -39,11 +39,11 @@ Businesses pay LocalLane for platform access. This is straightforward Stripe Bil
 
 | Product | Monthly Price | Notes |
 |---------|--------------|-------|
-| LocalLane Basic | $29 | Tier 1 — listing, events, recommendations |
-| LocalLane Standard | $79 | Tier 2 — adds Community Pass participation, analytics |
-| LocalLane Partner | $149 | Tier 3 — earned status, enhanced features |
+| LocalLane Basic | Free | Tier 1 — listing, events (reviewed), directory presence. No Stripe product needed. |
+| LocalLane Standard | $79/mo | Tier 2 — auto-publish, Community Pass pool, analytics, business network |
+| LocalLane Partner | $149/mo | Tier 3 — earned status, own node, enhanced features. Admin-initiated. |
 
-**Note:** Partner tier is earned, not self-serve purchased (see DECISIONS.md). Admin initiates the upgrade. Stripe still handles the billing.
+**Founding business deal:** First 3 months free at Standard tier. Implement as a 100% off coupon with 3-month duration in Stripe, applied at checkout.
 
 ### Subscription Lifecycle
 
@@ -69,43 +69,70 @@ Users subscribe to LocalLane's community access program. Also Stripe Billing —
 
 ### Stripe Products Needed
 
-| Product | Monthly Price | Punch Allocation | Notes |
-|---------|--------------|------------------|-------|
-| Community Pass Explorer | TBD | TBD | Entry-level access |
-| Community Pass Regular | TBD | TBD | Standard access |
-| Community Pass Family | TBD | TBD | Shared punch pool |
-| Punch Refill | TBD | TBD | Subscription add-on, expires end of billing month |
+| Product | Monthly Price | Joy Coins | Notes |
+|---------|--------------|-----------|-------|
+| Community Pass Base | $49/mo | 12 | Base household membership |
+| Community Pass Additional | $39/mo | 12 | Add-on coin allocation (subscription add-on) |
+| Community Pass Explorer | TBD | TBD | Summer seasonal — design after base proves out |
 
-**Pricing is still being finalized.** See private repo for current thinking. Stripe Products will be created when pricing is locked.
+**Note:** Memberships are coin allocations, not person assignments. A household buys a base and as many additional allocations as they want. Family shares one pool.
+
+**Implementation:** Base is a standalone subscription. Additional allocations are subscription items added to the same subscription. Stripe handles this natively with multi-item subscriptions.
 
 ### Subscription Lifecycle
 
 | Event | Stripe Webhook | LocalLane Action |
 |-------|---------------|-----------------|
-| User subscribes | `checkout.session.completed` | Create PunchPass entity with monthly allocation |
-| Monthly renewal | `invoice.paid` | Reset punch balance to allocation, expire unused (minus rollover) |
-| Payment fails | `invoice.payment_failed` | Grace period — punches frozen but not deleted |
-| Subscription canceled | `customer.subscription.deleted` | Expire remaining punches, update user status |
+| User subscribes | `checkout.session.completed` | Create CommunityPass entity with monthly allocation |
+| Monthly renewal | `invoice.paid` | Reset coin balance to allocation, unused flow to scholarship |
+| Payment fails | `invoice.payment_failed` | Grace period — coins frozen but not deleted |
+| Subscription canceled | `customer.subscription.deleted` | Expire remaining coins, update user status |
 
-### Punch Balance Management
+### Joy Coin Management
 
-- Punches are access tokens within the membership, not stored value
-- Monthly allocation set at subscription creation
-- Unused punches expire at end of billing month (small rollover buffer carries forward)
-- Refills are billed as subscription add-ons, scoped to current billing month
-- No cash value, no refund on unused punches
+- Joy Coins are movement tokens within the membership, not stored value
+- Monthly allocation set by number of subscription items (12 coins each)
+- Household shares one coin pool — no individual assignments
+- Unused coins at month's end flow to scholarship pool (not rollover)
+- No cash value, no refund on unused coins
+- Businesses set their own coin price (1-3 coins per activity)
 
-### PunchPass Entity Evolution
+### CommunityPass Entity (Replaces PunchPass)
 
-| Field | Old Purpose | New Purpose |
-|-------|------------|-------------|
-| `punches_remaining` | Credits with dollar value | Access tokens within membership |
-| `pack_type` | 10/20/30 pack | Membership tier (Explorer/Regular/Family) |
-| `per_punch_value` | Fixed dollar amount | **Remove** — value floats based on pool |
-| `expires_at` | 12 months from purchase | End of current billing month |
-| `stripe_checkout_session_id` | One-time purchase | Stripe Subscription ID |
-| `subscription_status` | **New** | active/past_due/canceled |
-| `billing_cycle_anchor` | **New** | Date monthly allocation resets |
+| Field | Purpose |
+|-------|---------|
+| `coins_remaining` | Current Joy Coin balance for the household |
+| `coins_allocated` | Total monthly allocation (12 per subscription item) |
+| `membership_type` | `base` or `additional` |
+| `household_id` | Links all allocations for one household |
+| `stripe_subscription_id` | Stripe Subscription ID |
+| `subscription_status` | active / past_due / canceled |
+| `billing_cycle_anchor` | Date monthly allocation resets |
+| `coins_to_scholarship` | Unused coins flowing to scholarship pool at month end |
+
+**Legacy fields to remove:**
+- `per_punch_value` — no longer applicable (pool-based)
+- `pack_type` — replaced by coin allocation model
+- `stripe_checkout_session_id` — replaced by subscription ID
+
+### Monthly Revenue Share Calculation
+
+At month's end, LocalLane calculates business payouts:
+
+1. Total net membership revenue (after Stripe fees) for the month
+2. 75% allocated to business pool
+3. Pool distributed proportionally by scan volume
+
+**Example with 100 members generating $8,000 net:**
+- Business pool: $6,000
+- Business A received 500 scans (25% of total scans) → $1,500
+- Business B received 300 scans (15%) → $900
+- Business C received 200 scans (10%) → $600
+- Remaining businesses share the rest proportionally
+
+**Payout method:** Stripe Connect transfers to connected accounts. Monthly cycle.
+
+**Note:** Revenue share agreements must be in place before first payout. See legal checklist.
 
 ---
 

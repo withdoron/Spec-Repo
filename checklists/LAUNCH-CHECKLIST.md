@@ -1,7 +1,7 @@
 # LocalLane Launch Checklist
 
 > Living checklist for app readiness. Updated after each work session.
-> Last updated: 2025-02-02
+> Last updated: 2026-02-05
 
 ---
 
@@ -39,19 +39,23 @@
 - [ ] Data stored for future outreach
 - [ ] Skippable — user can go straight to MyLane
 
-**The Good News (Newsletter):**
+**The Good News (Newsletter & Community Pulse):**
 - [ ] Email capture in footer (simple: email input + "Join The Good News")
 - [ ] One-time prompt after first RSVP ("You're in! Want community wins in your inbox?")
 - [ ] Newsletter list created (Mailchimp, Buttondown, or similar)
-- [ ] First issue drafted (can wait until Phase 2 content exists)
+- [ ] First issue drafted — community health, scholarship stories, new businesses, seasonal rhythms
+- [ ] Scholarship visibility: show where unused Joy Coins flowed and who they helped (with permission)
+- [ ] Real photos, real families, real movement. No stock images, no promotional copy.
+- [ ] Tone: community health report, not marketing newsletter
 
-**Language Audit — Community Pass (LEGAL):**
-- [ ] Full codebase search for "punch" — replace with Community Pass terminology
-- [ ] UI audit: no references to "punch card" or "stored value"
+**Language Audit — Joy Coins & Community Pass (LEGAL):**
+- [ ] Full codebase search for "punch" — replace with Joy Coin / Community Pass terminology
+- [ ] UI audit: no references to "punch card", "punch pass", or "stored value"
 - [ ] Database fields: document any legacy field names (don't rename yet, just document)
-- [ ] Terms of Service: verify Community Pass language (not stored value)
+- [ ] Terms of Service: verify Community Pass + Joy Coin language (not stored value)
 - [ ] Privacy Policy: verify membership framing (not prepaid balance)
 - [ ] User-facing copy audit: MyLane, Business Dashboard, Event Detail
+- [ ] Confirm "Joy Coins" used consistently (not "tokens", "credits", "punches", "tickets")
 
 **Community Pass Foundation (Phase 1):**
 
@@ -62,12 +66,16 @@
 - [ ] Oregon-specific review for revenue share pool
 - [ ] Ticket transfer language reviewed
 
-### Pricing Validation
+### Pricing — LOCKED (DEC-032, DEC-033, DEC-034)
+- [x] Community Pass pricing locked: $49 base / $39 per additional allocation (12 coins each)
+- [x] Joy Coin pool model: coins not people, household shares pool (DEC-033)
+- [x] Business tier pricing locked: Free / $79 Standard / $149 Partner (DEC-034)
+- [x] Founding business deal: 3 months free at Standard
+- [x] Revenue split locked: 75% business pool / 25% LocalLane (after Stripe fees)
+- [x] Market research complete: Crabtree, ClassPass, 1Pass, Eugene gym pricing, off-peak strategy
+- [ ] Founding member rate finalized (suggested ~$39/$29 — decide before launch)
 - [ ] Talk to 5+ "interested" respondents about pricing
-- [ ] Test founding member concept reception
-- [ ] Validate ticket quantities feel sufficient per tier
 - [ ] Confirm access window model makes sense to partner businesses
-- [ ] Document final pricing decision in COMMUNITY-PASS.md
 
 ### Brand Foundation
 - [ ] MISSION-VISION-VALUES.md published to Spec-Repo
@@ -76,6 +84,15 @@
 - [ ] No discount/savings language in any copy
 
 **Done when:** Stranger test passes — someone can register, browse, RSVP, find support, on mobile. No "punch card" language visible anywhere.
+
+**Earn-Your-Pass Program (DEC-035):**
+- [ ] Farm program partnership confirmed (which farms participate)
+- [ ] Farmers market participation pathway defined
+- [ ] Tracking mechanism decided (manual coordinator tracking for V1)
+- [ ] Contribution-to-pass conversion rate set (how much work = 1 month access)
+- [ ] Coordinator identified for farm program
+- [ ] Youth eligibility criteria defined (age range, parental consent)
+- [ ] Story captured for first issue of The Good News
 
 ---
 
