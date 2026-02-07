@@ -923,6 +923,40 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-040: Nonprofit Pricing — 50% Discount on Business Tiers
+
+**Date:** 2026-02-07
+
+**Context:** Eugene-Springfield has 2,443 registered nonprofits. Nonprofits are high-value nodes (volunteers, members, community connections) but cash-strapped. Need pricing that's accessible without devaluing the platform or creating sustainability problems.
+
+**Decision:** Nonprofits receive a 50% discount on standard business tier pricing:
+
+| Tier | Nonprofit Price | Business Price | Discount |
+|------|----------------|----------------|----------|
+| Basic | Free | Free | Same |
+| Nonprofit Standard | $39/mo | $79/mo | 50% |
+| Nonprofit Partner | $79/mo | $149/mo (earned) | 47% |
+
+**Qualification:** 501(c)(3) EIN or Oregon nonprofit registration. Self-reported during onboarding, spot-checked if needed. Binary qualification — no sliding scale.
+
+**Founding nonprofit deal:** First 10 nonprofits get 3-6 months free to prove platform value.
+
+**Rationale:**
+- $39/month is realistic for orgs with operational budgets and grants
+- Keeps pricing clean: businesses $79, nonprofits $39, microbusinesses $9
+- Free tier already covers orgs that only need visibility
+- 50 nonprofits × $39 = $1,950/month — meaningful revenue
+- Signals partnership, not charity
+- Partner tier discount applies to fee, not qualification bar (still earned)
+
+**Revenue projection (conservative Year 1):** 38 nonprofits, $702/month ($8,424 annual). Optimistic: 62 nonprofits, $1,603/month ($19,236 annual).
+
+**Made by:** Doron + Claude
+
+**Status:** ✅ Active
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)

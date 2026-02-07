@@ -294,6 +294,18 @@ Strategy and concept docs maintained in private repository.
 - Property management sub-type includes Crabtree financial model and guest-to-community bridge for Airbnb hosts
 - Decision logged as DEC-039
 
+**2026-02-07 — Nonprofit Archetype Expansion**
+- **Focus:** Nonprofit archetype expansion and Eugene landscape research
+- **Decisions locked (1 new):** DEC-040: Nonprofit pricing — 50% discount ($39 Standard, $79 Partner)
+- **Spec updates:** nonprofit-node.md major update — 8 sub-types, nonprofit pricing tiers, expanded data model, Burrito Brigade and Ophelia's Place test cases, implementation phases, Organism connection
+- **Research completed:** NONPROFIT-LANDSCAPE-EUGENE.md new research doc for private repo — 2,443 org ecosystem, detailed profiles, outreach priority list, revenue projections
+- Eugene nonprofit density: 2,443 orgs, 17,711 employees, $2B revenue
+- Burrito Brigade deep dive: 55 Little Free Pantries, 3 programs, founding partner candidate
+- Ophelia's Place: youth empowerment across Lane & Linn counties
+- FOOD for Lane County: Youth Farm connects to Earn-Your-Pass
+- Grassroots Connect philosophy alignment: "What we practice at a small scale sets the patterns for the whole system"
+- **Key insight:** Nonprofits are already interconnected through informal referral networks. LocalLane doesn't create connections — it makes them visible. Burrito Brigade's 55 pantry locations IS the Organism.
+
 ---
 
 ## Session Log — 2026-02-05 (Build Sprint)
