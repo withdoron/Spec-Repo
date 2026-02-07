@@ -284,6 +284,18 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-07
+
+**2026-02-07 — Microbusiness Archetype Spec**
+- Completed comprehensive microbusiness-node.md archetype spec
+- Six sub-types: Home Food (cottage law), Home Services (handyman), Personal Services, Property Management & Rentals, Creative/Maker, Local Delivery
+- Oregon legal research: cottage food ($50K cap, SB 643), handyman ($1K threshold, CCB licensing), Eugene business license requirements
+- Introduced $9/month Microbusiness tier concept between free users and $79 Standard businesses
+- Property management sub-type includes Crabtree financial model and guest-to-community bridge for Airbnb hosts
+- Decision logged as DEC-039
+
+---
+
 ## Session Log — 2026-02-05 (Build Sprint)
 
 ### 2026-02-05 — Business Dashboard v2 Build Sprint (Builds 1-6)

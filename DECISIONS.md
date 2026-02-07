@@ -903,6 +903,26 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-039: Microbusiness Archetype Spec Complete
+
+**Date:** 2026-02-07
+
+**Context:** DEC-027 identified Microbusiness as the next archetype. This spec documents six sub-types (Home Food, Home Services, Personal Services, Property Management, Creative/Maker, Local Delivery), a $9/month tier between free users and $79 Standard businesses, Oregon-specific compliance research, and integration points with Community Pass, Harvest Network, and the Guest Welcome system for short-term rental hosts.
+
+**Decision:** Microbusiness archetype spec is complete and ready for implementation after Events archetype stabilizes. Introduces a new $9/month pricing tier for solo operators.
+
+**Key Design Choices:**
+- Six sub-types with shared core fields and sub-type-specific extensions
+- $9/month fills the gap between free user tier and $79 business tier
+- Dual identity: microbusiness operators are both providers and community members
+- Property management (including short-term rental) included as a sub-type
+- Oregon compliance awareness built into onboarding (not legal advice, links to official sources)
+- Community Pass participation optional for microbusinesses
+
+**Status:** ✅ Spec Complete — ⏳ Implementation follows Events stabilization
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)
