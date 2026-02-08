@@ -957,6 +957,29 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-041: Joy Coins Are Non-Transferable; Expired Coins Fund Scholarships
+
+**Date:** 2026-02-07
+
+**Context:** The Joy Coins system was built with a P2P transfer feature (JoyCoinsTransfer.jsx). Legal research (LEGAL-RESEARCH.md, DEEP-RESEARCH-2026-02-02.md) established that non-transferability is a key guardrail keeping Community Pass outside money transmitter regulation. Allowing transfers would blur the line between access tokens and stored value.
+
+**Decision:**
+- Joy Coins are non-transferable between members
+- JoyCoinsTransfer.jsx and all transfer-related code removed
+- Unused Joy Coins expire monthly and flow into the Community Scholarship Pool
+- Scholarship Pool funds Community Pass access for youth and families in need via Earn-Your-Pass and coordinator referrals
+- Terms of Service updated to reflect non-transferability and scholarship pool flow
+
+**Rationale:**
+- Non-transferability is legally required to maintain membership token (not stored value) classification
+- Scholarship pool creates positive community narrative from expiration (not just "you lose them")
+- Aligns with Organism philosophy: unused access flows to where it's needed
+- Simplifies system (no abuse vectors, no edge cases around inactive accounts)
+
+**Status:** ✅ Active
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)
