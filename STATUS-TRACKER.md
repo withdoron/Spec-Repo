@@ -273,6 +273,41 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-08 (Strategy + Co-Owner Build)
+
+**Strategy work:**
+- ORGANISM-ARCHITECTURE-EVOLUTION.md written (private repo) — co-ownership, archetype dashboards, tier philosophy reframe, multi-community Forest concept
+- SILVER-DIME-LAYER.md written (private repo) — parallel physical currency layer, cross-community bridge, Earn-Your-Pass integration, bullion dealer as organism node, legal firewall analysis
+- Analog quest pattern discussed — Doron's kids already running silver dime quests at The Circuit. Life as a game in the real world, not gamification on a screen. Quests section ready to add to Silver Dime doc.
+
+**Shipped today (co-owner role):**
+1. Server auth: co-owner role added to canEditBusiness, canEditEvent, canManageEvent across 3 server functions (0df37d6)
+2. UI: co-owner role in StaffWidget, BusinessEditDrawer, BusinessCard — dropdown, badge (amber outline), permission checks (5bf3454)
+3. Bug fix: addStaffMutation was not writing role to staff_roles AdminSettings for direct-add users. Fixed (131f24d)
+4. Verified end-to-end: role saves correctly, badge renders, data confirmed in Base44
+
+**Decisions made:**
+- DEC-043: Co-owner role via staff_roles (complete)
+- DEC-044: TAB_CONFIG archetype dashboard pattern (designed)
+- DEC-045: Silver dime layer as parallel physical currency (designed)
+- DEC-046: Custom role permissions (designed, deferred)
+
+**Private repo docs created:**
+- ORGANISM-ARCHITECTURE-EVOLUTION.md
+- SILVER-DIME-LAYER.md
+
+**Bugs found and fixed:**
+- addStaffMutation role write missing for direct-add flow (fixed, 131f24d)
+
+**Next session priorities:**
+- Lock DEC-043 co-owner decision in DECISIONS.md ← (this prompt)
+- Add Quests section to SILVER-DIME-LAYER.md
+- Mobile nav + device testing
+- Settings display name bug
+- Business onboarding wizard simplification
+
+---
+
 ## Session Log — 2026-02-08
 
 **Shipped today:**

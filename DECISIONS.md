@@ -1018,6 +1018,99 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-043: Co-Owner Role via Staff Roles System
+
+**Date:** 2026-02-08
+
+**Context:** Businesses often have multiple people who need owner-level access — spouses running a family business, partners in a gym, co-founders. The Business entity has a single `owner_user_id` field. Adding an `owners` array would require schema changes and break existing authorization logic.
+
+**Decision:** Add `co-owner` as a new role in the existing `staff_roles` system (stored in AdminSettings as `staff_roles:{business_id}`). Co-owners get owner-equivalent permissions with two exceptions: cannot delete the business, cannot change Stripe account settings. Multiple co-owners supported.
+
+**Implementation:**
+- Server functions updated: `canEditBusiness` (updateBusiness.ts), `canEditEvent` (manageEvent.ts), `canManageEvent` (manageRSVP.ts) all check for `co-owner` role
+- UI updated: StaffWidget.jsx, BusinessEditDrawer.jsx, BusinessCard.jsx all support co-owner role selection and badge rendering
+- Badge: amber outline (`border-amber-500 text-amber-500`) — visually linked to Owner's solid amber badge
+- Bug fix: `addStaffMutation` was not writing role to `staff_roles` AdminSettings for directly-added users (only worked via invite flow). Fixed in commit 131f24d.
+- No schema changes required — uses existing `instructors` array + `staff_roles` AdminSettings pattern
+
+**Commits:** 0df37d6 (server auth), 5bf3454 (UI), 131f24d (role write fix)
+
+**Badge color spec (extends DEC-013):**
+- Co-Owner: `border-amber-500 text-amber-500` (outline)
+
+**Status:** ✅ Complete
+
+---
+
+### DEC-044: TAB_CONFIG Archetype Dashboard Pattern
+
+**Date:** 2026-02-08
+
+**Context:** The Business Dashboard currently renders tabs for the Events archetype only. As new archetypes are added (Property Management, Construction, Home Food, Nonprofit), each needs different tabs while sharing the same dashboard skeleton (header, tab bar, Home tab, Settings tab).
+
+**Decision:** Define a `TAB_CONFIG` object keyed by `archetype.value` that maps each archetype to its tab set. Dashboard renders tabs from config, not hardcoded JSX.
+
+**Tab mapping:**
+- Events: Home, Joy Coins, Revenue, Events, Settings
+- Property Management: Home, Properties, Finances, Maintenance, Settings
+- Construction/Trades: Home, Bids, Jobs, Billing, Settings
+- Home Food: Home, Products, Orders, Markets, Settings
+- Nonprofit: Home, Programs, Events, Volunteers, Settings
+
+**Shared skeleton:** Header (business name, tier badge, organism placement), tab bar, Home tab, Settings tab, admin visibility controls.
+
+**Rationale:** Architecture scales to N archetypes without duplicating dashboard code. Each archetype's unique tabs are separate components loaded by config. Shared components stay DRY.
+
+**Status:** 🔲 Designed — Build when second archetype is ready
+
+---
+
+### DEC-045: Silver Dime Layer — Parallel Physical Currency
+
+**Date:** 2026-02-08
+
+**Context:** Joy Coins are non-transferable digital membership benefits with no cash value (critical for ORS 717 compliance). Community members also want a physical medium of exchange that embodies local economic sovereignty. Pre-1965 silver dimes (90% silver, 0.0723 troy oz, ~$2-3 at spot) fit the scale of everyday local transactions.
+
+**Decision:** Two parallel layers, legally separate, philosophically aligned:
+
+**Digital Layer (Joy Coins):** Non-transferable, no cash value, community-specific, platform-mediated, monthly reset with expired coins flowing to Scholarship Pool. Legal status: membership access token.
+
+**Physical Layer (Silver Dimes):** Pre-1965 dimes as barter commodity, intrinsic metal value, portable across communities, hand-to-hand between willing parties. LocalLane is directory only — never custodies, exchanges, or sets prices for silver.
+
+**Critical firewall:** No exchange rate, no conversion, no equivalence between Joy Coins and silver dimes. They coexist but never convert.
+
+**Cross-community bridge:** Joy Coins are community-specific (Eugene pool, Bend pool). Silver dimes are portable — the physical passport between communities.
+
+**Earn-Your-Pass integration:** Kids earn both Community Pass access (digital) AND silver dimes per shift (physical). Teaches work has value, money has history, community circulation matters.
+
+**Bullion dealer role:** Liquidity provider, reference price display, dime supplier, authentication, education hub (Sound Money 101 workshops).
+
+**Lawyer questions flagged:** Does directory create obligation? Does Scholarship Pool buying dimes change legal status? Does displaying reference price = price-setting?
+
+**Full concept doc:** SILVER-DIME-LAYER.md (locallane-private repo)
+
+**Status:** 🔲 Designed — Phase 0 foundation exists (accepts_silver field, filter, bullion category)
+
+---
+
+### DEC-046: Custom Role Permissions (Deferred)
+
+**Date:** 2026-02-08
+
+**Context:** Current role system is coarse — co-owner and manager have identical permissions, instructor and staff have limited differentiation. DEC-011 originally specified granular manager permissions (`can_create_events`, `can_edit_all_events`) that were never built. Real businesses with larger teams will need per-person permission toggles.
+
+**Decision:** Design accepted, build deferred. Architecture:
+- Each role gets a default permission object (e.g., manager defaults to `can_edit_business: true, can_create_events: true, can_manage_staff: false`)
+- Owner can toggle individual permissions per staff member, overriding role defaults
+- Server functions check specific permission flags instead of role names
+- Permission object stored alongside role in `staff_roles` AdminSettings entries
+
+**Rationale:** No pilot business currently needs this granularity. Co-owner (DEC-043) handles the immediate need (spouse/partner access). Build when a business with 5+ distinct staff roles requests it.
+
+**Status:** 🔲 Designed, Deferred — Build when real business need emerges
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)
