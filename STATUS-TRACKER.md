@@ -249,6 +249,45 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-07
+
+### 2026-02-07 — Punch Pass → Joy Coins Migration Complete
+
+**What shipped:**
+- P1: All user-facing text migrated (10 files, ec940cb)
+- P2-P4: Terms.jsx legal text updated, JoyCoinsTransfer.jsx deleted, PunchPass.jsx page deleted, variable renames, field mapping with dual-write compatibility (3f6a211, 695e2dc)
+- DEC-041: Joy Coins non-transferable, expired coins fund Community Scholarship Pool
+- Legal update: CARD Act / EFTA risk analysis added to LEGAL-RESEARCH.md (Blackburn v. ClassPass, July 2025)
+- DECISIONS.md updated with DEC-041
+
+**What remains for migration:**
+- Server functions (4 files) still query PunchPass entities — documented with migration notes, deferred to Phase 3
+- Base44 entity schema unchanged (PunchPass entities remain, JoyCoins entities active) — no data migration needed
+
+**Decisions made:**
+- DEC-041: Non-transferable coins, scholarship pool for expired coins
+- Stripe can start under LLC + EIN with personal bank account; swap to business account when ready
+- CARD Act gift certificate disclaimer recommended for Terms of Service (discuss with counsel)
+
+**Next session priorities:**
+- Mobile nav + device testing
+- Settings display name bug
+- Business onboarding wizard simplification (Events archetype only)
+
+---
+
+## Phase 1 Language Audit — Joy Coins & Community Pass
+
+- [x] Full codebase search for "punch" — replaced with Joy Coin / Community Pass terminology
+- [x] UI audit: no references to "punch card", "punch pass", or "stored value"
+- [x] Database fields: documented legacy field names with mapping comments
+- [x] Terms of Service: verified Community Pass + Joy Coin language (not stored value)
+- [x] User-facing copy audit: MyLane, Business Dashboard, Event Detail
+- [x] Confirm "Joy Coins" used consistently (not "tokens", "credits", "punches", "tickets")
+- [ ] Privacy Policy: verify membership framing (not prepaid balance) — still needs review
+
+---
+
 ## Session Log — 2026-02-05
 
 **Focus:** Pricing strategy deep dive and decision locking
