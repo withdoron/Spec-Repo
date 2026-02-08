@@ -251,22 +251,28 @@ Strategy and concept docs maintained in private repository.
 
 ## Session Log — 2026-02-07
 
-### 2026-02-07 — Punch Pass → Joy Coins Migration Complete
+### 2026-02-07 — Punch Pass → Joy Coins Migration Complete (Full Stack)
 
 **What shipped:**
-- P1: All user-facing text migrated (10 files, ec940cb)
-- P2-P4: Terms.jsx legal text updated, JoyCoinsTransfer.jsx deleted, PunchPass.jsx page deleted, variable renames, field mapping with dual-write compatibility (3f6a211, 695e2dc)
+- P1: All user-facing text migrated across 10 files (ec940cb)
+- P2-P4: Terms.jsx legal text, JoyCoinsTransfer.jsx deleted, PunchPass.jsx page deleted, variable renames, field mapping with dual-write (3f6a211, 695e2dc)
+- Base44 field mapping + remaining cleanup: Layout.jsx, Admin.jsx route, EventEditor dual-write, server function docs (695e2dc)
+- Server function migration (community-node): setPunchPassPin → setJoyCoinPin, validatePunchPass → validateJoyCoins, handleEventCancellation and searchHubMember rewritten for JoyCoins entities (d026fb7)
+- Server function migration (events-node): checkInWithPunchPass → checkInWithJoyCoins, CheckIn.jsx updated (3fa5ab5)
+- pin_hash field added to JoyCoins entity in Base44
 - DEC-041: Joy Coins non-transferable, expired coins fund Community Scholarship Pool
 - Legal update: CARD Act / EFTA risk analysis added to LEGAL-RESEARCH.md (Blackburn v. ClassPass, July 2025)
 - DECISIONS.md updated with DEC-041
 
-**What remains for migration:**
-- Server functions (4 files) still query PunchPass entities — documented with migration notes, deferred to Phase 3
-- Base44 entity schema unchanged (PunchPass entities remain, JoyCoins entities active) — no data migration needed
+**PunchPass entities status:**
+- PunchPass, PunchPassTransaction, PunchPassUsage entities remain in Base44 as archived data
+- Zero code reads or writes them — fully dead
+- No migration of data needed (test/demo data only)
 
 **Decisions made:**
 - DEC-041: Non-transferable coins, scholarship pool for expired coins
-- Stripe can start under LLC + EIN with personal bank account; swap to business account when ready
+- Stripe path: LLC + EIN → Stripe account → personal bank temporarily → swap to business bank when ready
+- Business tier subscriptions can start before business bank account opens
 - CARD Act gift certificate disclaimer recommended for Terms of Service (discuss with counsel)
 
 **Next session priorities:**
