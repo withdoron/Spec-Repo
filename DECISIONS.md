@@ -957,26 +957,25 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
-### DEC-041: Joy Coins Are Non-Transferable; Expired Coins Fund Scholarships
+### DEC-041: Joy Coins Non-Transferable; Expired Coins Fund Scholarship Pool
 
 **Date:** 2026-02-07
 
-**Context:** The Joy Coins system was built with a P2P transfer feature (JoyCoinsTransfer.jsx). Legal research (LEGAL-RESEARCH.md, DEEP-RESEARCH-2026-02-02.md) established that non-transferability is a key guardrail keeping Community Pass outside money transmitter regulation. Allowing transfers would blur the line between access tokens and stored value.
+**Context:** Legal research established non-transferability as a key guardrail keeping Community Pass outside money transmitter regulation (ORS 717) and stored value classification (FinCEN). The Joy Coins system had a P2P transfer feature (JoyCoinsTransfer.jsx) that conflicted with this guardrail. Additionally, the ClassPass lawsuit (Blackburn v. ClassPass, July 2025) demonstrated litigation risk around expiring credits — making the scholarship pool flow from expired coins both a legal defense and a community benefit.
 
 **Decision:**
 - Joy Coins are non-transferable between members
-- JoyCoinsTransfer.jsx and all transfer-related code removed
-- Unused Joy Coins expire monthly and flow into the Community Scholarship Pool
-- Scholarship Pool funds Community Pass access for youth and families in need via Earn-Your-Pass and coordinator referrals
-- Terms of Service updated to reflect non-transferability and scholarship pool flow
+- JoyCoinsTransfer.jsx and all transfer code removed from codebase
+- Unused Joy Coins expire monthly and flow to Community Scholarship Pool
+- Scholarship Pool funds Community Pass access for youth and families in need
+- Terms of Service updated: non-transferability confirmed, scholarship pool language added
+- LEGAL-RESEARCH.md updated with CARD Act / EFTA analysis
 
-**Rationale:**
-- Non-transferability is legally required to maintain membership token (not stored value) classification
-- Scholarship pool creates positive community narrative from expiration (not just "you lose them")
-- Aligns with Organism philosophy: unused access flows to where it's needed
-- Simplifies system (no abuse vectors, no edge cases around inactive accounts)
+**Alternatives considered:**
+- Keep P2P transfers with limits — rejected (regulatory risk, complexity)
+- Allow gifting to scholarship pool only — unnecessary (automatic flow is simpler)
 
-**Status:** ✅ Active
+**Status:** Active
 
 ---
 
