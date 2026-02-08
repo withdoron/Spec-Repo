@@ -1007,6 +1007,10 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 **Status:** ⏳ In Progress — 7 of 10 entities complete
 
+**Noted for future:**
+- Co-owner role not currently supported. Only one owner_user_id per business. Multiple owners may be needed for pilot (e.g. husband/wife running a business together). Would require either an owners array on Business or a new role level in staff_roles that grants owner-equivalent permissions.
+- Manager role cannot currently edit events. manageEvent.ts checks business.instructors array but doesn't differentiate permissions by role. DEC-011 specifies managers should have can_create_events and can_edit_all_events.
+
 ---
 
 ## Strategic Decisions (2026-01-27)

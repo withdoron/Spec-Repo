@@ -77,9 +77,10 @@
 | Test user full_name in published env | 5 min | Log in as test user → Settings → save name |
 | Update DECISIONS.md with DEC-028 through DEC-031 | 15 min | Copy from decisions-additions.md |
 | Replace STRIPE-CONNECT.md with v2 | 10 min | Copy STRIPE-CONNECT-v2.md over existing |
-| Manager role can't edit events | 30 min | Permission check in manageEvent needs role differentiation |
-| Duplicate recommendations allowed per user | 30 min | Add uniqueness constraint or validation |
-| Admin panel has no visibility into recommendations | 1 hr | Add recommendations table/section to admin |
+| Manager role can't edit events | 30 min | manageEvent needs role differentiation per DEC-011 |
+| Duplicate recommendations per user | 15 min | Add uniqueness check in Recommend.jsx |
+| Admin panel no recommendation visibility | 30 min | Add recommendations section to admin |
+| Co-owner support | TBD | Only one owner_user_id per business currently |
 
 ---
 
