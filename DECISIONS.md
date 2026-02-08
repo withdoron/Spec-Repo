@@ -979,6 +979,36 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-042: Phase 3 Security Audit — Service Role Migration
+
+**Date:** 2026-02-07
+
+**Context:** 10 entities remained publicly writable by any authenticated user (DEC-025). Base44 confirmed support for base44.asServiceRole in server functions to bypass entity-level permissions.
+
+**Decision:** Migrate all client-side entity writes to server functions with authorization checks, then lock entity permissions to Admin only. Server functions verify the calling user's role (admin, owner, staff) before executing writes with elevated permissions.
+
+**Server functions created:**
+- **updateAdminSettings.ts** — Handles all AdminSettings writes with role-based authorization. Actions: filter, create, update, check_my_invites, accept_invite.
+- **updateBusiness.ts** — Handles Business entity writes. Actions: update (owner/admin/manager), add_staff_from_invite (invited users), update_counters (any authenticated user for recommendations).
+- **manageEvent.ts** — Handles Event entity writes. Actions: create, update, delete, cancel. Authorization: admin, owner, or business staff.
+
+**Entities locked (Phase 3a + 3b):**
+- AdminSettings: Read Authenticated, Write Admin only
+- Location: Read Public, Write Admin only
+- Spoke: Read Public, Write Admin only
+- SpokeEvent: Read Public, Write Admin only
+- CategoryClick: Read Admin only, Create Authenticated
+- Business: Read Public, Write Admin only
+- Event: Read Public, Write Admin only
+
+**Remaining (Phase 3c + 3d):** User, RSVP, Recommendation
+
+**Rationale:** Eliminates the ability for any authenticated user to modify any business, event, or platform setting. Server functions enforce business logic (ownership, staff roles) that entity-level permissions alone cannot express.
+
+**Status:** ⏳ In Progress — 7 of 10 entities complete
+
+---
+
 ## Strategic Decisions (2026-01-27)
 
 ### Next Archetype: Nonprofit/Church (Superseded by DEC-027)
