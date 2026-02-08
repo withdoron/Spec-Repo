@@ -991,8 +991,11 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 - **updateAdminSettings.ts** — Handles all AdminSettings writes with role-based authorization. Actions: filter, create, update, check_my_invites, accept_invite.
 - **updateBusiness.ts** — Handles Business entity writes. Actions: update (owner/admin/manager), add_staff_from_invite (invited users), update_counters (any authenticated user for recommendations).
 - **manageEvent.ts** — Handles Event entity writes. Actions: create, update, delete, cancel. Authorization: admin, owner, or business staff.
+- **updateUser.ts** — User profile updates. Action: update_profile (self-only with field allowlist: display_name, phone, home_region).
+- **manageRecommendation.ts** — Recommendation + Concern writes. Actions: create, update, remove (owner-only + admin), create_concern (any authenticated).
+- **manageRSVP.ts** — Full RSVP lifecycle with Joy Coin orchestration. Actions: rsvp (any authenticated), cancel (self-only with refund/forfeit logic), checkin (admin/owner/staff), no_show (admin/owner/staff).
 
-**Entities locked (Phase 3a + 3b):**
+**Entities locked (Phase 3a + 3b + 3c + 3d):**
 - AdminSettings: Read Authenticated, Write Admin only
 - Location: Read Public, Write Admin only
 - Spoke: Read Public, Write Admin only
@@ -1000,12 +1003,14 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 - CategoryClick: Read Admin only, Create Authenticated
 - Business: Read Public, Write Admin only
 - Event: Read Public, Write Admin only
-
-**Remaining (Phase 3c + 3d):** User, RSVP, Recommendation
+- User: Read Authenticated, Write Admin only
+- Recommendation: Read Public, Write Admin only
+- Concern: Read Authenticated, Write Admin only
+- RSVP: Read Authenticated, Write Admin only
 
 **Rationale:** Eliminates the ability for any authenticated user to modify any business, event, or platform setting. Server functions enforce business logic (ownership, staff roles) that entity-level permissions alone cannot express.
 
-**Status:** ⏳ In Progress — 7 of 10 entities complete
+**Status:** ✅ Complete — all 10 entities secured
 
 **Noted for future:**
 - Co-owner role not currently supported. Only one owner_user_id per business. Multiple owners may be needed for pilot (e.g. husband/wife running a business together). Would require either an owners array on Business or a new role level in staff_roles that grants owner-equivalent permissions.

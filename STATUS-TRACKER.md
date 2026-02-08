@@ -128,7 +128,7 @@ Real money. Gated behind legal checklist.
 - **Legal:** Must complete legal checklist before Phase B (see LEGAL-RESEARCH.md)
 - **Priority:** HIGH — blocks real money flowing through platform
 
-### Phase 3 Security Audit (DEC-025) — IN PROGRESS
+### Phase 3 Security Audit (DEC-025) — COMPLETE ✅
 - [x] AdminSettings — service role migration + permissions locked (Phase 3a)
 - [x] Location — permissions locked (Phase 3a)
 - [x] Spoke — permissions locked (Phase 3a)
@@ -136,14 +136,17 @@ Real money. Gated behind legal checklist.
 - [x] CategoryClick — permissions locked (Phase 3a)
 - [x] Business — service role migration + permissions locked (Phase 3b)
 - [x] Event — service role migration + permissions locked (Phase 3b)
-- [ ] User — needs owner-security toggle (Phase 3c)
-- [ ] RSVP — needs service role migration (Phase 3c)
-- [ ] Recommendation — needs service role migration (Phase 3d)
+- [x] User — service role migration + permissions locked (Phase 3c)
+- [x] RSVP — service role migration + permissions locked (Phase 3d)
+- [x] Recommendation — service role migration + permissions locked (Phase 3d)
 
-**New server functions shipped:**
+**Server functions shipped:**
 - updateAdminSettings.ts (filter, create, update, check_my_invites, accept_invite)
 - updateBusiness.ts (update, add_staff_from_invite, update_counters)
 - manageEvent.ts (create, update, delete, cancel)
+- updateUser.ts (update_profile — owner-only with field allowlist)
+- manageRecommendation.ts (create, update, remove, create_concern — owner-only + admin)
+- manageRSVP.ts (rsvp, cancel, checkin, no_show — full Joy Coin orchestration)
 
 **Bugs fixed during audit:**
 - Staff auto-link invite cleanup (stale cache invalidation)
@@ -267,6 +270,31 @@ Real money. Gated behind legal checklist.
 | CURSOR-SETTINGS-AND-ADMIN-USERS.md | Settings + Admin Users prompt | ✅ Complete |
 
 Strategy and concept docs maintained in private repository.
+
+---
+
+## Session Log — 2026-02-08
+
+**Shipped today:**
+- Security audit Phase 3b: Business + Event service role migration (f6502c1)
+- Security audit Phase 3c: User + Recommendation + Concern service role migration (f94b962)
+- Security audit Phase 3d: RSVP + Joy Coin orchestration service role migration (f979527)
+- All 10 Phase 3 entities locked in Base44 dashboard
+- 6 server functions total: updateAdminSettings, updateBusiness, manageEvent, updateUser, manageRecommendation, manageRSVP
+
+**Security audit final status:**
+- 18 of 18 entities secured (Phase 1: 2 deleted + 2 locked, Phase 2: 7 locked, Phase 3: 10 locked via service role migration)
+- 6 server functions enforce authorization (admin, owner, staff, self-only)
+- Zero client-side entity writes for protected operations
+
+**Bugs noted (non-blocking):**
+- Dashboard greeting shows email instead of display name for non-owner users
+- manageRecommendation user_name reads full_name instead of display_name
+- Duplicate vouches/recommendations allowed (no uniqueness check)
+- Home tab events list not interactive (UX, not regression)
+
+**Decisions made:**
+- DEC-042 updated: Phase 3 complete
 
 ---
 
