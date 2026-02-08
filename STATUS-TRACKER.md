@@ -77,6 +77,9 @@
 | Test user full_name in published env | 5 min | Log in as test user → Settings → save name |
 | Update DECISIONS.md with DEC-028 through DEC-031 | 15 min | Copy from decisions-additions.md |
 | Replace STRIPE-CONNECT.md with v2 | 10 min | Copy STRIPE-CONNECT-v2.md over existing |
+| Manager role can't edit events | 30 min | Permission check in manageEvent needs role differentiation |
+| Duplicate recommendations allowed per user | 30 min | Add uniqueness constraint or validation |
+| Admin panel has no visibility into recommendations | 1 hr | Add recommendations table/section to admin |
 
 ---
 
@@ -124,11 +127,28 @@ Real money. Gated behind legal checklist.
 - **Legal:** Must complete legal checklist before Phase B (see LEGAL-RESEARCH.md)
 - **Priority:** HIGH — blocks real money flowing through platform
 
-### Security Audit Phase 3
-- [ ] Base44 permission warnings addressed
-- [ ] Auth flow edge cases tested
-- [ ] Data access patterns verified
-- **Priority:** HIGH — must complete before pilot
+### Phase 3 Security Audit (DEC-025) — IN PROGRESS
+- [x] AdminSettings — service role migration + permissions locked (Phase 3a)
+- [x] Location — permissions locked (Phase 3a)
+- [x] Spoke — permissions locked (Phase 3a)
+- [x] SpokeEvent — permissions locked (Phase 3a)
+- [x] CategoryClick — permissions locked (Phase 3a)
+- [x] Business — service role migration + permissions locked (Phase 3b)
+- [x] Event — service role migration + permissions locked (Phase 3b)
+- [ ] User — needs owner-security toggle (Phase 3c)
+- [ ] RSVP — needs service role migration (Phase 3c)
+- [ ] Recommendation — needs service role migration (Phase 3d)
+
+**New server functions shipped:**
+- updateAdminSettings.ts (filter, create, update, check_my_invites, accept_invite)
+- updateBusiness.ts (update, add_staff_from_invite, update_counters)
+- manageEvent.ts (create, update, delete, cancel)
+
+**Bugs fixed during audit:**
+- Staff auto-link invite cleanup (stale cache invalidation)
+- accept_invite action for non-owner users accepting staff invites
+
+**Priority:** HIGH — must complete before pilot
 
 ### Mobile Polish Pass
 - [ ] Test all pages on actual mobile devices
