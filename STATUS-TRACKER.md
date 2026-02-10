@@ -305,6 +305,44 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+### Contractor Daily — Session Log — 2026-02-10 (Phase 2)
+
+**Phase 2 core completed.**
+
+**Builds shipped:**
+1. Quick fix: Edit icon (Pencil) added to Reports list cards — edit/share/delete icon row
+2. Build 8: Project Timeline — chronological feed of all logs per project with running totals, photo grid with lightbox, "View Full Report" links, accessed via "View Timeline" button on Projects detail
+3. Build 9: Running project totals on Dashboard — per-project materials/labor/total on active project cards, summary bar with total across all projects, "View Timeline" links per card
+
+**New files created:**
+- src/pages/ProjectTimeline.jsx
+
+**Modified files:**
+- src/pages/Reports.jsx (edit icon on list cards)
+- src/pages/Projects.jsx (View Timeline button)
+- src/pages/Dashboard.jsx (running totals, summary bar, timeline links)
+- src/pages.config.js (ProjectTimeline route)
+
+**Key patterns:**
+- ProjectTimeline loads all logs + materials + labor + photos per project, aggregates totals
+- Photo lightbox: pure CSS/React, no library — dark overlay, centered image, close button
+- formatDateRange helper for "Feb 8 – Feb 10, 2026" display
+- stopPropagation pattern: card-level Link + icon-level Links coexist without conflict
+
+**Phase 2 status:**
+- Build 7: Receipt Split ✅
+- Build 7-fix: Receipt Split save bug ✅
+- Build 8: Project Timeline ✅
+- Build 9: Running Totals on Dashboard ✅
+- Build 10: Before/After Photos — deferred (marketing, not daily workflow)
+- Build 11: Report Enhancements — deferred (logo/PDF export, not blocking)
+
+**Next up:**
+- Claude Code post-build audit (Phase 2)
+- Phase 3 planning: Role system, client/worker views, Organism signals
+
+---
+
 ### Contractor Daily — Session Log — 2026-02-10
 
 **Phase 1 completed. Phase 2 started.**
