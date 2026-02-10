@@ -305,6 +305,42 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+### Contractor Daily — Session Log — 2026-02-10
+
+**Phase 1 completed. Phase 2 started.**
+
+**Builds shipped:**
+1. Build 6: Settings polish — worker editing, toast feedback, all profile fields
+2. Build 6a: Phase 1 audit fixes — iOS input zoom, deep links, hover states, shared formatCurrency utility, dead code cleanup
+3. Nav hover fix — Layout.jsx desktop/mobile nav updated to Gold Standard amber hover
+4. Build 7: Receipt split — multi-project material entry from single receipt
+5. Build 7-fix: Receipt split save bug — materials now route to correct project logs, UUID address guard
+
+**Phase 1 completion audit (Claude Code):**
+- 2 PASS / 6 WARNING / 1 FAIL
+- FAIL (iOS input zoom) fixed in Build 6a
+- All 6 warnings addressed or documented
+- BUGS.md reconciled against audit findings
+
+**Decisions made:**
+- DEC-CD-015: Receipt Split for multi-project materials
+- DEC-CD-016: Shared utility pattern (formatCurrency.js)
+
+**New files created:**
+- src/utils/formatCurrency.js
+
+**Key patterns established:**
+- Independent audit workflow: Claude Code reads repo → reports findings → Claude Desktop writes fix prompts → Cursor executes
+- Receipt split: opt-in toggle, per-line project tagging, auto-create logs for other projects
+- Shared utilities in src/utils/ imported across pages
+
+**Next up:**
+- Build 8: Project Timeline View
+- Field testing with Dan Sikes on mobile
+- Base44 plan evaluation (Pro → Builder)
+
+---
+
 ## Session Log — 2026-02-08 (Strategy + Co-Owner Build)
 
 **Strategy work:**
