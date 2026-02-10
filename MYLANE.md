@@ -307,16 +307,6 @@ This matches LocalLane's core identity. Discovery comes through the community, n
 
 ## Dependencies
 
-### Required for Phase 1
-
-| Dependency | Status | Notes |
-|------------|--------|-------|
-| RSVP data | ⚠️ Needed | Event detail modal needs RSVP button (confirmed in Chrome walkthrough). UpcomingEvents section depends on this. |
-| Recommendation data | ✅ Exists | Recommendation entity with Nod/Story types already built |
-| Business created_date | ✅ Exists | Used for NewInCommunity filtering |
-| Region filtering | ✅ Exists | useActiveRegion hook already implemented |
-| Event data | ✅ Exists | Events page queries already work |
-
 ### Required for Phase 2
 
 | Dependency | Status | Notes |
@@ -332,58 +322,6 @@ This matches LocalLane's core identity. Discovery comes through the community, n
 | User tiers | 🔮 Future | See USER-TIERS.md |
 | BuildLane integration | ⏳ Shelved | Preference quiz exists but not connected |
 | Stripe Connect | 📋 Spec'd | Required for member-tier payments |
-
----
-
-## File Structure
-
-```
-src/
-├── pages/
-│   └── MyLane.jsx                    # Main page — assembles sections
-│
-├── components/
-│   └── mylane/
-│       ├── GreetingHeader.jsx         # Name, punch pass, settings link
-│       ├── PunchPassCard.jsx          # Balance display, link to PunchPass page
-│       ├── UpcomingEventsSection.jsx   # RSVP'd events (Engaged+)
-│       ├── HappeningSoonSection.jsx    # Upcoming events with filter pills
-│       ├── NewInCommunitySection.jsx   # Businesses < 30 days, < 3 recs
-│       ├── YourRecommendationsSection.jsx  # Nods and Stories given
-│       ├── DiscoverSection.jsx        # Category tiles + Outside Your Lane
-│       └── SectionWrapper.jsx         # Shared section layout (title, "see all" link)
-│
-└── hooks/
-    └── useUserState.js               # Determines explorer/engaged/connected
-```
-
----
-
-## Phase 1 Build (Now)
-
-Replace the current MyLane.jsx placeholder. Real data, no mocks.
-
-### Components to Build
-
-1. **MyLane.jsx** — Page shell. Fetches user data, determines state, renders sections.
-2. **GreetingHeader** — "Good morning, {name}" + Punch Pass balance badge + settings gear icon
-
-> **Organism Placement (DEC-029):** The GreetingHeader is the first home for the personal organism (Phase 1). The organism component sits alongside the greeting and punch badge, providing an ambient visual reflection of the user's community vitality. See ORGANISM-CONCEPT.md (private repo) for the full vision and implementation phases.
-3. **HappeningSoonSection** — Queries upcoming events in region, filter pills, grid/scroll
-4. **NewInCommunitySection** — Queries businesses where `created_date` > 30 days ago AND `recommendation_count` < 3. Horizontal scroll with "New to LocalLane" badge.
-5. **UpcomingEventsSection** — Queries user's RSVP'd events. Conditional: only renders if RSVPs exist. (Depends on RSVP implementation.)
-6. **YourRecommendationsSection** — Queries Recommendations where `user_id` = current user. Conditional: only renders if any exist.
-7. **DiscoverSection** — Category tiles linking to CategoryPage. Simple grid.
-8. **useUserState hook** — Returns 'explorer' | 'engaged' | 'connected' based on activity counts.
-
-### What Phase 1 Skips
-
-- RSVP functionality (UpcomingEventsSection will be conditional — appears once RSVP exists)
-- Follow/save businesses
-- Preference-based weighting
-- Outside Your Lane
-- User tier gating
-- Saved filters
 
 ---
 

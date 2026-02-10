@@ -10,14 +10,12 @@
 |----------|---------|
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical patterns, data models, vitality data layer |
 | [STYLE-GUIDE.md](./STYLE-GUIDE.md) | Visual design standards (Gold Standard) |
-| [COMPONENTS.md](./COMPONENTS.md) | Detailed UI component specifications |
 | [TIER-SYSTEM.md](./TIER-SYSTEM.md) | Tier definitions and feature matrix |
 | [RECOMMENDATION-SYSTEM.md](./RECOMMENDATION-SYSTEM.md) | Trust-first Nod/Story/Vouch system |
 | [ENTITY-SYSTEM.md](./ENTITY-SYSTEM.md) | Archetype and goals-based dashboard |
 | [MYLANE.md](./MYLANE.md) | MyLane spec — user dashboard with organism placement |
 | [USER-TIERS.md](./USER-TIERS.md) | User tier definitions (Free/Member) |
 | [STATUS-TRACKER.md](./STATUS-TRACKER.md) | Project status, roadmap, and session logs |
-| [CURRENT-STATE.md](./CURRENT-STATE.md) | What currently exists |
 | [STRIPE-CONNECT.md](./STRIPE-CONNECT.md) | Stripe integration (Community Pass model) |
 | [BUILD-PROTOCOL.md](./BUILD-PROTOCOL.md) | Universal build sequence — how every feature ships. ✅ Current |
 | [BUSINESS-DASHBOARD-v2.md](./BUSINESS-DASHBOARD-v2.md) | Business Dashboard v2 strategy spec (replaces INTEGRATION-PLAN.md) |
@@ -215,12 +213,10 @@ Spec-Repo/
 ├── README.md                      # This file
 ├── ARCHITECTURE.md                # Technical patterns
 ├── STYLE-GUIDE.md                 # Visual standards
-├── COMPONENTS.md                  # UI component specs
 ├── DECISIONS.md                   # Decision log
 ├── WORKFLOW.md                    # Development workflow
 ├── BUILD-PROTOCOL.md              # Universal build sequence
 ├── STATUS-TRACKER.md              # Project status and session logs
-├── CURRENT-STATE.md               # Implementation status
 ├── STRIPE-CONNECT.md              # Stripe integration spec
 ├── RECOMMENDATION-SYSTEM.md       # Nod/Story/Vouch system
 ├── ENTITY-SYSTEM.md               # Archetype and goals system

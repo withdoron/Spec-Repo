@@ -248,12 +248,49 @@ Real money. Gated behind legal checklist.
 
 ---
 
+## 📍 ROUTES & PAGES
+
+### Main Pages
+
+| Route | Component | Status |
+|-------|-----------|--------|
+| `/` | Home.jsx | ✅ Done |
+| `/MyLane` | MyLane.jsx | ✅ Done |
+| `/Events` | Events.jsx | ✅ Done |
+| `/Directory` | Directory.jsx | ✅ Done |
+| `/Search` | Search.jsx | ✅ Done |
+| `/BusinessProfile/:id` | BusinessProfile.jsx | ✅ Done |
+| `/CategoryPage/:slug` | CategoryPage.jsx | ✅ Done |
+| `/PunchPass` | PunchPass.jsx | ✅ Done |
+| `/CheckIn` | CheckIn.jsx | ✅ Done |
+| `/Recommend/:id` | Recommend.jsx | ✅ Done |
+| `/Settings` | Settings.jsx | ✅ Done |
+
+### Business Dashboard
+
+| Route | Component | Status |
+|-------|-----------|--------|
+| `/business-dashboard` | BusinessDashboard.jsx | ✅ Done |
+
+### Admin Panel
+
+| Route | Component | Status |
+|-------|-----------|--------|
+| `/Admin` | Admin.jsx | ✅ Done |
+| `/Admin/businesses` | AdminBusinessTable | ✅ Done |
+| `/Admin/concerns` | AdminConcernsPanel | ✅ Done |
+| `/Admin/users` | AdminUsersSection | ✅ Done |
+| `/Admin/settings` | AdminSettingsPanel | ✅ Done |
+| `/Admin/events/*` | ConfigSection | ✅ Done |
+| `/Admin/networks` | ConfigSection | ✅ Done |
+
+---
+
 ## 📄 SPEC REPO FILES
 
 | File | Purpose | Status |
 |------|---------|--------|
 | ARCHITECTURE.md | System architecture overview | ✅ Current |
-| CURRENT-STATE.md | Implementation status | ✅ Updated 2026-02-01 |
 | STATUS-TRACKER.md | Project status and roadmap | ✅ New 2026-02-01 |
 | STYLE-GUIDE.md | Design system reference | ✅ Current |
 | TIER-SYSTEM.md | Business tier definitions | ✅ Current |
