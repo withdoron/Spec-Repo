@@ -261,13 +261,8 @@ Real money. Gated behind legal checklist.
 | MYLANE.md | MyLane spec (3 phases) | ✅ Current |
 | USER-TIERS.md | User tier definitions | ✅ Current |
 | ADMIN-ARCHITECTURE.md | Admin panel structure | ✅ Current |
-| INTEGRATION-PLAN.md | Stripe + platform integration | ✅ Current |
+| BUILD-PROTOCOL.md | Universal build sequence | ✅ Current |
 | STRIPE-CONNECT.md | Stripe Connect spec | ✅ Current |
-| UX-WALKTHROUGH-2026-02-01.md | Chrome audit findings | ✅ Current |
-| CURSOR-QUICK-WINS.md | Quick fix prompts | ✅ Complete |
-| CURSOR-MYLANE-PHASE1.md | MyLane build prompt | ✅ Complete |
-| CURSOR-RSVP-SYSTEM.md | RSVP build prompt | ✅ Complete |
-| CURSOR-SETTINGS-AND-ADMIN-USERS.md | Settings + Admin Users prompt | ✅ Complete |
 
 Strategy and concept docs maintained in private repository.
 

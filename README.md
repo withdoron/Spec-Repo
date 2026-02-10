@@ -208,76 +208,40 @@ TEXT:
 
 ---
 
-## Revised 7-Day Pilot Plan
-
-**Goal:** Working event flow for homeschool pilot
-
-### Day 1 (Today) ✅
-- [x] Spec-Repo populated and pushed
-- [x] Style guide complete
-- [x] Development workflow documented
-- [x] Current state assessed
-
-### Day 2: Community Node Cleanup
-- [ ] Fix organizer name display (show business name, not "Event Spoke")
-- [ ] Make Admin Panel dark theme
-- [ ] Remove/hide unused features (directory, boost, etc.)
-- [ ] Verify event sync is stable
-
-### Day 3: User Flow
-- [ ] User registration/login flow
-- [ ] RSVP to events (basic)
-- [ ] "My Saved Events" view
-
-### Day 4: Punch Pass Demo Mode
-- [ ] Purchase flow (demo - no real payment)
-- [ ] User wallet/balance display
-- [ ] Redeem flow at RSVP
-
-### Day 5: Event Node Polish
-- [ ] Fix any sync issues
-- [ ] Verify business name flows through
-- [ ] Test create → sync → display flow
-
-### Day 6: End-to-End Testing
-- [ ] Full flow: Create event → Appears in Community → User RSVPs
-- [ ] Punch pass flow: Purchase → Redeem
-- [ ] Mobile testing
-- [ ] Fix critical bugs
-
-### Day 7: Pilot Prep
-- [ ] Add 5-10 real test events
-- [ ] Brief pilot users (homeschool group)
-- [ ] Set up feedback collection
-- [ ] Soft launch
-
----
-
 ## Repository Structure
 
 ```
 Spec-Repo/
-├── README.md           # This file
-├── ARCHITECTURE.md     # Technical patterns
-├── STYLE-GUIDE.md      # Visual standards
-├── COMPONENTS.md       # UI component specs
-├── DECISIONS.md        # Decision log
-├── CURSOR-RULES.md     # Rules for Cursor agent
-├── WORKFLOW.md         # Development workflow
-├── RECOMMENDATION-SYSTEM.md  # Nod/Story/Vouch (replaces star ratings)
+├── README.md                      # This file
+├── ARCHITECTURE.md                # Technical patterns
+├── STYLE-GUIDE.md                 # Visual standards
+├── COMPONENTS.md                  # UI component specs
+├── DECISIONS.md                   # Decision log
+├── WORKFLOW.md                    # Development workflow
+├── BUILD-PROTOCOL.md              # Universal build sequence
+├── STATUS-TRACKER.md              # Project status and session logs
+├── CURRENT-STATE.md               # Implementation status
+├── STRIPE-CONNECT.md              # Stripe integration spec
+├── RECOMMENDATION-SYSTEM.md       # Nod/Story/Vouch system
+├── ENTITY-SYSTEM.md               # Archetype and goals system
+├── MYLANE.md                      # MyLane user dashboard spec
+├── TIER-SYSTEM.md                 # Business tier definitions
+├── USER-TIERS.md                  # User tier definitions
+├── ADMIN-ARCHITECTURE.md          # Admin panel structure
+├── BUSINESS-DASHBOARD-v2.md       # Business Dashboard strategy spec
 ├── archetypes/
-│   ├── _template.md    # Template for new archetypes
-│   ├── event-node.md   # Event coordinator archetype
-│   └── nonprofit-node.md # Church/nonprofit archetype
+│   ├── _template.md               # Template for new archetypes
+│   ├── event-node.md              # Event coordinator archetype
+│   └── nonprofit-node.md         # Church/nonprofit archetype
 └── checklists/
-    ├── LAUNCH-CHECKLIST.md    # Master launch roadmap (5 phases)
-    ├── farm-program-launch.md # Active Phase 1 working checklist
-    ├── new-node.md            # New node setup
+    ├── LAUNCH-CHECKLIST.md        # Master launch roadmap (5 phases)
+    ├── farm-program-launch.md     # Active Phase 1 working checklist
+    ├── new-node.md                # New node setup
     └── archive/
-        ├── 7-day-plan-v1.md       # Original 7-day plan
-        ├── 7-day-plan-v2.md       # Replaced by LAUNCH-CHECKLIST.md
-        ├── pilot-launch-v1.md     # Original pilot launch
-        └── pilot-launch-v2.md     # Replaced by LAUNCH-CHECKLIST.md
+        ├── 7-day-plan-v1.md
+        ├── 7-day-plan-v2.md
+        ├── pilot-launch-v1.md
+        └── pilot-launch-v2.md
 ```
 
 ---
@@ -317,39 +281,6 @@ Claude (Strategy) → Spec-Repo → Cursor (Code) → GitHub → Base44 → Live
 5. Manual **publish** makes changes live
 
 See [WORKFLOW.md](./WORKFLOW.md) for details.
-
----
-
-## Starting a New Conversation
-
-When starting a new Claude conversation:
-
-```
-I'm working on the LocalLane ecosystem. Please review:
-
-Spec-Repo (Google Docs mirror):
-- [Link to README]
-- [Link to ARCHITECTURE]
-- [Link to STYLE-GUIDE]
-
-Key context:
-1. Node-based architecture (Community Node + Partner Nodes)
-2. Tier system (Standard → Storefront → Partner)
-3. "Gold Standard" dark theme with amber/gold accent
-4. Currently preparing for homeschool pilot
-
-Today I'm working on: [YOUR TASK]
-```
-
----
-
-## Open Questions
-
-1. Tier 3 criteria: archetype-specific or universal?
-2. Tier 2 pricing: $X/month - what's X?
-3. Business closures with active punch passes - refund policy?
-4. Family accounts (parent + kids) - how to handle?
-5. Partner profit sharing model (for later)
 
 ---
 
