@@ -305,6 +305,34 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-10 (Contractor Daily Phase 3)
+
+**Phase 3 complete. Multi-user access shipped.**
+
+**Builds shipped:**
+1. Contractor Daily Build 10: Role System Foundation — RoleContext, useRole(), auto-link on login, Settings User Management with per-person permission toggles
+2. Contractor Daily Build 11: Client Read-Only View — Project Timeline + Reports filtered to assigned projects, summary-only cost visibility (never line items), receipt-split log filtering
+3. Contractor Daily Build 12: Worker View — permission-gated Daily Log sections, assigned projects only, own labor scoping
+4. Contractor Daily Build 13: Nav & Route Gating — roleAccess.js page matrix, RoleGate on all routes, login redirect per role, sign out for all roles
+5. Phase 3 audit (Claude Code) — read-only review, 5 findings
+6. Phase 3 audit fixes — client nav link, worker cost leak in Reports, sign out button, receipt-split filtering in Reports list
+
+**Decisions activated:**
+- DEC-CD-005, DEC-CD-017 through DEC-CD-020 moved from Planned to Active
+
+**Key patterns established:**
+- Configurable per-person permissions with role defaults (matches LocalLane DEC-046 architecture)
+- Summary-only client cost view — progress framing, never line items (cortisol-conscious design)
+- Receipt-split auto-log filtering for clean client experience
+- Role system portable across all LocalLane archetypes (same pattern in Property Pulse, Contractor Daily, future nodes)
+
+**Next up:**
+- Multi-user testing with test accounts
+- Field testing with Dan Sikes
+- New archetype scoping: Donut Shop, Fitness/Recess
+
+---
+
 ### Contractor Daily — Session Log — 2026-02-10 (Phase 2)
 
 **Phase 2 core completed.**
