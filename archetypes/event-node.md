@@ -282,6 +282,8 @@ This is the first archetype built for LocalLane and serves as the template for a
 
 ## Current Implementation Status
 
+> **Status Note (2026-02-11):** This spec was written 2026-01-27 based on the Event Node as a Tier 3 Partner Node syncing to Community Node. Since then, Community Node has achieved full EventEditor feature parity (DEC-019), migrated from Punch Pass to Joy Coins (DEC-028, DEC-041), and built the complete RSVP and check-in system. A full reassessment is needed to determine what Event Node offers beyond Community Node's current capabilities, and whether Event Node should be repositioned as a standalone lab node under the Node Lab Model. See NODE-PLAYBOOK.md (private repo).
+
 ### What Exists
 
 - [x] Basic event creation

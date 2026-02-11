@@ -1221,6 +1221,40 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-047: Node Lab Model
+
+**Date:** 2026-02-11
+
+**Context:** Nodes were originally designed as sync-dependent children of Community Node (config flows down, events flow up). This created coupling before there was real traffic. Property Pulse and Contractor Daily proved that standalone apps with real users generate better feedback and more mature code than speculative features built inside LocalLane.
+
+**Decision:** Adopt the Node Lab Model as the primary development approach. Nodes are standalone Base44 apps that serve real people independently. Each node goes through: Research → Spec → Build → Field Test → Iterate → Maturity Assessment → Integration Planning. Nodes merge into LocalLane only when both the node and LocalLane are ready. The sync architecture (ARCHITECTURE.md) is preserved as the future integration reference. Portable Feedback Kit (FeedbackLog entity + UI) ships with every node entering field testing.
+
+**Tier 4 (Enterprise) captured as horizon:** Entities that operate their own tree while interoperating with LocalLane. Not a build target — an architectural aim that informs how we design node interoperability.
+
+**Rationale:** Independence forces quality. Real users generate real feedback. Parallel testing with focused building prevents attention fragmentation. Merge from strength, not hope.
+
+**Reference:** NODE-LAB-MODEL.md and NODE-PLAYBOOK.md (private repo)
+
+**Status:** ✅ Active
+
+---
+
+### DEC-048: Research-First Development
+
+**Date:** 2026-02-11
+
+**Context:** Contractor Daily's photo-first philosophy came from CompanyCam research. Community Pass pricing came from Crabtree's Simple Numbers framework. The best design decisions emerged from studying experts and understanding the domain before building.
+
+**Decision:** Codify research as Phase 0 of every node. Before writing a spec: study the domain experts (books, frameworks, competing tools), talk to the real user about their actual workflow, and document findings. The spec emerges from research. Expert frameworks get cited as design principles. This applies to every new node and every major feature.
+
+**Research library maintained in NODE-PLAYBOOK.md** (private repo) tracks which sources informed which nodes.
+
+**Rationale:** Building from imagination produces generic tools. Building from understanding produces tools that feel like they were made by someone who gets it. The research investment pays for itself in fewer iterations.
+
+**Status:** ✅ Active
+
+---
+
 ## Decision Template
 
 ```markdown

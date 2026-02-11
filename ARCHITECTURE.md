@@ -16,6 +16,8 @@ LocalLane is a **federated system** of interconnected applications ("nodes"). Ea
 
 ## Node Communication Patterns
 
+> **Note (2026-02-11):** The sync patterns below describe the future integration architecture — how nodes will communicate once they merge into LocalLane. During the current lab phase, nodes are standalone Base44 apps with no sync dependencies. See NODE-PLAYBOOK.md (private repo) for the current development model and NODE-LAB-MODEL.md (private repo) for strategic context.
+
 ### Pattern 1: Config Sync (Parent → Child)
 
 Child nodes need configuration from their parent (networks, categories, settings).

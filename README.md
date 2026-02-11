@@ -22,6 +22,7 @@
 | [ADMIN-ARCHITECTURE.md](./ADMIN-ARCHITECTURE.md) | Admin panel structure |
 | [DECISIONS.md](./DECISIONS.md) | Decision log with context |
 | [WORKFLOW.md](./WORKFLOW.md) | Development workflow and session SOP |
+| [BOOK-FRAMEWORKS.md](./BOOK-FRAMEWORKS.md) | Marketing and business frameworks research |
 
 ---
 
@@ -228,16 +229,18 @@ Spec-Repo/
 ├── archetypes/
 │   ├── _template.md               # Template for new archetypes
 │   ├── event-node.md              # Event coordinator archetype
-│   └── nonprofit-node.md         # Church/nonprofit archetype
+│   ├── nonprofit-node.md         # Church/nonprofit archetype
+│   └── archive/
+│       └── microbusiness-node.md  # Archived — concepts absorbed into individual nodes
 └── checklists/
     ├── LAUNCH-CHECKLIST.md        # Master launch roadmap (5 phases)
     ├── farm-program-launch.md     # Active Phase 1 working checklist
-    ├── new-node.md                # New node setup
     └── archive/
         ├── 7-day-plan-v1.md
         ├── 7-day-plan-v2.md
         ├── pilot-launch-v1.md
-        └── pilot-launch-v2.md
+        ├── pilot-launch-v2.md
+        └── new-node.md                # Replaced by NODE-PLAYBOOK.md (private repo)
 ```
 
 ---
@@ -248,7 +251,10 @@ Spec-Repo/
 |------|---------|-----|
 | **community-node** | The main hub app | github.com/withdoron/community-node |
 | **events-node** | Partner node for event organizers | github.com/withdoron/events-node |
+| **property-pulse** | Family property management app | github.com/withdoron/property-pulse |
+| **contractor-daily** | Contractor daily logging app | github.com/withdoron/contractor-daily |
 | **Spec-Repo** | This specification repo | github.com/withdoron/Spec-Repo |
+| **locallane-private** | Strategy docs (private) | github.com/withdoron/locallane-private |
 
 ---
 

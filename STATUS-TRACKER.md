@@ -305,6 +305,51 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-11
+
+**Focus:** Strategic foundation — Node Lab Model
+
+**Shipped today:**
+1. NODE-LAB-MODEL.md (private repo) — strategic foundation for standalone node development
+2. NODE-PLAYBOOK.md (private repo) — operational SOP with Feedback Kit specification, replaces new-node.md
+3. Consolidation sweep: archived microbusiness-node.md and new-node.md, updated ARCHITECTURE.md, event-node.md, README.md
+4. Node Registry established tracking all nodes and their current phase
+5. Feedback Kit designed — portable FeedbackLog entity + UI for field testing nodes
+
+**Strategic shift:**
+- Nodes are now developed as standalone apps, not as sync-dependent children of Community Node
+- Lab model: build independently, field test with real users, merge when mature
+- Tier 4 (Enterprise) captured as horizon concept — entities that interoperate with LocalLane without being contained by it
+- Research-first principle codified: study the domain, find the expert frameworks, talk to the real user before writing a spec
+- "Find the Dan" principle: every node needs a named real person who will test it
+- Feedback Kit: portable FeedbackLog entity + feedback button added to Phase 3 standard kit for all field-testing nodes
+
+**Documents affected:**
+- ARCHITECTURE.md: Node Communication Patterns marked as future integration reference
+- event-node.md: Flagged for reassessment against Community Node current state
+- microbusiness-node.md: Archived (concepts absorbed into Property Pulse and individual nodes)
+- new-node.md: Archived, replaced by NODE-PLAYBOOK.md (private repo)
+- README.md: Updated file references and repo list
+
+**Current node status:**
+- Contractor Daily: Phase 3 complete, Dan invited for field testing, client view button-up + Feedback Kit next
+- Property Pulse: Phase 2 complete, on hold pending revisit
+- Event Node: Needs assessment — Community Node may have surpassed it
+- Donut Shop: Phase 0 research — phone call with brother pending
+- Financial Node: Phase 0 concept — next active build after Contractor Daily ships
+- Community Node: Pilot-ready, blocked on legal review
+
+**Decisions:**
+- DEC-047: Node Lab Model adopted as development approach
+- DEC-048: Research-first principle — domain research and expert frameworks required before spec
+
+**Next up:**
+- Button up Contractor Daily: client permissions (DEC-CD-024) + Feedback Kit build
+- Phone call with brother for Donut Shop Phase 0
+- Event Node assessment: what does it have that Community Node doesn't?
+
+---
+
 ## Session Log — 2026-02-10 (Contractor Daily Phase 3)
 
 **Phase 3 complete. Multi-user access shipped.**
