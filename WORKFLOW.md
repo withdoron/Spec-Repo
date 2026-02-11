@@ -101,7 +101,7 @@
    - README.md (overview, current status)
    - ARCHITECTURE.md (technical patterns)
    - STYLE-GUIDE.md (UI standards)
-   - COMPONENTS.md (component patterns)
+   - .cursorrules (component patterns per app repo)
    - DECISIONS.md (constraints)
    - Relevant archetype spec (if building a node)
    ```
@@ -147,19 +147,19 @@ When implementing code:
 ### 1. Always Reference Spec-Repo
 
 - Read relevant spec files before coding
-- Follow patterns exactly as documented
+- Follow patterns exactly as documented in Spec-Repo and app .cursorrules
 - When in doubt, check the spec
 
 ### 2. Use Shared Configurations
 
-- Copy `tailwind.config.js` from events-node
+- Copy `tailwind.config.js` from the most mature app (currently property-pulse or contractor-daily)
 - Use same `package.json` dependencies
 - Follow same folder structure
 
 ### 3. Maintain Consistency
 
 - **Colors:** Use STYLE-GUIDE.md palette only
-- **Components:** Follow COMPONENTS.md patterns
+- **Components:** Follow .cursorrules patterns in each app repo
 - **API patterns:** Follow ARCHITECTURE.md examples
 
 ### 4. Document Deviations
@@ -177,7 +177,7 @@ When implementing code:
 - ✅ New architectural decision → DECISIONS.md
 - ✅ New API pattern → ARCHITECTURE.md
 - ✅ Style change → STYLE-GUIDE.md
-- ✅ New component pattern → COMPONENTS.md
+- ✅ New component pattern → .cursorrules in relevant app repo
 - ✅ New archetype → archetypes/[name].md
 - ✅ New checklist → checklists/[name].md
 
@@ -217,7 +217,7 @@ When implementing code:
 Before pushing code:
 
 - [ ] Follows STYLE-GUIDE.md colors and patterns
-- [ ] Uses COMPONENTS.md patterns
+- [ ] Uses .cursorrules patterns from app repo
 - [ ] Matches ARCHITECTURE.md communication patterns
 - [ ] Uses shared configs (tailwind, package.json)
 - [ ] Follows node folder structure

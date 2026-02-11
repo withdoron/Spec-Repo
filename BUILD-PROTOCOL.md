@@ -99,7 +99,7 @@ Mark each as: Shows Here / Not Applicable / Future Phase.
 **What does it look like and feel like?**
 
 - Reference STYLE-GUIDE.md for all visual decisions
-- Reference existing component patterns (COMPONENTS.md, .cursorrules)
+- Reference existing component patterns (.cursorrules in each app repo)
 - Sketch the user flow: what does the user do, step by step?
 - Define empty states (what shows before any data exists?)
 - Define loading states
