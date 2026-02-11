@@ -210,23 +210,4 @@ This allows testing tier-locked features without actual payment.
 
 ---
 
-## Migration Notes
-
-### Terminology Evolution
-
-The tier naming has evolved:
-
-| Old Name | Current Code | Blueprint Name |
-|----------|--------------|----------------|
-| Basic | `basic` | Standard |
-| Community | `standard` | Storefront |
-| Plus | (removed) | — |
-| Enterprise | `partner` | Partner |
-
-**Current implementation uses:** `basic` / `standard` / `partner`
-
-This may be updated in the future to match Blueprint naming, but for now, use the code values consistently.
-
----
-
 *Always use the exact tier strings (`basic`, `standard`, `partner`) in code and database.*

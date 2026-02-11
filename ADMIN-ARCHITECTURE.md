@@ -35,7 +35,7 @@ The Admin Panel is the control center for platform Stewards to manage businesses
 │  PLATFORM       │                                               │
 │  ├─ Networks    │                                               │
 │  ├─ Tiers       │                                               │
-│  ├─ Punch Pass  │                                               │
+│  ├─ Joy Coins    │                                               │
 │  └─ Branding    │                                               │
 │                 │                                               │
 │  EVENTS         │                                               │
@@ -80,7 +80,7 @@ Global configuration that applies across the entire platform.
 |---------|---------|-------------------|
 | **Networks** | Community networks/groups that can be tagged on events and businesses | Add/edit/delete networks, set active status, sort order |
 | **Tiers** | Business and User tier definitions | Tier names, prices, features included per tier |
-| **Punch Pass** | Punch Pass system settings | Price per punch, platform fee %, expiration rules |
+| **Joy Coins** | Joy Coins / Community Pass settings | Coin pricing range, revenue share %, monthly reset rules |
 | **Branding** | Platform visual identity | Logo, accent color (future: per-cell branding) |
 
 ---
@@ -142,7 +142,7 @@ Configuration for the onboarding wizards (both supply and demand side).
   },
   tier_display: [
     { tier: 'basic', name: 'Basic', price: 'Free', features: [...] },
-    { tier: 'standard', name: 'Standard', price: '$29/mo', features: [...] },
+    { tier: 'standard', name: 'Standard', price: '$79/mo', features: [...] },
     { tier: 'partner', name: 'Partner', price: 'By invitation', features: [...] },
   ],
 }
@@ -244,7 +244,7 @@ Features:
 
 ### Phase 2: Platform & Onboarding
 
-5. **Build Platform Settings section** — Networks, Tiers, Punch Pass
+5. **Build Platform Settings section** — Networks, Tiers, Joy Coins
 6. **Build Onboarding Configuration** — Business wizard config
 7. **Update Business Onboarding** — Use config for archetypes, goals, tiers
 

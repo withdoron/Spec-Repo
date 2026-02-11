@@ -47,7 +47,7 @@ Goals determine what features an entity wants to use. Goals unlock Dashboard Mod
 | Goal | Description | Unlocks |
 |------|-------------|---------|
 | **Host Events** | Create and manage events | Event Module |
-| **Accept Punch Pass** | Accept Punch Pass payments | Punch Pass Module |
+| **Accept Joy Coins** | Accept Joy Coins from Community Pass members | Joy Coins Module |
 | **List in Directory** | Appear in business directory | Directory Profile Module |
 | **Manage Bookings** | Accept appointments/reservations | Booking Module (future) |
 | **Sell Products** | List products for sale | Marketplace Module (future) |
@@ -89,7 +89,7 @@ Step 3: DETAILS
 → Examples:
   - If "Host Events": Event-related fields
   - If "List in Directory": Address, hours, photos
-  - If "Accept Punch Pass": Payment setup (future)
+  - If "Accept Joy Coins": Payment setup (future)
 
 Step 4: PLAN
 "Choose your plan"
@@ -111,7 +111,7 @@ Tiers determine feature limits and capabilities within each module.
 | Tier | Code Value | Display Name | Cost | Key Differences |
 |------|------------|--------------|------|-----------------|
 | 1 | `basic` | Basic | Free | Basic features, events go to review queue |
-| 2 | `standard` | Standard | $X/mo | Full features, auto-publish, Punch Pass acceptance |
+| 2 | `standard` | Standard | $79/mo | Full features, auto-publish, Joy Coins acceptance |
 | 3 | `partner` | Partner | $Y/mo + Earned | Own standalone app (Partner Node) |
 
 **Note:** Always use the code values (`basic`, `standard`, `partner`) in database and code.
@@ -138,7 +138,7 @@ Some goals require minimum tier:
 |------|--------------|------------|
 | Host Events | Tier 1 | `basic` |
 | List in Directory | Tier 1 | `basic` |
-| Accept Punch Pass | Tier 2 | `standard` |
+| Accept Joy Coins | Tier 2 | `standard` |
 | Manage Bookings | Tier 2 | `standard` |
 | Sell Products | Tier 2 | `standard` |
 | Post Announcements | Tier 1 | `basic` |
@@ -171,21 +171,21 @@ Each module is a section of the Entity Dashboard. Modules are shown/hidden based
 - RSVP management
 - Analytics charts (Tier 2)
 
-### Punch Pass Module
+### Joy Coins Module
 
-**Unlocked by:** "Accept Punch Pass" goal
-**Minimum Tier:** 2
+**Unlocked by:** "Accept Joy Coins" goal
+**Minimum Tier:** 2 (Standard)
 
 **Features:**
-- Earnings dashboard
-- Transaction history
-- Payout information
-- Pass acceptance settings
+- Joy Coins earnings dashboard
+- Check-in scan history
+- Revenue share payout information
+- Community Pass network settings
 
 **Components:**
 - Earnings summary cards
-- Transaction table
-- Payout schedule
+- Scan history table
+- Revenue share overview
 
 ### Directory Profile Module
 
@@ -220,7 +220,7 @@ Entity {
   
   // Onboarding selections
   archetypeId: string,       // 'venue', 'event_organizer', etc.
-  goals: string[],          // ['host_events', 'accept_punch_pass']
+  goals: string[],          // ['host_events', 'accept_joy_coins']
   tier: number,             // 1, 2, or 3
   
   // Basic info

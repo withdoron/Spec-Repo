@@ -75,7 +75,7 @@ Global configuration that applies everywhere.
 | `networks` | Community networks/groups | Homeschool Community, Recess, Creative Alliance |
 | `business_tiers` | Business subscription tiers | Basic, Standard, Partner |
 | `user_tiers` | User membership tiers | Explorer, Member |
-| `punch_pass_settings` | Punch pass configuration | price_per_punch, platform_fee_percent |
+| `joy_coin_settings` | Joy Coins / Community Pass configuration | coin_price_range, revenue_share_percent, monthly_reset |
 
 ### Events Domain
 

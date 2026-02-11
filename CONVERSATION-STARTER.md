@@ -1,12 +1,9 @@
-# LocalLane — Conversation Starter
+# Conversation Starter — Redirected
 
-> This file is retained for reference but is largely superseded by the project-level instructions
-> which are loaded automatically into every conversation.
-> Last reviewed: 2026-02-11
-
-The active project instructions cover: opening briefing protocol, conversation lanes,
-Doron's working style, Cursor prompt formatting rules, audit cadence, key documents,
-decision filter, and do-not-do list.
-
-See the project-level instructions (set by Doron in the Claude project settings) for the
-canonical version of all conversation protocols.
+> **This file's content has been moved to the Claude project instructions (system prompt).**
+> It is loaded automatically on every conversation — no need to paste or reference.
+>
+> If you need to update Claude's behavior, edit the project instructions directly.
+> This file exists only as a pointer. The content it previously held is preserved in Git history.
+>
+> Updated: 2026-02-11
