@@ -60,7 +60,7 @@ Not all goals are relevant for all archetypes:
 | Goal | Venue | Event Org | Service | Non-Profit | Seller |
 |------|-------|-----------|---------|------------|--------|
 | Host Events | ✅ | ✅ | ✅ | ✅ | ⚪ |
-| Accept Punch Pass | ✅ | ✅ | ⚪ | ⚪ | ⚪ |
+| Accept Joy Coins | ✅ | ✅ | ⚪ | ⚪ | ⚪ |
 | List in Directory | ✅ | ⚪ | ✅ | ✅ | ✅ |
 | Manage Bookings | ✅ | ⚪ | ✅ | ⚪ | ⚪ |
 | Sell Products | ⚪ | ⚪ | ⚪ | ⚪ | ✅ |
@@ -94,7 +94,7 @@ Step 3: DETAILS
 Step 4: PLAN
 "Choose your plan"
 → Show tiers based on goals selected
-→ Some goals require Tier 2+ (e.g., Accept Punch Pass)
+→ Some goals require Tier 2+ (e.g., Accept Joy Coins)
 
 Step 5: REVIEW
 "Review and confirm"
@@ -122,8 +122,8 @@ Tiers determine feature limits and capabilities within each module.
 |---------|----------------|-------------------|------------------|
 | Create Events | ✅ (reviewed) | ✅ (auto-publish) | ✅ (own node) |
 | Event Analytics | ❌ | ✅ | ✅ |
-| Accept Punch Pass | ❌ | ✅ | ✅ |
-| Punch Pass Earnings | ❌ | ✅ | ✅ |
+| Accept Joy Coins | ❌ | ✅ | ✅ |
+| Joy Coins Earnings | ❌ | ✅ | ✅ |
 | Check-in Feature | ❌ | ✅ | ✅ |
 | Directory Listing | Basic | Enhanced | Enhanced + Badge |
 | Own Branding | ❌ | ❌ | ✅ |
@@ -244,9 +244,9 @@ Entity {
   status: 'pending' | 'active' | 'suspended',
   trustedStatus: boolean,    // Can auto-publish
   
-  // Punch Pass
-  acceptsPunchPass: boolean,
-  punchPassTypes: string[],  // Which pass types accepted
+  // Joy Coins / Community Pass
+  acceptsJoyCoins: boolean,
+  joyCoinsNetworks: string[],  // Which pass networks accepted
   
   // Partner Node (Tier 3)
   partnerNodeId: UUID | null,

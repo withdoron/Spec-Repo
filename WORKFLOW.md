@@ -107,7 +107,7 @@
    ```
 
 2. **Check for existing patterns**
-   - Look at events-node for reference implementation
+   - Look at the most mature app (currently property-pulse or contractor-daily) for reference implementation
    - Copy shared configs (tailwind.config.js, package.json)
    - Follow established folder structure
 

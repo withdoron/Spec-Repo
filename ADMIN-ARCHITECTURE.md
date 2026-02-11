@@ -131,7 +131,7 @@ Configuration for the onboarding wizards (both supply and demand side).
   goals: {
     venue: [
       { value: 'host_events', label: 'Host Events', min_tier: 'basic' },
-      { value: 'accept_punch_pass', label: 'Accept Punch Pass', min_tier: 'standard' },
+      { value: 'accept_joy_coins', label: 'Accept Joy Coins', min_tier: 'standard' },
       // ...
     ],
     organizer: [
@@ -317,7 +317,7 @@ src/
 
 /admin/platform/networks    → NetworksConfig
 /admin/platform/tiers       → TiersConfig
-/admin/platform/punch-pass  → PunchPassConfig
+/admin/platform/joy-coins   → JoyCoinsConfig
 /admin/platform/branding    → BrandingConfig
 
 /admin/events/types         → EventTypesConfig

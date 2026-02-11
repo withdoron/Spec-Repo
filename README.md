@@ -67,7 +67,7 @@ Regional Node (future)
 **Data Flow:**
 - Config flows DOWN (parent → child)
 - Content flows UP (child → parent)
-- Punch passes work ACROSS nodes
+- Joy Coins work within Community Pass network
 
 ### Entity Types
 
@@ -93,8 +93,8 @@ See [TIER-SYSTEM.md](./TIER-SYSTEM.md) for complete documentation.
 | Tier Level | Code Value | Display Name | Cost |
 |------------|------------|--------------|------|
 | Tier 1 | `basic` | Basic | Free |
-| Tier 2 | `standard` | Standard | $X/month |
-| Tier 3 | `partner` | Partner | Earned + $Y/month |
+| Tier 2 | `standard` | Standard | $79/month |
+| Tier 3 | `partner` | Partner | $149/month (earned) |
 
 **Always use code values** (`basic`, `standard`, `partner`) in database and code.
 
@@ -104,11 +104,6 @@ See [TIER-SYSTEM.md](./TIER-SYSTEM.md) for complete documentation.
 - Engagement threshold met
 - 3+ vouches from other partners
 - Zero policy violations
-
-### Network Membership Add-On
-- **Cost:** $18/month
-- **Benefit:** Accept Punch Passes, appear in network filters
-- **Included in:** Partner tier
 
 ---
 
@@ -122,30 +117,18 @@ See [TIER-SYSTEM.md](./TIER-SYSTEM.md) for complete documentation.
 
 ---
 
-## Punch Pass System
+## Community Pass / Joy Coins
 
-### Consumer Packs
+See COMMUNITY-PASS.md (private repo) for full membership model, pricing, and Joy Coin mechanics.
 
-| Pack | Price | Per Ticket | Savings |
-|------|-------|------------|---------|
-| 10 tickets | $100 | $10.00 | Base |
-| 20 tickets | $180 | $9.00 | ~10% |
-| 30 tickets | $255 | $8.50 | ~15% |
+**Quick reference:**
+- Community Pass is a membership subscription ($49/mo base, $39/mo per additional allocation of 12 Joy Coins)
+- Joy Coins are non-transferable, expire monthly, have no cash value
+- Businesses set their own coin price (1-3 coins per activity)
+- Revenue share: 75% business pool / 25% LocalLane (distributed by scan volume)
+- Unused coins flow to Scholarship Pool
 
-**Hero product:** 20-pack
-
-### How It Works
-1. User buys a Punch Pack (tickets, not dollars)
-2. Network businesses price in tickets (1-3 per activity)
-3. User pays with tickets at events
-4. Business receives payout minus 15% platform fee
-5. Packs expire 12 months from purchase (FIFO)
-
-### Phase 1: Demo Mode
-- Full UX without real payment processing
-- Shows prices, tracks balances
-- Clear "demo mode" indication
-- Real payments in Phase 2
+See STRIPE-CONNECT.md for payment implementation phases.
 
 ---
 
@@ -227,20 +210,15 @@ Spec-Repo/
 ├── ADMIN-ARCHITECTURE.md          # Admin panel structure
 ├── BUSINESS-DASHBOARD-v2.md       # Business Dashboard strategy spec
 ├── archetypes/
-│   ├── _template.md               # Template for new archetypes
-│   ├── event-node.md              # Event coordinator archetype
+│   ├── event-node.md              # Event Node assessment (needs repositioning)
 │   ├── nonprofit-node.md         # Church/nonprofit archetype
+│   ├── donut-shop-node.md        # Donut shop archetype (Phase 0 holding doc)
+│   ├── fitness-recess-node.md    # Fitness/Recess archetype (Phase 0 holding doc)
 │   └── archive/
-│       └── microbusiness-node.md  # Archived — concepts absorbed into individual nodes
+│       └── _template.md           # Archived — replaced by NODE-PLAYBOOK.md
 └── checklists/
     ├── LAUNCH-CHECKLIST.md        # Master launch roadmap (5 phases)
-    ├── farm-program-launch.md     # Active Phase 1 working checklist
-    └── archive/
-        ├── 7-day-plan-v1.md
-        ├── 7-day-plan-v2.md
-        ├── pilot-launch-v1.md
-        ├── pilot-launch-v2.md
-        └── new-node.md                # Replaced by NODE-PLAYBOOK.md (private repo)
+    └── farm-program-launch.md     # Active Phase 1 working checklist
 ```
 
 ---
