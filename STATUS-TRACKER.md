@@ -305,6 +305,40 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+### Session Log — 2026-02-12
+
+**Focus:** Build 14 debugging — client permissions pipeline fix
+
+**Bugs found and fixed:**
+1. `showPhotos` ReferenceError in ProjectTimeline.jsx — variable used before defined
+2. RoleContext key name mismatch — ClientModal writes `portal_permissions`, RoleContext was reading `permissions`. Fixed RoleContext to read `portal_permissions`.
+3. Reports.jsx silent crash — `Projects.get()` throws 404 for deleted projects, `.catch(() => [])` swallows error and kills entire log list. Added try/catch around project lookup.
+4. Reports photo gate missing — single-report view showed photos regardless of `can_view_photos` toggle. Added `(!isClient || clientPermissions?.can_view_photos !== false)` gate.
+5. Empty toolbar containers — top/bottom share toolbars rendered empty gray bars for clients. Wrapped in role/permission conditions.
+
+**Verified working:**
+- View Costs ON → Daily Summary shows (Materials, Labor, Day Total)
+- View Costs OFF → Daily Summary hidden
+- Download Reports ON → Print/Save PDF and Copy Link visible
+- Download Reports OFF → Toolbar hidden
+- No line-item tables shown to clients (Materials Used, Labor hidden per DEC-CD-018)
+
+**Known bugs (Build 16):**
+1. ClientModal sync doesn't update `assigned_project_ids` in user_roles — new client via Clients page leaves stale/missing project IDs, causes "Unknown project" in Settings
+2. Settings project re-assignment doesn't clear old deleted project IDs
+3. `showPhotos` in ProjectTimeline.jsx may still need verification after fix
+
+**Commits:**
+- fix: client permissions pipeline — portal_permissions key mismatch + report view gates
+- fix: Reports handles deleted project gracefully + remove debug logs
+
+**Next up:**
+- Build 15: Admin Feedback Review page
+- Build 16: Polish sweep (ClientModal sync bug, Settings project assignment, mobile testing)
+- Field testing with Dan Sikes
+
+---
+
 ## Session Log — 2026-02-11
 
 **Focus:** Strategic foundation — Node Lab Model
