@@ -211,7 +211,7 @@ Spec-Repo/
 ├── BUSINESS-DASHBOARD-v2.md       # Business Dashboard strategy spec
 ├── archetypes/
 │   ├── event-node.md              # Event Node assessment (needs repositioning)
-│   ├── nonprofit-node.md         # Church/nonprofit archetype
+│   ├── community-org-engine.md   # Community Organization Engine — churches, nonprofits, mutual aid
 │   ├── donut-shop-node.md        # Donut shop archetype (Phase 0 holding doc)
 │   ├── fitness-recess-node.md    # Fitness/Recess archetype (Phase 0 holding doc)
 │   └── archive/
