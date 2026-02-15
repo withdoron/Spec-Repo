@@ -305,6 +305,43 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+### Property Pulse — Session Log — 2026-02-15
+
+**Focus:** LLC formation planning and Family Property Management Plan V4
+
+**Shipped today:**
+1. Family Property Management Plan V4 (PDF) — complete plan for Oregon duplex LLC formation
+2. SSI benefits protection research — identified resource limit ($2,000) and income limit risks for Mom's 50% ownership
+3. Legal aid resources compiled for Madras, Oregon (Mom's location): DRO, Oregon Public Benefits Hotline, LASO, Halpern Law Group, OSB Referral Service
+4. Four resolution options documented: disclaimer, special needs trust, fair-value sale (flagged as problematic), do nothing
+5. Financial waterfall modeled: $2,690 gross → $708 fixed → $269 mgmt fee → $404 reserves → $1,309 net distribution
+6. Distribution structure: Sierran $654.50/mo, Doron $596.25/mo (mgmt + Mom's share), Aria $327.25/mo, Mom $0 (distributes her share)
+7. Oregon property management licensing research — ORS 696.030(27) exemption confirmed for managing member of LLC
+
+**Key findings:**
+- Mom's 50% property ownership likely already violates SSI $2,000 resource limit (not yet flagged by SSA)
+- Transfer penalty risk: gifting property = up to 36 months SSI ineligibility
+- Installment sale does NOT solve SSI problem (note is countable resource + payments are income)
+- Co-ownership hardship exclusion does not apply (neither owner lives in duplex)
+- Berrey v. Real Estate Agency: partial ownership doesn't exempt property management licensing if managing for others for compensation — LLC resolves this
+
+**Decisions made:**
+- DEC-PP-009: LLC formation proceeds with Sierran as primary member, Doron as managing member. Mom's membership deferred pending SSI attorney consultation.
+- DEC-PP-010: SSI resolution is a prerequisite for property title transfer into LLC. LLC setup (articles, EIN, bank account) can proceed in parallel.
+- DEC-PP-011: Management fee set at 10% of gross rent ($269/mo). Reserves: 10% maintenance + 5% emergency (target $1,500). Family labor at $20/hr general, local handyman estimated $35/hr.
+
+**Documents created:**
+- Family_Property_Management_Plan_V4.pdf (sent to Mom and Sierran)
+
+**Next up:**
+- Sierran responds with 2054 Marion photos/details → draft rental listing
+- Mom contacts legal aid resources in Madras (or hires Doron to coordinate)
+- Find local handyman in North Bend/Coos Bay area
+- Property Pulse Phase 3 planning (financial reporting, bank reconciliation)
+- Contractor Daily Build 17b debugging (Base44 routing issue)
+
+---
+
 ### Financial Node — Session Log — 2026-02-14
 
 **Phase 1 COMPLETE. All 6 builds shipped in one session.**
