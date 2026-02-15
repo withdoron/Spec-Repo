@@ -305,6 +305,76 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+### Financial Node — Session Log — 2026-02-14
+
+**Phase 1 COMPLETE. All 6 builds shipped in one session.**
+
+**Builds shipped:**
+1. Build 1 (prior session): Backbone — pages, nav, entities, pdf.js, Cash Log
+2. Build 2: SELCO PDF parser v3 — rewrote for continuous text (pdf.js returns no newlines), cleanVendorName(), extractTransactionType(), vendorRules.js with 16 vendor patterns. Result: 20 transactions parsed, 18/20 auto-categorized
+3. Build 3: Real Dashboard — month selector, income/expense/net summary cards, category breakdown with CSS bars, transaction timeline grouped by date
+4. Build 4: Manual transaction entry — reusable TransactionForm component, modal from Transactions and Dashboard pages, edit support
+5. Build 5: Debt tracker — Debts and DebtPayments entities, progress bars, priority ordering, payment logging with balance reduction, paid-off detection
+6. Build 6: The Enough Number — Priority Stack with 5 tiers (Survival → Growth), auto-pull debt minimums from Debt Tracker, seed data on first visit, inline editing, stacked bar visualization, spending comparison
+
+**Polish fixes shipped:**
+- Amount input $ prefix: migrated from absolute positioning to flex layout across all 3 form files (TransactionForm, DebtForm, PaymentForm)
+- Dark theme dropdowns and date picker (colorScheme: dark)
+- DebtForm focus loss fix (inline component was recreating on every render)
+- Delete debt with confirmation and cascading DebtPayment cleanup
+- Edit button styling fix (white → Gold Standard slate secondary)
+- useRef missing import fix on Enough page
+
+**Technical discoveries:**
+- Base44 .filter().list() returns 0 results — documented in ADR-001, all queries use client-side filtering
+- pdf.js returns continuous text with NO newlines — parser must use regex on single string
+- React components defined inside render functions cause focus loss on every keystroke
+
+**Entities created:**
+- Transactions, StatementUploads, CashEntries (Build 1)
+- Debts, DebtPayments (Build 5)
+- EnoughItems (Build 6)
+- VendorRules (Build 2, local file — not Base44 entity)
+
+**Phase 1 "Done When" criteria — ALL MET:**
+- [x] Log a month of transactions (SELCO parser + manual entry)
+- [x] See where money went (Dashboard with categories)
+- [x] Know the Enough Number (Priority Stack page)
+- [x] Track debt paydown progress (Debt Tracker with payments)
+
+**New files created:**
+- src/utils/statementParser.js (v3)
+- src/utils/vendorRules.js
+- src/components/TransactionForm.jsx
+- src/components/DebtForm.jsx
+- src/components/PaymentForm.jsx
+- src/components/PriorityStack.jsx
+- src/pages/Dashboard.jsx (real, replacing placeholder)
+- src/pages/Debts.jsx
+- src/pages/EnoughNumber.jsx
+- docs/adr/001-base44-filter-workaround.md
+- docs/debts-entities.md
+- docs/enough-items-entity.md
+
+**Strategic additions:**
+- BJJ Ranked Queue concept captured as seed packet (BJJ-RANKED-QUEUE.md in private repo)
+- YouTube-to-Claude Chrome extension noted for future tool-for-the-builder build
+- Gemini Pro evaluated for logo/marketing asset generation
+
+**Decisions made:**
+- DEC-FIN-BUILD2-001: Client-side filtering pattern for all Base44 queries
+- DEC-FIN-BUILD2-002: Vendor rules as local JS file, not Base44 entity
+- DEC-FIN-BUILD2-003: Aggressive description cleanup with original preserved
+- Financial Node moves from Phase 0 to Phase 1 COMPLETE in Node Registry
+
+**Next up:**
+- Phase 1 polish: fill in real Enough Number amounts
+- Phase 2 planning: recurring transactions, benefits modeling, cross-node imports
+- Upload February SELCO statement when available
+- BJJ Ranked Queue: paper prototype planning (Phase 0)
+
+---
+
 ### Session Log — 2026-02-12
 
 **Focus:** Build 14 debugging — client permissions pipeline fix
