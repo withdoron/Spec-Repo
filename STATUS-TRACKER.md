@@ -414,7 +414,7 @@ Strategy and concept docs maintained in private repository.
 
 ### Contractor Daily — Session Log — 2026-02-12
 
-**Build 17 complete. Pre-ship audit done. Ready for Dan.**
+**Build 17 complete. Pre-ship audit done. Shipped to Dan.**
 
 **Builds shipped:**
 1. Build 17a: Settings project assignments read-only with "managed on Clients page" link
@@ -431,14 +431,13 @@ Strategy and concept docs maintained in private repository.
 - FeedbackLog delete permission: changed from Creator Only to No Restrictions
 
 **Decisions made:**
-- DEC-CD-029 through DEC-CD-034 (Notes/Replies, Settings read-only, Client Preview, Worker Audit, No-Role Landing, Onboarding Wizard)
+- DEC-CD-029 through DEC-CD-035 (Notes/Replies, Settings read-only, Client Preview, Worker Audit, No-Role Landing, Onboarding Wizard, Field Service Engine Origin)
 
 **Post-build audit:** 4 Critical, 9 High, 8 Medium, 8 Low findings. 5 critical/high fixes shipped pre-Dan. Remaining queued for post-field-test cleanup.
 
-**Next up:**
-- Field testing with Dan Sikes
-- Build 18: Worker Role Audit (DEC-CD-032)
-- Build 19: No-Role Landing + Onboarding Wizard (DEC-CD-033, DEC-CD-034)
+**Contractor Daily is now stable.** Dan is field testing. All future development (Build 18: multi-tenant isolation, Build 19: onboarding wizard, audit cleanup) moves to the Field Service Engine clone per DEC-CD-035.
+
+**Second vertical signal:** Peter (Elite Auto Tech N Tow, Eugene) — mechanic and tow operator, 25+ years experience, runs on phone and memory, no job tracking or client system. Same workflow gaps as Dan pre-Contractor Daily. Vocabulary swap: Projects → Vehicles/Jobs, Materials → Parts, Daily Log → Work Order. Research conversation pending.
 
 ---
 
