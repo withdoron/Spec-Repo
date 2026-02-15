@@ -412,37 +412,33 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
-### Session Log — 2026-02-12
+### Contractor Daily — Session Log — 2026-02-12
 
-**Focus:** Build 14 debugging — client permissions pipeline fix
+**Build 17 complete. Pre-ship audit done. Ready for Dan.**
 
-**Bugs found and fixed:**
-1. `showPhotos` ReferenceError in ProjectTimeline.jsx — variable used before defined
-2. RoleContext key name mismatch — ClientModal writes `portal_permissions`, RoleContext was reading `permissions`. Fixed RoleContext to read `portal_permissions`.
-3. Reports.jsx silent crash — `Projects.get()` throws 404 for deleted projects, `.catch(() => [])` swallows error and kills entire log list. Added try/catch around project lookup.
-4. Reports photo gate missing — single-report view showed photos regardless of `can_view_photos` toggle. Added `(!isClient || clientPermissions?.can_view_photos !== false)` gate.
-5. Empty toolbar containers — top/bottom share toolbars rendered empty gray bars for clients. Wrapped in role/permission conditions.
+**Builds shipped:**
+1. Build 17a: Settings project assignments read-only with "managed on Clients page" link
+2. Build 17b: Preview as Client — sessionStorage approach (Base44 strips query params from URLs)
+3. Build 17c: Notes & Replies — threaded conversations via FeedbackLog parent_id, admin reply on FeedbackReview, client conversation view on ClientDashboard, nav badge for unanswered notes, filter pills
+4. Build 17d: Camera icon on report list cards for logs with photos
+5. Reports list card polish: two-row layout, spacing fix, edit/share/delete icons separated
 
-**Verified working:**
-- View Costs ON → Daily Summary shows (Materials, Labor, Day Total)
-- View Costs OFF → Daily Summary hidden
-- Download Reports ON → Print/Save PDF and Copy Link visible
-- Download Reports OFF → Toolbar hidden
-- No line-item tables shown to clients (Materials Used, Labor hidden per DEC-CD-018)
+**Bug fixes during session:**
+- Preview as Client blank screen: switched from query params to sessionStorage
+- Badge not decrementing after admin reply: CustomEvent dispatch + Layout listener refresh
+- Replies showing as standalone cards: filtered parent_id records from All view
+- Client "Your Notes" empty: fixed rootNotes filter and email matching in preview mode
+- FeedbackLog delete permission: changed from Creator Only to No Restrictions
 
-**Known bugs (Build 16):**
-1. ClientModal sync doesn't update `assigned_project_ids` in user_roles — new client via Clients page leaves stale/missing project IDs, causes "Unknown project" in Settings
-2. Settings project re-assignment doesn't clear old deleted project IDs
-3. `showPhotos` in ProjectTimeline.jsx may still need verification after fix
+**Decisions made:**
+- DEC-CD-029 through DEC-CD-034 (Notes/Replies, Settings read-only, Client Preview, Worker Audit, No-Role Landing, Onboarding Wizard)
 
-**Commits:**
-- fix: client permissions pipeline — portal_permissions key mismatch + report view gates
-- fix: Reports handles deleted project gracefully + remove debug logs
+**Post-build audit:** 4 Critical, 9 High, 8 Medium, 8 Low findings. 5 critical/high fixes shipped pre-Dan. Remaining queued for post-field-test cleanup.
 
 **Next up:**
-- Build 15: Admin Feedback Review page
-- Build 16: Polish sweep (ClientModal sync bug, Settings project assignment, mobile testing)
 - Field testing with Dan Sikes
+- Build 18: Worker Role Audit (DEC-CD-032)
+- Build 19: No-Role Landing + Onboarding Wizard (DEC-CD-033, DEC-CD-034)
 
 ---
 
