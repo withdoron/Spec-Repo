@@ -25,8 +25,9 @@
 - [ ] Settings: Display name update doesn't save / drawer doesn't close
 
 **Onboarding — Business (Events Archetype Only):**
-- [ ] Simplify wizard to Events archetype only (hide other archetypes for now)
-- [ ] Fix step order: Archetype → Goals → Details → Tier → Review
+- [x] Onboarding wizard refactored to config-driven (onboardingConfig.js)
+- [x] Pilot: 3 steps (Type → Details → Review), 3 archetypes active
+- [ ] Mobile-friendly wizard (test on phone)
 - [ ] Goals step shows: Host Events, Accept Community Pass, List in Directory
 - [ ] Tier recommendation based on goals (Accept Community Pass → Standard)
 - [ ] Success screen with "Create your first event" CTA

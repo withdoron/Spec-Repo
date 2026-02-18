@@ -46,6 +46,7 @@
 - [x] Business management table with filters
 - [x] User management (list + detail drawer + admin controls)
 - [x] Concerns panel (private feedback review)
+- [x] Feedback button system (floating button + Admin Panel review)
 - [x] Config system (event types, age groups, durations, accessibility, networks)
 - [x] Platform settings
 - [x] Sidebar navigation with sections
@@ -129,6 +130,7 @@ Real money. Gated behind legal checklist.
 - **Priority:** HIGH — blocks real money flowing through platform
 
 ### Phase 3 Security Audit (DEC-025) — COMPLETE ✅
+- [x] Entity security lockdown — 24 entities set to Restricted (2026-02-18)
 - [x] AdminSettings — service role migration + permissions locked (Phase 3a)
 - [x] Location — permissions locked (Phase 3a)
 - [x] Spoke — permissions locked (Phase 3a)
@@ -302,6 +304,27 @@ Real money. Gated behind legal checklist.
 | STRIPE-CONNECT.md | Stripe Connect spec | ✅ Current |
 
 Strategy and concept docs maintained in private repository.
+
+---
+
+### Session Log — 2026-02-18
+
+**Focus:** Pilot readiness — security lockdown, feedback system, feature gating, onboarding refactor
+
+**Shipped:**
+1. **Feature gating** — Joy Coins, Networks, Recurring Events behind isAppAdmin in EventEditor
+2. **Feedback system** — floating button (Feedback/Bug tabs) + Admin Panel review section with type filtering and delete
+3. **Entity security lockdown** — all 24 entities set to Restricted in Base44 dashboard (Creator Only writes, No Restrictions reads for core; Creator Only everything for Joy Coins entities; special rules for CategoryClick and FeedbackLog)
+4. **GreetingHeader cleanup** — Silver, Passes, Tickets badges gated behind isAppAdmin
+5. **MyLane cleanup** — Joy Coins badge and My Household section gated behind isAppAdmin
+6. **Phone number auto-formatting** on Settings page ((XXX) XXX-XXXX)
+7. **Onboarding wizard** refactored to config-driven architecture (src/config/onboardingConfig.js). Pilot: 3 steps (Type → Details → Review), 3 archetypes (Location/Venue, Event Organizer, Community/Non-Profit). Goals, Plan, and 2 archetypes dormant in config — flip active flags to enable, no code rewrite needed.
+
+**Key decision:** Base44 AI assistant reverted manual entity permissions when asked to set security via schema files. Always use the dashboard UI manually for entity permissions.
+
+**New file:** src/config/onboardingConfig.js — single source of truth for wizard steps, archetypes, goals, tiers, and pilot defaults.
+
+**Entity created:** FeedbackLog (user_id, user_email, user_role, page_url, what_happened, what_expected, screenshot, feedback_type, created_at)
 
 ---
 
