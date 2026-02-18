@@ -1255,6 +1255,39 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 ---
 
+### DEC-049: LocalLane Consolidation Strategy
+
+**Date:** 2026-02-17
+
+**Context:** Standalone nodes (Contractor Daily, Property Pulse, Financial Node) were built as independent Base44 apps following the Node Lab Model (DEC-047). The original plan assumed these could be "integrated" into LocalLane when mature. Research with Base44 support confirmed that Base44 apps are fully isolated — no shared auth, no shared entities, no cross-app data access. Integration would require rebuilding features from specs inside the Community Node.
+
+However, Base44's new Backend Platform (announced Feb 2026) supports a shared backend with multiple frontends — shared auth, shared entities, separate UIs deployed to separate URLs. This is the architecture LocalLane originally envisioned.
+
+**Decision:** Adopt a two-phase consolidation strategy:
+
+- **Phase A (immediate):** Build all new vertical features inside the Community Node with feature gating (role-based, tier-based, or admin-only visibility). Get the platform in front of real users for events and directory. Standalone nodes continue serving their current users unchanged.
+
+- **Phase B (when Base44 Backend Platform is ready):** Migrate to a shared Base44 backend with multiple frontends deployed as subdomains (contractor.locallane.app, property.locallane.app, finance.locallane.app, etc.). Shared auth and entities, separate purpose-built UIs. Proven entity designs from standalone nodes port directly into the shared backend.
+
+**What transfers from standalone nodes:** Entity schemas, data models, role/permission patterns, UX patterns, field-tested workflows. The specs and proven code are the artifacts that carry forward — not the Base44 app containers themselves.
+
+**What does NOT transfer:** Base44 app-level configuration, deployment settings, organization entities. These are recreated in the new architecture.
+
+**Rationale:** Phase A avoids rebuilding from scratch by using the existing Community Node as the consolidation point. Phase B provides the clean multi-frontend architecture when the tooling supports it. Neither phase wastes work done in the other — entities and components port forward in both directions.
+
+**Consequences:**
+- NODE-LAB-MODEL.md updated to reflect consolidation path
+- New vertical features built inside Community Node with feature gating
+- Standalone nodes remain operational for current users (Dan on Contractor Daily, Doron on Financial Node and Property Pulse)
+- Base44 Backend Platform migration planned pending their response on docs, data migration, custom domains, and staging
+- Awaiting Base44 support response on migration path details
+
+**Status:** Active — Phase A in progress.
+
+**Reference:** Base44 support confirmed app isolation on 2026-02-17. Follow-up email sent requesting Backend Platform documentation.
+
+---
+
 ## Decision Template
 
 ```markdown
