@@ -336,6 +336,9 @@ Strategy and concept docs maintained in private repository.
 - Stranger test: full mobile walkthrough before onboarding first groups
 - First Movement Mornings session at The Circuit
 - Await Base44 response on staging environment timeline
+- HARVEST-MARKET-STOREFRONT.md captured in locallane-private — online storefront concept for Lane County Farmers Market with youth fulfillment, Stripe/EBT payment phases, and NW OG Farm booth as physical hub
+- NW OG Farm post published to homeschool Facebook group — recruiting families for farm work and farmers market involvement
+- Forage identified as SNAP/EBT online payment processor for Phase 2 (USDA-certified TPP, API-based, 6-month authorization timeline)
 
 ---
 
