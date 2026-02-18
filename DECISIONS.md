@@ -1273,18 +1273,24 @@ However, Base44's new Backend Platform (announced Feb 2026) supports a shared ba
 
 **What does NOT transfer:** Base44 app-level configuration, deployment settings, organization entities. These are recreated in the new architecture.
 
+**Base44 confirmed (2026-02-17):**
+- Multiple frontends connect to one backend via shared appId in SDK
+- Entity schemas exportable from current apps (Dashboard > Data > Export), push to new backend with `base44 entities push`
+- Data migration: CSV export + bulkCreate() — manual but doable
+- User accounts cannot be exported (privacy) — users re-register or get invited
+- Custom domains fully supported per frontend
+- No staging environment yet, on their roadmap
+- Docs available: Backend Platform Introduction, Backend-only Quickstart, React Quickstart
+
 **Rationale:** Phase A avoids rebuilding from scratch by using the existing Community Node as the consolidation point. Phase B provides the clean multi-frontend architecture when the tooling supports it. Neither phase wastes work done in the other — entities and components port forward in both directions.
 
 **Consequences:**
 - NODE-LAB-MODEL.md updated to reflect consolidation path
 - New vertical features built inside Community Node with feature gating
 - Standalone nodes remain operational for current users (Dan on Contractor Daily, Doron on Financial Node and Property Pulse)
-- Base44 Backend Platform migration planned pending their response on docs, data migration, custom domains, and staging
-- Awaiting Base44 support response on migration path details
+- Base44 Backend Platform migration planned pending team readiness and user scale
 
 **Status:** Active — Phase A in progress.
-
-**Reference:** Base44 support confirmed app isolation on 2026-02-17. Follow-up email sent requesting Backend Platform documentation.
 
 ---
 
