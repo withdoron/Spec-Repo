@@ -156,12 +156,32 @@ Real money. Gated behind legal checklist.
 
 **Priority:** HIGH — must complete before pilot
 
-### Mobile Polish Pass
-- [ ] Test all pages on actual mobile devices
-- [ ] Touch targets sized appropriately (44px minimum)
-- [ ] Scroll behavior smooth on all sections
-- [ ] Bottom nav / PWA considerations
-- **Priority:** MEDIUM — important for pilot UX
+### Mobile Polish Pass — COMPLETE ✅
+- [x] Full mobile audit: 103 findings (20 HIGH, 44 MED, 39 LOW)
+- [x] All 103 findings resolved across 7 fix phases
+- [x] shadcn primitives mobile-safe (dialog, sheet, tabs, drawer, select)
+- [x] All tables horizontally scrollable
+- [x] Admin sidebar hamburger menu on mobile
+- [x] Touch targets 44px minimum (28 files updated)
+- [x] Dashboard layouts stack on mobile
+- **Completed:** 2026-02-19
+
+### Onboarding — User ✅
+- [x] Welcome screen after signup (before MyLane)
+- [x] Display name capture ("What should we call you?")
+- [x] Network interest capture (toggle cards from admin config)
+- [x] Community Pass interest capture (yes / maybe later)
+- [x] Data stored on User entity (onboarding_complete, network_interests, community_pass_interest, full_name)
+- [x] Skippable — user can go straight to MyLane
+- [x] localStorage gate prevents repeat showing
+- **Completed:** 2026-02-19
+
+### Network Events (DEC-050)
+- [x] Build 1: MyLane "My Networks" toggle section — users follow/unfollow networks
+- [ ] Build 2: Network-only events — toggle in EventEditor, client-side visibility filtering
+- [ ] Build 3: Network info pages at /networks/:slug
+- **Spec:** NETWORK-EVENTS-SPEC.md (private repo)
+- **Priority:** HIGH — enables network-specific communication for Recess and Harvest launches
 
 ---
 
@@ -304,6 +324,36 @@ Real money. Gated behind legal checklist.
 | STRIPE-CONNECT.md | Stripe Connect spec | ✅ Current |
 
 Strategy and concept docs maintained in private repository.
+
+---
+
+### Session Log — 2026-02-19
+
+**Focus:** Network Events spec, user onboarding, mobile audit resolution, config system fix
+
+**Shipped:**
+1. Network Events spec written (DEC-050) — 3-build sequence for network membership
+2. Admin network assignment on Business edit drawer with Save Changes pattern
+3. Config save fix — direct AdminSettings.update() replacing broken server function (500 errors)
+4. User onboarding wizard — 3-step flow (Welcome → Networks → Community Pass) with display name
+5. MyLane onboarding redirect — synchronous Navigate check with localStorage gate
+6. MyLane "My Networks" section with toggle cards (DEC-050 Build 1)
+7. Admin Users section shows community_pass_interest and network_interests
+8. Mobile audit — 103 findings identified and all 103 resolved across 7 phases
+9. Mobile header now shows "Local Lane" text
+10. Onboarding Step 2 subtitle: "You can change these anytime from your dashboard"
+
+**Key decisions:**
+- DEC-050: Network Events & User Network Membership (Active)
+- Config save uses direct AdminSettings.update() instead of server function
+- localStorage approach for onboarding gate (avoids existing user edge cases)
+- Deactivating all networks except Recess and Harvest for pilot
+
+**Next session:**
+- DEC-050 Build 2: Network-only events (EventEditor toggle + client-side filtering)
+- Mobile stranger test (onboarding → MyLane → network toggles)
+- Onboarding polish: hide nav header during wizard
+- DEC-050 Build 3: Network info pages
 
 ---
 

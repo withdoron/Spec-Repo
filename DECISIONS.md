@@ -1294,6 +1294,25 @@ However, Base44's new Backend Platform (announced Feb 2026) supports a shared ba
 
 ---
 
+### DEC-050: Network Events & User Network Membership
+
+**Date:** 2026-02-19
+
+**Context:** Community interest growing via Facebook but no platform-native way to communicate with network-specific audiences. Platform has events and networks but no connection between users and networks.
+
+**Decision:** Three features in sequence: (1) User network interest toggles on MyLane, stored as network_interests array on User entity. (2) Network-only boolean on events with client-side visibility filtering. (3) Network info pages at /networks/:slug with join button, filtered events, and filtered businesses.
+
+**Build Status:**
+- Build 1: MyLane My Networks section ✅ (2026-02-19)
+- Build 2: Network-only events ⏳
+- Build 3: Network info pages ⏳
+
+**Rationale:** Uses events as communication channel instead of messaging. Network membership adds value to platform users. Private events create natural tier differentiation for future Community Pass.
+
+**Status:** ✅ Active — Build 1 complete, Build 2 next
+
+---
+
 ## Decision Template
 
 ```markdown
