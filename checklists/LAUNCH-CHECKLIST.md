@@ -41,8 +41,8 @@
 - [x] Skippable — user can go straight to MyLane
 
 **The Good News (Newsletter & Community Pulse):**
-- [ ] Email capture in footer (simple: email input + "Join The Good News")
-- [ ] One-time prompt after first RSVP ("You're in! Want community wins in your inbox?")
+- [x] Email capture in footer (simple: email input + "Join The Good News")
+- [x] One-time prompt after first RSVP ("You're in! Want community wins in your inbox?")
 - [ ] Newsletter list created (Mailchimp, Buttondown, or similar)
 - [ ] First issue drafted — community health, scholarship stories, new businesses, seasonal rhythms
 - [ ] Scholarship visibility: show where unused Joy Coins flowed and who they helped (with permission)
@@ -342,6 +342,10 @@
 - Silver Barter concept exploration
 - Security Phase 3 (10 remaining entities need service role migration)
 - hub.locallane.com URL in LockedFeature.jsx — is this real or cleanup needed?
+- [ ] Buttondown account setup and custom domain
+- [ ] First newsletter issue (The Good News #1)
+- [ ] Map view for network pages
+- [ ] Broken links walkthrough (all pages, all nav)
 
 ---
 

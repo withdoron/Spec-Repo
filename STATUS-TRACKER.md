@@ -333,6 +333,7 @@ Real money. Gated behind legal checklist.
 | ADMIN-ARCHITECTURE.md | Admin panel structure | ✅ Current |
 | BUILD-PROTOCOL.md | Universal build sequence | ✅ Current |
 | STRIPE-CONNECT.md | Stripe Connect spec | ✅ Current |
+| MAP-VIEW.md | Network page map view spec | ✅ New 2026-02-20 |
 
 Strategy and concept docs maintained in private repository.
 
@@ -344,6 +345,56 @@ Strategy and concept docs maintained in private repository.
 |------|---------|
 | 2026-02-20 | Major build session: 10+ items shipped. Newsletter system complete (footer capture, post-RSVP prompt, onboarding sync, admin section). Business profile editing (Settings + admin drawer). Business card redesign (vertical, clickable). Security: Business/AccessWindow/Location writes migrated to server functions, entity permissions locked. Full codebase audit (56 findings, 6 critical resolved). Console.log cleanup, toggle knob fixes. |
 | 2026-02-19 | User onboarding wizard shipped (3 steps: welcome, network interests, community pass interest). MyLane "My Networks" section with toggle cards. Mobile audit: 103 findings resolved. Network-only events (DEC-050 Build 2). Onboarding data visible in admin user drawer. Session crashed mid-build. |
+
+### Session Log — 2026-02-20
+
+**Focus:** Newsletter system, business settings/cards, security migrations, codebase audit, MyLane networks redesign
+
+**Shipped:**
+1. Good News newsletter system — footer email capture, onboarding wizard opt-in, post-RSVP prompt, admin subscriber list (source badges, status dots), NewsletterSubscriber entity with permissions
+2. Business Settings upgrade — category dropdown (matches onboarding), working logo upload, structured address fields with state dropdown and map toggle, shared US_STATES list
+3. Business card redesign — vertical layout, whole-card clickable, image on top, category fallback when no description, removed call button and View Profile button
+4. Business update security — server function with owner/co-owner/admin auth, field allowlist, slug collision handling (appends -2, -3, etc.)
+5. AccessWindow + Location security — writes migrated to updateBusiness server function with auth, entity permissions locked (Update/Delete: Creator Only)
+6. Business entity permissions locked in Base44 (Update/Delete: Creator Only)
+7. Full codebase audit — 56 findings across 6 categories (language, dead code, security, style, data consistency, accessibility). 6 critical security findings identified and resolved.
+8. Console.log cleanup — 25+ debug logs removed across 10 components
+9. Toggle knob color fix — 6 instances of bg-slate-100 corrected to bg-slate-300
+10. MyLane networks redesign — two-state section (discovery for new users, navigation for followers), follow/unfollow moved to network page, back button added
+11. Newsletter bug fixes — .filter().list() syntax, field name mismatch (active vs is_active), missing entity fields, async toast flow, duplicate check (list + client match)
+
+**Decisions made:**
+- Newsletter platform: Buttondown ($9/mo) chosen for The Good News
+- MyLane networks: removed follow toggles, added discovery state for new users, follow action lives on network page
+- Business cards: vertical layout with whole-card clickable, removed phone call button (available on profile)
+- Duplicate check pattern: NewsletterSubscriber uses .list() + client-side .some() match (Base44 .filter() unreliable for exact match)
+
+**Specced (ready to build):**
+- MAP-VIEW.md — network page map view with Leaflet + Nominatim geocoding, geocode-on-save, privacy-aware pins
+- Good News newsletter header and footer graphics created (Gemini, PNW botanical style)
+- MyLane networks redesign prompt written and executed
+
+**Key discoveries:**
+- Base44 entity .filter() returns array directly, no .list() chaining
+- Base44 .filter({ field: value }) may not match exactly — safer to .list() + client filter at small scale
+- Code deploys require Base44 publish after GitHub sync
+- Entity field mismatches cause silent create failures (no error thrown, record partially created)
+
+**Security posture after today:**
+- Business writes: server function with auth ✅
+- AccessWindow writes: server function with auth ✅
+- Location writes: server function with auth ✅
+- Business entity: locked (Creator Only) ✅
+- AccessWindow entity: locked (Creator Only) ✅
+- Location entity: locked (Creator Only) ✅
+- Remaining: Spoke, CategoryClick, Business create (onboarding) — medium priority, tracked in audit
+
+**Next up:**
+- Buttondown account setup, custom domain (goodnews@locallane.app), first issue draft
+- Map view build (Phase 1: geocoding infrastructure)
+- Medium audit items: centralize tier config, clarify category systems, staff role badge colors
+
+---
 
 ### Session Log — 2026-02-19
 
