@@ -1,7 +1,7 @@
 # LocalLane Status Tracker
 
 > Complete view of where we are and what's ahead.
-> Updated: 2026-02-01
+> Updated: 2026-02-20
 
 ---
 
@@ -178,10 +178,21 @@ Real money. Gated behind legal checklist.
 
 ### Network Events (DEC-050)
 - [x] Build 1: MyLane "My Networks" toggle section — users follow/unfollow networks
-- [ ] Build 2: Network-only events — toggle in EventEditor, client-side visibility filtering
+- [x] Build 2: Network-only events — toggle in EventEditor, client-side visibility filtering
 - [ ] Build 3: Network info pages at /networks/:slug
 - **Spec:** NETWORK-EVENTS-SPEC.md (private repo)
 - **Priority:** HIGH — enables network-specific communication for Recess and Harvest launches
+
+### Community Node — Phase 1 Status
+- **Phase 1: Platform Readiness** — Core complete ✅
+  - User onboarding wizard: shipped
+  - Business profile editing: shipped
+  - Business card redesign: shipped
+  - Newsletter system: shipped (footer, onboarding, post-RSVP, admin)
+  - Security audit: 6/6 critical resolved, medium items documented
+  - Mobile audit: 103/103 findings resolved
+  - Remaining: broken links walkthrough, newsletter platform selection
+- **Next up:** Map views for network pages, photo carousel consideration
 
 ---
 
@@ -326,6 +337,13 @@ Real money. Gated behind legal checklist.
 Strategy and concept docs maintained in private repository.
 
 ---
+
+## Session Log
+
+| Date | Summary |
+|------|---------|
+| 2026-02-20 | Major build session: 10+ items shipped. Newsletter system complete (footer capture, post-RSVP prompt, onboarding sync, admin section). Business profile editing (Settings + admin drawer). Business card redesign (vertical, clickable). Security: Business/AccessWindow/Location writes migrated to server functions, entity permissions locked. Full codebase audit (56 findings, 6 critical resolved). Console.log cleanup, toggle knob fixes. |
+| 2026-02-19 | User onboarding wizard shipped (3 steps: welcome, network interests, community pass interest). MyLane "My Networks" section with toggle cards. Mobile audit: 103 findings resolved. Network-only events (DEC-050 Build 2). Onboarding data visible in admin user drawer. Session crashed mid-build. |
 
 ### Session Log — 2026-02-19
 

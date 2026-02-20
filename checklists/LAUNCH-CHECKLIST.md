@@ -1,7 +1,7 @@
 # LocalLane Launch Checklist
 
 > Living checklist for app readiness. Updated after each work session.
-> Last updated: 2026-02-05
+> Last updated: 2026-02-20
 
 ---
 
@@ -16,13 +16,13 @@
 - [x] Terms/Privacy accessible without login
 - [x] Autofill white flash fixed
 - [x] Email infrastructure live (hello@ and support@locallane.app)
-- [ ] Support mechanism decided (email-only for now — revisit if volume grows)
+- [x] Support mechanism decided (email-only for now — revisit if volume grows)
 - [ ] Mobile nav links work on phone
 - [ ] Full mobile device testing (iOS Safari, Android Chrome)
 - [ ] No broken links or dead ends
 
 **Known Bugs:**
-- [ ] Settings: Display name update doesn't save / drawer doesn't close
+- [x] Settings: Display name update doesn't save / drawer doesn't close
 
 **Onboarding — Business (Events Archetype Only):**
 - [x] Onboarding wizard refactored to config-driven (onboardingConfig.js)
@@ -34,11 +34,11 @@
 - [ ] Mobile-friendly wizard (test on phone)
 
 **Onboarding — User (Lightweight):**
-- [ ] Welcome screen after signup (before MyLane)
-- [ ] "What brings you to LocalLane?" interest capture (checkboxes)
-- [ ] "Interested in Community Pass when it launches?" (Yes / Maybe later)
-- [ ] Data stored for future outreach
-- [ ] Skippable — user can go straight to MyLane
+- [x] Welcome screen after signup (before MyLane)
+- [x] "What brings you to LocalLane?" interest capture (checkboxes)
+- [x] "Interested in Community Pass when it launches?" (Yes / Maybe later)
+- [x] Data stored for future outreach
+- [x] Skippable — user can go straight to MyLane
 
 **The Good News (Newsletter & Community Pulse):**
 - [ ] Email capture in footer (simple: email input + "Join The Good News")
@@ -84,7 +84,29 @@
 - [ ] Core messaging reviewed against book frameworks
 - [ ] No discount/savings language in any copy
 
-**Done when:** Stranger test passes — someone can register, browse, RSVP, find support, on mobile. No "punch card" language visible anywhere.
+**Done when:** Stranger test passes — someone can register, browse, RSVP, find support, on mobile. No "punch card" language visible anywhere. ✅ Core items complete. Remaining: broken links walkthrough, newsletter platform selection, first newsletter issue.
+
+**Shipped (2026-02-19 and 2026-02-20):**
+- [x] User onboarding wizard (3 steps: welcome + display name, network interests, community pass + newsletter interest)
+- [x] MyLane "My Networks" toggle cards with optimistic updates
+- [x] Mobile audit: 103 findings resolved across 7 phases
+- [x] Network-only events (DEC-050 Build 2)
+- [x] Good News newsletter interest capture in onboarding wizard
+- [x] Good News footer email capture with NewsletterSubscriber entity
+- [x] Post-RSVP newsletter prompt (one-time, localStorage gated)
+- [x] Newsletter admin section in Admin Panel (subscriber list, source badges, counts)
+- [x] Onboarding newsletter sync (creates real subscriber record on opt-in)
+- [x] Business profile editing: owner Settings tab + admin BusinessEditDrawer
+- [x] Business Settings: category dropdown (from DB), logo upload, address fields with map toggle
+- [x] Business card redesign: vertical layout, whole-card clickable, category fallback for missing descriptions
+- [x] Business update security: server function with owner/admin auth, field allowlist, slug collision handling
+- [x] AccessWindow + Location writes migrated to server functions with auth
+- [x] Entity permissions locked: Business, AccessWindow, Location (all Creator Only for write ops)
+- [x] Full codebase audit (Claude Code): 56 findings, 6 critical resolved, medium items documented
+- [x] Console.log cleanup: 25+ debug statements removed
+- [x] Toggle knob colors fixed (bg-slate-100 → bg-slate-300, 6 instances)
+- [x] Support mechanism confirmed: Feedback button (in-app) + support@locallane.app
+- [x] Business onboarding reviewed: 4 archetypes confirmed (Location/Venue, Event Organizer, Community/Non-Profit, Micro Business)
 
 **Earn-Your-Pass Program (DEC-035):**
 - [ ] Farm program partnership confirmed (which farms participate)
