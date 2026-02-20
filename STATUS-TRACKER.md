@@ -357,6 +357,101 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+## Session Log — 2026-02-19 (Evening Build Sprint)
+
+### 2026-02-19 — DEC-050 Builds 2 & 3, User Flow Fixes
+
+**What shipped:**
+
+DEC-050 Build 2: Network-Only Events
+- EventEditor: "Network Members Only" toggle tile (pure CSS, DEC-018 pattern) below network selector, only visible when network selected
+- Events page: client-side filtering hides network_only events from users not following that network
+- MyLane Happening Soon: same filtering with currentUser cache invalidation fix
+- EventCard: "Recess Only" / "Harvest Only" pill badge on network-only events
+- EventDetailModal: gate for non-followers with "Join [Network]" CTA, sign-in prompt for logged-out users
+- Fix: network_only field was missing from event save payload (added to handleSubmit eventData object)
+
+DEC-050 Build 3: Network Info Pages + Admin Fields + EventEditor Permissions
+- Admin network editor: added tagline and description fields to network config
+- EventEditor: network selector restricted to business's assigned networks (admin sees all)
+- Network info pages at /networks/:slug with header, tagline, join/leave button, description, filtered events, filtered businesses
+- Networks index at /networks with cards for each active network
+- Routes added to App.jsx for /networks and /networks/:slug
+- Network page shows ALL events including network_only (removed filter that hid them on the network's own page)
+
+Navigation Cleanup
+- Removed "Networks" from top nav bar (was Directory | Events | Networks | Dashboard)
+- Nav is now: Directory | Events | Dashboard
+- MyLane network cards are clickable links to /networks/:slug
+- Follow/unfollow toggle works independently via stopPropagation
+- "Browse all networks →" link below network cards
+
+Conditional Business Dashboard
+- "Business Dashboard" only shows in dropdown if user owns a business or is admin
+- New useUserOwnedBusinesses hook with shared cache key
+- MyLane shows "Run a local business?" CTA card for users without businesses
+- "Get Started" links to business onboarding wizard
+
+Auto-Publish for Network-Assigned Businesses
+- Events auto-publish if: admin, OR business has network_ids and event tagged with assigned network, OR standard/partner tier
+- Only basic tier with no network assignment goes to pending_review
+
+Onboarding Fixes
+- Name saves to both display_name and full_name; greeting reads display_name first
+- Server-side onboarding_complete check prevents wizard reappearing across devices/sessions
+- HappeningSoon cache invalidation: MyNetworksSection calls onUpdate to invalidate currentUser query
+
+Other Fixes
+- Business entity permissions changed to No-Restrictions for update (was Creator-Only, blocked admin edits)
+- Business card overflow fix in NewInCommunitySection
+- PWA cache issue documented (home screen app needs re-add after deploys)
+
+**Network config:**
+- Recess tagline: "Move your body, build your crew"
+- Harvest tagline: "Know your farmer, feed your family"
+- Only Recess and Harvest active for pilot
+
+**Test data:**
+- Troy's Eggs: test microbusiness under test1 user, assigned to Harvest network
+
+**Known issues for next session:**
+1. Business profile editing does not exist anywhere — not in owner dashboard Settings, not in admin panel. The ONLY place to edit a business profile is during initial business onboarding. Once completed, name/description/address/phone/hours/photos cannot be changed. This is the highest priority fix.
+2. No address completion nudge for network businesses (needed for map)
+3. Network page needs map view for businesses with addresses (Leaflet/OpenStreetMap)
+4. Console.logs to clean up: HappeningSoonSection, GreetingHeader, EventEditor, BusinessEditDrawer, NetworkPage
+5. Onboarding wizard still shows nav header (should be full-screen)
+6. Mobile stranger test still pending
+7. Business dashboard shows full tabs (Joy Coins, Revenue, etc.) for microbusinesses — may need simplified view
+
+**What's next (in order):**
+1. Business profile editing — build edit capability in both: (a) owner's dashboard Settings tab so business owners can update their own profile, and (b) admin BusinessEditDrawer so admin can edit any business. Currently neither surface supports editing business profile fields (name, description, address, phone, hours, photos).
+2. Address nudge for network businesses ("Complete your address to appear on the network map")
+3. Map view on network pages (Leaflet/OpenStreetMap, plot businesses with addresses)
+4. Console.log cleanup pass
+5. Mobile stranger test
+6. Onboarding nav header fix
+7. Continue user flow testing — walking through as real users and fixing what breaks
+
+**Key files from this session:**
+- src/components/dashboard/EventEditor.jsx — network_only toggle, network permission, auto-publish logic
+- src/pages/NetworkPage.jsx — network info page with events/businesses
+- src/pages/Networks.jsx — networks index
+- src/components/mylane/MyNetworksSection.jsx — clickable cards, cache invalidation
+- src/pages/MyLane.jsx — business CTA, onboarding server check
+- src/hooks/useUserOwnedBusinesses.js — business ownership check hook
+- src/Layout.jsx — conditional nav, networks removed from top bar
+- src/pages/UserOnboarding.jsx — name saves to display_name + full_name
+- src/components/admin/BusinessEditDrawer.jsx — debug logging for save
+- functions/updateUser.ts — display_name added to allowed onboarding fields
+
+**Architecture notes:**
+- Network page shows all events including network_only (unlike Events page and Happening Soon which filter)
+- Business.update() permissions changed to No-Restrictions in Base44 dashboard; UI gates editing behind isAppAdmin
+- useUserOwnedBusinesses uses query key ['ownedBusinesses', userId] shared with BusinessDashboard
+- currentUser query invalidation required after network follow/unfollow to update filtering
+
+---
+
 ### Session Log — 2026-02-18
 
 **Focus:** Pilot readiness — security lockdown, feedback system, feature gating, onboarding refactor
