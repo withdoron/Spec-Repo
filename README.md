@@ -277,6 +277,7 @@ Additional strategy and business documents are maintained privately:
 | Document | Repo | Purpose |
 |----------|------|---------|
 | USER-GROUPS-v1.md | locallane-private | User Groups spec (Phase 4) |
+| NETWORK-POSTS.md | locallane-private | Network Posts spec — phased communication feature for networks (DEC-051) |
 
 ---
 

@@ -1313,6 +1313,29 @@ However, Base44's new Backend Platform (announced Feb 2026) supports a shared ba
 
 ---
 
+### DEC-051: Network Posts
+
+**Date:** 2026-02-21
+
+**Context:** Networks can publish events but have no way to share announcements, updates, or questions with followers. This makes networks feel like event calendars rather than living communities.
+
+**Decision:** Build Network Posts as a phased feature: announcements (Phase 1) → reactions and comments (Phase 2) → polls and organism signals (Phase 3) → polish and notifications (Phase 4). Admin-authored only in V1. Each phase ships a working feature. 5 new entities total: NetworkPost, NetworkPostReaction, NetworkPostComment, NetworkPostPoll, NetworkPostPollVote.
+
+**Key Design Choices:**
+- Admin-authored only (V1) — member posts are a future consideration requiring moderation
+- Reactions (like/heart/interested) + flat comments — lightweight interaction without messaging complexity
+- Polls as post attachments, not standalone — keeps the post as the atomic unit
+- Engagement signals documented for Organism integration but not wired yet
+- Non-followers can read posts on network pages but cannot react/comment until they follow
+
+**Rationale:** Posts transform networks from event broadcasters into conversation surfaces. The interaction layer differentiates this from "events without a date." Phased delivery means Phase 1 ships quickly and real usage guides depth. Patterns borrowed from User Groups spec (server function auth, entity permissions, expansion points).
+
+**Status:** Draft — build after pilot launch
+
+**Reference:** NETWORK-POSTS.md (private repo)
+
+---
+
 ## Decision Template
 
 ```markdown

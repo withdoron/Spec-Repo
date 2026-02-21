@@ -224,6 +224,16 @@ Real money. Gated behind legal checklist.
 - [ ] Phase 3: SMS via Twilio (if needed)
 - **Decision:** Deferred — will build post-pilot
 
+### Network Posts (DEC-051)
+- [ ] Phase 1: Announcements — NetworkPost entity, admin compose UI, network page + MyLane integration
+- [ ] Phase 2: Reactions + Comments — NetworkPostReaction + NetworkPostComment entities, interaction UI
+- [ ] Phase 3: Polls + Organism Signals — NetworkPostPoll + NetworkPostPollVote entities, engagement tracking
+- [ ] Phase 4: Polish + Notifications — unread indicators, admin analytics, UX refinements
+- **Spec:** NETWORK-POSTS.md (private repo)
+- **Entities:** 5 new (NetworkPost, NetworkPostReaction, NetworkPostComment, NetworkPostPoll, NetworkPostPollVote)
+- **Priority:** Post-pilot — build after real users are active
+- **Estimated:** 7-8 builds across 4 phases
+
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles
 - [ ] "Local Franchise" badge
