@@ -232,7 +232,7 @@ Spec-Repo/
 | **property-pulse** | Family property management app | github.com/withdoron/property-pulse |
 | **contractor-daily** | Contractor daily logging app | github.com/withdoron/contractor-daily |
 | **Spec-Repo** | This specification repo | github.com/withdoron/Spec-Repo |
-| **locallane-private** | Strategy docs (private) | github.com/withdoron/locallane-private |
+| **private** | Strategy docs (private) | github.com/withdoron/private |
 
 ---
 
@@ -276,9 +276,9 @@ Additional strategy and business documents are maintained privately:
 
 | Document | Repo | Purpose |
 |----------|------|---------|
-| USER-GROUPS-v1.md | locallane-private | User Groups spec (Phase 4) |
-| NETWORK-POSTS.md | locallane-private | Network Posts spec — phased communication feature for networks (DEC-051) |
-| MYLANE-DYNAMIC-LAYOUT.md | locallane-private | MyLane dynamic section ordering based on user engagement state |
+| USER-GROUPS-v1.md | private | User Groups spec (Phase 4) |
+| NETWORK-POSTS.md | private | Network Posts spec — phased communication feature for networks (DEC-051) |
+| MYLANE-DYNAMIC-LAYOUT.md | private | MyLane dynamic section ordering based on user engagement state |
 
 ---
 

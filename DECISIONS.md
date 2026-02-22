@@ -724,7 +724,7 @@ Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, Spo
 
 **Context:** Public spec-repo contained competitive strategy, legal research, and revenue model details. While repos are public for development convenience (DEC: Repositories Are Public), strategy documents give away LocalLane's most differentiated thinking.
 
-**Decision:** Create `locallane-private` repository for sensitive documents. Public spec-repo may reference that private concepts exist but must not reproduce strategy details, revenue formulas, competitive analysis, or legal reasoning.
+**Decision:** Create `private` repository for sensitive documents. Public spec-repo may reference that private concepts exist but must not reproduce strategy details, revenue formulas, competitive analysis, or legal reasoning.
 
 **Documents moved to private:**
 - ORGANISM-CONCEPT.md
@@ -1087,7 +1087,7 @@ If a solo person wants 24 coins for heavy usage, they pay $88. If a family of 6 
 
 **Lawyer questions flagged:** Does directory create obligation? Does Scholarship Pool buying dimes change legal status? Does displaying reference price = price-setting?
 
-**Full concept doc:** SILVER-DIME-LAYER.md (locallane-private repo)
+**Full concept doc:** SILVER-DIME-LAYER.md (private repo)
 
 **Status:** 🔲 Designed — Phase 0 foundation exists (accepts_silver field, filter, bullion category)
 
