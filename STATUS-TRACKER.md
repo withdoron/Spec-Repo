@@ -241,6 +241,18 @@ Real money. Gated behind legal checklist.
 - **Priority:** High post-launch — directly improves new user experience
 - **Estimated:** 2 builds
 
+### Dashboard Workspaces (DEC-053)
+- [ ] Phase 1 Build 1: Team + TeamMember entities, team creation wizard, Dashboard landing shows workspaces
+- [ ] Phase 1 Build 2: Playbook + Play entities, coach CRUD, image upload for diagrams
+- [ ] Phase 1 Build 3: Play viewer (mobile-first card swiper), PlayView tracking, memorization indicators
+- [ ] Phase 1 Build 4: Schedule + Roster tabs, TeamEvent + Attendance entities, invite link
+- [ ] Phase 2 Build 5: Team organism pulse, health indicators on dashboard cards
+- [ ] Phase 2 Build 6: Sharing and discovery — team in Recess network, public profile
+- **Spec:** DASHBOARD-WORKSPACES.md (private repo)
+- **Entities:** 7 new (Team, TeamMember, Playbook, Play, PlayView, TeamEvent, TeamEventAttendance)
+- **Priority:** High post-launch — Doron is user zero (flag football team)
+- **Estimated:** 6 builds across 2 phases
+
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles
 - [ ] "Local Franchise" badge
@@ -378,6 +390,7 @@ Strategy and concept docs maintained in private repository.
 7. Business Dashboard greeting fixed to use display_name instead of email
 8. MyLane Dynamic Layout spec written — 3 user states (new/active/power) with conditional section ordering
 9. FinancialWidget upgrade nudge softened to "More features coming soon"
+10. Dashboard Workspaces spec written (DEC-053) — workspace model formalizing Dashboard as multi-type producer view, Team workspace as first new type with Playbook feature
 
 **New entities/fields:**
 - Business entity: community_pass_interest (string, nullable) added in Base44
@@ -391,6 +404,7 @@ Strategy and concept docs maintained in private repository.
 **Specs written:**
 - NETWORK-POSTS.md (private repo) — DEC-051
 - MYLANE-DYNAMIC-LAYOUT.md (private repo)
+- DASHBOARD-WORKSPACES.md (private repo) — DEC-053
 
 **Next session:**
 - Mobile device walkthrough (real phone testing)

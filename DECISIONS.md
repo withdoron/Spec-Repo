@@ -1350,6 +1350,36 @@ However, Base44's new Backend Platform (announced Feb 2026) supports a shared ba
 
 ---
 
+### DEC-053: Dashboard Workspaces
+
+**Date:** 2026-02-21
+
+**Context:** The Dashboard currently only manages businesses, but Doron coaches a flag football team, trains BJJ, and manages property — each needing its own organizational space. The Organism architecture has a gap between Person and Network. Standalone nodes (Contractor Daily, Property Pulse) proved that separate apps create integration debt.
+
+**Decision:** Generalize the Dashboard from a business-only tool to a multi-workspace producer view. A workspace is the universal container — a business is a workspace type, a team is a workspace type, a competition series is a workspace type. Each type fills the same shell (header, tabs, Gold Standard, admin visibility) with different tools. The workspace becomes the missing Organism layer: Person > Workspace > Network > Community.
+
+**Key Design Choices:**
+- Universal four-role system (admin, owner, staff/coach, member/player) — vocabulary changes per type, permissions are identical
+- Tab configuration driven by workspace type, not hardcoded
+- Team workspace is the first new type (flag football), with Playbook as its signature feature
+- BJJ Ranked Queue maps to Competition Series workspace type (future, after paper prototype)
+- Existing standalone nodes (Contractor Daily, Property Pulse) are NOT migrated — workspace model provides destination, not deadline
+- User Groups (DEC-036) may map to a lightweight workspace type — decision deferred
+
+**Organism Integration:**
+- Every workspace generates vitality signals that flow up through the fractal
+- Workspace organism pulse mirrors the pattern from User Groups spec
+- Play-level signals (views, memorization %) feed workspace health, which feeds network health
+- Completes the fractal: what is true of the play is true of the team is true of the network is true of the community
+
+**Rationale:** Building tools inside LocalLane (instead of standalone nodes) means every team practice, every play viewed, every game attended generates community vitality. The workspace model prevents future integration debt while maintaining the archetype dashboard container pattern already documented in ORGANISM-ARCHITECTURE-EVOLUTION.md.
+
+**Status:** Specced — Team workspace builds after launch with Doron's flag football team as pilot
+
+**Reference:** DASHBOARD-WORKSPACES.md (private repo)
+
+---
+
 ## Decision Template
 
 ```markdown

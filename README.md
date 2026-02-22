@@ -279,6 +279,7 @@ Additional strategy and business documents are maintained privately:
 | USER-GROUPS-v1.md | private | User Groups spec (Phase 4) |
 | NETWORK-POSTS.md | private | Network Posts spec — phased communication feature for networks (DEC-051) |
 | MYLANE-DYNAMIC-LAYOUT.md | private | MyLane dynamic section ordering based on user engagement state |
+| DASHBOARD-WORKSPACES.md | private | Dashboard Workspaces spec — multi-type workspace model with Team + Playbook (DEC-053) |
 
 ---
 
