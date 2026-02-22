@@ -1336,6 +1336,20 @@ However, Base44's new Backend Platform (announced Feb 2026) supports a shared ba
 
 ---
 
+### DEC-052: Pricing Model Reset
+
+**Date:** 2026-02-21
+
+**Context:** Original business tier pricing ($79 Standard, $149 Partner) was set before any market validation. Doron wants more users at lower price points and is rethinking the entire revenue model.
+
+**Decision:** Remove all pricing references from the UI. Three revenue layers under consideration: (1) $9/month platform supporter tier for community believers, (2) ~$49/month Community Pass membership with 75% flowing to businesses via revenue-share pool, (3) Business tiers with pricing TBD. No pricing will be shown until the model is finalized with real user feedback.
+
+**Rationale:** Anchoring early users on speculative pricing creates expectations that may not match the final model. Better to onboard with "founding member" messaging and introduce pricing when there's proof of value.
+
+**Status:** Active — pricing TBD pending real user feedback
+
+---
+
 ## Decision Template
 
 ```markdown

@@ -234,6 +234,13 @@ Real money. Gated behind legal checklist.
 - **Priority:** Post-pilot — build after real users are active
 - **Estimated:** 7-8 builds across 4 phases
 
+### MyLane Dynamic Layout
+- [ ] Build 1: User state detection + section reordering + hide empty sections
+- [ ] Build 2: Network compact mode for returning users
+- **Spec:** MYLANE-DYNAMIC-LAYOUT.md (private repo)
+- **Priority:** High post-launch — directly improves new user experience
+- **Estimated:** 2 builds
+
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles
 - [ ] "Local Franchise" badge
@@ -353,8 +360,43 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-02-21 | Pre-launch cleanup, pricing reset, spec work. Business Dashboard: Coming Soon states, Founding Member, Community Pass interest. DEC-051 (Network Posts), DEC-052 (Pricing Reset), MyLane Dynamic Layout spec. Greeting display_name fix. |
 | 2026-02-20 | Major build session: 10+ items shipped. Newsletter system complete (footer capture, post-RSVP prompt, onboarding sync, admin section). Business profile editing (Settings + admin drawer). Business card redesign (vertical, clickable). Security: Business/AccessWindow/Location writes migrated to server functions, entity permissions locked. Full codebase audit (56 findings, 6 critical resolved). Console.log cleanup, toggle knob fixes. |
 | 2026-02-19 | User onboarding wizard shipped (3 steps: welcome, network interests, community pass interest). MyLane "My Networks" section with toggle cards. Mobile audit: 103 findings resolved. Network-only events (DEC-050 Build 2). Onboarding data visible in admin user drawer. Session crashed mid-build. |
+
+### Session Log — 2026-02-21
+
+**Focus:** Pre-launch cleanup, pricing reset, spec work
+
+**Shipped:**
+1. Network Posts spec written (DEC-051) — 4-phase feature for network announcements, reactions, comments, polls
+2. Business Dashboard: Joy Coins upgrade gate → Coming Soon with Community Pass education
+3. Business Dashboard: Revenue upgrade gate → Coming Soon messaging
+4. Business Dashboard: Settings subscription card → Founding Member acknowledgment, upgrade button removed
+5. All pricing stripped from dashboard ($79 Standard, $149 Partner references removed)
+6. Community Pass interest capture on Joy Coins tab — single "Yes, I'm interested" button, saves to Business entity
+7. Business Dashboard greeting fixed to use display_name instead of email
+8. MyLane Dynamic Layout spec written — 3 user states (new/active/power) with conditional section ordering
+9. FinancialWidget upgrade nudge softened to "More features coming soon"
+
+**New entities/fields:**
+- Business entity: community_pass_interest (string, nullable) added in Base44
+
+**Key decisions:**
+- Pricing model under active rethink — $79/$149 tiers removed from UI, three revenue layers emerging ($9 supporter, ~$49 Community Pass, business tiers TBD)
+- Founding Member concept adopted for early businesses
+- "Maybe later" removed from Community Pass interest — single positive opt-in only
+- MyLane Dynamic Layout specced for post-launch (3 user states, hide empty sections, compact networks for returning users)
+
+**Specs written:**
+- NETWORK-POSTS.md (private repo) — DEC-051
+- MYLANE-DYNAMIC-LAYOUT.md (private repo)
+
+**Next session:**
+- Mobile device walkthrough (real phone testing)
+- Broken links / dead ends sweep
+- Fix anything found during walkthrough
+- Publish and go live to users
 
 ### Session Log — 2026-02-20
 
