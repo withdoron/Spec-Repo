@@ -353,6 +353,7 @@
 
 | Date | Summary |
 |------|---------|
+| 2026-02-22 | Walkthrough session: Homepage copy refresh, routing fixes (unauth → homepage, post-login → MyLane), onboarding wizard fixes (crash, scroll, newsletter capture), network taglines, Communities → Networks rename, global scroll-to-top, back navigation audit, business CTA moved to bottom of MyLane, Business entity permissions opened for admin (security hardening tracked). |
 | 2026-02-21 | Business Dashboard cleanup: pricing stripped, Coming Soon states, Founding Member messaging, Community Pass interest capture. Network Posts spec (DEC-051) and MyLane Dynamic Layout spec written. Business greeting fixed. Dashboard Workspaces spec (DEC-053) added. |
 | 2025-02-02 | Email infrastructure complete (IONOS, hello@ + support@ forwarding). Terms/Privacy email refs updated to .app. Landing page routing and autofill flash verified. Settings display name bug identified. |
 | 2025-02-01 | Checklist rewritten from farm-focused to app-focused. Phase 1 code complete: empty states, error states, Terms/Privacy reviews. |

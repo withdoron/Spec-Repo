@@ -196,6 +196,14 @@ Real money. Gated behind legal checklist.
 
 ---
 
+## 🔒 SECURITY HARDENING (Post-Launch)
+
+- [ ] **Admin business management via server function** — Business entity Update is currently "No restrictions" to unblock admin during pilot. Needs server function that checks platform admin role before allowing updates to businesses the admin didn't create. Then tighten Business Update back to "Creator only."
+- [ ] **Audit all Base44 entity permissions** — verify Read/Update/Delete settings match intended access patterns for: Business, Event, RSVP, JoyCoins, AccessWindow, NewsletterSubscriber, AdminSettings, User, HouseholdMember, Recommendation
+- [ ] **Server-side authorization review** — confirm all write operations go through authenticated server functions with proper role checks, not direct client-side entity updates
+
+---
+
 ## 📋 PLANNED (Post-Pilot Enhancements)
 
 ### MyLane Phase 2
