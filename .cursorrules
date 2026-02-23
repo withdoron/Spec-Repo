@@ -18,7 +18,7 @@ The Spec-Repo (https://github.com/withdoron/Spec-Repo) is the single source of t
 - DECISIONS.md - Constraints and decisions
 
 ### 2. Follow Established Patterns
-- Use events-node as reference implementation
+- Use community-node as reference implementation
 - Copy shared configs (tailwind.config.js, package.json)
 - Follow node folder structure from ARCHITECTURE.md
 - Use existing components before creating new ones
@@ -68,15 +68,15 @@ BORDERS:
 ## Architecture Patterns
 - Config Sync: Parent → Child (polling every 5 min)
 - Data Push: Child → Parent (POST on create/update)
-- Punch Pass: Real-time verification via Community Node
+- Joy Coins: Verification via Community Node
 - Follow exact request/response formats in ARCHITECTURE.md
 - Use ARCHITECTURE.md schemas
 
 ## Component Patterns
 Before creating new components:
-1. Check if it exists in COMPONENTS.md
-2. Check if events-node has a similar component
-3. If creating new, add to COMPONENTS.md first
+1. Check ARCHITECTURE.md and DECISIONS.md for component patterns
+2. Check if community-node has a similar component
+3. If creating new, document in spec
 
 Required component classes:
 - Primary Button: "bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-black font-bold rounded-lg transition-colors"
