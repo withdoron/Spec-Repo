@@ -6,250 +6,145 @@
 
 ## Overview
 
-LocalLane is a **federated system** of interconnected applications ("nodes"). Each node is:
+LocalLane is a community platform built on Base44 with a React/Vite/Tailwind frontend. The architecture has three layers:
 
-- **Independently deployable** — can be updated without affecting others
-- **Loosely coupled** — communicates via defined APIs, not shared code
-- **Hierarchical** — child nodes pull config from parents, push data up
+**Community Node** — The hub application (locallane.app). Directory, events, MyLane, business dashboard, admin panel. This is the production app serving real users.
+
+**Standalone Nodes** — Independent Base44 apps (Contractor Daily, Property Pulse, Personal Finance) that serve individual users during the lab phase. They do NOT sync with the Community Node. Each proves its own value independently. See NODE-LAB-MODEL.md (private repo) for maturity criteria and integration path.
+
+**Workspace Engine** — The emerging architecture (DEC-053) that generalizes the Dashboard from business-only to multi-type workspaces. A business is a workspace type. A team is a workspace type. Each fills the same shell (header, tabs, roles, Gold Standard) with different tools. See DASHBOARD-WORKSPACES-IMPLEMENTATION.md (private repo) for the full spec.
+
+### Development Model
+
+New features are built inside the Community Node with feature gating (DEC-049 Phase A):
+- Admin-only visibility for unfinished features
+- Tier-based access for premium features
+- Role-based routing for different user types
+
+Standalone nodes continue serving current users unchanged. They integrate into LocalLane only after proving maturity — real users, stable schema, tested roles (DEC-047).
+
+### Future: Shared Backend (DEC-049 Phase B)
+
+When ready to scale beyond a single app, Base44's Backend Platform supports shared auth and entities across multiple frontends deployed as subdomains (contractor.locallane.app, property.locallane.app). This is planned but not active.
 
 ---
 
-## Node Communication Patterns
+## Node Architecture
 
-> **Current Status (2026-02-11):** Nodes are standalone Base44 apps with no sync dependencies during the lab phase. The patterns below are preserved as future reference for when mature nodes integrate into LocalLane. See NODE-LAB-MODEL.md (private repo) for the current development model.
+### Current State
 
-**Future integration patterns (not yet implemented):**
-- Config Sync — parent pushes config (networks, categories, settings) to child nodes
-- Data Push — child nodes push created content (events, listings) to parent
-- Health Check — parent monitors child node availability
-- Retry with backoff — resilient sync when nodes are temporarily unreachable
+```
+Community Node (locallane.app) — the hub, production app
+├── Directory, Events, MyLane, Business Dashboard, Admin Panel
+├── Workspace Engine (DEC-053) — foundation queued
+│   ├── Business workspace type (existing, to be refactored)
+│   └── Team workspace type (Play Trainer — DEC-054, queued)
+└── All new vertical features built here with feature gating
 
-These patterns become relevant during Phase 6 (Integration Planning) of the Node Lifecycle defined in NODE-PLAYBOOK.md. Until a node reaches merge maturity, it operates independently.
+Standalone Nodes (lab phase — independent, no sync)
+├── Contractor Daily — Build 17, field testing with Dan Sikes
+├── Property Pulse — Phase 2 complete, family users
+├── Personal Finance — Phase 1 complete, Doron
+└── Field Service Engine — cloned from Contractor Daily, active development
+```
+
+### Integration Path
+
+Standalone nodes do not sync today. When a node reaches maturity (NODE-LAB-MODEL.md), it integrates via one of two paths:
+
+1. **Rebuild inside Community Node** (Phase A — current approach) — Feature gating, workspace types, role-based routing
+2. **Shared Base44 Backend** (Phase B — future) — Multiple frontends, shared auth/entities, custom subdomains
+
+### Archived: Sync Patterns (Future Reference)
+
+The original architecture described parent-child sync patterns (config push, data push, health checks). These become relevant during Phase B integration or if nodes need real-time data exchange. For now, each node is fully independent.
 
 ---
 
 ## Data Models
 
-### Core Entities
+### Entity Definitions
 
-#### User
+Entity definitions live in the Base44 dashboard, not in code. There is no `base44/entities/` folder in the repo. Entities are accessed via `base44.entities.<EntityName>`.
 
-#### User
+For the full list of entities and their security status, see claude.md in the community-node repo and DEC-025 in DECISIONS.md.
 
-```javascript
-{
-  id: "user-123",
-  email: "user@example.com",
-  name: "Jane Doe",
-  createdAt: "2026-01-15T10:00:00Z",
-  
-  // Trust metrics
-  trustScore: 4.2,
-  ratingsGiven: 15,
-  ratingsReceived: 3,
-  
-  // Relationships
-  homeNodeId: "community-portland",  // Primary community
-  businessIds: ["biz-456"],          // Businesses they manage
-  communityPassId: "pass-789",      // Community Pass membership
-  joyCoinsBalance: 0                // Current Joy Coins balance
-}
+### Key Entity Relationships
+
+```
+User
+├── owns → Business (via owner_user_id)
+├── has → JoyCoins (balance, transactions)
+├── has → RSVP (event attendance)
+├── has → Recommendation (nods, stories, vouches)
+├── has → NewsletterSubscriber
+└── future: TeamMember (via workspace engine)
+
+Business
+├── hosts → Event
+├── has → AccessWindow (Joy Coins hours)
+├── has → Location
+├── has → Recommendation (received)
+└── config → AdminSettings (staff_roles, platform_config)
+
+Event
+├── has → RSVP
+├── belongs to → Business
+├── tagged with → Networks, Event Types
+└── has → Joy Coins settings (cost, capacity, frequency limits)
 ```
 
-#### Business
+### Joy Coins (Community Pass)
 
-```javascript
-{
-  id: "biz-456",
-  name: "Portland Jiu-Jitsu",
-  archetypeId: "martial-arts",
-  tier: 2,
-  
-  // Location
-  address: "123 Main St",
-  city: "Portland",
-  coordinates: { lat: 45.5, lng: -122.6 },
-  
-  // Trust
-  trustScore: 4.7,
-  totalRatings: 89,
-  
-  // Relationships
-  ownerUserId: "user-123",
-  communityNodeId: "community-portland",
-  partnerNodeId: null,  // Only if Tier 3
-  
-  // Features
-  acceptsJoyCoins: true,
-  
-  // Config
-  networks: ["recess", "tca"]
-}
-```
+Joy Coins are the token system within the Community Pass membership. Key entities:
 
-#### Event
+- **JoyCoins** — Per-user balance tracking
+- **JoyCoinTransactions** — Immutable audit trail (redemptions, allocations, expirations)
+- **JoyCoinReservations** — Holds placed during RSVP, redeemed on check-in
 
-```javascript
-{
-  id: "evt-789",
-  title: "Family Movie Night",
-  description: "...",
-  
-  // Timing
-  date: "2026-02-14T18:00:00Z",
-  endDate: "2026-02-14T21:00:00Z",
-  timezone: "America/Los_Angeles",
-  
-  // Location
-  location: "Community Center",
-  address: "456 Oak Ave",
-  isVirtual: false,
-  virtualLink: null,
-  
-  // Relationships
-  sourceNodeId: "events-node-001",
-  communityEventId: "comm-evt-456",  // ID in community node
-  businessId: "biz-456",
-  
-  // Categorization
-  networks: ["recess", "homeschool"],
-  categories: ["entertainment", "family"],
-  
-  // Joy Coins (Community Pass)
-  joy_coin_enabled: true,
-  joy_coin_cost: 1,  // How many coins to attend
-  
-  // Attendance
-  rsvpCount: 23,
-  capacity: 50,
-  
-  // Status
-  status: "published",  // draft, published, cancelled
-  createdAt: "2026-01-20T12:00:00Z",
-  updatedAt: "2026-01-25T09:00:00Z"
-}
-```
+Joy Coins are non-transferable between members (DEC-041). Unused coins expire monthly and flow to the Community Scholarship Pool.
 
-#### Joy Coins (Community Pass)
+### Config System
 
-```javascript
-{
-  id: "user-123",
-  // Balance tracked per user (JoyCoins entity in Base44)
-  current_balance: 7,
-  // Monthly allocation from Community Pass subscription; unused coins expire
-  // Redemptions recorded in JoyCoinTransactions (PunchPass* entities deleted from Base44 per DEC-028)
-}
-```
+Platform configuration uses the AdminSettings entity as a key-value store (DEC-016):
 
-#### Config (Community Node)
+- `staff_roles:{business_id}` — Staff role assignments
+- `staff_invites:{business_id}` — Pending staff invites
+- `platform_config:{domain}:{config_type}` — Platform-wide configuration (networks, event types, age groups, durations)
 
-```javascript
-{
-  version: "1.2",
-  lastUpdated: "2026-01-27T12:00:00Z",
-  
-  networks: [
-    { id: "recess", name: "Recess", description: "Family fun network", active: true },
-    { id: "tca", name: "TCA", description: "TCA community", active: true },
-    { id: "homeschool", name: "Homeschool Network", description: "For homeschool families", active: true }
-  ],
-  
-  categories: [
-    { id: "sports", name: "Sports & Fitness", icon: "🏃" },
-    { id: "education", name: "Education", icon: "📚" },
-    { id: "entertainment", name: "Entertainment", icon: "🎬" },
-    { id: "food", name: "Food & Dining", icon: "🍕" }
-  ],
-  
-  // Community Pass / Joy Coins: membership subscription; coins per allocation (see STRIPE-CONNECT.md)
-  
-  tierFeatures: {
-    1: ["basic-listing", "post-events"],
-    2: ["basic-listing", "post-events", "accept-joy-coins", "analytics"],
-    3: ["basic-listing", "post-events", "accept-joy-coins", "analytics", "partner-node", "custom-branding", "priority-search", "trust-badge"]
-  }
-}
-```
+---
 
-
-## Security Considerations
+## Security Model
 
 ### Authentication
 
-**Phase 1 (Pilot):**
-- Base44 built-in auth for user accounts
-- API keys for node-to-node communication (simple, shared secrets)
+Base44 handles authentication. Users log in via Base44's built-in auth system.
 
-**Phase 2+:**
-- JWT tokens with short expiry
-- Refresh token rotation
-- OAuth for third-party integrations
+### Entity Permissions (DEC-025)
 
-### Node-to-Node Auth
+Entity permissions are locked down in Base44's dashboard. Three phases:
 
-Each child node has a secret key registered with its parent:
+- **Phase 1 & 2 (Complete):** AdminAuditLog, Concern, Region, Archetype, CategoryGroup, SubCategory locked. *(PunchPass entities deleted from Base44 per DEC-028.)*
+- **Phase 3 (Deferred):** Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, SpokeEvent, CategoryClick require service role function migration before permissions can be tightened.
 
-```javascript
-// Child node making request to parent
-const response = await fetch(`${PARENT_URL}/api/v1/events`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Node-ID': NODE_ID,
-    'X-Node-Secret': NODE_SECRET
-  },
-  body: JSON.stringify(payload)
-});
-```
+### Server Functions
 
-### Data Validation
+Sensitive writes use Base44 server functions with `base44.asServiceRole` for elevated permissions. The server function verifies the calling user's role before executing:
 
-All incoming data must be validated:
+- `updateBusiness` — Owner/co-owner/admin auth, field allowlist, slug collision handling
+- `updateUser` — Onboarding fields only
+- `setJoyCoinPin` / `validateJoyCoins` — Joy Coins PIN operations
+- `handleEventCancellation` — Refund/forfeit logic
 
-```javascript
-// Example: Validate event before publishing
-function validateEvent(event) {
-  const errors = [];
-  
-  if (!event.title || event.title.length < 3) {
-    errors.push({ field: 'title', message: 'Title must be at least 3 characters' });
-  }
-  
-  if (!event.date || new Date(event.date) < new Date()) {
-    errors.push({ field: 'date', message: 'Date must be in the future' });
-  }
-  
-  if (event.networks && !Array.isArray(event.networks)) {
-    errors.push({ field: 'networks', message: 'Networks must be an array' });
-  }
-  
-  return errors;
-}
-```
+### Security Hardening (Post-Launch)
+
+Business entity Update is currently "No restrictions" to unblock admin during pilot. Needs server function that checks platform admin role before allowing updates to businesses the admin didn't create.
 
 ---
 
 ## Observability
 
-### Logging
-
-Every node should log:
-
-- **INFO:** Normal operations (event created, config synced)
-- **WARN:** Recoverable issues (config sync failed, using cache)
-- **ERROR:** Failures requiring attention (API errors, validation failures)
-
-### Key Metrics (Future)
-
-| Metric | Description |
-|--------|-------------|
-| `events.created` | Events created per hour |
-| `events.synced` | Events successfully pushed to parent |
-| `config.sync.success` | Config sync success rate |
-| `joycoins.redemptions` | Joy Coins redemptions per day |
-| `api.latency` | Response time by endpoint |
-| `api.errors` | Error rate by endpoint |
+Logging and metrics are handled through browser console during pilot. Structured observability (error tracking, usage metrics) is a post-launch concern. Console.log cleanup was completed 2026-02-20.
 
 ---
 
@@ -261,21 +156,9 @@ Every node should log:
 Cursor (edit) → GitHub (push) → Base44 (auto-sync) → Manual Publish → Live
 ```
 
-### Environment Management
+Base44 auto-syncs from GitHub. Preview in Base44's editor before publishing to production. Rollback by reverting the commit in GitHub and re-syncing.
 
-| Environment | Purpose | URL Pattern |
-|-------------|---------|-------------|
-| **Preview** | Testing in Base44 editor | N/A (editor only) |
-| **Production** | Live app | `*.base44.app` |
-
-### Future: Staging Environment
-
-When we have real users, we'll add:
-
-```
-GitHub main → Base44 Production
-GitHub dev → Base44 Staging (separate app)
-```
+No staging environment exists. Base44 has this on their roadmap.
 
 ---
 
