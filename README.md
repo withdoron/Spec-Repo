@@ -42,13 +42,13 @@
 
 ## Core Concepts
 
-### The Cell + Steward Model
+### The Community + Steward Model
 
-**Cell** = A local service area (city/town/county)
+**Community** = A local service area (city/town/county)
 - Prototype: Greater Eugene-Springfield
 - Scaling unit for expansion
 
-**Area Steward** = Human curator per Cell
+**Steward** = Human curator per Community
 - Onboards and verifies entities
 - Reviews and moderates submissions
 - Curates local "vibe"
@@ -171,20 +171,20 @@ TEXT:
 - ✅ Event creation/edit/delete
 - ✅ Sync to Community Node
 - ✅ Network tagging (Recess, etc.)
-- ✅ Punch pass integration (UI)
+- ✅ Joy Coins integration (UI)
 - ✅ Dashboard with stats
-- ✅ Punch Pass earnings display
+- ✅ Joy Coins revenue display
 - ⏳ Organizer name display (shows "Event Spoke" instead of business name)
 
 ### Community Node
 - ✅ Browse Events view
 - ✅ Event detail modal
 - ✅ Quick filters (All, This Weekend, Today)
-- ✅ Punch Pass badge display
+- ✅ Joy Coins badge display
 - ✅ Network badge display
 - ⚠️ Admin Panel (light theme - needs dark)
 - ⏳ User registration/accounts
-- ⏳ Punch Pass purchase flow
+- ⏳ Community Pass signup
 - ⏳ RSVP functionality
 - ⏳ Business directory (deferred to post-pilot)
 
@@ -276,10 +276,21 @@ Additional strategy and business documents are maintained privately:
 
 | Document | Repo | Purpose |
 |----------|------|---------|
-| USER-GROUPS-v1.md | private | User Groups spec (Phase 4) |
-| NETWORK-POSTS.md | private | Network Posts spec — phased communication feature for networks (DEC-051) |
-| MYLANE-DYNAMIC-LAYOUT.md | private | MyLane dynamic section ordering based on user engagement state |
-| DASHBOARD-WORKSPACES.md | private | Dashboard Workspaces spec — multi-type workspace model with Team + Playbook (DEC-053) |
+| ORGANISM-CONCEPT.md | locallane-private | North star vision — the Organism |
+| COMMUNITY-PASS.md | locallane-private | Membership model, Joy Coins, revenue share |
+| LEGAL-RESEARCH.md | locallane-private | Oregon regulatory analysis |
+| LEGAL-CONSULTATION-PREP.md | locallane-private | Lawyer meeting prep |
+| SILVER-BARTER-CONCEPT.md | locallane-private | Silver barter directory model |
+| SILVER-DIME-LAYER.md | locallane-private | Physical value layer concept |
+| NODE-LAB-MODEL.md | locallane-private | Node development model (DEC-047) |
+| NODE-PLAYBOOK.md | locallane-private | Node registry and lifecycle |
+| SEEDLING-TRACKER.md | locallane-private | Weekly gardener's dashboard |
+| PERSONAL-FINANCE-NODE.md | locallane-private | Financial Node spec |
+| FIELD-SERVICE-ENGINE.md | locallane-private | Multi-vertical field service strategy |
+| BJJ-RANKED-QUEUE.md | locallane-private | Competition workspace seed packet |
+| BOMB-SQUAD-GROWERS.md | locallane-private | Dormant cannabis brand strategy |
+| DASHBOARD-WORKSPACES.md | locallane-private | Workspace engine + Play Trainer implementation spec |
+| USER-GROUPS-v1.md | locallane-private | User Groups spec (Phase 4) |
 
 ---
 

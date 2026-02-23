@@ -51,7 +51,8 @@ These patterns become relevant during Phase 6 (Integration Planning) of the Node
   // Relationships
   homeNodeId: "community-portland",  // Primary community
   businessIds: ["biz-456"],          // Businesses they manage
-  punchPassIds: ["pass-789"]         // Passes they own
+  communityPassId: "pass-789",      // Community Pass membership
+  joyCoinsBalance: 0                // Current Joy Coins balance
 }
 ```
 
@@ -79,8 +80,7 @@ These patterns become relevant during Phase 6 (Integration Planning) of the Node
   partnerNodeId: null,  // Only if Tier 3
   
   // Features
-  acceptsPunchPass: true,
-  acceptedPassTypes: ["recess-10", "tca-5"],
+  acceptsJoyCoins: true,
   
   // Config
   networks: ["recess", "tca"]
@@ -115,10 +115,9 @@ These patterns become relevant during Phase 6 (Integration Planning) of the Node
   networks: ["recess", "homeschool"],
   categories: ["entertainment", "family"],
   
-  // Punch Pass
-  acceptsPunchPass: true,
-  punchPassTypes: ["recess-10"],
-  punchCost: 1,  // How many punches to attend
+  // Joy Coins (Community Pass)
+  joy_coin_enabled: true,
+  joy_coin_cost: 1,  // How many coins to attend
   
   // Attendance
   rsvpCount: 23,
@@ -131,34 +130,15 @@ These patterns become relevant during Phase 6 (Integration Planning) of the Node
 }
 ```
 
-#### Punch Pass
+#### Joy Coins (Community Pass)
 
 ```javascript
 {
-  id: "pass-789",
-  typeId: "recess-10",
-  typeName: "Recess 10-Pack",
-  
-  // Ownership
-  userId: "user-123",
-  
-  // Balance
-  totalPunches: 10,
-  remainingPunches: 7,
-  
-  // Value (for tracking, not real money in Phase 1)
-  purchasePrice: 50.00,
-  
-  // Status
-  status: "active",  // active, depleted, expired, refunded
-  purchasedAt: "2026-01-10T14:00:00Z",
-  expiresAt: "2027-01-10T14:00:00Z",
-  
-  // History
-  transactions: [
-    { date: "2026-01-15", businessId: "biz-456", punches: 1, type: "redemption" },
-    { date: "2026-01-20", businessId: "biz-789", punches: 2, type: "redemption" }
-  ]
+  id: "user-123",
+  // Balance tracked per user (JoyCoins entity in Base44)
+  current_balance: 7,
+  // Monthly allocation from Community Pass subscription; unused coins expire
+  // Redemptions recorded in JoyCoinTransactions (formerly PunchPassUsage)
 }
 ```
 
@@ -182,16 +162,12 @@ These patterns become relevant during Phase 6 (Integration Planning) of the Node
     { id: "food", name: "Food & Dining", icon: "🍕" }
   ],
   
-  punchPassTypes: [
-    { id: "recess-10", network: "recess", name: "Recess 10-Pack", price: 50, punches: 10, expiryDays: 365 },
-    { id: "recess-20", network: "recess", name: "Recess 20-Pack", price: 90, punches: 20, expiryDays: 365 },
-    { id: "tca-5", network: "tca", name: "TCA 5-Pack", price: 25, punches: 5, expiryDays: 180 }
-  ],
+  // Community Pass / Joy Coins: membership subscription; coins per allocation (see STRIPE-CONNECT.md)
   
   tierFeatures: {
     1: ["basic-listing", "post-events"],
-    2: ["basic-listing", "post-events", "accept-punch-pass", "analytics"],
-    3: ["basic-listing", "post-events", "accept-punch-pass", "analytics", "partner-node", "custom-branding", "priority-search", "trust-badge"]
+    2: ["basic-listing", "post-events", "accept-joy-coins", "analytics"],
+    3: ["basic-listing", "post-events", "accept-joy-coins", "analytics", "partner-node", "custom-branding", "priority-search", "trust-badge"]
   }
 }
 ```
@@ -271,7 +247,7 @@ Every node should log:
 | `events.created` | Events created per hour |
 | `events.synced` | Events successfully pushed to parent |
 | `config.sync.success` | Config sync success rate |
-| `punchpass.redemptions` | Punch pass redemptions per day |
+| `joycoins.redemptions` | Joy Coins redemptions per day |
 | `api.latency` | Response time by endpoint |
 | `api.errors` | Error rate by endpoint |
 
@@ -314,9 +290,9 @@ The platform already generates the raw signals needed:
 | Signal | Source Entity | Already Queried? |
 |--------|--------------|-----------------|
 | RSVPs created | RSVP | ✅ Yes (MyLane) |
-| Event attendance (check-ins) | PunchPassUsage | ✅ Yes (CheckIn) |
+| Event attendance (check-ins) | JoyCoinTransactions (formerly PunchPassUsage) | ✅ Yes (CheckIn) |
 | Recommendations given | Recommendation | ✅ Yes (MyLane) |
-| Community Pass activity | PunchPass | ✅ Yes (MyLane) |
+| Community Pass activity | JoyCoins (formerly PunchPass) | ✅ Yes (MyLane) |
 | Days active | User (last_active) | ⚠️ Needs field |
 | New businesses | Business (created_date) | ✅ Yes (MyLane) |
 | Concerns resolved | Concern (status) | ✅ Yes (Admin) |
