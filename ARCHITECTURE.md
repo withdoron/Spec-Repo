@@ -138,7 +138,7 @@ These patterns become relevant during Phase 6 (Integration Planning) of the Node
   // Balance tracked per user (JoyCoins entity in Base44)
   current_balance: 7,
   // Monthly allocation from Community Pass subscription; unused coins expire
-  // Redemptions recorded in JoyCoinTransactions (formerly PunchPassUsage)
+  // Redemptions recorded in JoyCoinTransactions (PunchPass* entities deleted from Base44 per DEC-028)
 }
 ```
 
@@ -290,9 +290,9 @@ The platform already generates the raw signals needed:
 | Signal | Source Entity | Already Queried? |
 |--------|--------------|-----------------|
 | RSVPs created | RSVP | ✅ Yes (MyLane) |
-| Event attendance (check-ins) | JoyCoinTransactions (formerly PunchPassUsage) | ✅ Yes (CheckIn) |
+| Event attendance (check-ins) | JoyCoinTransactions | ✅ Yes (CheckIn) |
 | Recommendations given | Recommendation | ✅ Yes (MyLane) |
-| Community Pass activity | JoyCoins (formerly PunchPass) | ✅ Yes (MyLane) |
+| Community Pass activity | JoyCoins | ✅ Yes (MyLane) |
 | Days active | User (last_active) | ⚠️ Needs field |
 | New businesses | Business (created_date) | ✅ Yes (MyLane) |
 | Concerns resolved | Concern (status) | ✅ Yes (Admin) |

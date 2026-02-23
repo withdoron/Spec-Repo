@@ -590,15 +590,13 @@ Adding `pointer-events-none` to the component does NOT fix it — the internal s
 **Decision:** Three-phase permission lockdown:
 
 - **Phase 1 (Complete):** Delete unused entities (Review, Bump), lock down AdminAuditLog and Concern
-- **Phase 2 (Complete):** Lock down PunchPass (3 entities), Region, Archetype, CategoryGroup, SubCategory
+- **Phase 2 (Complete):** Lock down Region, Archetype, CategoryGroup, SubCategory
 - **Phase 3 (Planned):** Remaining 10 entities require service role function migration before permissions can be tightened
 
-**Entities locked down (11 of 18):**
+**Entities locked down (8 of 15+):**
 - AdminAuditLog: Admin-only read/create/update, delete disabled
 - Concern: Authenticated create, admin-only read/update/delete
-- PunchPass: Owner-only read, admin-only create/update/delete
-- PunchPassTransaction: Owner-only read, admin-only create/update/delete
-- PunchPassUsage: Owner-only read, admin-only create/update/delete
+- (PunchPass, PunchPassTransaction, PunchPassUsage: deleted from Base44 — replaced by JoyCoins, JoyCoinTransactions, JoyCoinReservations per DEC-028)
 - Region, Archetype, CategoryGroup, SubCategory: Public read, admin-only create/update/delete
 
 **Phase 3 entities (require service role functions):**
