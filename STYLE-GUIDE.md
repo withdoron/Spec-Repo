@@ -114,7 +114,7 @@ font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
 | **Page Title** | `text-3xl font-bold text-slate-100` | "Welcome to Your Dashboard" |
 | **Section Heading** | `text-2xl font-bold text-slate-100` | "Events" |
 | **Card Title** | `text-xl font-bold text-slate-100` | "Build Your Local Lane" |
-| **Subheading** | `text-lg font-semibold text-slate-100` | "Punch Pass Earnings" |
+| **Subheading** | `text-lg font-semibold text-slate-100` | "Joy Coins Revenue" |
 | **Body Text** | `text-base text-slate-300` | Regular content |
 | **Small Text** | `text-sm text-slate-400` | Descriptions, captions |
 | **Tiny Text** | `text-xs text-slate-500` | Badges, labels |
@@ -182,9 +182,9 @@ font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, s
 ### Badge
 
 ```jsx
-// Gold badge (Punch Pass, Network, Tier)
+// Gold badge (Joy Coins, Network, Tier)
 <span className="bg-amber-500 text-black px-2 py-1 text-xs font-semibold rounded-full">
-  3 Punches
+  3 Joy Coins
 </span>
 
 // Neutral badge (Category)

@@ -35,7 +35,7 @@ The Event create payload in `receiveEvent.ts` (lines 85–118) uses these field 
 | **min_price** | `min_price` | Number or null. |
 | **event_type** | `event_types[0]` | **Single string** (e.g. 'workshops_classes'). |
 | **network** | `networks[0]` | **Single string** (e.g. 'recess') or null. |
-| **punch_pass_accepted** | `punch_pass_eligible` | Backend uses **punch_pass_accepted**, not punch_pass_eligible. |
+| **punch_pass_accepted** | `punch_pass_eligible` | Backend uses **punch_pass_accepted** (Joy Coins; legacy field name). |
 | **is_active** | `true` | |
 | **business_id** | (not in webhook) | Set by app when creating from Business Dashboard; required for app-created events. |
 
@@ -93,7 +93,7 @@ So the **confirmed field names the backend returns / the app expects** are:
 ## 5. Summary: renames to apply in EventEditor payload
 
 1. **date** — Send start datetime as `date` (not `start_date`).
-2. **punch_pass_accepted** — Send Punch Pass flag as `punch_pass_accepted` (not `punch_pass_eligible`).
+2. **punch_pass_accepted** — Send Joy Coins flag as `punch_pass_accepted` (not `punch_pass_eligible`).
 3. **network** — Send single string: `network: formData.networks?.[0] ?? null` (not array `networks`).
 4. **thumbnail_url** — Send main image as `thumbnail_url: formData.image || null`; optionally keep `images: [formData.image]` if backend expects it.
 

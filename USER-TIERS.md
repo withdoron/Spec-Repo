@@ -19,7 +19,7 @@ LocalLane's revenue model has three pillars, none of which involve advertising:
 |--------|----------|---------------|--------|
 | **Business Tiers** | Businesses | Tools to manage presence, events, analytics | ✅ Implemented (basic/standard/partner) |
 | **User Tiers** | Community members | Deeper convenience and community access | 🔮 This document |
-| **Transaction Fees** | Both (small cut) | Punch Pass, event tickets, marketplace orders | 📋 Stripe Connect spec'd |
+| **Transaction Fees** | Both (small cut) | Joy Coins, event tickets, marketplace orders | 📋 Stripe Connect spec'd |
 
 The critical principle: **the platform's incentive is always aligned with the user's.** No advertising means no conflict of interest. Discovery is driven by community trust, not by who paid for placement. User tiers enhance the experience — they never degrade the free experience.
 
@@ -42,7 +42,7 @@ Every other local platform monetizes through ads. Yelp sells promoted placement.
 | RSVP to events | ✅ |
 | MyLane dashboard (Explorer → Connected) | ✅ |
 | See trust signals (recommendations, vouches) | ✅ |
-| Punch Pass (basic — pay per punch) | ✅ |
+| Community Pass (Joy Coins included) | ✅ |
 | Check in to events | ✅ |
 | Search and filter | ✅ |
 
@@ -55,7 +55,7 @@ Every other local platform monetizes through ads. Yelp sells promoted placement.
 | Market Basket | Pre-order from farmers market vendors, scheduled pickup | High |
 | Smart Notifications | "3 new events match your saved search" | High |
 | Priority RSVP | First access to limited-capacity events | Medium |
-| Punch Pass Perks | Bonus punches, better rates, or member pricing | Medium |
+| Joy Coins Perks | Bonus coins, better rates, or member pricing | Medium |
 | Saved Filters | Save and re-apply search/filter combinations | Medium |
 | Community Concierge | "I need a plumber — who do my neighbors recommend?" with faster, filtered results | Low |
 | Enhanced Trust Network | Visual map of your community connections | Low |
@@ -154,7 +154,7 @@ User tiers affect MyLane through conditional section rendering. See [MYLANE.md](
 A community of 5,000 active users with 10% member conversion at $7/month:
 - 500 members × $7/month = $3,500/month recurring
 - Plus business tier revenue (separate)
-- Plus transaction fees on Punch Pass / Market Basket
+- Plus transaction fees on Joy Coins / Market Basket
 
 This is sustainable community infrastructure revenue, not venture-scale growth. That's the point.
 

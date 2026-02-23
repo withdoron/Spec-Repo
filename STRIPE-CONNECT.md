@@ -14,7 +14,7 @@ LocalLane uses **Stripe** for three distinct payment flows:
 2. **Community Pass Memberships** — Users pay LocalLane monthly for community access (Stripe Billing)
 3. **Direct Purchases** — Users pay businesses directly for events/products (Stripe Connect with `on_behalf_of`)
 
-The key architectural insight: LocalLane collects subscription revenue and distributes revenue share to businesses from its own operating income. Users never pay businesses through LocalLane — they either use membership access tokens (punches) or purchase directly from the business.
+The key architectural insight: LocalLane collects subscription revenue and distributes revenue share to businesses from its own operating income. Users never pay businesses through LocalLane — they either use membership access tokens (Joy Coins) or purchase directly from the business.
 
 ### What Changed (DEC-028)
 
@@ -25,8 +25,8 @@ This spec was originally built around a stored-value credit model (Separate Char
 | Separate Charges and Transfers | Billing (subscriptions) + Connect (`on_behalf_of` for direct) |
 | User buys credits, redeems at businesses | User subscribes, receives access tokens |
 | 15% platform fee per redemption | Platform retains portion of subscription pool |
-| Per-punch fixed dollar value | Floating pool-based value per punch |
-| 12-month punch expiration | Monthly expiration with small rollover |
+| Per-coin fixed dollar value | Floating pool-based value per Joy Coin |
+| 12-month coin expiration | Monthly expiration with small rollover |
 | LocalLane as merchant of record for all | Business is merchant of record for direct purchases |
 
 ---
@@ -153,11 +153,11 @@ This completely eliminates money transmission concerns for direct purchases. Loc
 
 ### Why Not Separate Charges and Transfers?
 
-The old spec used SC&T because punches were bought from LocalLane and redeemed later at unknown businesses. Under the Community Pass model, that flow is handled by the subscription + revenue share pool (not Stripe transfers per transaction). Direct purchases are simple: user pays business. `on_behalf_of` is the correct model.
+The old spec used SC&T because stored-value credits were bought from LocalLane and redeemed later at unknown businesses. Under the Community Pass model, that flow is handled by the subscription + revenue share pool (not Stripe transfers per transaction). Direct purchases are simple: user pays business. `on_behalf_of` is the correct model.
 
 ### Direct Purchase Flow
 
-1. User sees event/product: "Saturday Pottery Workshop — $35 or 3 punches"
+1. User sees event/product: "Saturday Pottery Workshop — $35 or 3 Joy Coins"
 2. User taps "Buy Now — $35"
 3. LocalLane creates Stripe Checkout Session with `on_behalf_of: business.stripe_account_id`
 4. User pays on Stripe-hosted checkout
@@ -167,7 +167,7 @@ The old spec used SC&T because punches were bought from LocalLane and redeemed l
 ### Dual Path UX
 
 Every Community Pass offering shows two options:
-- **"Use Punches"** → Deduct from punch balance, create check-in record
+- **"Use Joy Coins"** → Deduct from Joy Coins balance, create check-in record
 - **"Buy Now — $XX"** → Stripe Checkout to business directly
 
 Non-Community-Pass offerings show only the direct purchase option.
@@ -236,7 +236,7 @@ Businesses see in their dashboard:
 - Pending revenue share for current month (estimate)
 
 Businesses do NOT see:
-- Per-punch pool value (creates anxiety if it fluctuates)
+- Per-coin pool value (creates anxiety if it fluctuates)
 - Other businesses' check-in counts or shares
 - Total pool size
 
@@ -297,7 +297,7 @@ Stripe sends webhooks for payment events. LocalLane needs a Base44 server functi
 
 | Webhook Event | When It Fires | LocalLane Action |
 |--------------|--------------|-----------------|
-| `checkout.session.completed` | Tier subscription started OR Community Pass purchased OR Direct purchase completed | Route by metadata: update tier, create PunchPass, or confirm purchase |
+| `checkout.session.completed` | Tier subscription started OR Community Pass purchased OR Direct purchase completed | Route by metadata: update tier, create CommunityPass, or confirm purchase |
 | `invoice.paid` | Recurring subscription payment succeeds | Log payment, maintain active status |
 | `invoice.payment_failed` | Subscription payment fails | Email owner, start grace period |
 | `customer.subscription.deleted` | Subscription canceled | Downgrade tier OR expire punches (by metadata) |
@@ -319,13 +319,13 @@ Stripe sends webhooks for payment events. LocalLane needs a Base44 server functi
 
 ## UI Changes
 
-### Punch Pass Page (User-Facing) → Community Pass Page
+### Community Pass Page (User-Facing)
 
 Replace the current demo mode with real Community Pass subscription:
 
 ```
 Current (demo):  "Purchase" button → toast("Coming soon!")
-New (real):      "Subscribe" button → Stripe Checkout (subscription) → PunchPass created
+New (real):      "Subscribe" button → Stripe Checkout (subscription) → CommunityPass created
 ```
 
 Show membership tiers, monthly allocation, and "what you get" for each level. Include direct link to "What's Open" (Community Pass offerings in the community).
@@ -363,14 +363,14 @@ New admin section:
 |-----------------|--------|----------------|
 | `@stripe/react-stripe-js` | ✅ Installed | Use for Checkout redirect |
 | `@stripe/stripe-js` | ✅ Installed | Use for `loadStripe()` |
-| `PunchPass` entity | ✅ Exists (demo mode) | Add subscription fields, remove `per_punch_value` |
-| `PunchPassUsage` entity | ✅ Exists | Add `settled`, `settlement_id` |
-| `PunchPassTransaction` entity | ✅ Exists | Repurpose for revenue share records |
+| `JoyCoins` entity (formerly PunchPass) | ✅ Exists (demo mode) | Add subscription fields, remove `per_punch_value` |
+| `JoyCoinTransactions` (formerly PunchPassUsage) | ✅ Exists | Add `settled`, `settlement_id` |
+| Revenue share entity (formerly PunchPassTransaction) | ✅ Exists | Repurpose for revenue share records |
 | `PunchPass.jsx` page | ✅ Exists (demo mode) | Replace with Community Pass subscription flow |
 | `FinancialWidget.jsx` | ✅ Exists (placeholder) | Replace with Community Pass section |
-| `useOrganization()` hook | ✅ Exists | Already has `canUsePunchPass` flag |
-| `CheckIn.jsx` | ✅ Exists | No changes for MVP — punch deduction already works |
-| `validatePunchPass` function | ✅ Exists | No changes for MVP |
+| `useOrganization()` hook | ✅ Exists | Already has `canUseJoyCoins` flag |
+| `CheckIn.jsx` | ✅ Exists | No changes for MVP — Joy Coin deduction already works |
+| `validateJoyCoins` function | ✅ Exists | No changes for MVP |
 
 ### What Needs to Be Created
 
@@ -434,7 +434,7 @@ New admin section:
 3. Create checkout flow for Community Pass subscription
 4. Handle subscription webhooks for punch allocation
 5. Build monthly reset logic (new allocation, expire unused)
-6. Remove "Demo Mode" badges from PunchPass UI
+6. Remove "Demo Mode" badges from Joy Coins / Community Pass UI
 
 **This phase makes Community Pass revenue flow.**
 
@@ -443,11 +443,11 @@ New admin section:
 **Goal:** Users can buy directly from businesses.
 
 1. Create `on_behalf_of` checkout flow for direct purchases
-2. Add "Buy Now" option alongside "Use Punches" in event/product UI
+2. Add "Buy Now" option alongside "Use Joy Coins" in event/product UI
 3. Handle direct purchase completion webhook
 4. Business receives payment minus Stripe processing fee
 
-**This phase enables the dual-path (punches or direct) experience.**
+**This phase enables the dual-path (Joy Coins or direct) experience.**
 
 ### Phase F: Revenue Share Distribution
 

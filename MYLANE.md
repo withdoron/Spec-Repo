@@ -13,7 +13,7 @@ Last updated: 2026-02-01
 
 ## Philosophy
 
-MyLane is the answer to "I just logged in — now what?" Every other page on LocalLane serves *the platform* (Directory, Events, Admin). MyLane serves *the person*. It's where your upcoming events live, where your recommendations are tracked, where your punch pass balance is visible, and where you discover what's new in your community.
+MyLane is the answer to "I just logged in — now what?" Every other page on LocalLane serves *the platform* (Directory, Events, Admin). MyLane serves *the person*. It's where your upcoming events live, where your recommendations are tracked, where your Joy Coins balance is visible, and where you discover what's new in your community.
 
 MyLane is NOT:
 - A repeat of the Directory with different styling
@@ -37,14 +37,14 @@ MyLane adapts based on what the user has *done*, not how long they've been on th
 
 ### State 1: Explorer (New User — No Activity)
 
-**Who:** Just created an account. No RSVPs, no recommendations, no punch pass.
+**Who:** Just created an account. No RSVPs, no recommendations, no Joy Coins.
 
 **What they see:**
 - Greeting with their name
 - "Happening Soon" — next 5-10 events in their region
 - "New in Your Community" — businesses added in last 30 days
 - "Browse by Category" — quick-nav tiles to Directory categories
-- Punch Pass card (shows "0 balance — learn more" linking to info)
+- Joy Coins card (shows "0 balance — learn more" linking to info)
 - Gentle nudge: "Start exploring — recommend a business you love"
 
 **What they DON'T see:**
@@ -58,13 +58,13 @@ MyLane adapts based on what the user has *done*, not how long they've been on th
 
 ### State 2: Engaged (Has Activity)
 
-**Who:** Has RSVP'd to events, given Nods or Stories, followed businesses, used Punch Pass.
+**Who:** Has RSVP'd to events, given Nods or Stories, followed businesses, used Joy Coins.
 
 **What they see (in addition to Explorer content):**
 - "Your Upcoming Events" — events they've RSVP'd to, sorted by date
 - "Your Recommendations" — businesses they've Nodded or written Stories for
 - "From Businesses You Follow" — new events/updates from followed businesses
-- Punch Pass card with real balance
+- Joy Coins card with real balance
 - "Happening Soon" now weighted toward categories they've engaged with
 
 **Design principle:** MyLane starts reflecting *you*. It earned the right to personalize because it has real signal — not survey answers.
@@ -73,13 +73,13 @@ MyLane adapts based on what the user has *done*, not how long they've been on th
 
 ### State 3: Connected (Regular User)
 
-**Who:** Multiple recommendations, regular event attendance, active punch pass usage.
+**Who:** Multiple recommendations, regular event attendance, active Joy Coins usage.
 
 **What they see (in addition to Engaged content):**
 - "Your Trust Network" — visual of connections through shared recommendations
 - Smart notifications summary ("3 new events match your interests")
 - "Outside Your Lane" — deliberate discovery from unfamiliar categories
-- BuildLane preference refinement (available as optional tool, not required)
+- BuildLane preference refinement (shelved — available as optional tool if revived)
 - Deeper community stats (events attended, businesses supported)
 
 **Design principle:** Full personalization. The platform knows you well enough to surface both what you want AND what you didn't know you'd enjoy.
@@ -99,7 +99,7 @@ MyLane uses a **section/widget pattern** — each block of content is a self-con
 │  ┌─────────────────────────────────────────┐ │
 │  │  GreetingHeader                         │ │
 │  │  "Good morning, Doron"                  │ │
-│  │  [Punch Pass Balance]  [Settings gear]  │ │
+│  │  [Joy Coins Balance]  [Settings gear]  │ │
 │  └─────────────────────────────────────────┘ │
 │                                              │
 │  ┌─────────────────────────────────────────┐ │
@@ -144,7 +144,7 @@ MyLane uses a **section/widget pattern** — each block of content is a self-con
 | Section | Explorer | Engaged | Connected | Member Tier |
 |---------|----------|---------|-----------|-------------|
 | GreetingHeader | ✅ | ✅ | ✅ | ✅ |
-| PunchPassCard | ✅ (0 balance) | ✅ | ✅ | ✅ |
+| JoyCoinsCard | ✅ (0 balance) | ✅ | ✅ | ✅ |
 | UpcomingEventsSection | ❌ (no RSVPs) | ✅ | ✅ | ✅ |
 | HappeningSoonSection | ✅ | ✅ (weighted) | ✅ (weighted) | ✅ |
 | NewInCommunitySection | ✅ | ✅ | ✅ | ✅ |
@@ -163,9 +163,9 @@ const getUserState = (user, rsvps, recommendations, follows) => {
   const hasRSVPs = rsvps.length > 0;
   const hasRecommendations = recommendations.length > 0;
   const hasFollows = follows?.length > 0;
-  const hasPunchPass = user.punch_pass_balance > 0;
+  const hasJoyCoins = user.joy_coins_balance > 0;
   
-  const activityCount = [hasRSVPs, hasRecommendations, hasFollows, hasPunchPass]
+  const activityCount = [hasRSVPs, hasRecommendations, hasFollows, hasJoyCoins]
     .filter(Boolean).length;
   
   if (activityCount >= 3) return 'connected';
@@ -267,7 +267,7 @@ Implementation: Filter pills at top (quick access to common combos), "More Filte
 |--------|------|---------|
 | Category | Single-select | Main categories from categoryData.js |
 | Subcategory | Multi-select | Subcategories within selected category |
-| Accepts Punch Pass | Toggle | Yes/No |
+| Accepts Joy Coins | Toggle | Yes/No |
 | Has upcoming events | Toggle | Yes/No |
 | Distance | Slider | 5mi, 10mi, 25mi, 50mi |
 | Sort | Dropdown | Recommended (trust-ranked), Newest, Alphabetical |
@@ -357,7 +357,7 @@ This matches LocalLane's core identity. Discovery comes through the community, n
 - "See all" links: `text-amber-500 hover:text-amber-400`
 - Filter pills active: `bg-amber-500 text-black`
 - Filter pills inactive: `bg-slate-800 text-slate-300 border-slate-700`
-- Punch Pass badge: `bg-amber-500/20 text-amber-500 border border-amber-500/30`
+- Joy Coins badge: `bg-amber-500/20 text-amber-500 border border-amber-500/30`
 - "New to LocalLane" badge: `bg-emerald-500/20 text-emerald-400 border border-emerald-500/30`
 
 ### Empty State Philosophy

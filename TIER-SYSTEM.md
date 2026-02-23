@@ -57,8 +57,8 @@ When showing to users, use friendly names:
 |---------|-------|----------|---------|
 | Create Events | ✅ (reviewed) | ✅ (auto-publish) | ✅ (own node) |
 | Event Analytics | ❌ | ✅ | ✅ |
-| Punch Pass Eligible | ❌ | ✅ | ✅ |
-| Punch Pass Earnings | ❌ | ✅ | ✅ |
+| Joy Coins Eligible | ❌ | ✅ | ✅ |
+| Joy Coins Revenue | ❌ | ✅ | ✅ |
 | Multiple Ticket Types | ❌ | ✅ | ✅ |
 | Check-in Feature | ❌ | ✅ | ✅ |
 | Directory Listing | Basic | Enhanced | Enhanced + Badge |
@@ -87,7 +87,7 @@ const {
   organization,
   tier,           // 'basic' | 'standard' | 'partner'
   tierLevel,      // 1 | 2 | 3
-  canUsePunchPass,    // true for standard+
+  canUseJoyCoins,     // true for standard+
   canAutoPublish,     // true for standard+
   canUseMultipleTickets, // true for standard+
   canUseCheckIn,      // true for standard+
@@ -111,7 +111,7 @@ const getTierLevel = (tier) => TIER_LEVELS[tier] || 1;
 
 ```javascript
 // Check if feature is available
-const canUsePunchPass = tierLevel >= 2;
+const canUseJoyCoins = tierLevel >= 2;
 const canAutoPublish = tierLevel >= 2;
 const isPartner = tier === 'partner';
 ```
@@ -132,7 +132,7 @@ const isPartner = tier === 'partner';
     </Button>
   </div>
 ) : (
-  <PunchPassToggle />
+  <JoyCoinsToggle />
 )}
 ```
 

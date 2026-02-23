@@ -19,7 +19,7 @@
 ### MyLane (User Dashboard)
 - [x] Phase 1 — 8 components, real data, progressive depth
 - [x] Time-aware greeting with first name
-- [x] Punch Pass balance badge
+- [x] Joy Coins balance badge
 - [x] Happening Soon with filter pills
 - [x] New in Community business cards
 - [x] Your Recommendations (hides when empty)
@@ -55,7 +55,7 @@
 ### Events & Business Management
 - [x] Event CRUD (create, edit, delete, cancel, duplicate)
 - [x] Recurring events with day-of-week selection
-- [x] Event images, Punch Pass pricing, multi-ticket
+- [x] Event images, Joy Coins pricing, multi-ticket
 - [x] Staff management (add, invite, roles, auto-linking)
 - [x] Business onboarding wizard
 - [x] Recommendation system (Nods, Stories, Vouches)
@@ -110,7 +110,7 @@ Single build session. Makes the platform feel alive before money flows.
 
 - [ ] Create `useVitality` hook (calculate from existing MyLane data)
 - [ ] Create `CommunityOrganism.jsx` component (CSS + SVG animation)
-- [ ] Place in MyLane GreetingHeader alongside greeting and punch badge
+- [ ] Place in MyLane GreetingHeader alongside greeting and Joy Coins badge
 - [ ] 3-5 visual states: Seed → Sprouting → Growing → Thriving → Resting
 - **Spec:** ORGANISM-CONCEPT.md (private repo)
 - **Dependencies:** None — uses data already queried in MyLane
@@ -296,7 +296,7 @@ Real money. Gated behind legal checklist.
 ### Meal Planning / Market Basket
 - [ ] Recipe → ingredient → local business matching
 - [ ] Weekly meal plan generation
-- [ ] Shopping list with Punch Pass integration
+- [ ] Shopping list with Joy Coins integration
 - **Spec:** MEAL-PLANNING-CONCEPT.md
 
 ### Multi-Region Expansion
@@ -305,8 +305,8 @@ Real money. Gated behind legal checklist.
 - [ ] Visitor mode for browsing other regions
 - [ ] Region-specific businesses, events, trust networks
 
-### Community Punch Fund
-- [ ] Gifting mechanism for Punch Passes
+### Community Scholarship Fund
+- [ ] Gifting mechanism for Joy Coins
 - [ ] Fund for underserved youth
 - [ ] Donation flow through platform
 - **Status:** Concept only
@@ -331,7 +331,7 @@ Real money. Gated behind legal checklist.
 | `/Search` | Search.jsx | ✅ Done |
 | `/BusinessProfile/:id` | BusinessProfile.jsx | ✅ Done |
 | `/CategoryPage/:slug` | CategoryPage.jsx | ✅ Done |
-| `/PunchPass` | PunchPass.jsx | ✅ Done |
+| `/PunchPass` | PunchPass.jsx (redirects to Joy Coins) | ✅ Done |
 | `/CheckIn` | CheckIn.jsx | ✅ Done |
 | `/Recommend/:id` | Recommend.jsx | ✅ Done |
 | `/Settings` | Settings.jsx | ✅ Done |

@@ -81,7 +81,8 @@ Global configuration that applies across the entire platform.
 | **Networks** | Community networks/groups that can be tagged on events and businesses | Add/edit/delete networks, set active status, sort order |
 | **Tiers** | Business and User tier definitions | Tier names, prices, features included per tier |
 | **Joy Coins** | Joy Coins / Community Pass settings | Coin pricing range, revenue share %, monthly reset rules |
-| **Branding** | Platform visual identity | Logo, accent color (future: per-cell branding) |
+| **Branding** | Platform visual identity | Logo, accent color (future: per-community branding) |
+| **Newsletter** | Subscriber management, send history, capture points | Subscriber list, email drafts (future), footer/RSVP/onboarding capture settings |
 
 ---
 
@@ -277,7 +278,7 @@ src/
 │       ├── platform/
 │       │   ├── NetworksConfig.jsx
 │       │   ├── TiersConfig.jsx
-│       │   ├── PunchPassConfig.jsx
+│       │   ├── JoyCoinsConfig.jsx
 │       │   └── BrandingConfig.jsx
 │       │
 │       ├── events/

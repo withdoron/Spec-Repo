@@ -105,7 +105,7 @@ Configuration for onboarding wizards.
 | config_type | Purpose | Example Items |
 |-------------|---------|---------------|
 | `archetypes` | Business types | Venue, Event Organizer, Service Provider |
-| `goals` | What businesses want to do | Host Events, Accept Punch Pass, List in Directory |
+| `goals` | What businesses want to do | Host Events, Accept Joy Coins, List in Directory |
 | `user_interests` | User preference categories | Live Music, Family Activities, Food & Drink |
 | `feature_matrix` | What features each tier unlocks | (see below) |
 
@@ -372,12 +372,12 @@ const INITIAL_CONFIG = [
     items: [
       // Venue goals
       { value: 'host_events', label: 'Host Events', parent: 'venue', min_tier: 'basic', active: true, sort_order: 1 },
-      { value: 'accept_punch_pass', label: 'Accept Punch Pass', parent: 'venue', min_tier: 'standard', active: true, sort_order: 2 },
+      { value: 'accept_joy_coins', label: 'Accept Joy Coins', parent: 'venue', min_tier: 'standard', active: true, sort_order: 2 },
       { value: 'list_directory', label: 'List in Directory', parent: 'venue', min_tier: 'basic', active: true, sort_order: 3 },
       
       // Organizer goals
       { value: 'host_events', label: 'Host Events', parent: 'organizer', min_tier: 'basic', active: true, sort_order: 1 },
-      { value: 'accept_punch_pass', label: 'Accept Punch Pass', parent: 'organizer', min_tier: 'standard', active: true, sort_order: 2 },
+      { value: 'accept_joy_coins', label: 'Accept Joy Coins', parent: 'organizer', min_tier: 'standard', active: true, sort_order: 2 },
       { value: 'sell_tickets', label: 'Sell Tickets', parent: 'organizer', min_tier: 'standard', active: true, sort_order: 3 },
     ],
   },

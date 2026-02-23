@@ -402,7 +402,7 @@ Everything's ready — revenue will flow once members visit.
 
 **What needs to happen:**
 1. Connect EventEditor to EventsWidget (replace "coming soon" placeholder)
-2. Update EventEditor to use Joy Coins terminology (not Punch Pass)
+2. Update EventEditor to use Joy Coins terminology (not legacy Punch Pass)
 3. Add event status management (pending_review for Basic, auto-publish for Standard+)
 4. Add Joy Coin cost prominently on event cards
 5. Integrate check-in flow per event
@@ -508,7 +508,7 @@ No major changes needed here — mostly wiring up existing components into the n
 ### Conflicts to Watch
 
 - BusinessDashboard.jsx currently renders widgets in a vertical stack based on archetype config. New version uses tabs. This is a structural refactor of the main page.
-- EventEditor.tsx.jsx uses some old Punch Pass terminology — needs Joy Coins language update during integration.
+- EventEditor.tsx.jsx uses Joy Coins terminology; ensure consistency during integration.
 - OverviewWidget uses light theme — being replaced entirely, not patched.
 
 ---

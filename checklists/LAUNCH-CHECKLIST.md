@@ -51,7 +51,7 @@
 
 **Language Audit — Joy Coins & Community Pass (LEGAL):**
 - [ ] Full codebase search for "punch" — replace with Joy Coin / Community Pass terminology
-- [ ] UI audit: no references to "punch card", "punch pass", or "stored value"
+- [ ] UI audit: no references to legacy "punch card", "punch pass", or "stored value" (use Joy Coins / Community Pass)
 - [ ] Database fields: document any legacy field names (don't rename yet, just document)
 - [ ] Terms of Service: verify Community Pass + Joy Coin language (not stored value)
 - [ ] Privacy Policy: verify membership framing (not prepaid balance)
@@ -84,7 +84,7 @@
 - [ ] Core messaging reviewed against book frameworks
 - [ ] No discount/savings language in any copy
 
-**Done when:** Stranger test passes — someone can register, browse, RSVP, find support, on mobile. No "punch card" language visible anywhere. ✅ Core items complete. Remaining: broken links walkthrough, newsletter platform selection, first newsletter issue.
+**Done when:** Stranger test passes — someone can register, browse, RSVP, find support, on mobile. No legacy punch card/punch pass language; Joy Coins / Community Pass only. ✅ Core items complete. Remaining: broken links walkthrough, newsletter platform selection, first newsletter issue.
 
 **Shipped (2026-02-19 and 2026-02-20):**
 - [x] User onboarding wizard (3 steps: welcome + display name, network interests, community pass + newsletter interest)

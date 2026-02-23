@@ -10,7 +10,7 @@
 ### Base44 usage (community-node)
 
 - **Client:** `createClient()` from `@base44/sdk` in `src/api/base44Client.js`; app is wired via `appId`, `serverUrl`, `token` from `app-params`.
-- **Entities:** Used as `base44.entities.<EntityName>` (e.g. `Business`, `Event`, `AdminSettings`, `Location`, `Spoke`, `User`, `Archetype`, `CategoryGroup`, `SubCategory`, `Review`, `PunchPass`, etc.). No entity definitions live in this repo.
+- **Entities:** Used as `base44.entities.<EntityName>` (e.g. `Business`, `Event`, `AdminSettings`, `Location`, `Spoke`, `User`, `Archetype`, `CategoryGroup`, `SubCategory`, `Review`, `JoyCoins` (formerly PunchPass), etc.). No entity definitions live in this repo.
 - **Entity definitions:** Base44 docs say entities are defined with **JSON Schema** and can be:
   - Managed in the **Base44 dashboard**: Data → select entity → Schema.
   - Or defined in a **`base44/entities/`** directory (JSON/JSONC) and deployed with the **`entities push`** CLI.

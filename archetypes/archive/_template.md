@@ -75,7 +75,7 @@
 | Feature | Description |
 |---------|-------------|
 | Everything in Tier 1 | |
-| Accept punch passes | Can accept community punch passes |
+| Accept Joy Coins | Can accept Joy Coins (Community Pass) |
 | Analytics | View engagement metrics |
 | [archetype-specific] | |
 
@@ -139,11 +139,11 @@
 | Config (networks, categories) | On startup + every 5 min | GET /api/v1/config |
 | [other data] | | |
 
-### Punch Pass Integration
+### Joy Coins Integration
 
-- [ ] This archetype can accept punch passes
+- [ ] This archetype can accept Joy Coins
 - Accepted pass types: [list]
-- Typical punch cost: [number]
+- Typical Joy Coin cost: [number]
 
 ---
 
