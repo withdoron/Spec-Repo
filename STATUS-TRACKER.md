@@ -380,9 +380,43 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-02-22 | Full repo audit (spec-repo + private repo). DEC-054 Play Trainer spec written from user research with boys. DASHBOARD-WORKSPACES-IMPLEMENTATION.md written — reconciles DEC-053 workspace model + DEC-054 Play Trainer into single build-ready spec. Audit findings cataloged: 8 files with stale Punch Pass terminology, ARCHITECTURE.md and README.md most stale, ENTITY-SYSTEM.md candidate for archive. |
 | 2026-02-21 | Pre-launch cleanup, pricing reset, spec work. Business Dashboard: Coming Soon states, Founding Member, Community Pass interest. DEC-051 (Network Posts), DEC-052 (Pricing Reset), MyLane Dynamic Layout spec. Greeting display_name fix. |
 | 2026-02-20 | Major build session: 10+ items shipped. Newsletter system complete (footer capture, post-RSVP prompt, onboarding sync, admin section). Business profile editing (Settings + admin drawer). Business card redesign (vertical, clickable). Security: Business/AccessWindow/Location writes migrated to server functions, entity permissions locked. Full codebase audit (56 findings, 6 critical resolved). Console.log cleanup, toggle knob fixes. |
 | 2026-02-19 | User onboarding wizard shipped (3 steps: welcome, network interests, community pass interest). MyLane "My Networks" section with toggle cards. Mobile audit: 103 findings resolved. Network-only events (DEC-050 Build 2). Onboarding data visible in admin user drawer. Session crashed mid-build. |
+
+### Session Log — 2026-02-22
+
+**Focus:** Play Trainer spec (DEC-054), Dashboard Workspace implementation spec, full repo audit
+
+**Shipped:**
+1. PLAY-TRAINER-SPEC-v2.md — full 6-phase spec from user research with Doron's flag football team
+2. DASHBOARD-WORKSPACES-IMPLEMENTATION.md — reconciled DEC-053 + DEC-054 into build-ready spec
+3. Full repo audit: reviewed all files in spec-repo and private repo
+4. Audit report generated with findings, priorities, and cleanup plan
+5. DEC-054 added to DECISIONS.md
+6. SEEDLING-TRACKER.md updated with Play Trainer as active node
+7. NODE-PLAYBOOK.md updated with Play Trainer entry
+
+**Decisions made:**
+- DEC-054: Play Trainer — 6-phase build, 8 entities, Team workspace type
+- Playbook entity dropped in favor of side field on Play (Offense/Defense as first-level organizer)
+- DEC-053 entity model superseded by DEC-054's richer model where they conflict
+- Dashboard Workspace build sequence: Foundation 1 (engine) → Foundation 2 (team + roster) → Team Builds 1-5
+
+**Audit findings (for future cleanup):**
+- Punch Pass terminology in ~8 files (ARCHITECTURE.md, README.md, .cursorrules, MYLANE.md, ADMIN-ARCHITECTURE.md, ORGANISM-ARCHITECTURE-EVOLUTION.md, STATUS-TRACKER.md)
+- ARCHITECTURE.md needs major refresh (pre-Node Lab sync patterns, stale entity schemas)
+- README.md needs rebuild (stale status sections, missing file references)
+- ENTITY-SYSTEM.md candidate for archive (superseded by DEC-053 workspace model)
+- MYLANE.md behind built reality (missing onboarding wizard, networks, newsletter)
+- ADMIN-ARCHITECTURE.md missing Newsletter section, still has Punch Pass references
+- .cursorrules and claude.md need DEC updates and reference fixes
+
+**Next session priorities:**
+- Priority 2 from audit: Terminology sweep (Punch Pass → Joy Coins across all spec-repo files)
+- Priority 3: Stale doc refreshes (README.md, ARCHITECTURE.md, MYLANE.md)
+- Or: Begin Foundation Build 1 (workspace engine) if Doron wants to start building
 
 ### Session Log — 2026-02-21
 

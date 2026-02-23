@@ -1380,6 +1380,28 @@ However, Base44's new Backend Platform (announced Feb 2026) supports a shared ba
 
 ---
 
+### DEC-054: Play Trainer — Youth Flag Football Playbook & Training Tool
+
+**Date:** 2026-02-22
+
+**Context:** Doron coaches a 5v5 flag football team in the Grab It NFL FLAG league (Eugene, OR). His boys (ages 10-12) draw plays on paper. Kids see them once at practice and forget by game day. No structured way to study between practices. Team communication lives in GroupMe, disconnected from everything else. Research-first principle satisfied: real users (Doron's team), real pain (paper plays, no study tool, fragmented comms), direct input from players on UX.
+
+**Decision:** Build Play Trainer as a Team workspace type within the Dashboard Workspace model (DEC-053). Six phases: Foundation (team + roster + schedule + messages) → Playbook (play creation, coach sideline mode) → My Assignment (position-aware study) → Quiz Engine (gamified learning) → Game Day (focused prep, readiness tracking) → Football IQ (pattern recognition, badges, organism integration).
+
+**Key architectural choices:**
+- Offense/Defense as first-level organizer (not a Playbook container entity — players requested this)
+- Photo upload for V1 diagrams (paper play photos), structured field renderer for V2
+- 8 new entities: Team, TeamMember, Play, PlayAssignment, TeamEvent, TeamMessage, QuizAttempt, PlayerStats
+- Coach Sideline Mode: tablet-optimized layout for game day reference
+- Network integration: team links to Recess, events appear on MyLane, activity feeds network organism
+- Multi-team: each team is a workspace, users can belong to multiple teams
+
+**Reference:** DASHBOARD-WORKSPACES.md (private repo) — reconciled spec covering both workspace engine and Play Trainer.
+
+**Status:** ✅ Spec Complete — Ready for Foundation Build
+
+---
+
 ## Decision Template
 
 ```markdown
