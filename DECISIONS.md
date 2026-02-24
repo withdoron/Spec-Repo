@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-02-01
+> Last Updated: 2026-02-23
 
 ---
 
@@ -1397,6 +1397,48 @@ However, Base44's new Backend Platform (announced Feb 2026) supports a shared ba
 **Reference:** DASHBOARD-WORKSPACES.md (private repo) — reconciled spec covering both workspace engine and Play Trainer.
 
 **Status:** ✅ Spec Complete — Ready for Foundation Build
+
+---
+
+### DEC-055: Category Architecture Consolidation
+
+**Date:** 2026-02-23
+
+**Context:** Three parallel category systems existed: CategoryGroup + SubCategory Base44 entities (used in onboarding/settings), categoryData.jsx hardcoded file (used in Home/Directory/Search/Cards), and legacy business.category slug with fallbacks everywhere. Six overlapping fields on Business entity (category, primary_category, sub_category, sub_category_id, main_category, subcategories). This created data inconsistency risk before pilot launch.
+
+**Decision:** Consolidate to single source: categoryData.jsx with useCategories() hook. Five curated main categories mapped to four community networks:
+- Food & Farm → Harvest Network
+- Movement & Wellness → Recess
+- Learning & Creative → Creative Alliance
+- Services → spans all networks
+- Community → Gathering Circle
+
+Business entity simplifies to two primary fields: main_category + subcategory (sub_category_id). Category tree designed for migration-proof scaling: same shape in JS file today, admin-configurable PlatformConfig entity tomorrow. Hook consumers unchanged when data source migrates.
+
+**Three-layer model:**
+- Layer 1: Archetype (what you ARE) — structural, rarely changes
+- Layer 2: Category (what you DO) — directory taxonomy, this spec
+- Layer 3: Network (where you LIVE) — community affiliation
+
+**Implementation:**
+- Phase 1: Rewrote categoryData.jsx with curated tree + created useCategories() hook
+- Phase 2: Migrated 12 consumer files to hook (3 from Base44 entities, 9 from direct imports)
+- BusinessSettings and BusinessEditDrawer: grouped category dropdowns with save persistence
+- main_category added to PROFILE_ALLOWLIST in updateBusiness.ts server function
+
+**Resolved questions:**
+- CategoryClick counts: Reset (no real pilot data)
+- Archetype → Category filtering: Deferred (future iteration)
+- Multiple subcategories: Start with one, plan for expansion to array
+
+**Remaining phases (deferred — no real data to migrate yet):**
+- Phase 3: Data migration (map existing Business records to new IDs)
+- Phase 4: Delete CategoryGroup + SubCategory entities from Base44
+- Phase 5: Cleanup legacy fields and mappings
+
+**Full spec:** CATEGORY-ARCHITECTURE-SPEC.md (private repo)
+
+**Status:** ✅ Phases 1-2 Complete, Phases 3-5 Deferred
 
 ---
 

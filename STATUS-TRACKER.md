@@ -1,7 +1,7 @@
 # LocalLane Status Tracker
 
 > Complete view of where we are and what's ahead.
-> Updated: 2026-02-20
+> Updated: 2026-02-23
 
 ---
 
@@ -380,10 +380,75 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-02-23 | Category Architecture (DEC-055): Phases 1-2 shipped — categoryData.jsx rewritten, useCategories() hook, 12 consumers migrated. Pilot fixes: onboarding category save, optional event type, RSVP auto-close, dashboard RSVP counts, admin drawer save persistence. Roles testing: Tests 1-5 passed. Staff search blocked (Base44 User entity server-side lookup). Team Management feature-guarded as Coming Soon. |
 | 2026-02-22 | Full repo audit (spec-repo + private repo). DEC-054 Play Trainer spec written from user research with boys. DASHBOARD-WORKSPACES-IMPLEMENTATION.md written — reconciles DEC-053 workspace model + DEC-054 Play Trainer into single build-ready spec. Audit findings cataloged: 8 files with stale Punch Pass terminology, ARCHITECTURE.md and README.md most stale, ENTITY-SYSTEM.md candidate for archive. |
 | 2026-02-21 | Pre-launch cleanup, pricing reset, spec work. Business Dashboard: Coming Soon states, Founding Member, Community Pass interest. DEC-051 (Network Posts), DEC-052 (Pricing Reset), MyLane Dynamic Layout spec. Greeting display_name fix. |
 | 2026-02-20 | Major build session: 10+ items shipped. Newsletter system complete (footer capture, post-RSVP prompt, onboarding sync, admin section). Business profile editing (Settings + admin drawer). Business card redesign (vertical, clickable). Security: Business/AccessWindow/Location writes migrated to server functions, entity permissions locked. Full codebase audit (56 findings, 6 critical resolved). Console.log cleanup, toggle knob fixes. |
 | 2026-02-19 | User onboarding wizard shipped (3 steps: welcome, network interests, community pass interest). MyLane "My Networks" section with toggle cards. Mobile audit: 103 findings resolved. Network-only events (DEC-050 Build 2). Onboarding data visible in admin user drawer. Session crashed mid-build. |
+
+### Session Log — 2026-02-23
+
+**Focus:** Category architecture consolidation, pilot role testing, bug fixes
+
+**Shipped:**
+1. DEC-055 Phase 1: categoryData.jsx rewritten with 5 curated main categories, useCategories() hook created
+2. DEC-055 Phase 2: 12 consumer files migrated to useCategories() hook (Group A: 3 Base44 entity readers, Group B: 9 direct importers)
+3. BusinessSettings: Grouped category dropdown with section headers + save persistence fix
+4. BusinessEditDrawer: Same grouped dropdown pattern + save persistence
+5. main_category added to PROFILE_ALLOWLIST in updateBusiness.ts
+6. Onboarding category save: main_category included in Business.create() payload
+7. Event Type made optional (removed required validation from EventEditor)
+8. RSVP auto-close: modal auto-closes after 2 seconds + Done button
+9. Dashboard Home tab: RSVP count per event in Upcoming Events list
+10. Dashboard Events tab (EventsWidget): RSVP count per event card
+11. Business Settings profile card: shows actual category label instead of archetype fallback
+12. Staff search: migrated from direct User.filter() to server function (search_user_by_email action)
+13. Dashboard nav link: useUserStaffBusinesses hook + Layout.jsx shows Dashboard for staff/co-owners
+14. associated_businesses: populated on invite acceptance and direct staff add in updateBusiness.ts
+15. Team Management section: feature-guarded as Coming Soon in BusinessSettings
+
+**Roles testing results:**
+- Test 1 (Owner creates business): ✅ Pass
+- Test 2 (Owner edits business): ✅ Pass
+- Test 3 (Owner creates event): ✅ Pass
+- Test 4 (Owner sees RSVPs): ✅ Pass (after fix)
+- Test 5 (Admin edits any business): ✅ Pass (after fix)
+- Test 6 (Co-owner access): ⏸️ Blocked — server-side User entity lookup returns empty
+- Test 7 (Unauthorized user blocked): ✅ Pass (per code audit — data-scoped, server functions check auth)
+
+**Key discovery:** Base44 User entity is base44.auth on client side (src/api/entities.js line 9: export const User = base44.auth). Server-side access via base44.asServiceRole.entities.User confirmed in docs but filter/list returning empty in practice. Needs Base44 support investigation.
+
+**Bugs found and fixed:**
+- Onboarding category not saving (main_category missing from create payload)
+- BusinessSettings category dropdown was flat list (switched to grouped with SelectGroup/SelectLabel)
+- BusinessSettings category save not persisting (main_category missing from PROFILE_ALLOWLIST)
+- BusinessEditDrawer same two issues (flat list + save not persisting)
+- Staff search 403 (User.filter called client-side by non-admin — migrated to server function)
+- RSVP modal required manual close
+- Dashboard didn't show RSVP counts per event
+
+**Decisions made:**
+- DEC-055: Category Architecture Consolidation (Active — Phases 1-2 complete)
+- Event Type made optional for pilot (businesses don't always fit standard types)
+- Team Management feature-guarded (staff search blocked by Base44 User entity access)
+- CategoryClick counts to be reset when Phase 3 runs (no real data exists)
+
+**Blockers:**
+- Staff search: Base44 asServiceRole.entities.User.filter() and .list() not returning users despite docs confirming the API. Blocks co-owner and staff invite flow. Feature-guarded for pilot.
+
+**Technical debt noted:**
+- search_user_by_email uses User.list() + client-side find (won't scale past ~100 users)
+- 3 locations still vulnerable to case-sensitive email matching (validateJoyCoins.ts:42, BusinessEditDrawer.jsx:275, BusinessEditDrawer.jsx:319)
+- PunchPass references remain in AdminUsersSection.jsx line 59 and useUserState.js line 23
+- deleteBusinessCascade.js uses direct entity calls without server-side auth
+
+**Next session priorities:**
+- Business formation + launch strategy (Topic 3 from today — not reached)
+- Resolve Base44 User entity lookup with Base44 support
+- DEC-055 Phases 3-5 when real businesses exist
+- Remove debug logging from updateAdminSettings.ts search_user_by_email
+
+---
 
 ### Session Log — 2026-02-22
 

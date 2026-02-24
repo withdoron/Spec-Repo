@@ -1,7 +1,7 @@
 # LocalLane Launch Checklist
 
 > Living checklist for app readiness. Updated after each work session.
-> Last updated: 2026-02-20
+> Last updated: 2026-02-23
 
 ---
 
@@ -107,6 +107,7 @@
 - [x] Toggle knob colors fixed (bg-slate-100 → bg-slate-300, 6 instances)
 - [x] Support mechanism confirmed: Feedback button (in-app) + support@locallane.app
 - [x] Business onboarding reviewed: 4 archetypes confirmed (Location/Venue, Event Organizer, Community/Non-Profit, Micro Business)
+- [x] Category architecture consolidated (DEC-055 Phases 1-2): useCategories() hook, onboarding/settings category save, grouped dropdowns
 
 **Earn-Your-Pass Program (DEC-035):**
 - [ ] Farm program partnership confirmed (which farms participate)
@@ -128,6 +129,9 @@
 - [ ] Event RSVP flow tested end-to-end
 - [ ] Business claim flow tested
 - [ ] At least 1 non-Doron admin user
+
+**Staff/Team (pilot):**
+> **Note (2026-02-23):** Team Management feature-guarded as Coming Soon. Staff search blocked by Base44 User entity server-side access issue. Single-owner businesses work for pilot. Co-owner flow deferred.
 
 **Access Window Implementation (Phase 2):**
 
@@ -353,6 +357,7 @@
 
 | Date | Summary |
 |------|---------|
+| 2026-02-23 | Category architecture consolidated (DEC-055 Phases 1-2). Pilot role testing: Tests 1-5 pass, co-owner blocked (Base44 User lookup), Team Management feature-guarded. Event type optional. RSVP auto-close. Dashboard RSVP counts. Admin save persistence fixed. |
 | 2026-02-22 | Walkthrough session: Homepage copy refresh, routing fixes (unauth → homepage, post-login → MyLane), onboarding wizard fixes (crash, scroll, newsletter capture), network taglines, Communities → Networks rename, global scroll-to-top, back navigation audit, business CTA moved to bottom of MyLane, Business entity permissions opened for admin (security hardening tracked). |
 | 2026-02-21 | Business Dashboard cleanup: pricing stripped, Coming Soon states, Founding Member messaging, Community Pass interest capture. Network Posts spec (DEC-051) and MyLane Dynamic Layout spec written. Business greeting fixed. Dashboard Workspaces spec (DEC-053) added. |
 | 2025-02-02 | Email infrastructure complete (IONOS, hello@ + support@ forwarding). Terms/Privacy email refs updated to .app. Landing page routing and autofill flash verified. Settings display name bug identified. |
