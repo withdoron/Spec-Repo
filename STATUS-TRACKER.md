@@ -1,7 +1,7 @@
 # LocalLane Status Tracker
 
 > Complete view of where we are and what's ahead.
-> Updated: 2026-02-23
+> Updated: 2026-02-25
 
 ---
 
@@ -60,6 +60,25 @@
 - [x] Business onboarding wizard
 - [x] Recommendation system (Nods, Stories, Vouches)
 - [x] Private Concerns routing to admin
+
+### Business Storefront Foundation
+- [x] Archetype activation (all 6 types) with persistence
+- [x] Subcategories per archetype
+- [x] Business hours
+- [x] Social links (Instagram, Facebook, shop URL)
+- [x] Services offered + service area (conditional by archetype)
+- [x] Onboarding wizard Details step with conditional fields
+- [x] Settings page with all new fields
+- [x] Profile display with contact sidebar
+- [x] Admin panel with all storefront fields
+
+### Network System Enhancements
+- [x] Dynamic network filters and badges (removed hardcoded references)
+- [x] Network image support (admin upload)
+- [x] Network photo gallery (admin upload, grid display, lightbox)
+- [x] Event network tagging restricted to assigned networks
+- [x] Raising Wildflowers network created (first organic request)
+- [x] PunchPass → JoyCoins entity migration
 
 ### Code Quality
 - [x] 42-finding code audit (3 phases complete)
@@ -179,7 +198,10 @@ Real money. Gated behind legal checklist.
 ### Network Events (DEC-050)
 - [x] Build 1: MyLane "My Networks" toggle section — users follow/unfollow networks
 - [x] Build 2: Network-only events — toggle in EventEditor, client-side visibility filtering
-- [ ] Build 3: Network info pages at /networks/:slug
+- [x] Build 3: Network info pages at /networks/:slug — shipped with gallery support
+- [x] Build 4: Network image and gallery system
+- [x] Build 5: Event network tagging restricted to business assignments
+- [x] Build 6: Dynamic network filters/badges (removed hardcoded references)
 - **Spec:** NETWORK-EVENTS-SPEC.md (private repo)
 - **Priority:** HIGH — enables network-specific communication for Recess and Harvest launches
 
@@ -380,11 +402,65 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-02-25 | Business Storefront Foundation + Network System shipped. Storefront Steps 1-6 (archetype, subcategories, hours, onboarding details, settings, profile, admin). Network audit and dynamic filters/badges. Network image + gallery (admin upload, NetworkPage grid + lightbox). Raising Wildflowers network. PunchPass → JoyCoins. Event network pills restricted to business assignments. Network card cleanup (no background images, no banner). |
 | 2026-02-23 | Category Architecture (DEC-055): Phases 1-2 shipped — categoryData.jsx rewritten, useCategories() hook, 12 consumers migrated. Pilot fixes: onboarding category save, optional event type, RSVP auto-close, dashboard RSVP counts, admin drawer save persistence. Roles testing: Tests 1-5 passed. Staff search blocked (Base44 User entity server-side lookup). Team Management feature-guarded as Coming Soon. |
 | 2026-02-22 | Full repo audit (spec-repo + private repo). DEC-054 Play Trainer spec written from user research with boys. DASHBOARD-WORKSPACES-IMPLEMENTATION.md written — reconciles DEC-053 workspace model + DEC-054 Play Trainer into single build-ready spec. Audit findings cataloged: 8 files with stale Punch Pass terminology, ARCHITECTURE.md and README.md most stale, ENTITY-SYSTEM.md candidate for archive. |
 | 2026-02-21 | Pre-launch cleanup, pricing reset, spec work. Business Dashboard: Coming Soon states, Founding Member, Community Pass interest. DEC-051 (Network Posts), DEC-052 (Pricing Reset), MyLane Dynamic Layout spec. Greeting display_name fix. |
 | 2026-02-20 | Major build session: 10+ items shipped. Newsletter system complete (footer capture, post-RSVP prompt, onboarding sync, admin section). Business profile editing (Settings + admin drawer). Business card redesign (vertical, clickable). Security: Business/AccessWindow/Location writes migrated to server functions, entity permissions locked. Full codebase audit (56 findings, 6 critical resolved). Console.log cleanup, toggle knob fixes. |
 | 2026-02-19 | User onboarding wizard shipped (3 steps: welcome, network interests, community pass interest). MyLane "My Networks" section with toggle cards. Mobile audit: 103 findings resolved. Network-only events (DEC-050 Build 2). Onboarding data visible in admin user drawer. Session crashed mid-build. |
+
+---
+
+### Community Node — Session Log — 2026-02-25
+
+**Business Storefront Foundation + Network System shipped.**
+
+**Builds shipped:**
+1. Storefront Step 1-3: Archetype activation (all 6), subcategories per archetype, business hours field
+2. Archetype persistence fix: archetype saved during onboarding, resolved with slug-to-config mapping
+3. Storefront Step 4: Onboarding Details step — social links (Instagram, Facebook), shop URL, services offered, conditional fields per archetype (location_venue gets address, service_provider gets service area, product_seller gets shop URL)
+4. Storefront Step 5-6: All new fields editable in BusinessSettings + displayed on BusinessProfile (contact sidebar with clickable links, service area, services offered). Admin BusinessEditDrawer updated with all storefront fields.
+5. Network audit: identified hardcoded network references in FilterModal and EventsWidget. Fixed both to pull dynamically from admin config.
+6. Network image support: admin upload for network banners, display on network page and cards
+7. Network photo gallery: admin upload/remove gallery images, responsive grid on NetworkPage with lightbox
+8. Raising Wildflowers network created (first organic network request)
+9. PunchPass entity reference fix: useUserState.js and AdminUsersSection.jsx migrated from PunchPass to JoyCoins entity
+10. Event network restriction: EventEditor now filters network pills by business.network_ids for all users including admins
+11. Network card cleanup: removed background images from network cards, removed banner from NetworkPage (gallery replaces it)
+
+**New Base44 fields added to Business entity:**
+- archetype (string)
+- business_hours (string)
+- subcategory (string)
+- instagram (string)
+- facebook (string)
+- shop_url (string)
+- services_offered (string)
+
+**Key decisions:**
+- Network images used for admin reference only, not displayed on cards or network pages (galleries carry the visual weight)
+- Event network tagging requires admin assignment — no admin bypass, even platform admins must assign business to network first
+- PunchPass entity fully removed from codebase, replaced with JoyCoins
+
+**Files modified:**
+- src/config/onboardingConfig.js (archetype activation, slug mapping)
+- src/config/categoryData.jsx (subcategories per archetype)
+- src/components/business/BusinessOnboarding.jsx (archetype persistence)
+- src/components/business/Step2Details.jsx (new onboarding details step)
+- src/components/business/BusinessSettings.jsx (all new fields editable)
+- src/components/business/BusinessProfile.jsx (display socials, services, hours)
+- src/components/admin/BusinessEditDrawer.jsx (all storefront fields + archetype)
+- src/components/admin/ConfigSection.jsx (network image upload, gallery upload/remove)
+- src/pages/NetworkPage.jsx (gallery grid, lightbox, banner removed)
+- src/components/networks/MyNetworksSection.jsx (card background images removed)
+- src/components/filters/FilterModal.jsx (dynamic network checkboxes)
+- src/components/events/EventsWidget.jsx (dynamic network badge labels)
+- src/components/events/EventEditor.jsx (network pills filtered by business assignment)
+- src/hooks/useUserState.js (PunchPass → JoyCoins)
+- src/components/admin/AdminUsersSection.jsx (PunchPass → JoyCoins)
+- server functions: updateBusiness.ts (new fields added to PROFILE_ALLOWLIST)
+
+---
 
 ### Session Log — 2026-02-23
 
