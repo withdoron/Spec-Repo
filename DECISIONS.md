@@ -1518,6 +1518,32 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 
 ---
 
+### DEC-058: Finance Node as Workspace Type (Not Standalone App)
+
+**Date:** 2026-02-28
+
+**Context:** The Personal Finance Node was originally specced as a standalone Base44 app (PERSONAL-FINANCE-NODE.md). With the workspace engine shipped (DEC-053), the Finance Node becomes the first test of a node being born inside the engine rather than built standalone and migrated later. This also serves as a proof that the workspace engine generalizes beyond Business and Team types.
+
+**Decision:** Build the Finance Node as a workspace type inside the Community Node. Not a standalone app. Entities live in the Community Node's Base44 instance. Tab structure follows the workspace engine pattern. Single-user (owner only) in V1.
+
+**V1 Scope:**
+- 6 tabs: Home (Enough Number), Transactions, Recurring, Debts, Import, Settings
+- 5 entities: FinancialProfile, Transaction, Debt, DebtPayment, RecurringTransaction
+- Manual entry only (no cross-node auto-import)
+- Owner only (no multi-user)
+
+**Deferred:** Benefits modeling, tax export, CPA sharing, cross-node import, receipt photos.
+
+**Integration test criteria:** If the workspace engine accepts a third type without modifying Business or Team code, the engine is proven as the integration path for Property Pulse and Contractor Daily.
+
+**Build spec:** FINANCE-WORKSPACE-SPEC.md (private repo)
+
+**Made by:** Doron + Claude (Mycelia)
+
+**Status:** Active
+
+---
+
 ## Decision Template
 
 ```markdown
