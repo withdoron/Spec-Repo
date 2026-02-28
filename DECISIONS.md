@@ -1496,6 +1496,28 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 
 ---
 
+### DEC-057: Multi-Sport Play Renderer Architecture
+
+**Date:** 2026-02-28
+
+**Context:** Play Trainer Phase 7 (Team Build 7) originally specced as a football-only SVG renderer. Doron's boys play football, soccer, and basketball with overlapping rosters and coaches. Building a football-only renderer means rebuilding for each sport. Config-driven architecture means adding a sport is adding a JSON config object and an SVG field background.
+
+**Decision:** Renderer is sport-agnostic. Sport config objects define field template, positions, formations, movement vocabulary, and feature flags. The renderer reads config — never references a specific sport. Three configs designed: flag football (production-ready), soccer (skeleton), basketball (skeleton). Offense-first build; defense rendering (zone shapes) deferred to separate track after offense proves out.
+
+**Key architectural choices:**
+- Percentage-based coordinate system (0-100 both axes) for universal scaling
+- Config resolver hook (useSportConfig) as single entry point for all consumers
+- SVG field backgrounds per sport, overlay layer (markers + routes) is universal
+- Entity changes minimal: Play gains use_renderer boolean, PlayAssignment gains movement_type + route_path
+- Existing photo plays unaffected — use_renderer defaults to false
+- Five offense sub-builds (7a-7e), defense track specced separately
+
+**Reference:** PLAY-RENDERER-SPEC.md (private repo)
+
+**Status:** ✅ Spec Complete — Ready for Build 7a
+
+---
+
 ## Decision Template
 
 ```markdown
