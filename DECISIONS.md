@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-02-23
+> Last Updated: 2026-02-28
 
 ---
 
@@ -1439,6 +1439,60 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 **Full spec:** CATEGORY-ARCHITECTURE-SPEC.md (private repo)
 
 **Status:** ✅ Phases 1-2 Complete, Phases 3-5 Deferred
+
+---
+
+### DEC-056: Workspace Event Sync Architecture
+
+**Date:** 2026-02-28
+
+**Context:** Multiple workspace types create events independently — Team workspaces create TeamEvents, Business workspaces create Events through EventEditor, and future workspace types (Community Org, etc.) will have their own event creation. Currently these are siloed: TeamEvents only appear inside the team dashboard. MyLane and the public Events page only read from the community Event entity. Members have no way to see team events on their personal MyLane feed.
+
+**Decision:** Adopt a publish-to-community pattern where each workspace's event system publishes a normalized Event record to the community Event entity with a visibility scope. MyLane reads only from community Events — it never queries workspace-specific entities directly.
+
+**Visibility Scope Model:**
+
+| Scope | Who sees it | Example |
+|-------|------------|---------|
+| `public` | Everyone (Events page + MyLane) | Farmers market, open yoga class |
+| `network` | Network members (MyLane) | Recess meetup, Creative Alliance workshop |
+| `workspace` | Workspace members (MyLane) | Team practice, staff meeting |
+| `personal` | Just the creator (MyLane) | Dentist appointment (future) |
+
+**Default scopes by workspace type:**
+
+| Workspace Type | Default Scope |
+|---------------|--------------|
+| Business | `public` |
+| Team | `workspace` |
+| Community Org (future) | `public` for community events, `workspace` for internal |
+
+**New fields on Event entity:**
+
+| Field | Type | Notes |
+|-------|------|-------|
+| `visibility` | string | 'public', 'network', 'workspace', 'personal'. Default: 'public' |
+| `source_workspace_type` | string | 'business', 'team', 'org', null |
+| `source_workspace_id` | string | FK to originating workspace |
+| `source_event_id` | string | FK to originating event entity record |
+
+**Key rules:**
+- Team events always sync with `visibility: 'workspace'` — no coach toggle needed
+- Business events are `public` — backward compatible with existing behavior
+- MyLane filters events by visibility + user membership in one query
+- Public Events page only shows `visibility === 'public'`
+- Existing events with no visibility field treated as public (backward compatible)
+- Sync function handles create/update/delete cascading via `source_event_id` matching
+
+**Implementation:** Server function per workspace type maps source entity fields to Event entity fields and sets appropriate visibility scope. MyLane query filters by scope + user's workspace/network memberships.
+
+**Rationale:** Fractal principle — each workspace manages events in its own shape, the community Event entity is the organism-level view. Visibility scope is the membrane controlling what flows where. Same pattern works for any future workspace type without changing consumers.
+
+**Reference:** Full spec with field mapping and architecture diagram in private repo.
+
+**Status:** 🔲 Spec Complete — Ready for Build
+
+**Made by:** Doron + Claude (Mycelia)
 
 ---
 
