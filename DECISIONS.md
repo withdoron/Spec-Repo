@@ -1540,7 +1540,21 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 
 **Made by:** Doron + Claude (Mycelia)
 
-**Status:** Active
+**Status:** ✅ V1 Complete — Shipped 2026-02-28
+
+---
+
+### DEC-059: Claude Code Replaces Cursor for LocalLane Development
+
+**Date:** 2026-02-28
+
+**Context:** Finance Workspace V1 was built entirely using Claude Code (no Cursor IDE involvement). Claude Code read the community-node codebase, understood the workspace engine patterns, and shipped 4 build sessions plus a PDF import port in one afternoon. One JSON format fix and one syntax fix were needed — comparable error rate to Cursor-based development.
+
+**Decision:** Claude Code is validated as the primary code authoring tool for LocalLane development. Cursor subscription ($60/month) can be cancelled at next billing cycle. Claude Code is included in the existing Claude Pro plan ($100/month), making this a net $60/month savings ($720/year).
+
+**Workflow:** Claude.ai (Mycelia) writes prompts with full project context → paste into Claude Code → Claude Code reads codebase + writes code + commits + pushes → Base44 syncs → Doron tests in browser → iterate.
+
+**Status:** ✅ Active
 
 ---
 
