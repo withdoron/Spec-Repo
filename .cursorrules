@@ -136,4 +136,10 @@ Key principles:
 - Trust the spec
 - Update spec before deviating
 
+## Context Files (Read Before Any Session)
+- context/PROJECT-BRAIN.md — Project identity, philosophy, decision filter
+- context/ACTIVE-CONTEXT.md — Current builds, blockers, priorities
+- AGENTS.md — Universal coding standards (all AI tools)
+- CLAUDE.md — Claude Code specific conventions and pitfalls
+
 Remember: Spec-Repo is the external brain. Always reference it before implementing.

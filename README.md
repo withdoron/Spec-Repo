@@ -23,6 +23,9 @@
 | [DECISIONS.md](./DECISIONS.md) | Decision log with context |
 | [WORKFLOW.md](./WORKFLOW.md) | Development workflow and session SOP |
 | [BOOK-FRAMEWORKS.md](./BOOK-FRAMEWORKS.md) | Marketing and business frameworks research |
+| [context/PROJECT-BRAIN.md](./context/PROJECT-BRAIN.md) | Universal AI briefing — project identity, philosophy, working style |
+| [context/ACTIVE-CONTEXT.md](./context/ACTIVE-CONTEXT.md) | Current state — overwritten each session |
+| [context/SESSION-LOG.md](./context/SESSION-LOG.md) | Running timeline — append-only session history |
 
 ---
 
@@ -209,6 +212,10 @@ Spec-Repo/
 ├── USER-TIERS.md                  # User tier definitions
 ├── ADMIN-ARCHITECTURE.md          # Admin panel structure
 ├── BUSINESS-DASHBOARD-v2.md       # Business Dashboard strategy spec
+├── context/
+│   ├── PROJECT-BRAIN.md           # Universal AI briefing — project identity, philosophy
+│   ├── ACTIVE-CONTEXT.md          # Current state — overwritten each session
+│   └── SESSION-LOG.md             # Running timeline — append-only session history
 ├── archetypes/
 │   ├── event-node.md              # Event Node assessment (needs repositioning)
 │   ├── community-org-engine.md   # Community Organization Engine — churches, nonprofits, mutual aid
