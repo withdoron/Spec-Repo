@@ -6,6 +6,25 @@
 
 ---
 
+### Session Log — 2026-03-04
+**Focus:** Ship It SOP, workflow infrastructure, newsletter status
+**Shipped:**
+1. Ship It SOP finalized — "ship it" trigger phrase generates Cursor prompt to update all docs in one commit
+2. SHIP-IT-PROMPT.md created and committed to spec-repo at context/SHIP-IT-PROMPT.md
+3. Project Instructions updated — SuperMemory recall added as step 1 on conversation start, ship it protocol replaces old session-end section, Don'ts updated
+4. Buttondown test send confirmed working — newsletter infrastructure fully live
+5. Newsletter Issue 1 structure discussion started — shareable event link confirmed as story beat, framed around community not feature; full draft deferred
+
+**Decisions made:**
+- SuperMemory is recalled first on every conversation start (takes precedence over project knowledge docs which lag manual syncs)
+- "ship it" is the single session-end trigger — Mycelia summarizes, saves to SuperMemory, generates Cursor prompt covering all docs
+- context/SHIP-IT-PROMPT.md is the canonical template for session-end doc updates
+
+**Next up:**
+- Newsletter Issue 1 draft — map structure, write copy
+- Mobile nav testing (still pending on LAUNCH-CHECKLIST)
+- Broken links walkthrough
+
 ### Session Log — 2026-03-03
 
 **Focus:** DEC-060 Living Directory, recurring events fix, living tiles, shareable event links, homepage refresh

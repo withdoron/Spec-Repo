@@ -402,6 +402,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-03-04 | Ship It SOP finalized. SHIP-IT-PROMPT.md committed. Project Instructions updated. Buttondown test send confirmed. Issue 1 discussion started. |
 | 2026-02-25 | Business Storefront Foundation + Network System shipped. Storefront Steps 1-6 (archetype, subcategories, hours, onboarding details, settings, profile, admin). Network audit and dynamic filters/badges. Network image + gallery (admin upload, NetworkPage grid + lightbox). Raising Wildflowers network. PunchPass → JoyCoins. Event network pills restricted to business assignments. Network card cleanup (no background images, no banner). |
 | 2026-02-23 | Category Architecture (DEC-055): Phases 1-2 shipped — categoryData.jsx rewritten, useCategories() hook, 12 consumers migrated. Pilot fixes: onboarding category save, optional event type, RSVP auto-close, dashboard RSVP counts, admin drawer save persistence. Roles testing: Tests 1-5 passed. Staff search blocked (Base44 User entity server-side lookup). Team Management feature-guarded as Coming Soon. |
 | 2026-02-22 | Full repo audit (spec-repo + private repo). DEC-054 Play Trainer spec written from user research with boys. DASHBOARD-WORKSPACES-IMPLEMENTATION.md written — reconciles DEC-053 workspace model + DEC-054 Play Trainer into single build-ready spec. Audit findings cataloged: 8 files with stale Punch Pass terminology, ARCHITECTURE.md and README.md most stale, ENTITY-SYSTEM.md candidate for archive. |

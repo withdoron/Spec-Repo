@@ -346,7 +346,7 @@
 - Silver Barter concept exploration
 - Security Phase 3 (10 remaining entities need service role migration)
 - hub.locallane.com URL in LockedFeature.jsx — is this real or cleanup needed?
-- [ ] Buttondown account setup and custom domain
+- [x] Buttondown account setup and custom domain
 - [ ] First newsletter issue (The Good News #1)
 - [ ] Map view for network pages
 - [ ] Broken links walkthrough (all pages, all nav)

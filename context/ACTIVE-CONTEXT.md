@@ -1,24 +1,27 @@
 # Active Context
 
 > What's happening right now. Updated each session.
-> Last updated: 2026-03-03
+> Last updated: 2026-03-04
 
 ## Current Focus
 
 Pilot readiness — making the platform feel alive for first-time visitors and enabling organic sharing.
 
-## Last Session (2026-03-03)
+## Last Session (2026-03-04)
 
-Shipped 7 items: DEC-060 typographic cards (no images, equal weight), living tiles (5 layers of ambient life — accent bars, hover warmth, lift, depth, typography), recurring events fix (all 4 patterns), shareable event links (/events/:eventId with clipboard copy), category accent bar fix, DEC-060 pointer in spec-repo DECISIONS.md.
+Shipped 5 items: Ship It SOP finalized ("ship it" trigger generates Cursor prompt for all docs), SHIP-IT-PROMPT.md committed to spec-repo, Project Instructions updated (SuperMemory recall first, ship it protocol, Don'ts), Buttondown test send confirmed working (newsletter infrastructure fully live), Newsletter Issue 1 structure discussion started (shareable event link as story beat, community framing).
 
-Living homepage prompt written and ready to run: Happening Soon events section, random business rotation, section reorder.
+## What's In Flight
+
+- Newsletter Issue 1 — structure mapped, draft pending
 
 ## What's Queued
 
+1. Newsletter Issue 1 draft — map structure, write copy
+1. Mobile nav testing (still pending on LAUNCH-CHECKLIST)
+1. Broken links walkthrough
 1. Run living homepage prompt (Happening Soon, random businesses, section reorder, value prop polish)
 1. Seed directory with Farmers Market vendors
-1. Test shareable event links end-to-end
-1. Recurring events edge case polish
 
 ## Active Decisions
 
@@ -32,3 +35,6 @@ Living homepage prompt written and ready to run: Happening Soon events section, 
 - Homepage business selection is random rotation (shuffled per page load, capped at 4)
 - Homepage events are soonest-first, public only, sections hide when empty
 - All card surfaces (business, event, value prop) should share the same living tile aesthetic
+- Buttondown is fully live — test send confirmed, newsletter infrastructure ready
+- SHIP-IT-PROMPT.md is the canonical template for session-end doc updates
+- SuperMemory recall is now step 1 on every conversation start
