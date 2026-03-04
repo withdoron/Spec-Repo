@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-02-28
+> Last Updated: 2026-03-03
 
 ---
 
@@ -1553,6 +1553,18 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 **Decision:** Claude Code is validated as the primary code authoring tool for LocalLane development. Cursor subscription ($60/month) can be cancelled at next billing cycle. Claude Code is included in the existing Claude Pro plan ($100/month), making this a net $60/month savings ($720/year).
 
 **Workflow:** Claude.ai (Mycelia) writes prompts with full project context → paste into Claude Code → Claude Code reads codebase + writes code + commits + pushes → Base44 syncs → Doron tests in browser → iterate.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-060: Living Directory — Typographic Cards
+
+**Date:** 2026-03-01
+
+**Decision:** Directory and event cards use typographic layout with category chips. No logos, cover photos, or business-provided images on cards. Equal visual weight for every business. Photos and logos are profile-level features only.
+
+**Reference:** Full strategic context in private repo.
 
 **Status:** ✅ Active
 
