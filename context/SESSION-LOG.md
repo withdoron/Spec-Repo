@@ -6,6 +6,45 @@
 
 ---
 
+### Session Log — 2026-03-03
+
+**Focus:** DEC-060 Living Directory, recurring events fix, living tiles, shareable event links, homepage refresh
+
+**Shipped:**
+
+1. DEC-060 pointer added to spec-repo DECISIONS.md (slim public entry, full strategic context stays in private repo per DEC-030)
+1. DEC-060 Living Directory (bfe9733): BusinessCard and EventCard converted to typographic layout — no images, equal visual weight, category + location + network chips, whole-card clickable, tier badges
+1. Recurring events generation fix (670412c): generateRecurringEvents handles all 4 patterns (daily, weekly, biweekly, monthly) with safety caps
+1. Recurring events prefill fix (f3e75c9): editing recurring event restores toggle, pattern, selected days, end date. Toast confirmation on creation.
+1. Living tiles (e502416): 5 layers of ambient life — category accent bars (3px left border by category/network), warm hover glow (amber 8% opacity), hover lift (0.5px), subtle gradient depth, typography warmth. Vitality CSS hooks in index.css (warm/cool/neutral). Cancelled events stay muted.
+1. Category accent bar fix: class order corrected (left border after general border), fallback resolution broadened (main_category → category → archetype), default visibility improved
+1. Shareable event links: /events/:eventId URL opens Events page with EventDetailModal auto-opened. Share2 icon in modal copies link to clipboard. URL bar updates on every event click. Works for logged-out users.
+1. Living homepage prompt written: Happening Soon events section, random business rotation, section reorder, value prop card polish, hero pill rework
+
+**Design research:**
+
+- 2026 trends analyzed: neo-minimalism with warmth, typography as hero, micro-interactions for "invisible" aliveness, organic presence over spectacle
+- LocalLane aligns with super-app consolidation, contextual UX, low-code, sustainability, dark-mode-first
+- Philosophy: "The organism doesn't perform; it breathes"
+
+**Decisions clarified:**
+
+- Two DECISIONS.md files are intentional per DEC-030: spec-repo (public, slim entries) + private repo decision log (full strategic context)
+- Homepage business selection: random rotation — equal exposure, no ranking, organism circulates
+- Homepage events: soonest first, public only, sections hide if no data
+
+**Known issues:**
+
+- Recurring events: functional but needs edge case polish
+- Server function allowlist may need recurrence fields added if edit doesn't persist
+
+**Next session:**
+
+- Run living homepage prompt in Claude Code
+- Seed directory with Farmers Market vendors (DEC-060 enables bulk seeding without images)
+- Test shareable links end-to-end (text to a friend, open on phone)
+- Continue pilot prep
+
 ### 2026-03-03
 - **Resilience planning:** Researched OpenCode, confirmed as backup coding agent (Gemini/GPT — Claude blocked by Anthropic legal). SuperMemory plugin confirmed for OpenCode. Drafted RESILIENCE-PLAN.md with 6-phase, 21-step implementation. Created context/ files: PROJECT-BRAIN.md, ACTIVE-CONTEXT.md, SESSION-LOG.md. Next: commit context/ to spec-repo, update WORKFLOW.md and claude.md, install OpenCode, downgrade Cursor to $20.
 
