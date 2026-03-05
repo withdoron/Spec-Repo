@@ -278,7 +278,7 @@ Real money. Gated behind legal checklist.
 - [x] Team Build 2: My Assignment + Study Mode ✅ (2026-02-28)
 - [x] Team Build 2.5: Join Flow + Parent-Child Context Switcher ✅ (2026-02-28)
 - [ ] Team Build 3: Schedule + Messages
-- [ ] **Team Build 4: Play Builder (DEC-061) — IN PROGRESS** — SVG field, route templates, freehand drawing, custom positions. Originally Build 7a-7c, pulled forward.
+- [x] Team Build 4: Play Builder (DEC-061) ✅ (2026-03-04) — SVG field, route templates, freehand drawing, custom positions. 8 new files, 8 modified. Originally Build 7a-7c, pulled forward.
 - [ ] Team Build 5: Quiz Engine (was Build 4)
 - [ ] Team Build 6: Game Day Mode (was Build 5)
 - [ ] Team Build 7: Football IQ + Organism (was Build 6)
@@ -408,7 +408,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
-| 2026-03-04 (eve) | Play Builder spec and planning. DEC-061: Visual Play Builder pulled forward from Build 7 to Build 4. Orientation and audit prompts for Claude Code. Spec updates across 6 docs. Boys present — building with real users. |
+| 2026-03-04 (eve) | Play Builder (Team Build 4, DEC-061) shipped. 8 new files, 8 modified. SVG field, route templates, freehand drawing, custom positions. 7 bug fixes. JSON stringify fix for Base44 JSON fields. Spec updates across 6 docs. |
 | 2026-03-04 (pm) | Mobile stranger test: 20 items shipped. Onboarding gate + redirect fixed. Network living tiles + active toggle. Directory polish. Banner upload + profile hero refactor. Share button. Upcoming events on business profiles. |
 | 2026-03-04 | Ship It SOP finalized. SHIP-IT-PROMPT.md committed. Project Instructions updated. Buttondown test send confirmed. Issue 1 discussion started. |
 | 2026-02-25 | Business Storefront Foundation + Network System shipped. Storefront Steps 1-6 (archetype, subcategories, hours, onboarding details, settings, profile, admin). Network audit and dynamic filters/badges. Network image + gallery (admin upload, NetworkPage grid + lightbox). Raising Wildflowers network. PunchPass → JoyCoins. Event network pills restricted to business assignments. Network card cleanup (no background images, no banner). |

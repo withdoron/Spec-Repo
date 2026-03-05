@@ -6,6 +6,25 @@
 
 ---
 
+### Session Log — 2026-03-04 (evening)
+**Focus:** Play Builder (Team Build 4, DEC-061) — spec, plan, build, ship
+**Shipped:**
+1. DEC-061: Visual Play Builder pulled forward from Build 7 to Build 4
+2. Claude Code orientation and read-only audit of play-trainer codebase
+3. Visual Play Builder — 8 new files (flagFootball.js config, FlagFootballField.jsx, PositionMarker.jsx, RoutePath.jsx, RouteDrawCanvas.jsx, PlayRenderer.jsx, PlayBuilder.jsx, RouteSelector.jsx)
+4. 8 existing files modified (PlayCreateModal, PlayCard, TeamPlaybook, PlayDetail, StudyMode, SidelineMode, TeamHome, TeamSchedule)
+5. Base44 entity fields added: Play (use_renderer, custom_positions), PlayAssignment (movement_type, route_path, start_x, start_y)
+6. Bug fixes: .filter().list() chains in SidelineMode and TeamHome, bg-white toggle knobs, hover:bg-transparent on outline buttons
+7. JSON stringify fix: Base44 JSON fields receive raw arrays, not stringified strings
+8. Spec updates across 6 docs in both repos (private: DASHBOARD-WORKSPACES.md, PLAY-RENDERER-SPEC.md, PLAY-TRAINER-SPEC-v2.md, SEEDLING-TRACKER.md; public: DECISIONS.md, STATUS-TRACKER.md)
+**Decisions made:**
+- DEC-061: Play Builder — visual play creation pulled forward from Build 7, merged 7a-7c into Build 4, sequence renumbered
+- Base44 JSON fields receive raw arrays/objects, not stringified (matches codebase pattern for Business.services, Event.images, etc.)
+**Next up:**
+- Play Builder polish (field aspect ratio in Study Mode, mobile padding, phone testing)
+- Quiz Engine (Team Build 5)
+- Newsletter Issue 1 draft
+
 ### Session Log — 2026-03-04 (afternoon)
 **Focus:** Mobile stranger test, onboarding fixes, network living tiles, directory and profile polish
 **Shipped:**

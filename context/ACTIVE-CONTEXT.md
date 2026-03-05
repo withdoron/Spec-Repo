@@ -5,31 +5,31 @@
 
 ## Current Focus
 
-Pilot readiness — mobile polish and stranger test in progress.
+Play Trainer — Play Builder shipped, polish pass next.
 
-## Last Session (2026-03-04 afternoon)
+## Last Session (2026-03-04 evening)
 
-Shipped 20 items: onboarding gate fix (localStorage → server-side), onboarding redirect loop fix (optimistic cache), network active flag enforcement with admin toggle, network living tiles (DEC-060 on all network surfaces), contextual back navigation, clickable network chips on business cards/profiles, directory cleanup (Browse by Category removed, mobile polish), banner image upload in Settings, BusinessProfile hero refactor (fallback logic, overlap removed, full visibility), share button wired, heart icon removed, settings save → home tab navigation, upcoming events section on business profiles, Recess banner created and uploaded.
+20-item Play Builder build. Visual play creation with SVG football field, route templates (slant, out, post, fly, curl, drag, flat, corner, hitch, block), freehand drawing, custom positions. 8 new files, 8 modified. Base44 entity fields added (Play: use_renderer, custom_positions; PlayAssignment: movement_type, route_path, start_x, start_y). 7 bug fixes including .filter().list() chains, toggle knob colors, JSON stringify fix. DEC-061: Play Builder pulled forward from Build 7 to Build 4.
 
 ## What's Queued
 
-1. Newsletter Issue 1 draft
-1. Seed directory with Horai and NW OG Farm (Claim Your Business)
-1. Test shareable links end-to-end
-1. Android Chrome mobile testing
-1. Broken links walkthrough
+1. Play Builder polish (field aspect ratio in Study Mode, mobile padding, phone testing)
+2. Quiz Engine (Team Build 5)
+3. Newsletter Issue 1 draft
+4. Seed directory with Horai and NW OG Farm (Claim Your Business)
+5. Android Chrome mobile testing
 
 ## Active Decisions
 
 - DEC-059: Claude Code is primary dev tool (Cursor cancelled)
 - DEC-060: Typographic cards with ambient vitality
+- DEC-061: Play Builder — visual play creation pulled forward from Build 7 to Build 4
 
 ## Key Context for Next Session
 
-- Business profile images: logo_url (square, for cards) vs photos[0] (banner, for hero). Both uploadable from Settings.
-- Banner overlap removed — clean mt-4 gap, no gradient overlay
-- Network active toggle in AdminSettings ConfigSection — amber switch, strikethrough + Hidden badge for inactive
-- Onboarding gate is now purely server-side (onboarding_complete field on user record). No localStorage involvement.
-- Claude Code creates branches despite CLAUDE.md instruction. Merge via: cd community-node && git merge claude/BRANCH-NAME && git push origin main
-- Horai bakery = top target for first real business seeding. NW OG Farm second. Both via Claim Your Business flow.
-- Newsletter subscribers at 6 organic, 2 organic accounts, zero marketing.
+- Play Builder works end-to-end: create, save, view in Study Mode
+- Known polish: field aspect ratio compressed in Study Mode, mobile padding cutoff in overlay, needs actual phone testing
+- Base44 JSON fields take raw arrays — do NOT stringify (route_path, custom_positions)
+- Claude Code worktree branch issue: .claude/worktrees/ accumulation causes branch creation, needs cleanup + CLAUDE.md hard rule
+- community-node repo path: ~/Documents/LocalLane/community-node
+- Boys are actively creating plays — real user testing happening
