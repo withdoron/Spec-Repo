@@ -271,17 +271,23 @@ Real money. Gated behind legal checklist.
 - **Priority:** High post-launch — directly improves new user experience
 - **Estimated:** 2 builds
 
-### Dashboard Workspaces (DEC-053)
-- [ ] Phase 1 Build 1: Team + TeamMember entities, team creation wizard, Dashboard landing shows workspaces
-- [ ] Phase 1 Build 2: Playbook + Play entities, coach CRUD, image upload for diagrams
-- [ ] Phase 1 Build 3: Play viewer (mobile-first card swiper), PlayView tracking, memorization indicators
-- [ ] Phase 1 Build 4: Schedule + Roster tabs, TeamEvent + Attendance entities, invite link
-- [ ] Phase 2 Build 5: Team organism pulse, health indicators on dashboard cards
-- [ ] Phase 2 Build 6: Sharing and discovery — team in Recess network, public profile
+### Dashboard Workspaces (DEC-053) + Play Trainer (DEC-054, DEC-061)
+- [x] Foundation Build 1: Workspace Engine ✅ (2026-02-28)
+- [x] Foundation Build 2: Team Workspace + Roster ✅ (2026-02-28)
+- [x] Team Build 1: Playbook ✅ (2026-02-28)
+- [x] Team Build 2: My Assignment + Study Mode ✅ (2026-02-28)
+- [x] Team Build 2.5: Join Flow + Parent-Child Context Switcher ✅ (2026-02-28)
+- [ ] Team Build 3: Schedule + Messages
+- [ ] **Team Build 4: Play Builder (DEC-061) — IN PROGRESS** — SVG field, route templates, freehand drawing, custom positions. Originally Build 7a-7c, pulled forward.
+- [ ] Team Build 5: Quiz Engine (was Build 4)
+- [ ] Team Build 6: Game Day Mode (was Build 5)
+- [ ] Team Build 7: Football IQ + Organism (was Build 6)
+- [ ] Team Build 8: Animation + Polish + Multi-sport (was Build 7d + 7e)
+- [ ] Team Build 8-defense: Defense Rendering (separate track)
 - **Spec:** DASHBOARD-WORKSPACES.md (private repo)
-- **Entities:** 7 new (Team, TeamMember, Playbook, Play, PlayView, TeamEvent, TeamEventAttendance)
-- **Priority:** High post-launch — Doron is user zero (flag football team)
-- **Estimated:** 6 builds across 2 phases
+- **Entities:** 8 (Team, TeamMember, Play, PlayAssignment, TeamEvent, TeamMessage, QuizAttempt, PlayerStats)
+- **Priority:** High — active build with real users (Doron's flag football team)
+- **Estimated:** Builds 1-2.5 shipped. Build 3 next, Build 4 in progress.
 
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles
@@ -402,6 +408,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-03-04 (eve) | Play Builder spec and planning. DEC-061: Visual Play Builder pulled forward from Build 7 to Build 4. Orientation and audit prompts for Claude Code. Spec updates across 6 docs. Boys present — building with real users. |
 | 2026-03-04 (pm) | Mobile stranger test: 20 items shipped. Onboarding gate + redirect fixed. Network living tiles + active toggle. Directory polish. Banner upload + profile hero refactor. Share button. Upcoming events on business profiles. |
 | 2026-03-04 | Ship It SOP finalized. SHIP-IT-PROMPT.md committed. Project Instructions updated. Buttondown test send confirmed. Issue 1 discussion started. |
 | 2026-02-25 | Business Storefront Foundation + Network System shipped. Storefront Steps 1-6 (archetype, subcategories, hours, onboarding details, settings, profile, admin). Network audit and dynamic filters/badges. Network image + gallery (admin upload, NetworkPage grid + lightbox). Raising Wildflowers network. PunchPass → JoyCoins. Event network pills restricted to business assignments. Network card cleanup (no background images, no banner). |

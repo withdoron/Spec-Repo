@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-03-03
+> Last Updated: 2026-03-04
 
 ---
 
@@ -1567,6 +1567,35 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 **Reference:** Full strategic context in private repo.
 
 **Status:** ✅ Active
+
+---
+
+### DEC-061: Play Builder — Visual Play Creation Pulled Forward
+
+**Date:** 2026-03-04
+
+**Context:** Play Trainer originally specced the Play Renderer as Phase 7 (Team Build 7), broken into sub-builds 7a-7e after the Quiz Engine (Build 4), Game Day (Build 5), and Football IQ (Build 6). During a build session with the boys present, Doron identified that the visual builder IS the content entry tool — there's no need to photograph paper plays when the coach can build them directly on an SVG field. This also means the Quiz Engine (which tests route knowledge, play recognition, and assignments) benefits from structured play data rather than photos.
+
+**Decision:** Merge Build 7a (field renderer foundation), 7b (route/path layer), and 7c (play creator integration) into a single "Play Builder" build. Renumber it as Team Build 4, pushing Quiz Engine to Build 5, Game Day to Build 6, Football IQ to Build 7. Remaining renderer work (7d animation, 7e polish/multi-sport) becomes Build 8. Additionally, expand scope beyond original spec: support custom positions (coach can add beyond standard 5v5 with custom names and colors) and freehand route drawing (in addition to preset templates). Offense only — defense rendering remains a separate track.
+
+**Key additions beyond original Build 7 scope:**
+- Custom positions — expandable beyond format defaults, with custom labels and colors per play
+- Freehand route drawing — coach draws directly on field with finger/mouse, alongside preset route templates
+- Formation templates as starting points with drag-to-adjust (not locked positions)
+
+**Rationale:** The boys are the real users and they're in the room. Building the visual tool first means plays get entered as structured data from day one, making every downstream feature (quiz, game day, study mode, sideline mode) richer. Photo upload stays as fallback but becomes secondary.
+
+**Build sequence after this change:**
+- Build 4: Play Builder (visual play creation) ← NEW
+- Build 5: Quiz Engine (was Build 4)
+- Build 6: Game Day Mode (was Build 5)
+- Build 7: Football IQ + Organism (was Build 6)
+- Build 8: Animation + Polish + Multi-sport (was Build 7d + 7e)
+- Build 8-defense: Defense Rendering (unchanged)
+
+**Reference:** DASHBOARD-WORKSPACES.md (private repo), PLAY-RENDERER-SPEC.md (private repo)
+
+**Status:** ✅ Active — build in progress
 
 ---
 
