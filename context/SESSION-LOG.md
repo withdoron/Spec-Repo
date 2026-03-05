@@ -6,6 +6,43 @@
 
 ---
 
+### Session Log — 2026-03-04 (afternoon)
+**Focus:** Mobile stranger test, onboarding fixes, network living tiles, directory and profile polish
+**Shipped:**
+1. Onboarding gate — migrated from localStorage to server-side onboarding_complete field (ca7a5b1)
+2. Onboarding redirect loop — optimistic React Query cache update before navigate (d70d924)
+3. CLAUDE.md updated — git workflow (push to main only), onboarding gate pitfall, cache race pitfall
+4. Network active flag enforcement — inactive networks hidden from all user-facing surfaces, admin toggle with amber switch and Hidden badge (d0386c0)
+5. Network living tiles — DEC-060 aesthetic on Networks.jsx, MyNetworksSection.jsx, NetworkPage.jsx (b26fc49)
+6. Back navigation restored on network pages + contextual navigate(-1) with /MyLane fallback
+7. Clickable network chips on BusinessCard.jsx and BusinessProfile.jsx — Link to /networks/:slug
+8. Browse by Category section removed from directory (redundant with filter pills)
+9. BusinessProfile hero image constrained (max-h-48 mobile / max-h-64 desktop, object-contain, bg-slate-900, hidden when empty)
+10. Banner image upload added to business Settings tab (writes to photos array, separate from logo_url)
+11. photos field added to PROFILE_ALLOWLIST in updateBusiness.ts
+12. BusinessProfile hero fallback: photos[0] || logo_url || hidden. Banner overlap removed (-mt-20 → mt-4), gradient overlay removed
+13. Footer credit updated: "Built in Eugene, Oregon by Doron Fletcher" → "Built in Eugene, Oregon"
+14. BusinessCard location spacing fixed (.trim() on city/state)
+15. Directory mobile polish verified (filter pills scroll, sort dropdown tightened, grid responsive)
+16. Share button wired on BusinessProfile (clipboard copy + "Link copied!" toast)
+17. Heart/favorite icon removed from BusinessProfile (not built yet)
+18. Settings save navigates to home tab + scroll to top
+19. Upcoming Events section on BusinessProfile (filtered by business_id, future only, max 4, EventCard living tiles, hides when empty)
+20. Recess banner created via Gemini and uploaded (colorful rainbow letters, green silhouettes, dark slate background)
+
+**Decisions made:**
+None — operational fixes and polish only.
+
+**Blockers:**
+- Claude Code worktree behavior forces branch creation. No settings fix found. Doron merges manually via terminal.
+
+**Next up:**
+- Newsletter Issue 1 draft (structure mapped, copy pending)
+- Seed directory with Horai and NW OG Farm via Claim Your Business flow
+- Test shareable links end-to-end (text to friend, open on phone)
+- Android Chrome mobile testing
+- Broken links walkthrough
+
 ### Session Log — 2026-03-04
 **Focus:** Ship It SOP, workflow infrastructure, newsletter status
 **Shipped:**

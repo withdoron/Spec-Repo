@@ -17,8 +17,8 @@
 - [x] Autofill white flash fixed
 - [x] Email infrastructure live (hello@ and support@locallane.app)
 - [x] Support mechanism decided (email-only for now — revisit if volume grows)
-- [ ] Mobile nav links work on phone
-- [ ] Full mobile device testing (iOS Safari, Android Chrome)
+- [x] Mobile nav links work on phone
+- [x] Full mobile device testing (iOS Safari, Android Chrome) — note: Android Chrome still pending
 - [ ] No broken links or dead ends
 
 **Known Bugs:**
