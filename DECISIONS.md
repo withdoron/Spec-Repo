@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-03-04
+> Last Updated: 2026-03-06
 
 ---
 
@@ -1596,6 +1596,102 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 **Reference:** DASHBOARD-WORKSPACES.md (private repo), PLAY-RENDERER-SPEC.md (private repo)
 
 **Status:** ✅ Active — build in progress
+
+---
+
+### DEC-062: Homepage Redesign — "Become"
+
+**Date:** 2026-03-06
+
+**Context:** The current homepage presents LocalLane as a directory and events platform ("Discover local Businesses & Events"). A real-world test (showing the site to a college student on a hike) revealed it communicates WHAT LocalLane is but not WHY it exists. Applying Simon Sinek's Golden Circle framework, the homepage needs to lead with WHY (community, belonging, circulation over extraction), not WHAT (directory, events). Doron's insight: the homepage should be "hard to describe, invite people to explore, and open creativity."
+
+**Decision:** Redesign the homepage around a single word: "Become." The hero section features "Become" in large amber Georgia serif with an ember glow animation, followed by rotating completions that fade in and out ("a better neighbor.", "a creator.", "game ready.", "part of something real.", "the coach they need.", "connected.", "known.", "the reason they show up."). A mycelium network animation pulses behind the text, representing the Organism concept visually. Floating spore particles drift upward.
+
+**Key design decisions:**
+- "Become" replaces "Sign In" as the primary nav CTA button, with a breathing amber glow. "Sign In" becomes a plain text link. "Become" leads to account creation and onboarding.
+- No hero buttons (no "Explore", no "Get Started"). Directory and Events in the nav handle browsing. "Become" in the nav handles joining. Two paths, not three.
+- Homepage is for NEW visitors only. Logged-in users land on MyLane or Dashboard, never the marketing homepage.
+- Below the hero: dual-path cards ("For Your Family" and "For Your Community") showing workspaces and community features side by side.
+- "What's alive this week" section shows real community activity with pulsing life dots (green for events, amber for business, blue for teams).
+- Value props: "No ads. Ever.", "Your ideas shape this.", "Money stays local." as flowing text, not card grids.
+- "How it grows" section: "Your neighbor suggested this feature. We built it last week."
+- "The Good News" newsletter signup at bottom.
+- No photos, no white backgrounds. Pure Gold Standard dark theme with amber accents throughout.
+- The Organism (mycelium network) is present but not named or explained. It's felt, not described.
+- "Built in Eugene, For Eugene" pill badge retained.
+- Dashboard not visible in nav for non-logged-in users.
+
+**Rotating completion phrases** (to be refined with Doron's voice):
+- a better neighbor.
+- a creator.
+- game ready.
+- part of something real.
+- the coach they need.
+- connected.
+- known.
+- the reason they show up.
+
+**Philosophical foundation:**
+- Simon Sinek's Golden Circle: lead with WHY, not WHAT
+- Priya Parker's Art of Gathering: invitational, not transactional
+- Vivek Murthy's Together: addressing the loneliness epidemic through local connection
+- Geoffrey Cohen's Belonging: community is more than a transactional relationship
+- Brene Brown's Atlas of the Heart: vocabulary of human emotion and connection
+
+**Technical implementation:** React component with Canvas-based mycelium animation, CSS keyframe animations for ember glow and breathing button, rotating text with fade transitions. Prototype rendered as React artifact (homepage-v6-pure.jsx in project files).
+
+**Rationale:** The homepage is the garden's face. It should evoke emotion and invite exploration, not list features. "Become" is both a call to action and a philosophy: you become part of something by joining, and the platform helps you become more of who you want to be. The word works across all of LocalLane's dimensions: become a better neighbor (community), become game ready (Play Trainer), become a creator (workspaces), become connected (networks).
+
+**Status:** Spec Complete — Ready for Build
+
+---
+
+### DEC-063: Onboarding Wizard Redesign — "Become" Flow
+
+**Date:** 2026-03-06
+
+**Context:** The current onboarding wizard (Welcome, Networks, Community Pass) is functional but lacks soul. When a user taps "Become" on the new homepage, the transition into the platform should carry the same invitational energy. The wizard should feel like stepping into the garden, not filling out a form. Doron's insight: "encourage people to Become. Grow with us. Share your ideas. Explore others. Support others."
+
+**Decision:** Redesign the onboarding wizard as a 4-step "Become" flow:
+
+**Step 1: Welcome**
+- "Welcome. You just became part of something."
+- Collect display name: "Tell us your name so your neighbors know you."
+- Minimal, warm, not bureaucratic.
+
+**Step 2: What matters to you?**
+- "What do you care about?"
+- Network interest cards framed as passions, not subscriptions: "Movement and play" (Recess), "Local food" (Harvest), "Learning and creativity" (Creative Alliance), "Gathering with people" (Gathering Circle).
+- Multi-select. Optional.
+
+**Step 3: How do you want to grow?**
+- Introduces the dual path:
+  - "For your family" — shows Dashboard preview (Teams, Playbook Pro, Schedule)
+  - "For your community" — shows MyLane preview (Directory, Events, Networks)
+- User selects which to explore first (or both). This determines their landing page after onboarding.
+- This is where the Dashboard becomes visible and accessible. Not buried, introduced.
+
+**Step 4: Share your ideas**
+- "Local Lane grows from the people who use it. What would make your life here better?"
+- Simple text input. Optional.
+- Submissions feed into the feedback system.
+- Signals from day one that the user's voice matters.
+
+**Key design principles:**
+- Each step asks ONE thing. Short, warm, conversational.
+- Language echoes "Become" throughout: "you became part of something", "what do you care about", "how do you want to grow", "share your ideas."
+- The wizard feels like a conversation, not a form.
+- Community Pass interest capture moves to a later touchpoint (not onboarding). Too early for a brand-new user.
+- The wizard should be completable in under 60 seconds.
+
+**Add to Calendar feature (from Recess parent feedback):**
+- Parents requested easy calendar integration for events (like Facebook).
+- Not part of the wizard, but flagged as a feature to build: "Add to Calendar" button on every event (Google Calendar, Apple Calendar, .ics file download).
+- Signal source: Recess homeschool parents, 2026-03-05.
+
+**Rationale:** The onboarding wizard is the first experience inside LocalLane. It should feel like becoming part of a community, not creating an account. The 4-step flow captures essential information (name, interests, path preference, voice) while maintaining the emotional thread from the homepage. "Become" on the homepage leads to "becoming" in the wizard leads to "being" inside the platform.
+
+**Status:** Spec Complete — Ready for Build
 
 ---
 

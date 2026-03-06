@@ -6,6 +6,35 @@
 
 ---
 
+### Session Log — 2026-03-06
+**Focus:** Homepage redesign ("Become"), onboarding wizard spec, Playbook Pro fixes, domain redirect, fractional leadership outreach
+**Shipped:**
+1. Playbook Pro standalone SVG for identify_route (bypasses PlayRenderer)
+2. computeRouteViewBox() dynamic camera for route questions
+3. Duplicate ROUTE_GLOSSARY export fix
+4. Playbook Pro field fixes (branding, home tab access, leaderboard verification)
+5. lanecountyrecess.com domain redirect to LocalLane community-node (pending SSL)
+6. DEC-062: Homepage Redesign spec — "Become" concept with mycelium animation, rotating completions, ember glow
+7. DEC-063: Onboarding Wizard Redesign spec — 4-step "Become" flow
+8. Homepage prototyped through 6 React artifact iterations (v1-v6)
+9. Little French School fractional leadership outreach email sent
+10. Football coaching resource research (Coach D, Youth Flag Football Handbook, NFL FLAG plays)
+11. Game design research (Art of Game Design, Gamification of Learning, Designing Games for Children)
+12. Community building research (Art of Gathering, Together, Belonging, Atlas of the Heart, Start with Why)
+**Decisions made:**
+- DEC-062: Homepage Redesign — "Become" hero, mycelium organism, no hero buttons, dual-path cards
+- DEC-063: Onboarding Wizard — 4-step conversational flow, Dashboard introduced in Step 3
+- Private networks requested by Recess parents (queued, not specced yet)
+- Add to Calendar feature flagged from parent feedback
+- withdoron.com personal site discussed, deferred to future session
+**Next up:**
+- Build homepage (DEC-062)
+- Build onboarding wizard (DEC-063)
+- Load 8 plays into Play Builder with boys
+- Test Playbook Pro with real play content
+- Seed Horai and NW OG Farm in directory
+- Newsletter Issue 1
+
 ### Session Log — 2026-03-04 (evening)
 **Focus:** Play Builder (Team Build 4, DEC-061) — spec, plan, build, ship
 **Shipped:**
