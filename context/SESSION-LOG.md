@@ -21,6 +21,10 @@
 10. Football coaching resource research (Coach D, Youth Flag Football Handbook, NFL FLAG plays)
 11. Game design research (Art of Game Design, Gamification of Learning, Designing Games for Children)
 12. Community building research (Art of Gathering, Together, Belonging, Atlas of the Heart, Start with Why)
+13. Homepage "Become" redesign built and shipped (DEC-062) — full rewrite of Home.jsx with mycelium canvas animation, rotating completions, ember glow, dual-path cards, What's Alive with real data, values, How It Grows, newsletter
+14. "Sign In" removed from nav — "Become" is the only auth CTA for non-logged-in users
+15. Auth redirect confirmed — logged-in users skip homepage, land on MyLane
+16. De'Anthony Thomas (former Oregon Ducks star, NFL player) met at the Y, traded contact info — potential Recess/flag football connection
 **Decisions made:**
 - DEC-062: Homepage Redesign — "Become" hero, mycelium organism, no hero buttons, dual-path cards
 - DEC-063: Onboarding Wizard — 4-step conversational flow, Dashboard introduced in Step 3
@@ -28,12 +32,12 @@
 - Add to Calendar feature flagged from parent feedback
 - withdoron.com personal site discussed, deferred to future session
 **Next up:**
-- Build homepage (DEC-062)
 - Build onboarding wizard (DEC-063)
 - Load 8 plays into Play Builder with boys
 - Test Playbook Pro with real play content
 - Seed Horai and NW OG Farm in directory
 - Newsletter Issue 1
+- withdoron.com personal site
 
 ### Session Log — 2026-03-04 (evening)
 **Focus:** Play Builder (Team Build 4, DEC-061) — spec, plan, build, ship

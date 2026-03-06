@@ -289,16 +289,15 @@ Real money. Gated behind legal checklist.
 - **Priority:** High — active build with real users (Doron's flag football team)
 - **Estimated:** Builds 1-2.5 shipped. Build 3 next, Build 4 in progress.
 
-### Homepage Redesign (DEC-062)
-- [ ] Build: "Become" hero with mycelium animation, rotating completions, ember glow
-- [ ] Build: "Become" nav button replacing "Sign In" as primary CTA
-- [ ] Build: Dual-path cards (For Your Family / For Your Community)
-- [ ] Build: "What's alive this week" with live community data
-- [ ] Build: Value props, "How it grows", newsletter sections
-- [ ] Build: Logged-in redirect (skip homepage, go to MyLane/Dashboard)
+### Homepage Redesign (DEC-062) ✅
+- [x] Build: "Become" hero with mycelium animation, rotating completions, ember glow
+- [x] Build: "Become" nav button replacing "Sign In" as primary CTA
+- [x] Build: Dual-path cards (For Your Family / For Your Community)
+- [x] Build: "What's alive this week" with live community data
+- [x] Build: Value props, "How it grows", newsletter sections
+- [x] Build: Logged-in redirect (skip homepage, go to MyLane/Dashboard)
 - **Spec:** DEC-062
-- **Priority:** High — homepage is the garden's face
-- **Estimated:** 2-3 build sessions
+- **Shipped:** 2026-03-06
 
 ### Onboarding Wizard Redesign (DEC-063)
 - [ ] Build: Step 1 (Welcome + display name)
@@ -429,7 +428,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
-| 2026-03-06 | Homepage Redesign spec (DEC-062: "Become" concept). Onboarding Wizard Redesign spec (DEC-063). Playbook Pro field fix (standalone SVG for identify_route, computeRouteViewBox). Vocab features shipped. Playbook Pro fixes (PlayCard renderer, branding, home tab access, leaderboard). lanecountyrecess.com domain redirect to LocalLane (pending SSL). Little French School fractional leadership outreach email sent. Homepage prototyped through 6 iterations (v1-v6). |
+| 2026-03-06 | Homepage Redesign spec (DEC-062: "Become" concept). Onboarding Wizard Redesign spec (DEC-063). Playbook Pro fixes (standalone SVG, computeRouteViewBox, branding, home tab). Homepage Become shipped (DEC-062). Sign In removed. Auth redirect confirmed. lanecountyrecess.com domain redirect (pending SSL). Little French School outreach. DT connection. |
 | 2026-03-04 (eve) | Play Builder (Team Build 4, DEC-061) shipped. 8 new files, 8 modified. SVG field, route templates, freehand drawing, custom positions. 7 bug fixes. JSON stringify fix for Base44 JSON fields. Spec updates across 6 docs. |
 | 2026-03-04 (pm) | Mobile stranger test: 20 items shipped. Onboarding gate + redirect fixed. Network living tiles + active toggle. Directory polish. Banner upload + profile hero refactor. Share button. Upcoming events on business profiles. |
 | 2026-03-04 | Ship It SOP finalized. SHIP-IT-PROMPT.md committed. Project Instructions updated. Buttondown test send confirmed. Issue 1 discussion started. |
