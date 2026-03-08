@@ -309,6 +309,26 @@ Real money. Gated behind legal checklist.
 - **Priority:** Medium — follows homepage build
 - **Estimated:** 1-2 build sessions
 
+### Creation Station (DEC-064)
+- [ ] Add `status` field to Play entity ("experimental" / "active" / "game_day")
+- [ ] Add `created_by_name` field to Play entity
+- [ ] Build Creation Station tab/section in Team workspace
+- [ ] Player "Create a Play" flow using existing Play Builder
+- [ ] Coach "Promote to Playbook" action
+- [ ] Filter Playbook and Playbook Pro to exclude experimental plays
+- **Spec:** DEC-064
+- **Priority:** Medium
+- **Estimated:** 1-2 build sessions
+
+### Coach Mode (DEC-065)
+- [ ] Add mode selector to Playbook Pro start screen
+- [ ] Add `is_coaches_pick` field to Play entity
+- [ ] Wire Game Day and Coach's Pick into mode filtering
+- [ ] Show play count per mode
+- **Spec:** DEC-065
+- **Priority:** Medium
+- **Estimated:** 1 build session
+
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles
 - [ ] "Local Franchise" badge
@@ -429,6 +449,7 @@ Strategy and concept docs maintained in private repository.
 | Date | Summary |
 |------|---------|
 | 2026-03-06 | Homepage Redesign spec (DEC-062: "Become" concept). Onboarding Wizard Redesign spec (DEC-063). Playbook Pro fixes (standalone SVG, computeRouteViewBox, branding, home tab). Homepage Become shipped (DEC-062). Sign In removed. Auth redirect confirmed. lanecountyrecess.com domain redirect (pending SSL). Little French School outreach. DT connection. |
+| 2026-03-07 | Play Trainer: route chaining, field scaling fix, assignment text fix, edit mode fix, tap threshold, practice drill, game over display, mirror mode, 6 difficulty phases, game expansion (7 question types, endless survival, mirror L/R), delete play. Specs: DEC-064 Creation Station, DEC-065 Coach Mode. 8 plays loaded by boys. Grassward Dairy and Corner Store connections. |
 | 2026-03-04 (eve) | Play Builder (Team Build 4, DEC-061) shipped. 8 new files, 8 modified. SVG field, route templates, freehand drawing, custom positions. 7 bug fixes. JSON stringify fix for Base44 JSON fields. Spec updates across 6 docs. |
 | 2026-03-04 (pm) | Mobile stranger test: 20 items shipped. Onboarding gate + redirect fixed. Network living tiles + active toggle. Directory polish. Banner upload + profile hero refactor. Share button. Upcoming events on business profiles. |
 | 2026-03-04 | Ship It SOP finalized. SHIP-IT-PROMPT.md committed. Project Instructions updated. Buttondown test send confirmed. Issue 1 discussion started. |

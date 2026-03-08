@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-03-06
+> Last Updated: 2026-03-07
 
 ---
 
@@ -1690,6 +1690,47 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 - Signal source: Recess homeschool parents, 2026-03-05.
 
 **Rationale:** The onboarding wizard is the first experience inside LocalLane. It should feel like becoming part of a community, not creating an account. The 4-step flow captures essential information (name, interests, path preference, voice) while maintaining the emotional thread from the homepage. "Become" on the homepage leads to "becoming" in the wizard leads to "being" inside the platform.
+
+**Status:** Spec Complete — Ready for Build
+
+---
+
+### DEC-064: Creation Station — Player-Created Experimental Plays
+
+**Date:** 2026-03-07
+
+**Context:** During last flag football season, kids enjoyed creating their own plays. The Play Builder already exists — Creation Station extends access beyond the coach, turning players from play learners into play designers.
+
+**Decision:** Add a "Creation Station" section to the Team workspace where any team member (not just coach) can create experimental plays using the existing Play Builder. Plays tagged "experimental" don't appear in the main Playbook or Playbook Pro game until the coach promotes them with a "Promote to Playbook" button.
+
+**Key design:**
+- Any team member can create plays in Creation Station via the existing Play Builder
+- Plays start as "experimental" status, invisible to Playbook and game
+- Coach reviews and promotes with one tap — play moves to active Playbook
+- Coach can edit before/after promoting, add notes, provide feedback
+- Promoted plays become available in Playbook Pro game questions
+- Game Day toggle applies after promotion
+- Play entity gains `status` field ("experimental" / "active" / "game_day") and `created_by_name` field
+
+**What it teaches:** Play design thinking, ownership ("that's MY play"), football IQ, collaboration, resilience (not every play gets promoted).
+
+**Status:** Spec Complete — Ready for Build
+
+---
+
+### DEC-065: Coach Mode — Focused Game Playlists for Playbook Pro
+
+**Date:** 2026-03-07
+
+**Context:** Boys completed Playbook Pro in 11 questions. With 8 plays loaded, the game needs ways to focus on specific subsets. Coaches need to throttle what the game tests based on practice focus or game day prep.
+
+**Decision:** Add a mode selector to Playbook Pro with three game modes:
+
+1. **Full Playbook** — All active plays, endless survival. Default mode.
+2. **Game Day** — Only plays flagged as Game Day. Focused drill for the upcoming game. Uses existing `is_game_day` toggle.
+3. **Coach's Pick** — Custom playlist the coach creates for a specific practice session. New `is_coaches_pick` boolean on Play entity. Temporary, changes frequently.
+
+Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 
 **Status:** Spec Complete — Ready for Build
 

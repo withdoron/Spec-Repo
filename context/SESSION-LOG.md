@@ -6,6 +6,45 @@
 
 ---
 
+### Session Log — 2026-03-07
+**Focus:** Play Trainer — route chaining, bug fixes, Playbook Pro game expansion, Creation Station and Coach Mode specs
+**Shipped:**
+1. Route chaining — compound routes with 1-3 segments, per-segment distance control (3-30 yards), auto-naming (e.g., "Curl-Drag"), route_segments JSON field on PlayAssignment
+2. route_segments Base44 fix — wrapped array in object for JSON field compatibility
+3. Field scaling fix — marker radius reduced from 12/14 to 8/10, font 8 to 6
+4. Assignment text display fix — PlayDetail reading movement_type instead of deprecated route field, shows route name + custom instructions
+5. Edit mode loading fix — editDataReady guard + Loader2 spinner, PlayBuilder mounts after assignments arrive, key prop for re-mount
+6. Tap vs drag threshold — 5px threshold in PositionMarker.jsx, tap = select, drag = move
+7. Practice mode comprehensive drill — 5-10 questions per play (name_that_play + identify_route per position + know_your_job), full playbook as distracter pool
+8. Game Over correct answer display — "You said: [wrong pick]" in red + "Correct: [actual answer]" in green
+9. Practice scoping + assignment congruency — practice questions scoped to single play, route + instruction displayed together in Study Mode
+10. Mirror mode questions — purple "Mirrored" badge, 50/50 chance in Hard phase, works in game and practice
+11. Progressive difficulty ramping — 6 phases (Warm Up Q1-3, Building Q4-7, Challenging Q8-12, Hard Q13-20, Expert Q21-30, Legendary Q31+), recovery after losing a life
+12. Playbook Pro game expansion — 4 new question types (which_position, true_false, coach_says, odd_one_out), endless survival mode, mirror L/R distinction, dedup tracking, batch question generation
+13. Delete play feature — two-step confirmation with assignment count, cascade delete
+14. DEC-064: Creation Station spec — player-created experimental plays
+15. DEC-065: Coach Mode spec — Full Playbook / Game Day / Coach's Pick mode selector
+**Real-world testing:**
+- Boys loaded 8 plays with mirrors into Play Builder
+- Playbook Pro tested extensively — high score 4,550 (11/11 correct, 11 streak)
+- Boys co-designed game improvements in real-time during play sessions
+- Route chaining tested: Curl-Drag compound routes with distance adjustment
+**Community connections:**
+- Grassward Dairy — connected with owner at Lane County Farmers Market walk
+- The Corner Store (River Road, Eugene) — identified by boys as seeding target
+**Decisions made:**
+- DEC-064: Creation Station — player-created experimental plays with coach promotion
+- DEC-065: Coach Mode — three game playlists (Full Playbook, Game Day, Coach's Pick)
+**Next up:**
+- Build Creation Station (DEC-064)
+- Build Coach Mode (DEC-065)
+- Build Onboarding Wizard (DEC-063)
+- Continue field rendering polish
+- Seed Horai, NW OG Farm, Grassward Dairy, The Corner Store
+- Newsletter Issue 1
+- withdoron.com personal site
+- Defense rendering (future — boys are excited)
+
 ### Session Log — 2026-03-06
 **Focus:** Homepage redesign ("Become"), onboarding wizard spec, Playbook Pro fixes, domain redirect, fractional leadership outreach
 **Shipped:**
