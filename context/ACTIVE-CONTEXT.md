@@ -5,21 +5,23 @@
 
 ## Current Focus
 
-Community Node polish + onboarding + Dashboard vitality. DEC-063 onboarding wizard shipped. CommunityPulse vitality component live. Dashboard nav open to all logged-in users.
+Community Node polish + Dashboard vitality + Ideas Board live + withdoron.com launched. First organic user (Lori). Nextdoor seeding active.
 
 ## Last Session (2026-03-09)
 
-4 items shipped. DEC-063 Onboarding Wizard full rewrite (4-step Become flow: Welcome, How We Work, Interests, Workspaces — Community Pass and newsletter removed from onboarding, routing by path choice). Dashboard nav visibility for all logged-in users. CommunityPulse vitality component (member count, active networks, events this month, businesses listed, newsletter subscribers — amber pulse dot, dark card). BusinessDashboard updated with CommunityPulse in both empty and populated states.
+10 items shipped. DEC-063 Onboarding Wizard full rewrite (4-step Become flow, Community Pass and newsletter removed from onboarding). Dashboard nav for all logged-in users. CommunityPulse vitality component (members, networks, events, businesses, subscribers). Two bug fixes (members count Base44 pattern, dashboard link text). DEC-066 Ideas Board shipped (submit, vote, filter, admin controls, author editing). withdoron.com launched (Base44 app, DNS configured, live). Nextdoor post published. First organic user email from Lori.
 
 ## What's Queued
 
-1. Test onboarding wizard and Dashboard vitality in browser
-2. Build Creation Station (DEC-064) — player-created experimental plays
-3. Build Coach Mode (DEC-065) — Full Playbook / Game Day / Coach's Pick
-4. Business seeding (Horai bakery top priority, Tory Heldt, Orion, Amy)
-5. Ideas workspace / community voting feature board
-6. Buttondown newsletter Issue 1
-7. lanecountyrecess.com SSL/redirect completion
+1. withdoron.com copy polish (remove AI em-dash pattern, refine voice)
+2. Dynamic enso animation (Cursor session on withdoron repo)
+3. Test onboarding wizard + Ideas Board in browser
+4. Build Creation Station (DEC-064) — player-created experimental plays
+5. Build Coach Mode (DEC-065) — Full Playbook / Game Day / Coach's Pick
+6. Business seeding (Horai bakery top priority, NW OG Farm, Grassward Dairy, The Corner Store)
+7. Buttondown newsletter Issue 1
+8. NPN outreach email
+9. Thursday LFS meeting with Tory Heldt (pending confirmation)
 
 ## Active Decisions
 
@@ -30,17 +32,19 @@ Community Node polish + onboarding + Dashboard vitality. DEC-063 onboarding wiza
 - DEC-063: Onboarding Wizard — 4-step Become flow, shipped
 - DEC-064: Creation Station — player-created experimental plays with coach promotion
 - DEC-065: Coach Mode — Full Playbook / Game Day / Coach's Pick mode selector
+- DEC-066: Ideas Board — community workspace on Dashboard, shipped
 
 ## Key Context for Next Session
 
-- Onboarding wizard is a full rewrite — 4 steps, no Community Pass, no newsletter toggle, routing by path choice (family-only → BusinessDashboard, community/both/neither → MyLane)
+- Onboarding wizard is a full rewrite — 4 steps, no Community Pass, no newsletter toggle, routing by path choice
 - CommunityPulse is the Organism's first visible heartbeat — real data, no inflation
-- Dashboard visible in nav for ALL logged-in users now (mobile + desktop)
-- "Share your ideas" removed from onboarding — becomes Ideas workspace feature board (future)
-- Community Pass $9/month surfaces AFTER user experiences value, not during onboarding
-- Playbook Pro has 7 question types, 6 difficulty phases, endless survival, mirror mode
+- Ideas Board is live on Dashboard below CommunityPulse — submit, vote, filter, admin controls
+- Dashboard visible in nav for ALL logged-in users (mobile + desktop)
+- withdoron.com is a separate Base44 app (doron-living-systems), own design system (light mode, blue accent)
+- First organic user: Lori — solo non-brick-and-mortar business owner in Eugene, visibility + trust pain point
+- Nextdoor post live — "How should a community platform actually reinforce and build community?"
+- NPN (Nonprofit Professionals Now) identified as fractional leadership pipeline contact
+- Community Pass surfaces AFTER user experiences value, not during onboarding
 - Creation Station spec ready (DEC-064) — needs status field on Play entity
 - Coach Mode spec ready (DEC-065) — needs is_coaches_pick field on Play entity
-- Homepage "Become" shipped (DEC-062), live on main
-- Grassward Dairy and The Corner Store are new seeding targets
-- De'Anthony Thomas connection — soft touch follow-up pending
+- Grassward Dairy, The Corner Store, Horai bakery, NW OG Farm are seeding targets

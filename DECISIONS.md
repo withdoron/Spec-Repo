@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-03-07
+> Last Updated: 2026-03-09
 
 ---
 
@@ -1733,6 +1733,20 @@ Business entity simplifies to two primary fields: main_category + subcategory (s
 Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 
 **Status:** Spec Complete — Ready for Build
+
+---
+
+### DEC-066: Ideas Board — Community Workspace on Dashboard
+
+**Date:** 2026-03-09
+
+**Context:** "Share your ideas" step removed from onboarding wizard (DEC-063). Dashboard tagline promises community shapes the platform. Feedback button sends to private Admin panel — ideas deserve public, participatory surface.
+
+**Decision:** Community workspace on Dashboard where members submit ideas, vote (upvote-only), and see status progression (proposed/reviewing/building/shipped/deferred). Admin sets statuses and optional steward note. No comments, categories, or tags in v1. Two entities: Idea, IdeaVote.
+
+**Rationale:** Creates real circulation (return visits, voting, status watching). Gives signal on what to build from actual users. Makes platform-shaping promise tangible. Feeds Community Pulse as vitality signal.
+
+**Status:** ✅ Shipped
 
 ---
 

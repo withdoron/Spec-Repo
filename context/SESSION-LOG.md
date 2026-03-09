@@ -7,28 +7,43 @@
 ---
 
 ### Session Log — 2026-03-09
-**Focus:** DEC-063 Onboarding Wizard ship + Dashboard vitality pulse + nav for all users
+**Focus:** Onboarding wizard ship, Dashboard vitality + nav, Ideas Board, withdoron.com launch, Nextdoor outreach, first organic user
+
 **Shipped:**
-1. DEC-063 Onboarding Wizard — full rewrite shipped. 4-step flow: Welcome (display name, mycelium canvas background), How We Work (three amber-dot value statements, 10s philosophy scan), Interests (network multi-select, 2-col grid), Workspaces (dual-path Family/Community cards). userOnboardingConfig.js rewritten to 4 steps. UserOnboarding.jsx rewritten (347 lines). Community Pass removed from onboarding. Newsletter toggle removed from onboarding. Routing: family-only → BusinessDashboard, community/both/neither → MyLane.
-2. Dashboard nav visibility — removed showBusinessDashboard gate from mobile Sheet nav. All logged-in users now see Dashboard in both desktop nav and mobile menu. showBusinessDashboard variable kept for other uses.
-3. CommunityPulse component (src/components/dashboard/CommunityPulse.jsx, 111 lines) — real community vitality signals: member count, active networks, events this month, businesses listed, newsletter subscribers. Amber pulse dot with 3-second CSS animation cycle. Dark card design. Horizontal stat row with wrap. Italic tagline: "LocalLane is built by the community that uses it. Your ideas shape what comes next."
-4. BusinessDashboard.jsx updated — two insertion points: (a) STEP 1 no-workspaces state replaced with CommunityPulse + workspace explainer + "Create Your First Workspace" CTA + personal dashboard link; (b) STEP 2 has-workspaces landing now shows CommunityPulse above workspace grid.
+1. DEC-063 Onboarding Wizard — full rewrite. 4-step flow: Welcome (display name, mycelium canvas), How We Work (amber-dot value statements), Interests (network multi-select), Workspaces (dual-path Family/Community cards). userOnboardingConfig.js + UserOnboarding.jsx rewritten (347 lines). Community Pass and newsletter toggle removed from onboarding.
+2. Dashboard nav for all logged-in users — removed showBusinessDashboard gate from mobile Sheet. Desktop already showed for all. Variable kept for other uses.
+3. CommunityPulse component (src/components/dashboard/CommunityPulse.jsx, 111 lines) — real vitality signals: member count, active networks, events this month, businesses, newsletter subscribers. Amber pulse dot, 3s CSS animation. Renders at top of Dashboard for all users.
+4. BusinessDashboard no-workspaces state replaced with CommunityPulse + workspace explainer + "Create Your First Workspace" CTA.
+5. Bug fix: Members count — switched User.list() to User.filter({}) (Base44 array pattern). Added try/catch fallback.
+6. Bug fix: "go to your personal dashboard" link text changed to "go to My Lane".
+7. DEC-066 Ideas Board shipped (commit 97ce4f6). IdeasBoard.jsx (~460 lines). Submit ideas, optimistic vote UI, filter by status (All/Proposed/Reviewing/Building/Shipped), admin controls (status + steward note), author editing. Base44 entities: Idea and IdeaVote. Wired into Dashboard below CommunityPulse.
+8. withdoron.com — Base44 app created (doron-living-systems). Single-page leadership site: Philosophy, Approach, Track Record, Contact. Light mode, blue accent, uploaded DORON logo with enso. DNS configured in Wix (A: 216.24.57.1, CNAME www: base44.onrender.com). Domain verified and live.
+9. Nextdoor post published — "How should a community platform actually reinforce and build community?" with Ideas Board as CTA. Seeding LocalLane with positive energy.
+10. First organic user email received from Lori — solo non-brick-and-mortar business owner in Eugene. Pain point: visibility and trust in community.
 
 **Decisions made:**
-- Dashboard name kept (not renamed to "Workspaces") — vitality signals earn the broader name. Can revisit when surface grows.
-- Community Pulse is the Organism's first visible heartbeat — honest reflection of real community size, no inflation.
-- Newsletter subscribers included as a vitality signal alongside members, networks, events, businesses.
-- "Share your ideas" removed from onboarding wizard — becomes its own Ideas workspace/feature board (future build).
-- Community Pass $9/month surfaces AFTER user experiences value, not during onboarding.
+- DEC-066: Ideas Board specced and shipped. Community workspace on Dashboard. Upvote-only, status transparency, no deletion, no comments/categories/tags in v1. Separate from DEC-064 Creation Station.
+- Dashboard name kept as "Dashboard" (not "Workspaces") — vitality signals earn the broader name.
+- Community Pulse is the Organism's first visible heartbeat — honest reflection, no inflation.
+- Newsletter subscribers included as vitality signal.
+- "Share your ideas" removed from onboarding — became DEC-066 Ideas Board.
+- Community Pass surfaces AFTER user experiences value, not during onboarding.
+- withdoron.com is a separate repo outside LocalLane folder structure. Own design system (light mode, blue accent, no amber).
+- NPN (Nonprofit Professionals Now) identified as fractional leadership pipeline contact — noted for outreach.
+
+**Blockers:**
+- None
 
 **Next up:**
-- Test onboarding wizard and Dashboard vitality in browser
-- DEC-064 Creation Station (Play Trainer — specced, ready to build)
-- DEC-065 Coach Mode (Play Trainer — specced, ready to build)
-- Business seeding: Horai bakery top priority, emails out to Tory Heldt, Orion, Amy
-- Ideas workspace / community voting feature board
+- withdoron.com copy polish (remove AI em-dash pattern, refine voice)
+- Dynamic enso animation (Cursor session on withdoron repo)
+- Test onboarding wizard + Ideas Board in browser
+- DEC-064 Creation Station (Play Trainer, specced)
+- DEC-065 Coach Mode (Play Trainer, specced)
+- Business seeding: Horai bakery, NW OG Farm, Grassward Dairy, The Corner Store
 - Buttondown newsletter Issue 1
-- lanecountyrecess.com SSL/redirect completion
+- NPN outreach email
+- Thursday LFS meeting with Tory Heldt (pending confirmation)
 
 ### Session Log — 2026-03-07
 **Focus:** Play Trainer — route chaining, bug fixes, Playbook Pro game expansion, Creation Station and Coach Mode specs
