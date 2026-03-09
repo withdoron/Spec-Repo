@@ -6,6 +6,30 @@
 
 ---
 
+### Session Log — 2026-03-09
+**Focus:** DEC-063 Onboarding Wizard ship + Dashboard vitality pulse + nav for all users
+**Shipped:**
+1. DEC-063 Onboarding Wizard — full rewrite shipped. 4-step flow: Welcome (display name, mycelium canvas background), How We Work (three amber-dot value statements, 10s philosophy scan), Interests (network multi-select, 2-col grid), Workspaces (dual-path Family/Community cards). userOnboardingConfig.js rewritten to 4 steps. UserOnboarding.jsx rewritten (347 lines). Community Pass removed from onboarding. Newsletter toggle removed from onboarding. Routing: family-only → BusinessDashboard, community/both/neither → MyLane.
+2. Dashboard nav visibility — removed showBusinessDashboard gate from mobile Sheet nav. All logged-in users now see Dashboard in both desktop nav and mobile menu. showBusinessDashboard variable kept for other uses.
+3. CommunityPulse component (src/components/dashboard/CommunityPulse.jsx, 111 lines) — real community vitality signals: member count, active networks, events this month, businesses listed, newsletter subscribers. Amber pulse dot with 3-second CSS animation cycle. Dark card design. Horizontal stat row with wrap. Italic tagline: "LocalLane is built by the community that uses it. Your ideas shape what comes next."
+4. BusinessDashboard.jsx updated — two insertion points: (a) STEP 1 no-workspaces state replaced with CommunityPulse + workspace explainer + "Create Your First Workspace" CTA + personal dashboard link; (b) STEP 2 has-workspaces landing now shows CommunityPulse above workspace grid.
+
+**Decisions made:**
+- Dashboard name kept (not renamed to "Workspaces") — vitality signals earn the broader name. Can revisit when surface grows.
+- Community Pulse is the Organism's first visible heartbeat — honest reflection of real community size, no inflation.
+- Newsletter subscribers included as a vitality signal alongside members, networks, events, businesses.
+- "Share your ideas" removed from onboarding wizard — becomes its own Ideas workspace/feature board (future build).
+- Community Pass $9/month surfaces AFTER user experiences value, not during onboarding.
+
+**Next up:**
+- Test onboarding wizard and Dashboard vitality in browser
+- DEC-064 Creation Station (Play Trainer — specced, ready to build)
+- DEC-065 Coach Mode (Play Trainer — specced, ready to build)
+- Business seeding: Horai bakery top priority, emails out to Tory Heldt, Orion, Amy
+- Ideas workspace / community voting feature board
+- Buttondown newsletter Issue 1
+- lanecountyrecess.com SSL/redirect completion
+
 ### Session Log — 2026-03-07
 **Focus:** Play Trainer — route chaining, bug fixes, Playbook Pro game expansion, Creation Station and Coach Mode specs
 **Shipped:**

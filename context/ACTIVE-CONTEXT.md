@@ -1,25 +1,25 @@
 # Active Context
 
 > What's happening right now. Updated each session.
-> Last updated: 2026-03-07
+> Last updated: 2026-03-09
 
 ## Current Focus
 
-Play Trainer game engine massively expanded. Playbook Pro is a real competitive game. Weekend: boys play and test, rest, community connections.
+Community Node polish + onboarding + Dashboard vitality. DEC-063 onboarding wizard shipped. CommunityPulse vitality component live. Dashboard nav open to all logged-in users.
 
-## Last Session (2026-03-07)
+## Last Session (2026-03-09)
 
-15 items shipped. Route chaining (compound routes with 1-3 segments, per-segment distance control, auto-naming). 8 bug fixes (route_segments Base44 fix, field scaling, assignment text, edit mode loading, tap vs drag threshold, practice scoping, game over display, mirror mode). Playbook Pro game expansion (7 question types, 6 difficulty phases, endless survival, mirror L/R). Delete play feature. Creation Station (DEC-064) and Coach Mode (DEC-065) specced. Boys loaded 8 plays. Grassward Dairy and Corner Store connections.
+4 items shipped. DEC-063 Onboarding Wizard full rewrite (4-step Become flow: Welcome, How We Work, Interests, Workspaces — Community Pass and newsletter removed from onboarding, routing by path choice). Dashboard nav visibility for all logged-in users. CommunityPulse vitality component (member count, active networks, events this month, businesses listed, newsletter subscribers — amber pulse dot, dark card). BusinessDashboard updated with CommunityPulse in both empty and populated states.
 
 ## What's Queued
 
-1. Build Creation Station (DEC-064) — player-created experimental plays
-2. Build Coach Mode (DEC-065) — Full Playbook / Game Day / Coach's Pick
-3. Build Onboarding Wizard (DEC-063)
-4. Field rendering polish
-5. Seed directory (Horai, NW OG Farm, Grassward Dairy, The Corner Store)
-6. Newsletter Issue 1
-7. withdoron.com personal site
+1. Test onboarding wizard and Dashboard vitality in browser
+2. Build Creation Station (DEC-064) — player-created experimental plays
+3. Build Coach Mode (DEC-065) — Full Playbook / Game Day / Coach's Pick
+4. Business seeding (Horai bakery top priority, Tory Heldt, Orion, Amy)
+5. Ideas workspace / community voting feature board
+6. Buttondown newsletter Issue 1
+7. lanecountyrecess.com SSL/redirect completion
 
 ## Active Decisions
 
@@ -27,18 +27,20 @@ Play Trainer game engine massively expanded. Playbook Pro is a real competitive 
 - DEC-060: Typographic cards with ambient vitality — no images on cards, equal weight
 - DEC-061: Play Builder — visual play creation, primary method
 - DEC-062: Homepage "Become" — shipped, live on main
-- DEC-063: Onboarding Wizard — 4-step conversational flow, specced
+- DEC-063: Onboarding Wizard — 4-step Become flow, shipped
 - DEC-064: Creation Station — player-created experimental plays with coach promotion
 - DEC-065: Coach Mode — Full Playbook / Game Day / Coach's Pick mode selector
 
 ## Key Context for Next Session
 
+- Onboarding wizard is a full rewrite — 4 steps, no Community Pass, no newsletter toggle, routing by path choice (family-only → BusinessDashboard, community/both/neither → MyLane)
+- CommunityPulse is the Organism's first visible heartbeat — real data, no inflation
+- Dashboard visible in nav for ALL logged-in users now (mobile + desktop)
+- "Share your ideas" removed from onboarding — becomes Ideas workspace feature board (future)
+- Community Pass $9/month surfaces AFTER user experiences value, not during onboarding
 - Playbook Pro has 7 question types, 6 difficulty phases, endless survival, mirror mode
-- 8 plays loaded with mirrors, high score 4,550
-- Route chaining works: compound routes with 1-3 segments and distance control
-- Creation Station spec ready — thin layer on Play Builder, needs status field on Play entity
-- Coach Mode spec ready — mode selector on game start, needs is_coaches_pick field on Play entity
-- Homepage "Become" shipped yesterday (DEC-062), live on main
-- Boys want defense rendering next ("Muhahahaha")
-- Grassward Dairy (farmers market) and The Corner Store (River Road) are new seeding targets
-- De'Anthony Thomas connection from yesterday — soft touch follow-up pending
+- Creation Station spec ready (DEC-064) — needs status field on Play entity
+- Coach Mode spec ready (DEC-065) — needs is_coaches_pick field on Play entity
+- Homepage "Become" shipped (DEC-062), live on main
+- Grassward Dairy and The Corner Store are new seeding targets
+- De'Anthony Thomas connection — soft touch follow-up pending
