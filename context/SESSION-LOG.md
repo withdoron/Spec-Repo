@@ -6,6 +6,44 @@
 
 ---
 
+### Session Log — 2026-03-10
+**Focus:** Community Pass proposal, business profile polish (banners, admin drawer), team builder lockdown, outreach emails, finance workspace audit
+
+**Shipped:**
+1. Community Pass proposal written and sent to Todd at The Circuit (PDF). 5 allocations at $49 each = $245/mo, 60 Joy Coins. Circuit receives ~$183.75 as sole network business. Includes access windows, throttling, scholarship pool, proven guest-pass track record. Three-month pilot ask. Partnership framing (independent, not hire).
+2. Business profile banner fix — changed from object-top to object-center, taller banner height (h-52 sm:h-64 lg:h-72), styled gradient fallback for businesses without photos (category accent strip, business name watermark). Removed stock Unsplash fallback.
+3. Team builder sport lockdown (commit 066249b) — Flag Football is the only creatable sport. Soccer, Basketball, Baseball, Other show inline message: "[Sport] teams are coming soon" with "Request on Ideas Board" button redirecting to Dashboard. Next button disabled for non-flag-football sports.
+4. Admin BusinessEditDrawer — logo display fix (shows current logo_url instead of placeholder). Photos section added: horizontal thumbnail row, Banner badge on photos[0], Set as Banner, delete, upload. Save includes photos in diff.
+5. Dedicated banner_url field — added to Business entity in Base44, added to PROFILE_ALLOWLIST. BusinessProfile.jsx banner fallback: banner_url → photos[0] → logo_url → gradient. Admin drawer and BusinessSettings both have Banner upload/remove section with recommended sizes (Logo: 200x200, Banner: 1200x400).
+6. Spetzler Designs banner created via Gemini (workshop + logo + craft composite) and uploaded through admin drawer.
+7. NH Systems banner created via Gemini (NH monogram on navy with gold geometric accents) and uploaded through admin drawer.
+8. Banner object-center fix — changed from object-top to object-center for centered logo banners.
+9. Tory Heldt email sent — confirmed Thursday 2:30pm LFS meeting, waiting on location.
+10. Orion Lawrenz email sent — introduced LocalLane, invited to explore, farmers market as event listing, newsletter feature possibility.
+11. Finance workspace read-only audit initiated in Claude Code — planning full redesign for general users (rename Enough Number, simplify defaults, real-life categories).
+12. lanecountyrecess.com redirect confirmed done.
+13. Ship-it prompt from March 9 session landed — all docs updated across spec-repo and private repo.
+
+**Decisions made:**
+- Business images are now three distinct fields: logo_url (square, 200x200), banner_url (wide, 1200x400), photos (gallery array). Banner is separate from gallery — never pollutes photo display.
+- Team creation locked to Flag Football. Other sports redirect to Ideas Board for community demand capture.
+- Finance workspace redesign planned: default to Personal context only, rename Enough Number to Monthly Target/Essentials, use real-life spending categories (housing, groceries, transport, utilities, health, etc.), Rental Property and Business as add-on contexts.
+- Business workspace may be renamed to "Organization" in user-facing copy to welcome community groups, nonprofits, clubs (not just businesses). Decision pending.
+
+**Blockers:**
+- None
+
+**Next up:**
+- Finance workspace redesign (audit results pending, spec in progress)
+- Upload Spetzler and NH Systems banners through admin drawer (banners cropped and ready)
+- Seed roadmap items into Ideas Board
+- Thursday 2:30pm LFS meeting with Tory Heldt
+- Waiting on: Todd (Circuit proposal), Orion (orientation dates + LocalLane exploration), Tory (meeting location)
+- withdoron.com: copy polish, SEO, dynamic enso
+- Newsletter Issue 1
+- DEC-064/065 Play Trainer builds
+- Business seeding: Horai bakery, NW OG Farm, Grassward Dairy, The Corner Store
+
 ### Session Log — 2026-03-09
 **Focus:** Onboarding wizard ship, Dashboard vitality + nav, Ideas Board, withdoron.com launch, Nextdoor outreach, first organic user
 
