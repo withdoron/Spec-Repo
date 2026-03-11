@@ -6,6 +6,42 @@
 
 ---
 
+### Session Log — 2026-03-11
+**Focus:** Field Service Workspace — full build (4 sessions), Finance V2 fixes, Bari Swartz outreach, mockups
+
+**Shipped:**
+1. Field Service Workspace Session 1 — workspace shell, 3-step contractor onboarding (business info, rates, review), Home tab with stats/projects/activity, Settings with workers/terms/phases. workspaceTypes.js updated, BusinessDashboard wired.
+2. Field Service Workspace Session 2 — core port from Contractor Daily. FieldServiceProjects (32KB, 3-view list/detail/form), FieldServiceLog (29KB, daily logging with voice/photos/materials/labor/receipt split), FieldServiceReport (17KB, branded printable), FieldServiceTimeline (14KB, chronological feed), VoiceInput component.
+3. Field Service Workspace Session 3 — FieldServiceEstimates: list with status filters, builder with line items and voice input and auto-calculated totals, branded client preview with print CSS, estimate-to-project conversion, duplicate with auto-numbering. Cross-references to Home and Projects.
+4. Field Service Workspace Session 4 (c158a9a) — FieldServicePayments (summary/history/running balance, amber not red), FieldServicePermits (inspections JSON, eBuild portal link), FieldServiceClientPortal (branded white-bg, print CSS, "Powered by LocalLane"), FieldServicePhotoGallery (phase filters, lightbox), Logo upload + brand color in Settings, logo wired to estimates/reports/portal.
+5. DEC-068 logged — Field Service Workspace Type decision with full context.
+6. FIELD-SERVICE-WORKSPACE-SPEC.md created in private repo — full spec with pricing ($49/month owner, free workers, $9 micro), entity model, 4-session build sequence.
+7. FIELD-SERVICE-ENGINE.md and NODE-LAB-MODEL.md updated with workspace pivot status.
+8. 10 Base44 entities created for Field Service (FieldServiceProfile, FSProject, FSDailyLog, FSMaterialEntry, FSLaborEntry, FSDailyPhoto, FSEstimate, FSPayment, FSPermit, FSFeedback).
+9. Red Umbrella branded mockups created (estimate, dashboard, client portal) using Bari's actual Jake project data.
+10. Email sent to Bari with mockups — meeting confirmed Tuesday March 18 at 1:00pm at Barry's Espresso, SE Eugene.
+11. Tory Heldt reply sent — Thursday 2:30pm confirmed, location pending.
+12. Jamie (Raising Wildflowers) website inquiry — awaiting scope and budget.
+13. Field Service Engine audit completed — read-only analysis confirming FSE repo IS Contractor Daily (renamed), ~7,500 lines, 16 complete features.
+14. Dan Sikes helped with 2 hours of work.
+
+**Decisions made:**
+- DEC-068: Field Service Workspace Type. Build as workspace inside LocalLane, not standalone. Port Contractor Daily + add estimates/payments/permits/photos. Pricing: $49/month owner, free workers, $9 micro. Amber not red for financial states. Workers vs subcontractors distinction. Permit portal link-out to Eugene eBuild.
+
+**Blockers:**
+- None
+
+**Next up:**
+- Friday: Open Mycelia LLC SELCO business account
+- Thursday 2:30pm: Tory Heldt LFS meeting (location TBD)
+- Tuesday March 18 1:00pm: Bari Swartz meeting at Barry's Espresso
+- Test Field Service workspace with sample data before Tuesday demo
+- Jamie (Raising Wildflowers) website — awaiting scope/budget
+- Finance V2 field test with real transactions
+- Newsletter Issue 1
+- Business seeding: Horai bakery, NW OG Farm
+- Waiting on: Orion (farmers market orientation dates)
+
 ### Session Log — 2026-03-10 (Afternoon/Evening)
 **Focus:** Finance Workspace V2 — full redesign from spec to shipping
 
