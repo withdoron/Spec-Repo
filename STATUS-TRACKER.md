@@ -331,6 +331,21 @@ Real money. Gated behind legal checklist.
 - **Priority:** Medium
 - **Estimated:** 1 build session
 
+### Finance Workspace V2 (DEC-067) ✅
+- [x] V2 spec complete (DEC-067)
+- [x] 3-step onboarding with income + expense sources
+- [x] Enough Number + Left to Spend dual metrics
+- [x] Real-life Personal categories
+- [x] 5-tab structure (Home, Activity, Bills & Income, Debts, Settings)
+- [x] Import absorbed into Activity modal
+- [x] Add-on context templates (Rental, Business/LLC, Custom)
+- [x] Profit First allocation view
+- [x] Projected recurring income on Home tab
+- [x] Single-context UI hiding
+- [x] Dead code cleanup (FinanceTransactions, FinanceRecurring deleted)
+- **Spec:** DEC-067, FINANCE-WORKSPACE-SPEC.md (private repo)
+- **Shipped:** 2026-03-10
+
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles
 - [ ] "Local Franchise" badge
@@ -459,6 +474,7 @@ Strategy and concept docs maintained in private repository.
 |------|---------|
 | 2026-03-06 | Homepage Redesign spec (DEC-062: "Become" concept). Onboarding Wizard Redesign spec (DEC-063). Playbook Pro fixes (standalone SVG, computeRouteViewBox, branding, home tab). Homepage Become shipped (DEC-062). Sign In removed. Auth redirect confirmed. lanecountyrecess.com domain redirect (pending SSL). Little French School outreach. DT connection. |
 | 2026-03-07 | Play Trainer: route chaining, field scaling fix, assignment text fix, edit mode fix, tap threshold, practice drill, game over display, mirror mode, 6 difficulty phases, game expansion (7 question types, endless survival, mirror L/R), delete play. Specs: DEC-064 Creation Station, DEC-065 Coach Mode. 8 plays loaded by boys. Grassward Dairy and Corner Store connections. |
+| 2026-03-10 (PM) | Finance V2 full redesign — spec, 3 build sessions, 2 fixes. DEC-067. EuDash concept. |
 | 2026-03-10 | Community Pass proposal sent to Todd (The Circuit). Business banner system: dedicated banner_url field, admin drawer photos/banner, gradient fallback, object-center fix. Team builder locked to Flag Football. Spetzler + NH Systems banners via Gemini. Outreach: Tory Heldt (LFS Thu 2:30pm), Orion Lawrenz. Finance workspace audit initiated. lanecountyrecess.com redirect confirmed. |
 | 2026-03-09 | DEC-063 Onboarding Wizard shipped (4-step Become flow, full rewrite). Dashboard nav for all users. CommunityPulse vitality component. DEC-066 Ideas Board shipped (submit, vote, filter, admin). withdoron.com launched (Base44, DNS live). Nextdoor post. First organic user (Lori). Bug fixes: members count, dashboard link text. |
 | 2026-03-04 (eve) | Play Builder (Team Build 4, DEC-061) shipped. 8 new files, 8 modified. SVG field, route templates, freehand drawing, custom positions. 7 bug fixes. JSON stringify fix for Base44 JSON fields. Spec updates across 6 docs. |

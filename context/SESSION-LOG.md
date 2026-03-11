@@ -6,6 +6,40 @@
 
 ---
 
+### Session Log — 2026-03-10 (Afternoon/Evening)
+**Focus:** Finance Workspace V2 — full redesign from spec to shipping
+
+**Shipped:**
+1. Finance V2 research — YNAB, Monarch Money, Profit First (Michalowicz), Simple Numbers (Crabtree), Goodbudget. Research synthesis document produced.
+2. DEC-067 Finance Workspace V2 Redesign spec written and reviewed — 80% user defaults, Enough Number + Left to Spend dual metrics, real-life categories, Profit First allocation, workspace linking seed.
+3. Private repo updated (4 files): FINANCE-WORKSPACE-SPEC.md (full replacement), DECISIONS.md (DEC-067), PERSONAL-FINANCE-NODE.md (status update), FINANCIAL-ENGINE.md (status note).
+4. Base44 entities updated — 3 new fields on FinancialProfile (enough_number_explained, profit_first_enabled, profit_first_targets). Permissions verified Creator Only on all 5 finance entities.
+5. Finance V2 Session 1 (0cb1887) — 3-step onboarding wizard (Name → Income/Essentials → Debts), Enough Number + Left to Spend on Home tab, real-life Personal categories, first-view explanation card.
+6. Finance V2 Session 2 (c66bc43) — Tab restructure: 6→5 tabs (Home, Activity, Bills & Income, Debts, Settings). Import absorbed into Activity as modal. Single-context UI hiding. Dead files: FinanceTransactions.jsx and FinanceRecurring.jsx replaced.
+7. Finance V2 Session 3 — Add-on context templates (Rental Property, Business/LLC, Custom) in Settings. Profit First allocation view (toggle + target percentages + Home tab card). Dead code cleanup (deleted FinanceTransactions.jsx, FinanceRecurring.jsx).
+8. Fix (27d611f) — Income sources added to onboarding Step 2 (5 toggle-able sources with emerald state). next_date string format bug fixed on RecurringTransaction.create().
+9. Fix (eeb2c9a) — Scroll-to-top on wizard step change and workspace navigation. Projected recurring income on Home tab (uses Math.max of actual vs projected so day-one users see real picture, not guaranteed red deficit).
+10. EuDash concept captured — hyperlocal delivery (Eugene + dash), circulation-over-extraction alternative to DoorDash/UberEats. Saved to SuperMemory, Doron adding to Ideas Board.
+
+**Decisions made:**
+- DEC-067: Finance Workspace V2 Redesign — 80% user defaults, Enough Number + Left to Spend, real-life categories, Profit First allocation, add-on context templates, workspace linking seed. Full spec in private repo.
+- Enough Number name kept (not renamed to Monthly Target) — philosophical weight from Crabtree, one-line explanation added instead.
+- Income sources added to onboarding (not in original spec — user feedback during testing).
+- Projected recurring income on Home tab (not in original spec — solves day-one red deficit problem).
+
+**Blockers:**
+- None
+
+**Next up:**
+- Field test finance workspace with real transactions (Doron as user zero, $1,410/month Enough Number)
+- Add Mycelia LLC as Business/LLC context when SELCO business account opens next week
+- Seed businesses: Horai bakery (top priority), NW OG Farm, Grassward Dairy, The Corner Store
+- Thursday 2:30pm LFS meeting with Tory Heldt
+- Waiting on: Todd (Circuit proposal), Orion (orientation dates), Tory (meeting location)
+- withdoron.com polish (copy, SEO, enso animation)
+- Newsletter Issue 1
+- DEC-064/065 Play Trainer builds
+
 ### Session Log — 2026-03-10
 **Focus:** Community Pass proposal, business profile polish (banners, admin drawer), team builder lockdown, outreach emails, finance workspace audit
 
