@@ -360,6 +360,23 @@ Real money. Gated behind legal checklist.
 - **Spec:** DEC-068, FIELD-SERVICE-WORKSPACE-SPEC.md (private repo)
 - **Shipped:** 2026-03-11
 
+### Property Management Workspace (DEC-069)
+- [x] Research: long-term rental tools (TurboTenant, Stessa, Avail, DoorLoop, Landlord Studio)
+- [x] Research: short-term rental tools (Hostaway, Guesty, Hospitable, OwnerRez)
+- [x] Spec complete (PROPERTY-MANAGEMENT-WORKSPACE-SPEC.md)
+- [x] Decision logged (DEC-069)
+- [ ] Claude Code audit of Property Pulse standalone (orientation for port)
+- [ ] Base44 entities created (10 entities)
+- [ ] Session 1: Workspace shell, onboarding, Home, Settings
+- [ ] Session 2: Properties + Finances
+- [ ] Session 3: Maintenance + People
+- [ ] Session 4: Listings + Settlements
+- [ ] Session 5: Polish + short-term features
+- [ ] Field test with real property data
+- [ ] Listing search on public directory
+- [ ] First rental listed on LocalLane
+- **Spec:** DEC-069, PROPERTY-MANAGEMENT-WORKSPACE-SPEC.md (private repo)
+
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles
 - [ ] "Local Franchise" badge

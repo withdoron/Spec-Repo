@@ -5,7 +5,7 @@
 
 ## Current Phase
 
-Platform live with organic traction. Field Service workspace fully shipped. Finance V2 shipped. Business seeding and first paying customer conversations underway.
+Platform live with organic traction. Field Service workspace fully shipped. Finance V2 shipped. Business seeding and first paying customer conversations underway. Property Management workspace specced (DEC-069), Claude Code audit running, builds queued after Field Service testing.
 
 ## What Just Shipped (2026-03-11)
 
@@ -46,6 +46,7 @@ Field Service Workspace — complete build in 4 sessions, one day:
 - DEC-066: Ideas Board — shipped
 - DEC-067: Finance Workspace V2 — shipped
 - DEC-068: Field Service Workspace — shipped
+- DEC-069: Property Management Workspace — specced
 
 ## Key Context for Next Session
 
