@@ -360,22 +360,23 @@ Real money. Gated behind legal checklist.
 - **Spec:** DEC-068, FIELD-SERVICE-WORKSPACE-SPEC.md (private repo)
 - **Shipped:** 2026-03-11
 
-### Property Management Workspace (DEC-069)
+### Property Management Workspace (DEC-069) ✅
 - [x] Research: long-term rental tools (TurboTenant, Stessa, Avail, DoorLoop, Landlord Studio)
 - [x] Research: short-term rental tools (Hostaway, Guesty, Hospitable, OwnerRez)
 - [x] Spec complete (PROPERTY-MANAGEMENT-WORKSPACE-SPEC.md)
 - [x] Decision logged (DEC-069)
-- [ ] Claude Code audit of Property Pulse standalone (orientation for port)
-- [ ] Base44 entities created (10 entities)
-- [ ] Session 1: Workspace shell, onboarding, Home, Settings
-- [ ] Session 2: Properties + Finances
-- [ ] Session 3: Maintenance + People
-- [ ] Session 4: Listings + Settlements
-- [ ] Session 5: Polish + short-term features
+- [x] Claude Code audit of Property Pulse standalone (orientation for port)
+- [x] Base44 entities created (12 entities)
+- [x] Session 1: Workspace shell, onboarding, Home, Settings
+- [x] Session 2: Properties + Owners + workspace testing mode
+- [x] Session 3: Finances + Labor + calculation utilities
+- [x] Session 4: Maintenance + Settlements + server function docs
+- [x] Session 5: Listings + People + polish pass
 - [ ] Field test with real property data
 - [ ] Listing search on public directory
 - [ ] First rental listed on LocalLane
 - **Spec:** DEC-069, PROPERTY-MANAGEMENT-WORKSPACE-SPEC.md (private repo)
+- **Shipped:** 2026-03-14 (47 components, 9 tabs, 12 entities, ~11,850 lines)
 
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles
@@ -503,6 +504,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-03-14 | PM Sessions 3-5 shipped (DEC-069 COMPLETE). FS onboarding fix. 1Pass research. Tyler contacted. Travis subdomain interest. Get Air emailed. |
 | 2026-03-06 | Homepage Redesign spec (DEC-062: "Become" concept). Onboarding Wizard Redesign spec (DEC-063). Playbook Pro fixes (standalone SVG, computeRouteViewBox, branding, home tab). Homepage Become shipped (DEC-062). Sign In removed. Auth redirect confirmed. lanecountyrecess.com domain redirect (pending SSL). Little French School outreach. DT connection. |
 | 2026-03-07 | Play Trainer: route chaining, field scaling fix, assignment text fix, edit mode fix, tap threshold, practice drill, game over display, mirror mode, 6 difficulty phases, game expansion (7 question types, endless survival, mirror L/R), delete play. Specs: DEC-064 Creation Station, DEC-065 Coach Mode. 8 plays loaded by boys. Grassward Dairy and Corner Store connections. |
 | 2026-03-11 | Field Service workspace FULL BUILD (4 sessions). DEC-068. Bari meeting Tuesday. Tory Thursday. Jamie website inquiry. Dan helped 2hrs. |

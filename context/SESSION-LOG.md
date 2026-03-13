@@ -6,6 +6,46 @@
 
 ---
 
+### Session Log — 2026-03-14
+**Focus:** PM Workspace Sessions 3-5 (DEC-069 complete), Field Service fix, 1Pass vendor research, business development, strategic planning
+
+**Shipped:**
+1. Field Service onboarding fix (ab72b6a) — workers_json, phase_labels, user_roles wrapped in JSON.stringify for Base44 dictionary field compatibility
+2. PM Session 3 (e9d0510) — Finances tab with Transactions/Labor/Summary sub-views, calculateSettlement.js (9-step waterfall), recurringExpenseUtils.js, receipt upload/preview, reconciliation, running totals. 11 files, 2,301 insertions.
+3. PM Session 4 (43534c1) — Maintenance tab (status pipeline, priority sorting, photo documentation, CompleteRequestDialog with auto-create PMExpense + PMLaborEntry), Settlements tab (9-step waterfall display, finalize/unfinalize, carry-forward recurring, month-over-month comparison, distribution breakdown), server function docs (7 functions). Settlements tab added to workspaceTypes.js (9 tabs total). 15 files, 3,223 insertions.
+4. PM Session 5 (12334f2) — Listings tab (CRUD, photo upload, amenity checkboxes, public preview with print CSS, status management, auto-populate from property), People tab (Tenants directory with lease expiry tracking, Guests with PMGuest CRUD and auto-income on checkout, guest stats), polish pass (empty states, loading states, mobile responsiveness, Home tab Quick Actions wired, cross-tab navigation, console cleanup). 14 files, 2,551 insertions.
+5. DEC-069 Property Management Workspace: COMPLETE — 47 components + 3 utility files, 9 tabs (zero stubs), 12 Base44 entities, ~11,850 lines across 5 sessions in 2 days.
+
+**Business development:**
+6. Get Air Community Pass proposal emailed to Charlie (manager)
+7. Tyler (contractor/PM friend) texted — potential Field Service tester and liaison
+8. Travis (NW OG Farm) interested in subdomain storefront at $9/month — meeting tonight/tomorrow
+9. Homeschool group unreliable (nobody showed at Y) — Recess stays independent
+10. EIN application failed (IRS website issue) — retry Saturday
+
+**Strategic planning:**
+11. 1Pass Eugene vendor pipeline researched — 17 destinations, 8 private businesses identified as Community Pass targets (Get Air already contacted, Emerald Lanes, Camp Putt, Oregon Disc Golf, Laurelwood Golf, Adventure Children's Museum, Eugene Science Center, Museum of Natural and Cultural History). 11,000 passes at $60, 69,442 scans in 2024.
+12. Supplier-as-sales-channel model refined — Stringfield Lumber for contractors, ESP for mechanics. Suppliers become distribution partners, not advertising customers. Stringfield's master price list identified as Tier 2→3 bridge for live pricing in estimates.
+13. Community liaison commission model defined: $50 per business onboarded, $5/month ongoing per active business. Tyler as potential first liaison (outgoing, supportive). Dan remains primary field tester.
+14. Jason Staples' Paul and the Resurrection of Israel identified as theological resource
+
+**Decisions made:**
+- No new DEC-numbered decisions. DEC-069 status changed from "Specced" to "V1 Complete."
+
+**Next up:**
+- EIN retry Saturday (IRS online)
+- Travis meeting for eggs and subdomain conversation
+- Field Service test walkthrough before Bari Tuesday
+- Finance V2 field test with real SELCO data
+- Monday: Helping Dan 10am-3pm
+- Tuesday: Bari meeting 1pm at Barry's Espresso
+- PM workspace field test with real property data
+- Newsletter Issue 1
+- Jamie website (awaiting content)
+- Get Air walk-in when timing works
+
+---
+
 ### Session Log — 2026-03-11
 **Focus:** Field Service Workspace — full build (4 sessions), Finance V2 fixes, Bari Swartz outreach, mockups
 

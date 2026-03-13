@@ -1,43 +1,49 @@
 # Active Context
 
 > What's happening right now. Updated each session.
-> Last updated: 2026-03-11
+> Last updated: 2026-03-14
 
 ## Current Phase
 
-Platform live with organic traction. Field Service workspace fully shipped. Finance V2 shipped. Business seeding and first paying customer conversations underway. Property Management workspace specced (DEC-069), Claude Code audit running, builds queued after Field Service testing.
+Platform live with organic traction. Property Management workspace V1 complete (DEC-069). Field Service workspace shipped. Finance V2 shipped. Five workspace types operational (Business, Team, Finance, Field Service, Property Management). Business development and first paying customer conversations underway.
 
-## What Just Shipped (2026-03-11)
+## What Just Shipped (2026-03-14)
 
-Field Service Workspace — complete build in 4 sessions, one day:
-- Session 1: Workspace shell, onboarding, Home tab, Settings
-- Session 2: Projects (3-view), Daily Log (voice, photos, materials, labor), Reports, Timeline
-- Session 3: Estimates (builder, preview, duplicate, project conversion, auto-calc totals)
-- Session 4: Payments (running balance, amber psychology), Permits (inspections, eBuild link), Client Portal (branded, print CSS), Photo Gallery (phase filters), Logo upload + brand color
-- DEC-068 logged. Spec in private repo. 10 Base44 entities. Mockups created with Bari's real data.
+Property Management Workspace — complete build in 5 sessions across 2 days:
+- Session 1: Workspace shell, onboarding, Home tab, Settings tab
+- Session 2: Properties tab (groups + units CRUD), Owners tab (stakes, splits, % validation)
+- Session 3: Finances tab (transactions, labor, summary waterfall), calculation utilities
+- Session 4: Maintenance tab (status pipeline, complete dialog), Settlements tab (waterfall, finalize, carry-forward)
+- Session 5: Listings tab (public preview, print CSS), People tab (tenants, guests), polish pass
+- 47 components + 3 utilities, 9 tabs, 12 entities, ~11,850 lines
+- Field Service onboarding fix (JSON.stringify for dictionary fields)
 
 ## What's In Progress
 
 - Bari Swartz relationship — meeting Tuesday March 18, 1pm, Barry's Espresso
-- Tory Heldt LFS meeting — Thursday 2:30pm, location TBD
-- Jamie (Raising Wildflowers) website inquiry — scope/budget pending
-- Finance V2 field testing (Doron as user zero)
-- Mycelia LLC SELCO business account opening Friday
+- Tyler (contractor friend) — texted, potential tester and liaison
+- Travis (NW OG Farm) — subdomain storefront at $9/month, meeting tonight/tomorrow
+- EIN application — retry Saturday (IRS website failed Friday)
+- Get Air (Charlie) — proposal emailed, awaiting response
+- Defy (Amber/Mike) — proposal emailed, awaiting response
+- Tory/LFS — board reviewing Doron's candidacy
 
 ## What's Queued
 
-1. Test Field Service workspace before Tuesday demo
-2. Open Mycelia LLC business account at SELCO (Friday)
-3. Tory Heldt meeting Thursday 2:30pm
-4. Bari Swartz meeting Tuesday March 18 1:00pm
-5. Jamie website scope and quote
-6. Finance V2 field test with real SELCO data
-7. Add Mycelia LLC as Business/LLC context in Finance workspace
-8. Business seeding: Horai bakery, NW OG Farm, Grassward Dairy
-9. Newsletter Issue 1
-10. withdoron.com polish
-11. DEC-064/065 Play Trainer builds
-12. Waiting on: Orion (farmers market orientation dates)
+1. EIN retry Saturday
+2. Travis subdomain conversation
+3. Field Service test walkthrough (before Bari Tuesday)
+4. Finance V2 field test with real SELCO data
+5. Helping Dan Monday 10am-3pm
+6. Bari meeting Tuesday 1pm at Barry's Espresso
+7. PM workspace field test with real property data
+8. Add Mycelia LLC as Business/LLC context in Finance workspace (after EIN/SELCO)
+9. Jamie website (awaiting content)
+10. Get Air walk-in
+11. Newsletter Issue 1
+12. withdoron.com polish
+13. DEC-064/065 Play Trainer builds
+14. Business seeding: Horai, NW OG Farm, Grassward Dairy
 
 ## Active Decisions
 
@@ -46,16 +52,17 @@ Field Service Workspace — complete build in 4 sessions, one day:
 - DEC-066: Ideas Board — shipped
 - DEC-067: Finance Workspace V2 — shipped
 - DEC-068: Field Service Workspace — shipped
-- DEC-069: Property Management Workspace — specced
+- DEC-069: Property Management Workspace — V1 COMPLETE
 
 ## Key Context for Next Session
 
-- Field Service workspace is FULLY BUILT — 4 sessions, all features (projects, logging, estimates, payments, permits, client portal, photos, branding)
-- Bari confirmed Tuesday March 18, 1:00pm, Barry's Espresso SE Eugene. Approach: listen first, show when natural. Two options in mind (standalone vs LocalLane) but keep open-ended
-- Tory Heldt Thursday 2:30pm confirmed, location TBD
-- Jamie (Raising Wildflowers) wants a website built. Has a network on LocalLane. Supporter. Awaiting scope/budget.
-- Dan Sikes — Doron helped with 2 hours of work today. Dan still has Contractor Daily access but inactive as tester.
-- Mycelia LLC SELCO business account opening Friday — needed for payment processing
-- Finance V2 live — Doron's Enough Number is $1,410/month. Needs real transaction data.
-- EuDash concept on Ideas Board for community vote
+- PM workspace is FULLY BUILT — 5 sessions, 9 tabs, zero stubs, ~11,850 lines
+- Bari confirmed Tuesday March 18, 1:00pm, Barry's Espresso SE Eugene
+- Tyler texted — contractor/PM friend, outgoing, potential liaison for Stringfield channel
+- Travis wants subdomain storefront — meeting tonight/tomorrow
+- 1Pass vendor pipeline: 8 private businesses as Community Pass warm leads
+- Stringfield's master price list = the key data asset for supplier integration
+- Supplier-as-sales-channel: Dan/Tyler test → prove → approach Stringfield with real users
+- Homeschool group unreliable — Recess stays independent
+- EIN retry Saturday, SELCO business account after
 - Community Pulse: 9 Members, 4 Businesses, 10 Subscribers
