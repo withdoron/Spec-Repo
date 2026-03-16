@@ -281,6 +281,7 @@ Real money. Gated behind legal checklist.
 - [x] Team Build 2.5: Join Flow + Parent-Child Context Switcher ✅ (2026-02-28)
 - [ ] Team Build 3: Schedule + Messages
 - [x] Team Build 4: Play Builder (DEC-061) ✅ (2026-03-04) — SVG field, route templates, freehand drawing, custom positions. 8 new files, 8 modified. Originally Build 7a-7c, pulled forward.
+- [x] Team Button-Up ✅ (2026-03-15) — 12 fixes, Head Coach system, manageTeamPlay server function, role simplification (DEC-070), 12 real players loaded, role audit clean. Go-live ready.
 - [ ] Team Build 5: Quiz Engine (was Build 4)
 - [ ] Team Build 6: Game Day Mode (was Build 5)
 - [ ] Team Build 7: Football IQ + Organism (was Build 6)
@@ -288,8 +289,8 @@ Real money. Gated behind legal checklist.
 - [ ] Team Build 8-defense: Defense Rendering (separate track)
 - **Spec:** DASHBOARD-WORKSPACES.md (private repo)
 - **Entities:** 8 (Team, TeamMember, Play, PlayAssignment, TeamEvent, TeamMessage, QuizAttempt, PlayerStats)
-- **Priority:** High — active build with real users (Doron's flag football team)
-- **Estimated:** Builds 1-2.5 shipped. Build 3 next, Build 4 in progress.
+- **Priority:** High — go-live ready, roster loaded, share with Coach Rick
+- **Status:** Button-up complete. Ready for spring season.
 
 ### Homepage Redesign (DEC-062) ✅
 - [x] Build: "Become" hero with mycelium animation, rotating completions, ember glow
@@ -348,17 +349,21 @@ Real money. Gated behind legal checklist.
 
 ### Field Service Workspace (DEC-068)
 - [x] DEC-068 spec complete
-- [x] 10 Base44 entities created
+- [x] 11 Base44 entities created (FSClient added DEC-071)
 - [x] Session 1: Workspace shell + onboarding + Home + Settings
 - [x] Session 2: Projects + Daily Log + Reports + Timeline + VoiceInput
 - [x] Session 3: Estimates (builder, preview, duplicate, conversion)
 - [x] Session 4: Payments + Permits + Client Portal + Photo Gallery + Logo/Branding
 - [x] Red Umbrella mockups created and sent to Bari
-- [ ] Field test with sample data
+- [x] Complete overhaul for demo (DEC-071 FSClient, DEC-072 visibility, DEC-073 worker access, People tab, mobile audit, 30+ commits)
+- [x] Projects grouped by client, estimate print CSS, logo upload, amber budget bars
+- [x] Worker/sub invite code + claim flow (claimWorkspaceSpot.ts)
+- [ ] Register claimWorkspaceSpot.ts server function in Base44
 - [ ] Bari demo meeting (Tuesday March 18)
 - [ ] First paying Field Service customer
 - **Spec:** DEC-068, FIELD-SERVICE-WORKSPACE-SPEC.md (private repo)
-- **Shipped:** 2026-03-11
+- **Shipped:** 2026-03-11, overhauled 2026-03-16
+- **Decisions:** DEC-071 (FSClient), DEC-072 (visibility controls), DEC-073 (worker access)
 
 ### Property Management Workspace (DEC-069) ✅
 - [x] Research: long-term rental tools (TurboTenant, Stessa, Avail, DoorLoop, Landlord Studio)
@@ -504,6 +509,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-03-15/16 | Team button-up (12 fixes, Head Coach, manageTeamPlay server function, DEC-070 role simplification, 12 players loaded). Field Service complete overhaul (FSClient DEC-071, visibility DEC-072, worker access DEC-073, People tab, mobile audit, 30+ commits). Music branch (20+ songs, DEC-075). Sovereign Worker Network (DEC-074). Business finance architecture (DEC-076). 7 new decisions. |
 | 2026-03-14 | PM Sessions 3-5 shipped (DEC-069 COMPLETE). FS onboarding fix. 1Pass research. Tyler contacted. Travis subdomain interest. Get Air emailed. |
 | 2026-03-06 | Homepage Redesign spec (DEC-062: "Become" concept). Onboarding Wizard Redesign spec (DEC-063). Playbook Pro fixes (standalone SVG, computeRouteViewBox, branding, home tab). Homepage Become shipped (DEC-062). Sign In removed. Auth redirect confirmed. lanecountyrecess.com domain redirect (pending SSL). Little French School outreach. DT connection. |
 | 2026-03-07 | Play Trainer: route chaining, field scaling fix, assignment text fix, edit mode fix, tap threshold, practice drill, game over display, mirror mode, 6 difficulty phases, game expansion (7 question types, endless survival, mirror L/R), delete play. Specs: DEC-064 Creation Station, DEC-065 Coach Mode. 8 plays loaded by boys. Grassward Dairy and Corner Store connections. |

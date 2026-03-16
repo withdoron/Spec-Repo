@@ -1750,6 +1750,108 @@ Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 
 ---
 
+---
+
+### DEC-070: Team Workspace Roles — Coach and Player Only
+
+**Date:** 2026-03-15
+
+**Context:** Team workspace had three roles (Coach, Assistant Coach, Player) but the distinction between Coach and Assistant Coach created confusion without functional value. Both need full play editing access. Head Coach is a display designation, not a permission tier.
+
+**Decision:** Simplify to two roles: Coach and Player. Head Coach is a display-only designation stored as head_coach_member_id on Team entity (shield badge on roster, no additional permissions). Legacy assistant_coach records normalized to coach. manageTeamPlay server function ensures any coach can edit any play regardless of creator.
+
+**Rationale:** Fewer roles means clearer permissions. The manageTeamPlay server function with asServiceRole bypasses Creator Only RLS, solving the multi-coach edit problem cleanly. Role audit confirmed Player role is safe for sharing — players can view/study/quiz but cannot create/edit/delete plays or manage roster.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-071: FSClient Entity — First-Class Clients in Field Service
+
+**Date:** 2026-03-16
+
+**Context:** Field Service workspace had client info scattered across inline fields on projects and estimates. Bari's workflow is client-first — he thinks in terms of "Jake's project" not "Project #47." The demo needed to feel like how a contractor actually works.
+
+**Decision:** Create FSClient as a separate Base44 entity (workspace_id, user_id, name, email, phone, address, city, state, notes, status). Add client_id to FSProject and FSEstimate. ClientSelector component for all client-facing forms. Projects grouped by client as default view. Client detail page accessible from People tab.
+
+**Rationale:** Clients anchor the contractor workflow: Client → Estimates → Projects → Logs → Payments. First-class entity enables grouping, filtering, and the future client portal. Inline client fields kept as fallbacks for backwards compatibility.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-072: Client Visibility Controls — Breakdown Toggle
+
+**Date:** 2026-03-16
+
+**Context:** Contractors need to control what clients see. Some want full transparency (materials + labor breakdown). Others want to show only the total budget and progress. This is a sensitive business decision — showing labor rates can undermine negotiating position.
+
+**Decision:** Add client_show_breakdown boolean to both FSProject and FSEstimate. Default: false (budget only — protects the contractor). When true, client portal and estimate preview show materials and labor line items. Toggle is Gold Standard styled with clear labeling.
+
+**Rationale:** Default to privacy. Let the contractor choose transparency, not the platform. Same philosophy as the rest of LocalLane — the tool reflects the owner's choices, it doesn't impose.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-073: Worker/Sub Access Model — Invite Code + Claim Flow
+
+**Date:** 2026-03-16
+
+**Context:** Field Service workspace needs workers and subcontractors to access project data without giving them full workspace control. The workspace engine's existing role system (admin/owner/staff/member) maps to Owner/Worker/Sub/Client but needs an onboarding path.
+
+**Decision:** Four roles: Owner (full access), Worker (assigned projects, log hours), Subcontractor (their project scope only), Client (portal view). Onboarding via invite code: owner generates code → worker visits /join-field-service/:inviteCode → claimWorkspaceSpot.ts server function adds them. Dashboard detects role and shows appropriate badge. View gating seeds (isOwner, workerRole) flow to all tabs.
+
+**Rationale:** Invite codes are simple, shareable (text, QR, verbal), and don't require email infrastructure. The claim flow mirrors how construction actually works — the GC says "go to this link and sign up." View gating is seeded but not enforced in V1 — Bari validates the model first, then we tighten.
+
+**Status:** ✅ Active — V1 invite flow built, view gating seeded for V2 enforcement
+
+---
+
+### DEC-074: Sovereign Worker Network — Worker Sovereignty Ramp
+
+**Date:** 2026-03-15
+
+**Context:** Dustin Castleberry's payroll pain ($7,857 for $3,500 to workers, 55% overhead) revealed that the system designed to protect workers is pushing small operators underground. The gap isn't skill or will — it's administrative barriers to legitimate independence.
+
+**Decision:** Document the Sovereign Worker Network concept: LocalLane as a sovereignty ramp from employee → sole proprietor → independent contractor → micro-business → full operator. The network naturally satisfies Oregon's independent contractor test (ORS 670.600) by connecting workers to multiple GCs. Professional partner network (insurance brokers, CPAs, bonding agents) supports the transition. Pricing: free for workers, $9/month microbusiness, $49/month full operator.
+
+**Rationale:** Circulation over extraction applied to labor. The platform doesn't game classification tests — it creates genuine conditions of independence. Every sovereign operator creates conditions for more sovereign operators (fractal pattern). Concept only — validate with Dustin, Dan, Bari, Tyler before building.
+
+**Reference:** SOVEREIGN-WORKER-NETWORK.md (private repo)
+
+**Status:** Concept — validate before building
+
+---
+
+### DEC-075: Music/Creative Branch — "The OG"
+
+**Date:** 2026-03-15
+
+**Context:** Doron's personal writings spanning years of spiritual philosophy found expression as songs. 20+ songs written in one weekend covering faith, community, identity, heartbreak, and prophecy. The creative output is a natural extension of the LocalLane philosophy — seeds planted through art.
+
+**Decision:** Establish "The OG - A hand full of seeds" as artist name. Songs as seeds for community building and personal expression. Production workflow: Suno for single-track, Fiverr for polished multi-voice ($20-50), Gemini for artwork. YouTube channel concept for distribution. Mycelia as creative director.
+
+**Rationale:** The music isn't a distraction from LocalLane — it's another expression of the same philosophy. "What matters is the frequency, not the flute." The creative branch grows alongside the platform, not in competition with it.
+
+**Status:** ✅ Active — songs written, production workflow established
+
+---
+
+### DEC-076: Business Finance Dashboard Architecture — Three Levels
+
+**Date:** 2026-03-16
+
+**Context:** Field Service workspace generates financial data (estimates, payments, materials, labor costs). Finance workspace tracks personal and business finances. They need to connect without duplicating data.
+
+**Decision:** Three-level architecture: (1) Workspace financials — each workspace shows its own financial summary (Field Service shows project P&L, Property Management shows settlement waterfall). (2) Business finance bridge — linked_finance_workspace_id connects a workspace to a Finance context, enabling the Finance workspace to read workspace financial data. (3) Master dashboard — aggregates all workspace financials into one view. Finance workspace is a reader, not a duplicator.
+
+**Rationale:** Each workspace already generates financial data naturally through its operations. The Finance workspace doesn't need to re-enter that data — it reads it through the linked_workspace_id bridge. This preserves the source of truth in each workspace while enabling the aggregation vision from FINANCIAL-ENGINE.md.
+
+**Status:** Designed — not yet built. linked_workspace_id fields exist as nullable seeds.
+
+---
+
 ## Decision Template
 
 ```markdown

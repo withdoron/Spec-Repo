@@ -6,6 +6,74 @@
 
 ---
 
+### Session Log — 2026-03-15 / 2026-03-16 (Weekend Marathon)
+**Focus:** Team workspace button-up, Field Service workspace complete overhaul, music/creative branch, sovereign worker concept, Bari demo prep
+
+**Shipped:**
+1. Play Builder button-up — 12 fixes across 13 files: roster edit/delete, format dropdown (5v5/7v7), config-driven positions, SidelineMode route fix + mobile access, photo mode edit protection, ConfirmDialog component, quiz hearts red→amber, CSS cleanup, PlayCard aspect ratio, constants consolidated to flagFootball.js
+2. TeamHome red hearts → amber on Playbook Pro card (both player and coach views)
+3. Head Coach assignment system — head_coach_member_id on Team entity, Set as Head Coach button in roster edit, HC shield badge on roster
+4. "Add Player" → "Add to Roster" label fix
+5. isCoach role fix — effectiveRole check in BusinessDashboard.jsx, unlocking assistant coach access
+6. manageTeamPlay server function — Deno function using asServiceRole to bypass Creator Only RLS. Any coach can edit any play.
+7. Head Coach UI refresh fix — refetchQueries, close modal first
+8. Role simplification — removed assistant_coach, only Coach and Player now. 7 files updated. Legacy records normalized.
+9. Roster loaded with 12 real players for spring season
+10. Role audit (TEAM-ROLE-AUDIT.md) — confirmed safe for player sharing
+11. Base44 RLS verified — Team, TeamMember, Play, PlayAssignment all Creator Only write + No Restrictions read
+12. SOVEREIGN-WORKER-NETWORK.md written — concept doc for worker sovereignty, ORS 670.600, CCB path, professional partner network, pricing model
+13. Dustin Castleberry conversation — contractor payroll pain sparked sovereign worker concept
+14. Travis (NW OG Farm) farm visit — helped with seed trays, got eggs
+15. Dashboard reorder — My Workspaces top, Ideas Board middle, Community Pulse bottom
+16. Songs written (20+): The Crawl, Rain to River, Mirrors, Fibonacci, Free Will, Tables, Surrender, Back on My Way, The Recipe, If Not You, The Hunt Is On, Olive Street, Praise Ye The Lord, The Mouse Trap, Two Witnesses, The Blueprint, What Matters Is the Frequency, In The Dirt, Look at You / The Reign and the Rein
+17. Artist name established: "The OG - A hand full of seeds"
+18. Tables artwork + YouTube thumbnail generator built
+19. Field Service onboarding JSON fix (6110453) — raw {} objects for dictionary fields
+20. Estimate JSON fix — line_items/labor_estimate wrapped for Base44
+21. Phone auto-format — formatPhone() on 4+ inputs workspace-wide
+22. Number input zero-clearing — onFocus/onBlur on 13+ inputs
+23. Email/phone links — mailto: and tel: on project detail, estimate preview, reports
+24. Full workspace sweep — 6 P0 fixes + 6 P1 fixes
+25. Project creation user_id bug fix — added to all 6 create mutations across 4 files
+26. Mobile audit (FIELD-SERVICE-MOBILE-AUDIT.md) — 3 P0 overflow + 4 P1 grid stacking
+27. Plumbing build — Estimate→Project conversion, log financials rollup, log editing, client portal shareable link, estimate branding
+28. FSClient entity — workspace_id, user_id, name, email, phone, address. ClientSelector, FieldServiceClientDetail, useFieldServiceClients hook
+29. People tab (829 insertions) — Workers, Subcontractors, Clients sections, add/edit modal, permissions guide
+30. Field Service status simplification — Active/Paused/Completed/Cancelled only
+31. Tab reorder — Home, Log, Projects, Estimates, People, Settings
+32. Client visibility toggle — client_show_breakdown per project and per estimate
+33. Permit editing + eBuild links
+34. Estimate print CSS nuclear fix
+35. Logo upload fix — Core.UploadFile pattern
+36. Budget bar colors — amber only (no red)
+37. Projects grouped by client — gold tappable headers, tree layout, toggle grouped/flat
+38. Log project dropdown — "Project Name — Client Name" format
+39. Inline log photos on project detail — 56x56 thumbnails with lightbox
+40. "Save & Send" → "Save & Copy Link" on estimates
+41. Log photo editing — existing photos load into edit form
+42. Worker/sub access flow (90a2a4e) — invite code, claimWorkspaceSpot.ts, JoinFieldService page, dashboard role detection, Connected/Pending badges, Settings invite link
+43. View gating seeds — isOwner and workerRole props flowing to all tabs
+
+**Decisions made:**
+- DEC-070: Team roles simplified to Coach and Player only. Head Coach is display-only designation.
+- DEC-071: FSClient entity as first-class object. Clients anchor the workflow.
+- DEC-072: Client visibility controls — per-project and per-estimate toggle.
+- DEC-073: Worker/sub access model — four roles (Owner, Worker, Sub, Client). Invite code + claim flow.
+- DEC-074: Sovereign Worker Network concept — sovereignty ramp, professional partner network, cross-industry.
+- DEC-075: Music/creative branch — "The OG - A hand full of seeds" as artist name.
+- DEC-076: Business finance dashboard architecture — three levels (workspace, bridge, master).
+
+**Next up:**
+- Monday March 17: Help Dan paint 10am-3pm. EIN retry (MYCELIA LLC). Ask Dan about Stringfield pricing.
+- Monday evening: Field Service final testing. Register claimWorkspaceSpot.ts. Test worker invite/claim flow.
+- Tuesday March 18, 1:00pm: Bari Swartz meeting at Barry's Espresso. Field Service demo.
+- Share Team workspace invite link with Coach Rick and players
+- CLAUDE.md conventions update (user_id on creates, dictionary fields, formatPhone, Core.UploadFile)
+- View gating enforcement for workers (V2)
+- Wire linked_finance_workspace_id bridge (V2)
+
+---
+
 ### Session Log — 2026-03-14
 **Focus:** PM Workspace Sessions 3-5 (DEC-069 complete), Field Service fix, 1Pass vendor research, business development, strategic planning
 
