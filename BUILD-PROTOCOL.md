@@ -23,8 +23,9 @@ Before anything else — should we build this?
 1. Does this help a real person right now?
 2. Does this make the Organism more alive?
 3. Does this move money closer to flowing?
+4. Which area of the garden does this live in? (Play / Grow / Gather / Skin / Game Layer / Infrastructure)
 
-If none of the above: defer unless Doron specifically asks. If yes: proceed to Phase 1.
+If none of the first three: defer unless Doron specifically asks. If yes: proceed to Phase 1.
 
 ---
 
@@ -269,6 +270,8 @@ If yes: document what vitality signals this feature produces. Reference ORGANISM
 If no: consider whether it should. Not everything needs to feed the Organism, but if a feature generates participation data, that data should eventually flow into the creature.
 
 This phase is often "noted for future" rather than built immediately. The important thing is capturing the signal design so it's ready when the Organism visualization ships.
+
+**Garden Placement:** Document which area of the garden this feature lives in and what pulse signals it generates. Reference THE-GARDEN.md for the heartbeat model (Pulse, Door, Surface, Guide) and pulse architecture (five signals: self-trend, peer context, seasonal norm, freshness, diversity).
 
 ---
 

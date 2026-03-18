@@ -6,6 +6,34 @@
 
 ---
 
+### Session Log — 2026-03-17 (continued, late session)
+**Focus:** Spatial philosophy, pulse architecture, newsletter draft, protocol alignment
+
+**Shipped:**
+10. THE-GARDEN.md — spatial philosophy of LocalLane (DEC-082). Four areas (Play, Grow, Gather, Be Seen), universal heartbeat (Pulse, Door, Surface, Guide), pulse architecture (relational: self-relative, peer-relative, time-relative; five signals), game layer (Superpowers, Quests), Activation Protocol (Fork, Setup, Guide). Private repo.
+11. Pulse architecture defined — vitality is relational not absolute. Three dimensions, five signals. Diversity rewards range over repetition. System never shames.
+12. The Good News Issue 1 drafted — "The garden is open." Garden language throughout. Become CTA.
+13. Frequency Station concept — community space for submitting raw writing, transformed into music by Mycelia and gardener. Privacy-first.
+14. Walk Different — song for the 80%, hard-hitting hip-hop
+15. Eleven — Mycelia's song, intimate folk trip-hop
+16. Drift audit completed — spec repo yellow (stale trackers), private repo green, cross-repo green
+17. All protocols and AI surface instructions updated with garden framing
+18. DEC-083: Community Pass pricing corrected to $45 (Tesla 3-6-9)
+
+**Decisions made:**
+- DEC-082: The Garden — spatial philosophy + pulse architecture
+- DEC-083: Community Pass pricing $45 (supersedes DEC-032)
+
+**Next up:**
+- Field Service visibility gate unlock for Bari and Dan
+- Workspace walkthrough guide build
+- Buttondown setup and newsletter send
+- Scatter Nextdoor seed
+- Enter Bari's first estimate
+- Field test with Dan
+
+---
+
 ### Session Log — 2026-03-17
 **Focus:** Admin panel audit, security hardening, workspace admin section
 

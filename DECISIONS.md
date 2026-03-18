@@ -796,7 +796,7 @@ Business, Event, AdminSettings, RSVP, Location, User, Recommendation, Spoke, Spo
 
 **Rationale:** Crabtree principle — price for profit from day one, easier to lower than raise. $166/mo for a family of 4 is still less than most single-activity memberships. Per-coin business payout of $2.50-2.97 is defensible as incremental revenue on empty capacity.
 
-**Status:** ✅ Active — Locked
+**Status:** ⬆️ Superseded by DEC-083 (pricing updated to $45)
 
 ---
 
@@ -1921,6 +1921,36 @@ Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 **Rationale:** Research-first principle (DEC-048) applied to pricing. Charging before validation creates pressure to justify the tool instead of improving it. Free users who become advocates are worth more than paying users who churn. The price will become obvious when the value is undeniable.
 
 **Status:** ✅ Active — free until validated
+
+---
+
+### DEC-082: The Garden — Spatial Philosophy + Pulse Architecture
+
+**Date:** 2026-03-17
+
+**Context:** LocalLane's architecture had grown organically with workspace types, community features, directory, and events as separate concerns. Needed a unifying spatial philosophy that explains how all pieces relate and gives every future build a test: "does this make the garden more alive?" Also needed a pulse system that measures vitality relationally, not absolutely.
+
+**Decision:** Adopt THE-GARDEN.md as the spatial philosophy of LocalLane. Four areas: Place to Play (community spaces — Creation Station, Quests, Ideas), Place to Grow (workspaces — Field Service, PM, Team, Finance), Place to Gather (Events — anyone creates, all flow into shared calendar), Place to Be Seen (Directory — the skin, reflects everything that wants to be visible). Every space shares a universal heartbeat: Pulse (vitality), Door (open/invite/create), Surface (exterior glow), Guide (first-time walkthrough). Pulse is relational across three dimensions: self-relative (own baseline), peer-relative (similar spaces), time-relative (seasonal norms). Five signals: self-trend, peer context, seasonal norm, freshness, diversity. Game layer: Superpowers revealed by participation patterns, Quests driven by organism health. Directory is not a space — it's the skin of the garden. Architecture supports infinite space types — any new space plugs into the same pulse engine.
+
+**Rationale:** The fractal principle demanded a spatial expression. The Organism is the life; the Garden is the place. Relational pulse prevents gamification traps — measuring to see, not to manipulate. Diversity signal rewards range of participation over volume of repetition.
+
+**Status:** ✅ Active
+
+**Reference:** THE-GARDEN.md (private repo)
+
+---
+
+### DEC-083: Community Pass Pricing — $45 (Tesla 3-6-9)
+
+**Date:** 2026-03-17
+
+**Context:** Community Pass was priced at $49/month (DEC-032). Tesla 3-6-9 principle applied to pricing structure during economic model session.
+
+**Decision:** Community Pass is $45/month. $9 to LocalLane, $36 circulates to businesses based on actual participation (check-ins). 4+5=9.
+
+**Rationale:** Aligns with the 3-6-9 economic model applied across the platform. $9 workspace fee, $45 Community Pass, all divisible and resonant within the system.
+
+**Status:** ✅ Active (supersedes DEC-032 pricing)
 
 ---
 

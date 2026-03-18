@@ -71,7 +71,7 @@ Users subscribe to LocalLane's community access program. Also Stripe Billing —
 
 | Product | Monthly Price | Joy Coins | Notes |
 |---------|--------------|-----------|-------|
-| Community Pass Base | $49/mo | 12 | Base household membership |
+| Community Pass Base | $45/mo | 12 | Base household membership (DEC-083: $9 to LocalLane, $36 to business pool) |
 | Community Pass Additional | $39/mo | 12 | Add-on coin allocation (subscription add-on) |
 | Community Pass Explorer | TBD | TBD | Summer seasonal — design after base proves out |
 

@@ -1,7 +1,7 @@
 # LocalLane Launch Checklist
 
 > Living checklist for app readiness. Updated after each work session.
-> Last updated: 2026-02-23
+> Last updated: 2026-03-18
 
 ---
 
@@ -50,8 +50,8 @@
 - [ ] Tone: community health report, not marketing newsletter
 
 **Language Audit — Joy Coins & Community Pass (LEGAL):**
-- [ ] Full codebase search for "punch" — replace with Joy Coin / Community Pass terminology
-- [ ] UI audit: no references to legacy "punch card", "punch pass", or "stored value" (use Joy Coins / Community Pass)
+- [x] Full codebase search for "punch" — replace with Joy Coin / Community Pass terminology (completed 2026-03-17, zero references remaining)
+- [x] UI audit: no references to legacy "punch card", "punch pass", or "stored value" (use Joy Coins / Community Pass) (completed 2026-03-17)
 - [ ] Database fields: document any legacy field names (don't rename yet, just document)
 - [ ] Terms of Service: verify Community Pass + Joy Coin language (not stored value)
 - [ ] Privacy Policy: verify membership framing (not prepaid balance)
@@ -67,8 +67,8 @@
 - [ ] Oregon-specific review for revenue share pool
 - [ ] Ticket transfer language reviewed
 
-### Pricing — LOCKED (DEC-032, DEC-033, DEC-034)
-- [x] Community Pass pricing locked: $49 base / $39 per additional allocation (12 coins each)
+### Pricing — LOCKED (DEC-032 → DEC-083, DEC-033, DEC-034)
+- [x] Community Pass pricing locked: $45 base (DEC-083 supersedes DEC-032, Tesla 3-6-9 model: $9 to LocalLane, $36 circulates)
 - [x] Joy Coin pool model: coins not people, household shares pool (DEC-033)
 - [x] Business tier pricing locked: Free / $79 Standard / $149 Partner (DEC-034)
 - [x] Founding business deal: 3 months free at Standard

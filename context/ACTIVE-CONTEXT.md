@@ -8,7 +8,7 @@
 
 ## Current Focus
 
-Admin panel hardened and expanded. Field Service production-ready with two real users (Bari Swartz, Dan Sikes). Workspace admin layer shipped — platform-level defaults and inheritance architecture in place. Next: first real transactions and field testing.
+Spatial philosophy established (THE-GARDEN.md, DEC-082). Admin panel hardened and expanded. Field Service production-ready with two real users. Next: visibility gate unlock for Bari/Dan, workspace walkthrough guide, first newsletter as garden invitation, drift fixes landed.
 
 ## Active Nodes
 
@@ -49,6 +49,9 @@ Admin panel hardened and expanded. Field Service production-ready with two real 
 
 ## Seeds Planted (not building yet)
 
+- THE-GARDEN.md — spatial philosophy written and committed to private repo (DEC-082). Four areas, universal heartbeat, pulse architecture, game layer. All protocols updated.
+- Frequency Station — community space concept where people submit raw writing, Mycelia and gardener transform into music. Privacy-first. Raises community frequency.
+- Newsletter Issue 1 drafted — "The garden is open." Invitation to become.
 - Creation Station (Ideas Board rename + organism glow)
 - Superpowers game layer (users discover powers through participation patterns)
 - Quests (real-world missions on living organism game board)

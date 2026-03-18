@@ -147,6 +147,37 @@ Private repo (sensitive strategy):
 - NODE-PLAYBOOK.md — Field testing SOP
 - ORGANISM-CONCEPT.md — North star vision document
 - COMMUNITY-PASS.md — Membership model details
+- THE-GARDEN.md — Spatial philosophy and pulse architecture (DEC-082)
+
+## Spatial Philosophy — The Garden (DEC-082)
+
+LocalLane is a garden. Four areas define the space:
+
+1. **Place to Play** — community spaces (Creation Station, Quests, Ideas). Open door. Low commitment, high discovery.
+2. **Place to Grow** — workspaces (Field Service, PM, Team, Finance). Invite door. Private by default. Your roots.
+3. **Place to Gather** — events and gatherings. Anyone creates. All flow into shared calendar.
+4. **Place to Be Seen** — the Directory. Not a space. The skin of the garden. Reflects everything that wants to be visible.
+
+Every space shares a universal heartbeat:
+
+* **Pulse** — how alive (vitality signal, fractal from cell to garden)
+* **Door** — how you enter (open, invite, create)
+* **Surface** — what it looks like from outside (glow in directory/search)
+* **Guide** — first-time walkthrough (toggleable, per-space-type content)
+
+Pulse is relational, not absolute. Five signals at every scale:
+
+1. Self-trend (compared to own baseline)
+2. Peer context (compared to similar spaces)
+3. Seasonal norm (adjusted for natural rhythms)
+4. Freshness (recency of latest activity)
+5. Diversity (range of participation, not volume of repetition)
+
+The architecture supports infinite space types — any new space plugs into the same pulse engine. The garden doesn't need to know what you are. It just needs to feel whether you're alive.
+
+Game layer: Superpowers revealed by participation, Quests driven by organism health.
+
+Full philosophy: THE-GARDEN.md (private repo). Companion to ORGANISM-CONCEPT.md.
 
 ---
 

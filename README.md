@@ -125,7 +125,7 @@ See [TIER-SYSTEM.md](./TIER-SYSTEM.md) for complete documentation.
 See COMMUNITY-PASS.md (private repo) for full membership model, pricing, and Joy Coin mechanics.
 
 **Quick reference:**
-- Community Pass is a membership subscription ($49/mo base, $39/mo per additional allocation of 12 Joy Coins)
+- Community Pass is a membership subscription ($45/mo base per DEC-083, $39/mo per additional allocation of 12 Joy Coins)
 - Joy Coins are non-transferable, expire monthly, have no cash value
 - Businesses set their own coin price (1-3 coins per activity)
 - Revenue share: 75% business pool / 25% LocalLane (distributed by scan volume)
