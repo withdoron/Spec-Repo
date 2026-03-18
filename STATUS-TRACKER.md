@@ -349,21 +349,24 @@ Real money. Gated behind legal checklist.
 
 ### Field Service Workspace (DEC-068)
 - [x] DEC-068 spec complete
-- [x] 11 Base44 entities created (FSClient added DEC-071)
+- [x] 12 Base44 entities created (FSClient DEC-071, FSChangeOrder DEC-078)
 - [x] Session 1: Workspace shell + onboarding + Home + Settings
 - [x] Session 2: Projects + Daily Log + Reports + Timeline + VoiceInput
 - [x] Session 3: Estimates (builder, preview, duplicate, conversion)
 - [x] Session 4: Payments + Permits + Client Portal + Photo Gallery + Logo/Branding
 - [x] Red Umbrella mockups created and sent to Bari
-- [x] Complete overhaul for demo (DEC-071 FSClient, DEC-072 visibility, DEC-073 worker access, People tab, mobile audit, 30+ commits)
-- [x] Projects grouped by client, estimate print CSS, logo upload, amber budget bars
+- [x] Complete overhaul for demo (DEC-071 FSClient, DEC-072 visibility, DEC-073 worker access, People tab, mobile audit)
+- [x] V2: Feature toggles (DEC-080), unified estimates (DEC-077), payment terms, change orders (DEC-078), Xactimate format (DEC-079)
 - [x] Worker/sub invite code + claim flow (claimWorkspaceSpot.ts)
+- [x] Bari demo meeting — confirmed as first user (2026-03-18)
 - [ ] Register claimWorkspaceSpot.ts server function in Base44
-- [ ] Bari demo meeting (Tuesday March 18)
+- [ ] Enter Bari's Ag Building Remodel estimate ($112K)
+- [ ] Shadow Bari's workflow
+- [ ] Dan Sikes: introduce Field Service for estimates
 - [ ] First paying Field Service customer
 - **Spec:** DEC-068, FIELD-SERVICE-WORKSPACE-SPEC.md (private repo)
-- **Shipped:** 2026-03-11, overhauled 2026-03-16
-- **Decisions:** DEC-071 (FSClient), DEC-072 (visibility controls), DEC-073 (worker access)
+- **Shipped:** 2026-03-11, overhauled 2026-03-16, V2 2026-03-18
+- **Decisions:** DEC-071-073, DEC-077-081
 
 ### Property Management Workspace (DEC-069) ✅
 - [x] Research: long-term rental tools (TurboTenant, Stessa, Avail, DoorLoop, Landlord Studio)
@@ -509,6 +512,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-03-18 | Field Service V2: 5 builds (feature toggles, unified estimates, payment terms, change orders + locking, Xactimate format). Bari confirmed as first user. DEC-077-081. FSChangeOrder entity. LFS declined. EIN blocked again. |
 | 2026-03-15/16 | Team button-up (12 fixes, Head Coach, manageTeamPlay server function, DEC-070 role simplification, 12 players loaded). Field Service complete overhaul (FSClient DEC-071, visibility DEC-072, worker access DEC-073, People tab, mobile audit, 30+ commits). Music branch (20+ songs, DEC-075). Sovereign Worker Network (DEC-074). Business finance architecture (DEC-076). 7 new decisions. |
 | 2026-03-14 | PM Sessions 3-5 shipped (DEC-069 COMPLETE). FS onboarding fix. 1Pass research. Tyler contacted. Travis subdomain interest. Get Air emailed. |
 | 2026-03-06 | Homepage Redesign spec (DEC-062: "Become" concept). Onboarding Wizard Redesign spec (DEC-063). Playbook Pro fixes (standalone SVG, computeRouteViewBox, branding, home tab). Homepage Become shipped (DEC-062). Sign In removed. Auth redirect confirmed. lanecountyrecess.com domain redirect (pending SSL). Little French School outreach. DT connection. |

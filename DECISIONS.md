@@ -1852,6 +1852,78 @@ Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 
 ---
 
+---
+
+### DEC-077: Unified Estimate Line Items
+
+**Date:** 2026-03-18
+
+**Context:** Field Service estimates had separate Materials and Labor sections, but real contractor estimates mix materials, labor, subcontractor bids, and fees in a single line-item table. Bari's $112K estimate has all four interleaved. The separate-section model didn't match how contractors actually think or present bids.
+
+**Decision:** Replace separate Materials + Labor sections with one unified LINE ITEMS table. Each item has a category (materials/labor/subcontractor/fee/other) with color-coded badges. Auto-calc amount with lump-sum override. Summary: Subtotal → O&P% → Tax% → Other → Total. Old estimates auto-migrate on read by converting materials to materials category and labor to labor category.
+
+**Rationale:** Matches how contractors actually build estimates. One table is easier to reorder, total, and present to clients. Category badges preserve the ability to filter and group without forcing artificial sections. Auto-migration means no data loss for existing estimates.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-078: Estimate Locking on Acceptance + Change Orders
+
+**Date:** 2026-03-18
+
+**Context:** When a client accepts an estimate and work begins, the original estimate becomes a contract. Changes after acceptance need tracking — for disputes, insurance claims, and billing. Editing the original estimate after acceptance destroys the audit trail.
+
+**Decision:** Estimate status flow: Draft → Sent → Accepted (locked, read-only). Accept triggers confirmation modal, auto-creates project, locks estimate. Reopen option for genuine mistakes (sets status back to "sent"). Post-acceptance changes handled through FSChangeOrder entity with auto-numbering (CO-2026-001). Budget breakdown shows "Original: $X | COs: +$Y | Current: $Z."
+
+**Rationale:** Contractors need to show what was agreed and what changed. Insurance adjusters need the original scope separate from change orders. The locking + CO pattern is standard in construction and maps directly to Bari's workflow.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-079: Xactimate Insurance Estimate Format
+
+**Date:** 2026-03-18
+
+**Context:** Bari works with insurance adjusters who use Xactimate (industry-standard insurance estimating software). His estimates need to be grouped by trade category with per-category subtotals, O&P prominently displayed, and formatted in a way adjusters recognize.
+
+**Decision:** Xactimate format is a toggle on the estimate, not a separate tool. When enabled, each line item shows a Trade dropdown (18 default categories: Roofing, Electrical, Plumbing, etc.). Preview groups items by trade with section headers and per-category subtotals. Header says "INSURANCE ESTIMATE." Trade categories are dynamic and fully customizable per workspace in Settings. Gated by insurance_work_enabled feature toggle.
+
+**Rationale:** Same data, different presentation. The contractor enters line items once — the system renders them in the format the audience needs. This is the same principle as the Finance workspace reader concept: one source of truth, multiple views. Trade categories being customizable means the tool adapts to the contractor's trade mix, not the other way around.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-080: Feature Toggles for Workspace Customization
+
+**Date:** 2026-03-18
+
+**Context:** Field Service workspace was built for general contractors but needs to serve mechanics, cleaners, landscapers, and other trades. Not every trade needs permits, subcontractors, management fees, or insurance markup. Hiding irrelevant features reduces cognitive load.
+
+**Decision:** 6 workspace feature toggles in Settings: permits, subcontractors, management fees, insurance/O&P, payments, timeline. Stored as features_json on FieldServiceProfile with defaults that preserve existing behavior. Features gate visibility: Projects hides permits/payments/timeline sections when off, People hides subs section, Estimates shows mgmt fee/O&P only when toggled on. Same codebase serves all archetypes.
+
+**Rationale:** Archetype-driven at the settings level, not the code level. A plumber turns off subs and insurance. A GC turns everything on. The workspace adapts without branching the codebase. This is the same principle as Base44's workspace engine — one engine, many configurations.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-081: Field Service Pricing — Free During Partnership Phase
+
+**Date:** 2026-03-18
+
+**Context:** Bari is the first real Field Service user. He's 78, humble, and trusting enough to hand over a real estimate and let Doron enter his data. Charging him before the tool is validated with his real workflow would be premature and would change the dynamic from partnership to transaction.
+
+**Decision:** Free during partnership phase. "The value comes from the relationship, not the price." Doron shadows Bari's workflow, learns what works, iterates the tool, and proves value before any pricing conversation. Dan Sikes gets the same treatment as second user. Pricing discussions happen after the tool is validated and both users have experienced real value.
+
+**Rationale:** Research-first principle (DEC-048) applied to pricing. Charging before validation creates pressure to justify the tool instead of improving it. Free users who become advocates are worth more than paying users who churn. The price will become obvious when the value is undeniable.
+
+**Status:** ✅ Active — free until validated
+
+---
+
 ## Decision Template
 
 ```markdown

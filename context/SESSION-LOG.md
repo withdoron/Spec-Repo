@@ -6,6 +6,40 @@
 
 ---
 
+### Session Log — 2026-03-18
+**Focus:** Field Service V2 — five builds for Bari, estimate overhaul, change orders, Xactimate format
+
+**Shipped:**
+1. Bari Swartz meeting at Barry's Espresso — POSITIVE. 78 years old, humble, same church. Confirmed as first Field Service user. Works with insurance adjusters, needs Xactimate-friendly formatting. Gave Doron full estimate report ($112K Ag Building Remodel). Free during partnership phase.
+2. Feature Toggles + Client Visibility UX (d8c6ef2) — 6 workspace toggles in Settings (permits, subs, mgmt fees, insurance/O&P, payments, timeline). features_json on FieldServiceProfile. Eye icon UX. "Preview as Client" button.
+3. Unified Estimate Line Items + Professional Preview (6aa9a37) — replaced separate Materials + Labor with one table: category (materials/labor/subcontractor/fee/other), auto-calc, lump-sum override, reorder. Summary: Subtotal→O&P%→Tax%→Other→Total. Professional preview with signature block. Old estimates auto-migrate.
+4. Polish — Payment Terms, Prepared By, Permit Delete (325ba1e) — terms dropdown (Due on Receipt, Net 10/15/30/45/60, Custom with auto-calculated due date), prepared_by field, permit delete with inline confirmation.
+5. Change Orders + Estimate Locking + Status Flow (68e8d32) — Draft→Sent→Accepted (locked). Accept creates project + locks estimate. Reopen option. FSChangeOrder entity with auto-numbering CO-2026-001. Budget breakdown: "Original: $X | COs: +$Y | Current: $Z". People tab sections collapsed by default.
+6. Xactimate Insurance Estimate Format + Trade Categories (98a1909) — toggle for insurance estimates. Line items get Trade dropdown. Preview groups by trade with section headers and per-category subtotals. 18 default trade categories, fully customizable per workspace. Gated by insurance_work_enabled feature toggle.
+7. LFS declined fractional leadership candidacy — Tory emailed, board not interested. Seed fell on sand.
+8. EIN blocked again (IRS system). SS-4 form filled and ready to fax.
+9. All Base44 entity fields confirmed complete (features_json, trade_categories_json, management_fee_pct, overhead_profit_pct, other_amount, payment_terms, prepared_by, is_insurance_estimate, original_budget on FSProject, FSChangeOrder entity created).
+
+**Decisions made:**
+- DEC-077: Unified estimate line items — single table with category tags, old estimates auto-migrate
+- DEC-078: Estimate locking on acceptance — changes via Change Orders (FSChangeOrder entity)
+- DEC-079: Xactimate insurance format as toggle — same data, different rendering, trade categories customizable
+- DEC-080: Feature toggles — 6 settings controlling workspace presentation by archetype
+- DEC-081: Field Service pricing — free during partnership phase, value from relationship
+
+**Next up:**
+- Wednesday: Fresh conversation, admin panel audit, Claude Code orientation
+- EIN: try online again, fax SS-4 if needed
+- Get Bari's logo and enter his Ag Building Remodel estimate
+- Shadow Bari's workflow
+- Dan Sikes: introduce Field Service for estimates
+- YouTube first video, LinkedIn post, Newsletter Issue 1
+- 3-6-9 spec document
+- Register claimWorkspaceSpot.ts in Base44
+- Music: hard rap versions for Suno
+
+---
+
 ### Session Log — 2026-03-15 / 2026-03-16 (Weekend Marathon)
 **Focus:** Team workspace button-up, Field Service workspace complete overhaul, music/creative branch, sovereign worker concept, Bari demo prep
 
