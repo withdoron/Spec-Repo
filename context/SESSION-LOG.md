@@ -6,6 +6,40 @@
 
 ---
 
+### Session Log — 2026-03-18 (morning)
+**Focus:** Garden protocol deployment, Field Service unlock, Frequency Station spec, workspace guide, garden audit
+
+**Shipped:**
+1. Garden protocol updates landed across all three repos — DEC-082 (The Garden) + DEC-083 (Community Pass $45) + drift fixes (pricing, terminology, dead tier, SEEDLING-TRACKER, LAUNCH-CHECKLIST) [spec-repo b8ac561, private 7563023, community-node 7463242]
+2. Field Service visibility unlock — testingMode flipped to false in workspaceTypes.js. Any user can create FS workspace. Bari and Dan unblocked. PM stays gated. [295d137]
+3. FREQUENCY-STATION-SPEC.md filed in private repo (DEC-084) — community space for raw writing → transformed music. Five build phases. Privacy-first. [private 2cbdedf, spec 0235766]
+4. Garden Protocol Audit completed — full codebase mapped to THE-GARDEN.md. Key findings: pulse CSS planted but hardcoded neutral, no post-creation guide, events locked to business owners, no workspace-to-directory projection, Ideas Board not renamed to Creation Station.
+5. Workspace walkthrough guide shipped — reusable WorkspaceGuide.jsx + workspaceGuides.js config. Field Service has 4 steps (Settings → Client → Estimate → Log) with smart completion detection. Inline on Home tab, dismissible, restorable from Settings. Stubs for Team/Finance/PM. [bd7e1df]
+6. Base44: guide_dismissed boolean added to FieldServiceProfile entity
+7. Base44: Three server functions confirmed (adminUpdateConcern, adminDeleteFeedback, adminUpdateUser) from last night
+8. Five-phase garden migration plan defined: Phase 1 Guide (shipped), Phase 2 Door (event creation + directory visibility), Phase 3 Pulse (freshness → self-trend → diversity), Phase 4 Play (Creation Station + Frequency Station), Phase 5 Game (superpowers + quests)
+9. Nextdoor seed posted: "Something new is growing in Eugene. locallane.app"
+10. LinkedIn post: "Who are you when you use AI?" — Fortnite/AI reflection framing
+11. Buttondown confirmed live — ready to send Issue 1
+12. Newsletter Issue 1 drafted with Frequency Station tease
+13. Welcome email concept defined (Layer 3 of four-layer growth funnel: Seed → Door → Welcome → Newsletter)
+
+**Decisions made:**
+- DEC-082: The Garden — spatial philosophy + pulse architecture (committed)
+- DEC-083: Community Pass pricing $45 (committed, supersedes DEC-032)
+- DEC-084: Frequency Station specced (committed)
+
+**Next up:**
+- Enter Bari's first estimate (in progress)
+- Dan field test today
+- Recess today (shoot video)
+- Boys tonight (organic Mycelia introduction)
+- Phase 2 build: open event creation to all users + directory visibility consent
+- Finalize and send Newsletter Issue 1
+- Welcome email template for new signups
+
+---
+
 ### Session Log — 2026-03-17 (continued, late session)
 **Focus:** Spatial philosophy, pulse architecture, newsletter draft, protocol alignment
 

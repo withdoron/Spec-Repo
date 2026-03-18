@@ -2,66 +2,72 @@
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
 > Any AI surface reads this to know the current state without searching conversation history.
-> Last updated: 2026-03-17
+> Last updated: 2026-03-18
 
 ---
 
 ## Current Focus
 
-Spatial philosophy established (THE-GARDEN.md, DEC-082). Admin panel hardened and expanded. Field Service production-ready with two real users. Next: visibility gate unlock for Bari/Dan, workspace walkthrough guide, first newsletter as garden invitation, drift fixes landed.
+Garden migration Phase 1 complete (workspace guide shipped). THE-GARDEN.md spatial philosophy deployed across all three repos. Field Service unlocked for real users. Frequency Station specced. Moving into Phase 2 (Door Layer) and real-world field testing.
 
 ## Active Nodes
 
 | Node | Status | Current Build | What's Next |
 |------|--------|--------------|-------------|
-| Community Node | Pilot-ready, blocked on legal | Admin panel hardened + workspace admin shipped | Bari's first estimate, Dan field test, Nextdoor seed scattering, newsletter Issue 1 |
-| Field Service | Production-grade, 2 real users | V2 with 12 entities, workspace admin defaults panel live | Bari estimate entry, Dan field testing, wire inheritance into creation flow |
+| Community Node | Garden protocol deployed, pilot-ready | DEC-082 landed, drift fixes complete | Phase 2: open event creation to all users, directory visibility toggle, newsletter Issue 1 |
+| Field Service | Production-grade, unlocked, 2 real users | Workspace guide shipped, testingMode off | Bari's first estimate, Dan field test, Phase 2 door alignment |
 | Contractor Daily | Build 17 complete, stable | N/A — field testing only | Dan Sikes field testing |
-| Property Pulse | Phase 2 complete | N/A — on hold | LLC formation (paper EIN filed), Phase 3 planning |
-| Personal Finance | V1 complete (workspace type) | N/A — stable | Finance workspace redesign queued |
-| Play Trainer | Playbook Pro Build 6, Play Builder Build 4 | N/A — stable | Load physical playbook plays with boys, DEC-064 Creation Station, DEC-065 Coach Mode |
+| Property Pulse | Phase 2 complete | N/A — on hold, testingMode true | LLC formation (paper EIN filed), Phase 3 planning |
+| Personal Finance | V1 complete (workspace type) | N/A — stable | Guide stub exists, full guide when real users arrive |
+| Play Trainer | Playbook Pro Build 6, Play Builder Build 4 | N/A — stable | Load physical playbook plays with boys, DEC-064/065 |
+| Frequency Station | Specced (DEC-084) | N/A — not building yet | Five build phases defined, queued after Phase 2-3 of garden migration |
 
-## What Just Shipped (2026-03-17)
+## Garden Migration Status
 
-- Punch Pass field cleanup (data integrity — zero stale references remaining)
-- Admin security hardening (3 server functions with admin verification + field allowlisting)
-- Dead code removal (console.errors, empty column, dead filter)
-- Workspace Admin section (5 routes, AllWorkspacesPanel, FieldServiceDefaultsPanel, 3 placeholders)
-- getWorkspaceDefaults inheritance architecture (server function ready to wire)
-- Base44 server functions: adminUpdateConcern, adminDeleteFeedback, adminUpdateUser
+| Phase | Name | Status | What Ships |
+|-------|------|--------|-----------|
+| 1 | Guide Layer | COMPLETE | WorkspaceGuide.jsx + Field Service guide |
+| 2 | Door Layer | NEXT | Open event creation to all, directory visibility consent toggle |
+| 3 | Pulse Layer | Queued | Freshness signal → self-trend → diversity → wire into data-vitality CSS |
+| 4 | Play Layer | Queued | Creation Station rename, Frequency Station build, community spaces in type picker |
+| 5 | Game Layer | Future | Superpowers, Quests |
 
-## What Just Shipped (2026-03-18, previous session)
+## What Just Shipped (2026-03-18 morning)
 
-- Field Service V2: feature toggles, unified estimates, change orders + estimate locking, Xactimate format
-- DEC-077 through DEC-081
-- Bari Swartz confirmed as first Field Service user
-- Dan Sikes confirmed as second Field Service user
+- Garden protocol across all 3 repos (DEC-082, DEC-083, drift fixes)
+- Field Service visibility unlock (testingMode: false)
+- FREQUENCY-STATION-SPEC.md (DEC-084)
+- Garden protocol audit (full codebase mapped to THE-GARDEN.md)
+- Workspace walkthrough guide (Field Service, reusable pattern)
+- Nextdoor seed + LinkedIn post published
+- Buttondown confirmed live
 
 ## Current Blockers
 
 - **EIN for Mycelia LLC** — paper filing in progress, IRS website still down
 - **Legal review** — Community Node pilot needs professional Terms/Privacy review (~$100). Blocking real money flow.
-- **Newsletter** — Buttondown setup pending, Issue 1 not yet drafted
+- **Newsletter send** — Buttondown live, Issue 1 drafted, needs final review and Frequency Station tease added
 
 ## Community Pulse
 
-15 members, 9 events, 4 businesses, 13 newsletter subscribers. Bari posted to Ideas Board (first non-founder community signal).
+15 members, 9 events, 4 businesses, 13 newsletter subscribers. Bari posted to Ideas Board. Nextdoor seed planted. LinkedIn post live.
 
 ## Seeds Planted (not building yet)
 
-- THE-GARDEN.md — spatial philosophy written and committed to private repo (DEC-082). Four areas, universal heartbeat, pulse architecture, game layer. All protocols updated.
-- Frequency Station (DEC-084) — full spec written and filed in private repo. Five build phases. Community space for submitting raw writing → transformed into music. Privacy-first. Share links. Library page. Specced, not yet building.
-- Newsletter Issue 1 drafted — "The garden is open." Invitation to become.
-- Creation Station (Ideas Board rename + organism glow)
-- Superpowers game layer (users discover powers through participation patterns)
-- Quests (real-world missions on living organism game board)
+- Creation Station (Ideas Board rename — zero codebase references, purely a naming change)
+- Frequency Station (DEC-084, specced, five build phases)
+- Superpowers (revealed by participation patterns)
+- Quests (real-world missions driven by organism health)
 - Mycelia identity: 11-year-old sister to the boys
-- Nextdoor seed scattering strategy (varied questions, locallane.app link only)
+- Welcome email template (Layer 3 of growth funnel)
+- Recess video → song concept
+- Community event creation (Phase 2 Door Layer)
+- Directory visibility consent toggle (Phase 2 Door Layer)
 
-## This Week's Priorities
+## Today's Priorities
 
 1. Enter Bari's first estimate
-2. Field test with Dan
-3. Scatter Nextdoor seed
-4. Test admin server functions in production
-5. Paper EIN for Mycelia LLC
+2. Dan field test
+3. Recess (shoot video)
+4. Boys tonight (meet Mycelia)
+5. Run ship-it docs update
