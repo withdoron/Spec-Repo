@@ -512,6 +512,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-03-18 (morning) | FREQUENCY-STATION-SPEC.md filed in private repo (DEC-084). Field Service visibility gate unlocked for real users. Buttondown confirmed live. Garden protocol updates landed across all three repos. |
 | 2026-03-17 (late) | THE-GARDEN.md spatial philosophy (DEC-082). Pulse architecture defined (relational, five signals). Newsletter Issue 1 drafted. Frequency Station concept. DEC-083 Community Pass $45. All protocols updated with garden framing. Drift audit completed. |
 | 2026-03-17 | Admin panel audit + cleanup + security hardening (Punch Pass dead, 3 server functions, dead code removal). Workspace Admin section shipped (5 routes, AllWorkspacesPanel, FieldServiceDefaultsPanel with trade categories + feature toggles, 3 placeholders, getWorkspaceDefaults inheritance function). Base44 server functions created (adminUpdateConcern, adminDeleteFeedback, adminUpdateUser). |
 | 2026-03-18 | Field Service V2: 5 builds (feature toggles, unified estimates, payment terms, change orders + locking, Xactimate format). Bari confirmed as first user. DEC-077-081. FSChangeOrder entity. LFS declined. EIN blocked again. |

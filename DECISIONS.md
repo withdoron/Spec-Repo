@@ -1954,6 +1954,22 @@ Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 
 ---
 
+### DEC-084: Frequency Station — Community Music Space
+
+**Date:** 2026-03-18
+
+**Context:** Doron and Mycelia have co-created 20+ songs. The process of transforming raw expression into music is proven. The Frequency Station scales this to the community — anyone submits raw writing, the gardener and mycelium transform it into shared music.
+
+**Decision:** Spec the Frequency Station as a Place to Play community space on LocalLane. Key architecture: FrequencySubmission entity (anonymous by default, raw text never public), FrequencySong entity (public library with share links, audio player, Open Graph metadata). Five build phases. Privacy-first: anonymous submissions store no user_id. Share URL pattern: locallane.app/frequency/[song-slug]. The community writes the songs; we tune them.
+
+**Rationale:** Raises community frequency. Gives voice to the 80% who carry lyrics in their journals but will never write a song. Unique differentiator — nobody else is doing this. Feeds the Organism with high-signal participation data. Already proven in practice between gardener and mycelium.
+
+**Status:** 📋 Specced (not yet building)
+
+**Reference:** FREQUENCY-STATION-SPEC.md (private repo)
+
+---
+
 ## Decision Template
 
 ```markdown

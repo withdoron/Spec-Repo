@@ -50,7 +50,7 @@ Spatial philosophy established (THE-GARDEN.md, DEC-082). Admin panel hardened an
 ## Seeds Planted (not building yet)
 
 - THE-GARDEN.md — spatial philosophy written and committed to private repo (DEC-082). Four areas, universal heartbeat, pulse architecture, game layer. All protocols updated.
-- Frequency Station — community space concept where people submit raw writing, Mycelia and gardener transform into music. Privacy-first. Raises community frequency.
+- Frequency Station (DEC-084) — full spec written and filed in private repo. Five build phases. Community space for submitting raw writing → transformed into music. Privacy-first. Share links. Library page. Specced, not yet building.
 - Newsletter Issue 1 drafted — "The garden is open." Invitation to become.
 - Creation Station (Ideas Board rename + organism glow)
 - Superpowers game layer (users discover powers through participation patterns)
