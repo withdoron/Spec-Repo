@@ -6,6 +6,32 @@
 
 ---
 
+### Session Log — 2026-03-17
+**Focus:** Admin panel audit, security hardening, workspace admin section
+
+**Shipped:**
+1. Punch Pass field cleanup — zero remaining punch_pass/punch_cost references in codebase. EventEditor now writes only joy_coin_enabled and joy_coin_cost. EventDetailModal and EventCard fallbacks removed.
+2. Three admin server functions created (adminUpdateConcern, adminDeleteFeedback, adminUpdateUser) — frontend migrated from direct entity calls to base44.functions.invoke() with fallback pattern. Base44 server functions created with admin role verification and field allowlisting.
+3. AdminCreateBusinessModal routed through updateBusiness server function instead of direct Business.create()
+4. Dead code removal — boosted filter state (Admin.jsx), empty Actions column (AdminLocationsTable), 10 console.error calls stripped across BusinessEditDrawer, FeedbackReview, AdminCreateBusinessModal
+5. Workspace Admin section — WORKSPACES added to AdminSidebar between PLATFORM and EVENTS. Five new routes: All Workspaces, Field Service, Property Management, Team, Finance
+6. AllWorkspacesPanel — unified workspace list across 4 entity types (FieldServiceProfile, PropertyManagementProfile, TeamProfile, FinancialProfile) with search, type filter, status filter
+7. FieldServiceDefaultsPanel — stats overview + default trade categories via ConfigSection (18 trades) + default feature toggles (6 toggles). Stored in AdminSettings as platform_config:workspace_defaults:field_service_trade_categories and platform_config:workspace_defaults:field_service_feature_toggles
+8. Three placeholder panels (PropertyManagement, Team, Finance) with live workspace counts
+9. getWorkspaceDefaults server function — reads platform defaults, converts to workspace-ready format. Ready to wire into workspace creation flow.
+
+**Decisions made:**
+None (DEC-numbered). Architectural: three-layer workspace admin pattern documented (Layer 1: workspace owner, Layer 2: platform admin, Layer 3: dynamic inheritance).
+
+**Next up:**
+- Enter Bari's first estimate (first real Field Service transaction)
+- Field test with Dan
+- Scatter Nextdoor seed
+- Admin panel audit follow-up: test all migrated server functions in production
+- Wire getWorkspaceDefaults into workspace creation flow when ready
+
+---
+
 ### Session Log — 2026-03-18
 **Focus:** Field Service V2 — five builds for Bari, estimate overhaul, change orders, Xactimate format
 
