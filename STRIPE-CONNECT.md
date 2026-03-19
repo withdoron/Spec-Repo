@@ -1,7 +1,7 @@
 # STRIPE-CONNECT.md — Stripe Connect Integration Spec
 
 > Defines the Stripe infrastructure for LocalLane payments.
-> Revised: 2026-02-02 — Aligned with Community Pass membership model (DEC-028)
+> Revised: 2026-03-19 — Added Connect model specifics, fee payer details, payout schedule
 > Status: Spec — Not yet implemented
 
 ---
@@ -239,6 +239,58 @@ Businesses do NOT see:
 - Per-coin pool value (creates anxiety if it fluctuates)
 - Other businesses' check-in counts or shares
 - Total pool size
+
+---
+
+## Stripe Connect Model Specifics (Updated 2026-03-19)
+
+### Charge Type: Separate Charges and Transfers (Revenue Share) + on_behalf_of (Direct)
+
+LocalLane uses **two** Stripe Connect charge patterns depending on the payment flow:
+
+| Flow | Charge Pattern | Why |
+|------|---------------|-----|
+| Revenue share payouts | **Transfers** (from platform to connected accounts) | LocalLane pays businesses from its own operating revenue — no customer charge involved |
+| Direct purchases | **on_behalf_of** | Customer pays business directly; business is merchant of record |
+
+**Important:** Revenue share is NOT "Separate Charges and Transfers" in the Stripe sense — there is no customer charge being split. LocalLane collects subscription revenue (Stripe Billing), then separately transfers revenue share to businesses via the Transfers API. These are two independent flows.
+
+### Platform Identity
+
+| Setting | Value |
+|---------|-------|
+| Platform name | LocalLane |
+| Platform account type | Standard Stripe account (LocalLane's own) |
+| Connected account type | Standard (businesses manage their own Stripe dashboard) |
+| Branding on receipts | Business name for direct purchases; LocalLane for subscriptions |
+
+### Connected Accounts
+
+- **Type:** Standard connected accounts
+- **Onboarding:** Stripe-hosted (Account Links) — LocalLane never handles bank details
+- **Dashboard access:** Businesses can log into their own Stripe dashboard to see payouts, transfers, and direct purchase history
+- **Identity verification:** Handled by Stripe during onboarding (KYC/KYB)
+- **TIN collection:** Stripe collects during onboarding — needed for 1099-NEC at $600+ annual revenue share
+
+### Fee Payer
+
+| Fee Type | Who Pays | Amount |
+|----------|----------|--------|
+| Subscription processing (card) | Deducted from charge (member bears implicitly) | ~2.9% + $0.30 |
+| Direct purchase processing | Deducted from charge (business bears) | ~2.9% + $0.30 |
+| Connect monthly fee | LocalLane | $2/mo per active connected account |
+| Transfer fee (revenue share) | LocalLane | $0.25 per transfer |
+| Refund processing | Charged to whoever initiated the original charge | Stripe retains processing fee on refunds |
+
+### Payout Schedule
+
+| Recipient | Schedule | Notes |
+|-----------|----------|-------|
+| LocalLane (subscriptions) | Standard Stripe schedule (2 business days) | Subscription revenue flows to LocalLane's bank account automatically |
+| Businesses (revenue share) | Monthly transfer, then Standard Stripe payout schedule | Transfer initiated by LocalLane at month-end; Stripe pays out to business bank per their connected account settings |
+| Businesses (direct purchases) | Standard Stripe schedule (2 business days) | Funds go directly to connected account via on_behalf_of |
+
+**Future Partner perk:** Weekly revenue share transfers instead of monthly.
 
 ---
 
