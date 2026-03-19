@@ -1,7 +1,7 @@
 # LocalLane Launch Checklist
 
 > Living checklist for app readiness. Updated after each work session.
-> Last updated: 2026-03-18
+> Last updated: 2026-03-19
 
 ---
 
@@ -357,6 +357,7 @@
 
 | Date | Summary |
 |------|---------|
+| 2026-03-19 | Field Service Phases 4-6 shipped: Documents tab (DEC-085, Oregon lien templates), Client Portal expansion (document sharing, estimate portal, open books), E-Signature system (DEC-086, ESIGN Act + Oregon UETA compliant). Legal docs updated (LEGAL-RESEARCH.md, COMMUNITY-PASS.md, STRIPE-CONNECT.md). CommunityPulse headcount fix. Charlie (Get Air) email sent. DEC-085/086/087. |
 | 2026-02-23 | Category architecture consolidated (DEC-055 Phases 1-2). Pilot role testing: Tests 1-5 pass, co-owner blocked (Base44 User lookup), Team Management feature-guarded. Event type optional. RSVP auto-close. Dashboard RSVP counts. Admin save persistence fixed. |
 | 2026-02-22 | Walkthrough session: Homepage copy refresh, routing fixes (unauth → homepage, post-login → MyLane), onboarding wizard fixes (crash, scroll, newsletter capture), network taglines, Communities → Networks rename, global scroll-to-top, back navigation audit, business CTA moved to bottom of MyLane, Business entity permissions opened for admin (security hardening tracked). |
 | 2026-02-21 | Business Dashboard cleanup: pricing stripped, Coming Soon states, Founding Member messaging, Community Pass interest capture. Network Posts spec (DEC-051) and MyLane Dynamic Layout spec written. Business greeting fixed. Dashboard Workspaces spec (DEC-053) added. |

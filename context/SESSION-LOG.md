@@ -569,6 +569,16 @@ None — operational fixes and polish only.
 - Test shareable links end-to-end (text to a friend, open on phone)
 - Continue pilot prep
 
+### 2026-03-19
+- **Bari field testing + Field Service Phases 4-6 + legal docs.** Admin vs user parity audit — confirmed NO dual components across all FS tabs (deployment gap only). Base44 published all prior fixes live. Formatting fixes: currency fmt() on People hourly rate, Projects change order total, Estimates preview phone. formatPhone() applied to People and Estimates. Finance "Enough Number" renamed to "Monthly Target." Insert line item at any position in FS estimates.
+- **Phase 4: Documents tab (DEC-085).** FieldServiceDocuments.jsx (1,066 lines). 4 Oregon system templates auto-seed (INO ORS 87.093, Notice of Right to Lien ORS 87.021, Pre-Claim Notice ORS 87.057, Subcontractor Agreement). Merge field engine, create document flow, status management, print-ready detail view. FSDocumentTemplate + FSDocument entities.
+- **Phase 5: Client Portal expansion.** ClientPortal.jsx refactored to multi-mode (+457 lines). Document sharing with Copy Link. Estimate portal view. Open books mode. Query param routing. Bug fix: added /client-portal route to App.jsx.
+- **Phase 6: E-Signature.** SignatureCanvas.jsx (draw + type), SigningFlow.jsx (consent checkbox, SHA-256 document hash, audit trail JSON). Wired into FieldServiceDocuments, FieldServiceEstimates, ClientPortal. Custom built, ESIGN Act + Oregon UETA compliant (DEC-086).
+- **Legal docs updated (private repo).** LEGAL-RESEARCH.md (Part 11: e-sign legality, four requirements, Fabian v. Renovate America). COMMUNITY-PASS.md (Payment Flow: ACH vs card, revenue split, Joy Coin zero-fee transactions, Stripe Connect payout model, annual comparison at 1,000 members). STRIPE-CONNECT.md (separate charges and transfers, connected accounts, fee payer, payout schedule).
+- **CommunityPulse headcount fix.** Falls back to AdminSettings platform_stats:member_count for non-admin users who get 403 on User.filter({}).
+- **Charlie (Get Air) email sent.** Updated $45 pricing, growth framing (not pilot), community support team angle.
+- **Decisions:** DEC-085 (Documents System), DEC-086 (Custom E-Signature), DEC-087 (Community Pass Payment Flow).
+
 ### 2026-03-03
 - **Resilience planning:** Researched OpenCode, confirmed as backup coding agent (Gemini/GPT — Claude blocked by Anthropic legal). SuperMemory plugin confirmed for OpenCode. Drafted RESILIENCE-PLAN.md with 6-phase, 21-step implementation. Created context/ files: PROJECT-BRAIN.md, ACTIVE-CONTEXT.md, SESSION-LOG.md. Next: commit context/ to spec-repo, update WORKFLOW.md and claude.md, install OpenCode, downgrade Cursor to $20.
 

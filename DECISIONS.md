@@ -1970,6 +1970,48 @@ Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 
 ---
 
+### DEC-085: Field Service Documents System
+
+**Date:** 2026-03-19
+
+**Context:** Bari needs Oregon construction lien law documents for his contracting work — Information Notice to Owner (INO), Notice of Right to Lien, Pre-Claim Notice. These are required by Oregon ORS 87 for construction projects. The Field Service workspace needed a documents tab with template management and document generation.
+
+**Decision:** Build FieldServiceDocuments.jsx (1,066 lines) with: 4 Oregon system templates auto-seeded (INO ORS 87.093, Notice of Right to Lien ORS 87.021, Pre-Claim Notice ORS 87.057, Subcontractor Agreement). Merge field engine for dynamic document generation from project/client/estimate data. FSDocumentTemplate and FSDocument entities in Base44. Three-phase build: Phase 1 templates + generation (COMPLETE), Phase 2 client portal sharing (COMPLETE), Phase 3 e-signature (COMPLETE via DEC-086). Status management: draft → sent → signed → archived. Print-ready detail view.
+
+**Rationale:** Oregon law requires specific notices on construction projects. Having templates built into the platform reduces compliance friction for contractors like Bari. The merge field engine means documents auto-populate from existing project data — no re-typing client info.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-086: Custom E-Signature System
+
+**Date:** 2026-03-19
+
+**Context:** Field service documents and estimates need client signatures. Third-party services (DocuSign, HelloSign) add cost and complexity. ESIGN Act (2000) and Oregon UETA (ORS 84.001–84.061) establish that electronic signatures are legally binding when four requirements are met.
+
+**Decision:** Build custom e-signature system with no third-party dependency. Components: SignatureCanvas.jsx (draw via HTML5 Canvas + type via cursive font), SigningFlow.jsx (consent checkbox with legal disclosure, SHA-256 document hashing via Web Crypto API, audit trail JSON). Wired into FieldServiceDocuments (Request Signature button), FieldServiceEstimates (Request Signature on sent estimates), ClientPortal (signing mode via sign=true query param). Four legal requirements met: (1) intent to sign — explicit Sign Document button after consent checkbox, (2) consent to electronic business — checkbox with full ESIGN Act disclosure text, (3) association with record — SHA-256 hash of document content stored with signature, (4) record retention — signature_data JSON on entity with signer name, email, timestamp, signature image, document hash. Key precedent: Fabian v. Renovate America (2019).
+
+**Rationale:** Custom build is legally equivalent to DocuSign under ESIGN Act. Zero marginal cost per signature. Full control over UX. Client portal signing works without authentication. The audit trail (consent text + document hash + timestamp + signature image) exceeds minimum legal requirements.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-087: Community Pass Payment Flow
+
+**Date:** 2026-03-19
+
+**Context:** Needed to document the specific money flow for Community Pass memberships — how subscription revenue flows from members through LocalLane to businesses via Stripe Connect.
+
+**Decision:** ACH preferred over card for Community Pass subscriptions (0.8% vs 2.9%+$0.30 — saves $15K/year at 1,000 members). Launch with card-only, add ACH later. Stripe Connect model: separate charges and transfers. Standard connected accounts for businesses (they manage their own Stripe dashboard). Joy Coin check-ins are database entries with zero processing fees — no money moves at scan time. Revenue share calculated month-end from aggregate check-in data. Monthly payout by 10th of following month via Stripe Transfers. $10 minimum payout threshold. LocalLane absorbs Connect fees ($2/mo per connected account) and transfer fees ($0.25 per transfer). At 1,000 members: $108K to LocalLane, $412K to businesses annually (card processing).
+
+**Rationale:** Documents the actual money mechanics so legal review has concrete numbers. ACH savings are material at scale but not a launch blocker. The zero-cost Joy Coin transaction model is a key advantage over payment-per-transaction platforms.
+
+**Status:** ✅ Active
+
+---
+
 ## Decision Template
 
 ```markdown

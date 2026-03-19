@@ -587,6 +587,30 @@ Strategy and concept docs maintained in private repository.
 
 ---
 
+### Session Log — 2026-03-19
+
+**Focus:** Bari field testing, Field Service Phases 4-6, e-signature, legal doc updates
+
+**Shipped:**
+1. Admin vs user parity audit — confirmed clean (deployment gap, not code divergence)
+2. Base44 published — all prior fixes live for Bari and all users
+3. Formatting fixes — currency fmt() on People hourly rate, Projects change order total, Estimates phone. formatPhone() on People + Estimates.
+4. Finance "Enough Number" renamed to "Monthly Target" in workspaceTypes.js
+5. Insert line item at any position in FS estimates (+ divider, amber hover, auto-focus)
+6. Phase 4: Documents tab (DEC-085) — FieldServiceDocuments.jsx (1,066 lines). 4 Oregon templates, merge field engine, status management, print-ready view.
+7. Phase 5: Client Portal expansion — multi-mode refactor (+457 lines). Document sharing, estimate portal, open books, query param routing. Bug fix: /client-portal route added to App.jsx.
+8. CommunityPulse headcount fix — AdminSettings fallback for non-admin 403s
+9. Phase 6: E-Signature (DEC-086) — SignatureCanvas.jsx, SigningFlow.jsx. SHA-256 document hash, consent, audit trail. Wired into documents, estimates, client portal.
+10. Legal docs updated — LEGAL-RESEARCH.md (e-sign, ESIGN Act, Oregon UETA), COMMUNITY-PASS.md (payment flow, ACH vs card, Stripe Connect), STRIPE-CONNECT.md (Connect model specifics)
+11. Charlie (Get Air) email sent — $45 pricing, growth framing
+12. Decisions: DEC-085 (Documents), DEC-086 (E-Signature), DEC-087 (Payment Flow)
+
+**Blockers:**
+- Phase 7 blocked on LLC/EIN (paper filing pending)
+- AdminSettings platform_stats:member_count needs manual Base44 creation
+
+---
+
 ### Session Log — 2026-02-23
 
 **Focus:** Category architecture consolidation, pilot role testing, bug fixes
