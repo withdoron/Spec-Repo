@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-03-09
+> Last Updated: 2026-03-19
 
 ---
 
@@ -2007,6 +2007,34 @@ Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 **Decision:** ACH preferred over card for Community Pass subscriptions (0.8% vs 2.9%+$0.30 — saves $15K/year at 1,000 members). Launch with card-only, add ACH later. Stripe Connect model: separate charges and transfers. Standard connected accounts for businesses (they manage their own Stripe dashboard). Joy Coin check-ins are database entries with zero processing fees — no money moves at scan time. Revenue share calculated month-end from aggregate check-in data. Monthly payout by 10th of following month via Stripe Transfers. $10 minimum payout threshold. LocalLane absorbs Connect fees ($2/mo per connected account) and transfer fees ($0.25 per transfer). At 1,000 members: $108K to LocalLane, $412K to businesses annually (card processing).
 
 **Rationale:** Documents the actual money mechanics so legal review has concrete numbers. ACH savings are material at scale but not a launch blocker. The zero-cost Joy Coin transaction model is a key advantage over payment-per-transaction platforms.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-088: Universal Workspace Initialization
+
+**Date:** 2026-03-19
+
+**Context:** Each workspace type had its own seed data logic scattered across components and server functions (e.g., seedDocumentTemplates.ts for Field Service). This violated the fractal principle — initialization should work the same way at every scale.
+
+**Decision:** All workspace seeding goes through a single `initializeWorkspace.ts` server function using `base44.asServiceRole`. Client never creates seed data directly. The function accepts a workspace type and ID, then seeds appropriate default data (templates, settings, etc.) for that type. `useWorkspaceInit.js` hook wraps the call for any workspace component. `seedDocumentTemplates.ts` removed — its logic absorbed into initializeWorkspace.
+
+**Rationale:** One function, every workspace type. What is true of the part is true of the whole. Adding a new workspace type means adding one case to one function, not creating a new seeding pipeline.
+
+**Status:** ✅ Active
+
+---
+
+### DEC-089: Fractal Error Principle
+
+**Date:** 2026-03-19
+
+**Context:** During the .filter().list() fix, we found the same bug in 6 instances across 4 server functions. The bug existed because the pattern was copied between functions without understanding the server SDK difference. This is a fractal error — if a pattern is wrong in one place, it's wrong everywhere that pattern was copied.
+
+**Decision:** When a bug is found in one component following a common pattern, audit ALL instances of that pattern across the entire codebase before considering the fix complete. Fix the part, fix the whole. Added as Phase 10b in BUILD-PROTOCOL: "Fractal Error Audit — search for all instances of the broken pattern."
+
+**Rationale:** Fixing one instance while leaving identical bugs in other files is worse than not fixing at all — it creates a false sense of resolution. The fractal principle applies to errors as much as it applies to design.
 
 **Status:** ✅ Active
 

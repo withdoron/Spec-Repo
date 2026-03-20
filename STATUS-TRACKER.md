@@ -1,7 +1,7 @@
 # LocalLane Status Tracker
 
 > Complete view of where we are and what's ahead.
-> Updated: 2026-02-25
+> Updated: 2026-03-19
 
 ---
 
@@ -385,6 +385,29 @@ Real money. Gated behind legal checklist.
 - [ ] First rental listed on LocalLane
 - **Spec:** DEC-069, PROPERTY-MANAGEMENT-WORKSPACE-SPEC.md (private repo)
 - **Shipped:** 2026-03-14 (47 components, 9 tabs, 12 entities, ~11,850 lines)
+
+### Community Nav + Shaping the Garden + Frequency Station ✅
+- [x] Community nav dropdown — "Community ▾" between Events and Dashboard
+- [x] Shaping the Garden — Ideas Board renamed, garden language status labels (Planted/Sprouting/Growing/Bloomed/Composted), route /shaping
+- [x] Frequency Station Phase 1 — submit form, My Seeds tab, Queue tab (admin-only), alert badges
+- [x] Revolving "Add a ___" button — cycles garden language every 3s, "What do you want to grow?" modal
+- [x] FSFrequencyFavorite + FSFrequencyPlaylist entities created
+- [ ] Frequency Station Phase 2 — music generation, playlist curation
+- **Shipped:** 2026-03-19
+- **Decisions:** DEC-088, DEC-089
+
+### Universal Workspace Infrastructure ✅
+- [x] All 5 workspace walkthrough guides (Business, Team, Finance, PM, Field Service)
+- [x] Smart completion detection for all guides
+- [x] guide_dismissed boolean on Team, FinancialProfile, PMPropertyProfile, Business entities
+- [x] initializeWorkspace.ts — universal workspace initialization server function (DEC-088)
+- [x] useWorkspaceInit.js hook for any workspace component
+- [x] seedDocumentTemplates.ts removed (superseded by initializeWorkspace)
+- [x] Fractal error audit — .filter().list() fix across 6 instances in 4 server functions
+- [x] .filter() server SDK pattern documented in CLAUDE.md
+- [ ] Test document template seeding post .filter() fix
+- **Shipped:** 2026-03-19
+- **Decisions:** DEC-088, DEC-089
 
 ### Ownership Badges
 - [ ] "Locally Owned" badge on business cards/profiles

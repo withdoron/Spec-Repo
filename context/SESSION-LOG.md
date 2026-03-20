@@ -6,6 +6,40 @@
 
 ---
 
+### Session Log — 2026-03-19 (Evening)
+**Focus:** Community nav, Frequency Station Phase 1, workspace guides, fractal error audit, universal workspace initialization, .filter() SDK fix
+
+**Shipped:**
+1. Community nav dropdown — "Community ▾" between Events and Dashboard. Houses Shaping the Garden + Frequency Station. Desktop dropdown + mobile hamburger section.
+2. Shaping the Garden — Ideas Board renamed. Garden language status labels: Planted, Sprouting, Growing, Bloomed, Composted. Route /shaping, standalone page + dashboard embed.
+3. Frequency Station Phase 1 — submit form (text area + 6 theme pills Fire/Water/Earth/Air/Storm/Custom + anonymous toggle + dedication + title suggestion), My Seeds tab (edit/withdraw), Queue tab (admin-only with filters + processing controls), admin alert badges on Community nav.
+4. Revolving "Add a ___" button — cycles through workspace/playspace/garden/room/plot/space/fruit every 3 seconds. Modal title: "What do you want to grow?" Workspace picker organized into 4 groups (community/work/team/yourself).
+5. All 5 workspace walkthrough guides — Business, Team, Finance, Property Management, Field Service. Smart completion detection. guide_dismissed boolean added to Team, FinancialProfile, PMPropertyProfile, Business entities.
+6. initializeWorkspace.ts — universal workspace initialization server function. One function, every workspace type. field_service seeds 4 Oregon templates via asServiceRole. useWorkspaceInit.js hook for any workspace component. Supersedes seedDocumentTemplates.ts (removed).
+7. Fractal error audit — curly quotes (1 found, already fixed), full table scans (2 fixed: searchHubMember, updateBusiness), auto-seed patterns (1 fixed: FieldServiceDocuments).
+8. .filter().list() → .filter() fix — 6 instances across 4 server functions. Base44 server SDK .filter() returns array directly. Added to CLAUDE.md as Known Pitfall.
+9. FSFrequencyFavorite and FSFrequencyPlaylist entities created in Base44 with correct permissions.
+10. All 5 document/frequency entities updated to Authenticated Users create permission.
+
+**Decisions made:**
+- DEC-088: Universal Workspace Initialization. All workspace seeding goes through initializeWorkspace server function using base44.asServiceRole. Client never creates seed data directly. One function, every workspace type.
+- DEC-089: Fractal Error Principle. When a bug is found in one component following a common pattern, audit ALL instances across the codebase. Fix the part, fix the whole. Phase 10b in BUILD-PROTOCOL.
+- Garden language adopted: Ideas Board → Shaping the Garden, statuses → Planted/Sprouting/Growing/Bloomed/Composted.
+- Base44 server SDK: .filter() returns array directly, no .list() chaining. Documented in CLAUDE.md.
+
+**Blockers:**
+- Document template seeding needs confirmation after .filter() fix (test tomorrow morning)
+
+**Next up:**
+- Test document template seeding
+- Boys with Doron Friday through Thursday
+- Ephraim GRIP session tomorrow evening
+- Review overnight fractal audit results
+- Frequency Station Phase 2
+- Newsletter Issue 1
+
+---
+
 ### Session Log — 2026-03-18 (morning)
 **Focus:** Garden protocol deployment, Field Service unlock, Frequency Station spec, workspace guide, garden audit
 
