@@ -125,6 +125,20 @@ One continuous copy-paste block. No extra explanation around it. No markdown cod
 - Saturday Market outreach active (spring season).
 - Aegis Asphalt fractional operations role applied for.
 
+## Fractal Build SOPs
+
+Three reference server function patterns — every new server function mirrors one:
+- **claimWorkspaceSpot.ts** — join flows (invite code → validate → duplicate check → link user)
+- **initializeWorkspace.ts** — workspace setup (create entity → seed defaults)
+- **manageTeamPlay.ts** — CRUD with permission checks (verify caller role → validate → execute)
+
+Three-tier permission model across all workspace types:
+- **Owner/Coach** — full access (create, edit, delete, manage members)
+- **Worker/Parent** — scoped access (view, limited actions, linked entities)
+- **Client/Player** — minimal access (view own data, participate)
+
+All prompts to Claude Code must include `REPO:` line at top. Claude Code is the primary implementation surface.
+
 ## File Map
 
 Key files to read before working:

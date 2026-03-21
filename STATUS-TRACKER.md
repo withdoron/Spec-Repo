@@ -282,6 +282,9 @@ Real money. Gated behind legal checklist.
 - [ ] Team Build 3: Schedule + Messages
 - [x] Team Build 4: Play Builder (DEC-061) ✅ (2026-03-04) — SVG field, route templates, freehand drawing, custom positions. 8 new files, 8 modified. Originally Build 7a-7c, pulled forward.
 - [x] Team Button-Up ✅ (2026-03-15) — 12 fixes, Head Coach system, manageTeamPlay server function, role simplification (DEC-070), 12 real players loaded, role audit clean. Go-live ready.
+- [x] DEC-064 Creation Station ✅ (2026-03-21) — 3-6-9 playbook structure, Game Day/Playbook/Creation Station sections, player-created plays, coach promotion.
+- [x] DEC-091 Three-Tier Role System ✅ (2026-03-21) — Coach/Parent/Player tiers, dual invite codes, claimTeamSpot.ts, split household support.
+- [x] Print Playbook ✅ (2026-03-21) — Player Card (3), Quick Reference (6), Full Page (9) layouts, formation grouping, drag-and-drop reorder.
 - [ ] Team Build 5: Quiz Engine (was Build 4)
 - [ ] Team Build 6: Game Day Mode (was Build 5)
 - [ ] Team Build 7: Football IQ + Organism (was Build 6)
@@ -366,7 +369,20 @@ Real money. Gated behind legal checklist.
 - [ ] First paying Field Service customer
 - **Spec:** DEC-068, FIELD-SERVICE-WORKSPACE-SPEC.md (private repo)
 - **Shipped:** 2026-03-11, overhauled 2026-03-16, V2 2026-03-18
-- **Decisions:** DEC-071-073, DEC-077-081
+- **Decisions:** DEC-071-073, DEC-077-081, DEC-090
+
+### Industry Presets (DEC-090)
+- [ ] Add `industry_preset` field to FieldServiceProfile entity in Base44
+- [ ] Create industry preset config (`src/config/industryPresets.js`)
+- [ ] Add industry selector to workspace creation flow
+- [ ] Add industry selector to Field Service Settings
+- [ ] Wire preset selection to feature toggle defaults
+- [ ] Wire preset selection to field label overrides
+- [ ] Wire preset selection to initializeWorkspace template seeding
+- [ ] Update workspace guide to reflect industry-specific language
+- **Spec:** DEC-090
+- **Priority:** Medium — build after current fixes ship
+- **Estimated:** 2 build sessions
 
 ### Property Management Workspace (DEC-069) ✅
 - [x] Research: long-term rental tools (TurboTenant, Stessa, Avail, DoorLoop, Landlord Studio)
@@ -535,6 +551,7 @@ Strategy and concept docs maintained in private repository.
 
 | Date | Summary |
 |------|---------|
+| 2026-03-21 | 11 ships — FS fixes, DEC-064 Creation Station, DEC-091 role system, Print Playbook, coach-parent fixes, fractal SOPs |
 | 2026-03-18 (morning) | Garden protocol deployed across 3 repos (DEC-082, DEC-083). Field Service unlocked (295d137). Frequency Station specced (DEC-084). Garden protocol audit completed. Workspace walkthrough guide shipped (bd7e1df). Five-phase migration plan defined. Nextdoor + LinkedIn posted. Buttondown live. |
 | 2026-03-17 (late) | THE-GARDEN.md spatial philosophy (DEC-082). Pulse architecture defined (relational, five signals). Newsletter Issue 1 drafted. Frequency Station concept. DEC-083 Community Pass $45. All protocols updated with garden framing. Drift audit completed. |
 | 2026-03-17 | Admin panel audit + cleanup + security hardening (Punch Pass dead, 3 server functions, dead code removal). Workspace Admin section shipped (5 routes, AllWorkspacesPanel, FieldServiceDefaultsPanel with trade categories + feature toggles, 3 placeholders, getWorkspaceDefaults inheritance function). Base44 server functions created (adminUpdateConcern, adminDeleteFeedback, adminUpdateUser). |

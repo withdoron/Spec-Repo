@@ -2040,6 +2040,76 @@ Mode selector shows play count per mode. Grayed out if 0 plays in a mode.
 
 ---
 
+### DEC-090: Industry Presets for Field Service Workspace
+
+**Date:** 2026-03-21
+
+**Context:** Field Service workspace was built for general contractors (Bari's use case). But the workspace engine is designed to serve multiple industries — mechanics (Peter at Elite Auto Tech), dog walkers, cleaners, landscapers, specialty trades. Currently, every new workspace gets the same defaults regardless of industry. Users must manually toggle features on/off and the terminology doesn't match their trade.
+
+**Decision:** Add an industry selector to Field Service workspace that sets default configuration. The selector appears both during workspace creation (the Fork moment) and remains editable in Settings.
+
+Industry presets control:
+- **Feature toggles** — which of the 6 toggles (permits, subs, management fees, O&P, Xactimate, payments, timeline) default to ON
+- **Field labels** — "Materials" vs "Parts" vs "Supplies", "Project" vs "Job" vs "Service Call"
+- **Document templates** — which templates seed during initializeWorkspace (Oregon lien docs for contractors, service agreements for service providers, etc.)
+- **Estimate defaults** — flat rate vs itemized, Xactimate availability
+- **Workspace guide steps** — which steps appear and what they say
+
+Initial presets:
+| Preset | Toggles ON | Key Labels | Templates | Estimate Style |
+|--------|-----------|------------|-----------|---------------|
+| General Contractor | All | Materials, Project, Subcontractor | Oregon lien notices, Subcontractor Agreement | Itemized, Xactimate available |
+| Specialty Trade (electrician, plumber, HVAC) | Permits, O&P, timeline | Materials, Job | Oregon lien notices | Itemized, no Xactimate |
+| Auto/Mechanic | Timeline, payments | Parts, Job, Vehicle Info field | Service Agreement | Itemized by labor + parts |
+| Service Provider (cleaner, dog walker, landscaper) | Payments, timeline | Supplies, Service Call | Service Agreement | Flat rate or hourly |
+
+How it works:
+- User selects industry during workspace creation (or changes in Settings)
+- Selection sets defaults for all toggle and label fields
+- User can override ANY default after selection — the preset is a starting point, not a cage
+- Changing industry in Settings offers: "Reset to defaults?" or "Keep current settings?"
+- initializeWorkspace reads the industry to determine which templates to seed
+- Industry stored as `industry_preset` field on FieldServiceProfile entity
+
+What this is NOT:
+- Not separate workspace types — it's ONE workspace type with configurable defaults
+- Not a restriction — every feature is still available regardless of preset
+- Not a new architecture — extends the existing feature toggle system
+
+**Rationale:** Fractal principle — what's true of the part is true of the whole. The workspace engine already supports feature toggles. Industry presets are just a default-setter layer on top. This makes the first-run experience match the user's reality without adding complexity to the underlying system. Peter should see "Parts" and "Job" the moment he creates his workspace, not "Materials" and "Project."
+
+**Status:** Spec Complete — Ready for Build
+
+---
+
+### DEC-090: Industry Presets for Field Service
+
+**Date:** 2026-03-21
+
+**Context:** Field Service workspace needs different default behaviors per industry (general contractor, specialty trade, auto mechanic, service provider).
+
+**Decision:** Add industry_preset field to FieldServiceProfile. Each preset configures default features (O&P, Xactimate, lien tracking, etc.).
+
+**Rationale:** One workspace type, many industries. Presets reduce setup friction without multiplying workspace types.
+
+**Status:** Spec Complete — Ready for Build
+
+---
+
+### DEC-091: Three-Tier Role System for Team Workspace
+
+**Date:** 2026-03-21
+
+**Context:** Team workspace needed proper permission tiers for coaches, parents, and players with secure join flows.
+
+**Decision:** Three-tier model (Coach/Parent/Player). Dual invite codes (family + coach). Server-side join via claimTeamSpot.ts. Promote-to-coach flow. parent_user_ids array for split households.
+
+**Rationale:** Mirrors three-tier pattern across all workspaces (Owner/Worker/Client). Server-side join prevents permission bypass. Array field supports split households.
+
+**Status:** ✅ Shipped
+
+---
+
 ## Decision Template
 
 ```markdown

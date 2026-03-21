@@ -670,4 +670,40 @@ None — operational fixes and polish only.
 
 ---
 
+## Session — Saturday, March 21, 2026
+
+**Focus:** Field Service fixes, Team workspace go-live (audit + Creation Station + role system + print playbook), fractal SOPs established
+
+**Shipped:**
+1. Batch 1: Shaping the Garden moved to own page at /shaping with Dashboard breadcrumb. O&P and Xactimate split into two independent toggles (overhead_profit_enabled, xactimate_enabled in features_json). Documents guide step verified (step 4 of 5). Debug logs removed from initializeWorkspace.
+2. DEC-090: Industry Presets for Field Service — decision documented, checklist added to STATUS-TRACKER. industry_preset field added to FieldServiceProfile entity.
+3. Team Workspace Audit — all 13 sections pass including fractal alignment check. Event scoping code correct — stale DB record not code bug. Two minor fixes (empty state text, toggle knob color).
+4. Head Coach designation removed — cleaned from 5 files. All coaches equal. "Transfer Head Coach" relabeled "Transfer Ownership". Updates DEC-070.
+5. DEC-064: Creation Station — 3-6-9 playbook structure shipped. Three sections: Game Day (Implement, amber), Playbook (Practice), Creation Station (Idea, teal). Players can create experimental plays. Coaches promote to Playbook. Server-side enforcement in manageTeamPlay.ts.
+6. DEC-091: Three-Tier Role System — Coach/Parent/Player permission tiers. Dual invite links (family + coach). claimTeamSpot.ts server function. JoinTeam.jsx rewritten with auto-detect invite type.
+7. Print Playbook — three 3-6-9 layouts: Player Card (3), Quick Reference (6, 2x2 grid), Full Page (9). Play selection, formation grouping, drag-and-drop reorder. CSS @media print.
+8. Pending badge fix — shows for all unclaimed roles, not just players.
+9. Coach-parent claim fix — existing members can link children without duplicate error. Amber heart toggle on roster.
+10. Split household support — parent_user_ids JSON array replaces parent_user_id string. Multiple parents per player.
+11. Fractal SOPs established in SuperMemory — server function patterns, prompt protocol, permission gate pattern.
+
+**Decisions made:**
+- DEC-090: Industry Presets for Field Service (spec complete, ready for build)
+- DEC-091: Three-tier role system for Team workspace (shipped)
+- Head Coach removed (updates DEC-070)
+- parent_user_ids array for split household support
+- 3-6-9 applied to play lifecycle and print layouts
+- Claude Code confirmed as primary implementation surface
+
+**Next up:**
+- Test account walkthrough as parent
+- Share invite codes with Coach Rick and team parents
+- Load remaining plays, flag Game Day plays
+- Print Quick Reference for sideline
+- Newsletter Issue 1
+- Frequency Station Phase 2
+- Mycelia testimony draft (5/19 trial)
+
+---
+
 *Append new entries at the top. Keep each entry to 1-3 lines. Facts and direction, not journal prose.*
