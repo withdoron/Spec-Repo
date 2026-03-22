@@ -1,7 +1,7 @@
 # LocalLane Launch Checklist
 
 > Living checklist for app readiness. Updated after each work session.
-> Last updated: 2026-03-19
+> Last updated: 2026-03-22
 
 ---
 
@@ -344,6 +344,11 @@
 - Profile photos (placeholder shows "coming soon")
 - Badges/achievements system
 - Silver Barter concept exploration
+- [x] Global React ErrorBoundary (component crash no longer white-screens the app)
+- [x] XSS sanitization on all user input storage points (DOMPurify)
+- [x] Photo/file upload validation on all upload points (5MB max, type whitelist)
+- [x] Business delete cascade migrated to server function (manageBusinessWorkspace.ts)
+- [x] Field Service delete cascade added (manageFieldServiceWorkspace.ts)
 - Security Phase 3 (10 remaining entities need service role migration)
 - hub.locallane.com URL in LockedFeature.jsx — is this real or cleanup needed?
 - [x] Buttondown account setup and custom domain
@@ -357,6 +362,8 @@
 
 | Date | Summary |
 |------|---------|
+| 2026-03-22 | Security fixes: ErrorBoundary, XSS sanitization, photo validation, business + FS delete cascades. Full app audit 68/100. Frequency Station Phase 2 live. |
+| 2026-03-21 | Team go-live: Creation Station, 3-tier roles, Print Playbook. Fractal SOPs. |
 | 2026-03-19 | Field Service Phases 4-6 shipped: Documents tab (DEC-085, Oregon lien templates), Client Portal expansion (document sharing, estimate portal, open books), E-Signature system (DEC-086, ESIGN Act + Oregon UETA compliant). Legal docs updated (LEGAL-RESEARCH.md, COMMUNITY-PASS.md, STRIPE-CONNECT.md). CommunityPulse headcount fix. Charlie (Get Air) email sent. DEC-085/086/087. |
 | 2026-02-23 | Category architecture consolidated (DEC-055 Phases 1-2). Pilot role testing: Tests 1-5 pass, co-owner blocked (Base44 User lookup), Team Management feature-guarded. Event type optional. RSVP auto-close. Dashboard RSVP counts. Admin save persistence fixed. |
 | 2026-02-22 | Walkthrough session: Homepage copy refresh, routing fixes (unauth → homepage, post-login → MyLane), onboarding wizard fixes (crash, scroll, newsletter capture), network taglines, Communities → Networks rename, global scroll-to-top, back navigation audit, business CTA moved to bottom of MyLane, Business entity permissions opened for admin (security hardening tracked). |

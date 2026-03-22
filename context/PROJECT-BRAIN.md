@@ -139,6 +139,10 @@ Three-tier permission model across all workspace types:
 
 All prompts to Claude Code must include `REPO:` line at top. Claude Code is the primary implementation surface.
 
+## Frequency Station
+
+Community radio station — turns written submissions ("seeds") into AI-generated songs. Phase 2 shipped 2026-03-22. Submit tab (text + theme + anonymous toggle + dedication), My Seeds (edit/withdraw), Queue (admin processing), Listen tab (public song library with audio player), song detail pages at /frequency/:slug. First song "Come Alive" published. Anonymous submissions are truly anonymous (user_id: null). Audio upload via Base44 Core.UploadFile (25MB max). Song entity: FrequencySong. Submission entity: FSFrequencySubmission.
+
 ## File Map
 
 Key files to read before working:

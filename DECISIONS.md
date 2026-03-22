@@ -1,7 +1,7 @@
 # Decision Log
 
 > Records key architectural and implementation decisions with context.
-> Last Updated: 2026-03-19
+> Last Updated: 2026-03-22
 
 ---
 
@@ -2077,20 +2077,6 @@ What this is NOT:
 - Not a new architecture — extends the existing feature toggle system
 
 **Rationale:** Fractal principle — what's true of the part is true of the whole. The workspace engine already supports feature toggles. Industry presets are just a default-setter layer on top. This makes the first-run experience match the user's reality without adding complexity to the underlying system. Peter should see "Parts" and "Job" the moment he creates his workspace, not "Materials" and "Project."
-
-**Status:** Spec Complete — Ready for Build
-
----
-
-### DEC-090: Industry Presets for Field Service
-
-**Date:** 2026-03-21
-
-**Context:** Field Service workspace needs different default behaviors per industry (general contractor, specialty trade, auto mechanic, service provider).
-
-**Decision:** Add industry_preset field to FieldServiceProfile. Each preset configures default features (O&P, Xactimate, lien tracking, etc.).
-
-**Rationale:** One workspace type, many industries. Presets reduce setup friction without multiplying workspace types.
 
 **Status:** Spec Complete — Ready for Build
 

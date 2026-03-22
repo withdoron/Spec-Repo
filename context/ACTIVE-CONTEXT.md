@@ -2,77 +2,79 @@
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
 > Any AI surface reads this to know the current state without searching conversation history.
-> Last updated: 2026-03-21
+> Last updated: 2026-03-22
 
 ---
 
-## Current Focus
+## Current Phase
 
-Team workspace go-live ready. 11 ships this session. Fractal SOPs established. DEC-064 Creation Station, DEC-090 Industry Presets, DEC-091 Three-Tier Role System all shipped/specced. Field Service fixes landed. Print Playbook live with three 3-6-9 layouts. Split household support (parent_user_ids array). Claude Code confirmed as primary implementation surface.
+Full app audit complete (68/100). Immediate security fixes shipped (ErrorBoundary, XSS sanitization, photo validation, delete cascades). Frequency Station Phase 2 live — first song "Come Alive" published. PM workspace at ~95/100. Finance at ~78/100. App health ~75/100 after security fixes.
+
+## What Just Shipped (March 22)
+
+1. **PM Workspace Phases 1-4** — security guards, settlement locking, multi-user (claimPMSpot.ts, JoinPM, triple invite codes, PMWorkspaceMember, PMTenant), Polish (init seeds, form validation, toast errors, photo validation). Score 35→95.
+2. **Finance Workspace All Phases** — ownership guards, manageFinanceWorkspace.ts, init seeds V2 categories, mobile fixes. Score 52→78.
+3. **Full App Audit** — 68/100 overall. 10 sections audited. Server functions 9/10. Foundation 8/10. Cross-workspace consistency 5/10. Garden alignment 6/10.
+4. **Immediate Security Fixes** — React ErrorBoundary, DOMPurify XSS on all input points, validateFile() on all uploads, manageBusinessWorkspace.ts server cascade, manageFieldServiceWorkspace.ts server cascade.
+5. **Frequency Station Phase 2** — anonymous privacy fix, admin song creation with audio upload, audio player (compact+full), Listen tab wired to FrequencySong, SongDetail page at /frequency/:slug, share links.
+6. **Property deed** — Joyce Ann Fletcher warranty deed filed (2054/2064 Marion St, North Bend). Medicaid concern flagged.
+7. **Ephraim's Game Lab** — separate Claude project with fractal philosophy.
 
 ## Active Nodes
 
-| Node | Status | Current Build | What's Next |
-|------|--------|--------------|-------------|
-| Community Node | Pilot-ready, blocked on legal | Community nav + Frequency Station shipped | Fractal audit fixes, Newsletter Issue 1 |
-| Field Service | Phase 6 complete (e-sign), DEC-090 specced | Bari active user, industry presets specced | DEC-090 Industry Presets build, test doc seeding, Phase 7 (blocked on LLC/EIN) |
-| Property Management | V1 Complete | Doron (port from Property Pulse) | Field test with real property data |
-| Personal Finance | V1 complete | Doron | Field test with real data |
-| Play Trainer | Go-live ready, 11 ships today | Creation Station, role system, print playbook all shipped | Parent walkthrough test, share invite codes with Coach Rick, load plays, flag Game Day, print Quick Reference |
-| Frequency Station | Phase 1 shipped | Submit + My Seeds + Queue | Phase 2: music generation, playlist curation |
+| Node | Status | Score | What's Next |
+|------|--------|-------|-------------|
+| Community Node | Pilot-ready, blocked on legal | ~75/100 | Newsletter Issue 1, admin pagination, open event creation |
+| Field Service Workspace | Phase 6 complete (e-sign) | ~85/100 | Phase 7: Payments & Invoicing (blocked on LLC/EIN) |
+| Property Management Workspace | Phase 4 complete | ~95/100 | Field test with real property data (deed filed, Medicaid review needed) |
+| Personal Finance | V1 complete | ~78/100 | Field test with real data |
+| Play Trainer (Team) | Go-live ready | ~95/100 | Share invite with Coach Rick and players, load plays with boys |
+| Frequency Station | Phase 2 shipped | Functional | First song published, Listen tab fix deployed |
 
-## Garden Migration Status
+## What's In Flight
 
-| Phase | Name | Status | What Ships |
-|-------|------|--------|-----------|
-| 1 | Guide Layer | COMPLETE | All 5 workspace guides, WorkspaceGuide.jsx, useWorkspaceInit |
-| 2 | Door Layer | NEXT | Open event creation to all, directory visibility consent toggle |
-| 3 | Pulse Layer | Queued | Freshness signal → self-trend → diversity → wire into data-vitality CSS |
-| 4 | Play Layer | IN PROGRESS | Shaping the Garden shipped, Frequency Station Phase 1 shipped, community nav shipped |
-| 5 | Game Layer | Future | Superpowers, Quests |
-
-## What Just Shipped (2026-03-21)
-
-1. Shaping the Garden moved to /shaping with Dashboard breadcrumb
-2. O&P and Xactimate split into two independent toggles
-3. Documents guide step verified, debug logs removed from initializeWorkspace
-4. DEC-090: Industry Presets for Field Service specced
-5. Team Workspace Audit — all 13 sections pass, two minor fixes
-6. Head Coach designation removed — all coaches equal, "Transfer Ownership" label
-7. DEC-064: Creation Station — 3-6-9 playbook structure (Game Day / Playbook / Creation Station)
-8. DEC-091: Three-Tier Role System — Coach/Parent/Player, dual invite codes, claimTeamSpot.ts
-9. Print Playbook — Player Card (3), Quick Reference (6), Full Page (9) layouts
-10. Pending badge fix, coach-parent claim fix, amber heart toggle
-11. Split household support — parent_user_ids JSON array
-12. Fractal SOPs established in SuperMemory
+- **"Come Alive"** — first song published on Frequency Station, pending Listen tab verification after Base44 sync
+- **Boys with Doron** — Friday through Thursday, loading plays and testing Team workspace
+- **Bari** — Field Service active user, Oregon ORS confirmation pending
+- **Ephraim** — Game Lab project created, returns for next session
+- **LLC/EIN** — paper filing pending, blocks Stripe Connect
 
 ## Current Blockers
 
 - **LLC/EIN paper filing** — blocks Stripe Connect, blocks Phase 7 Payments & Invoicing
-- **AdminSettings platform_stats:member_count** — needs manual Base44 creation
-- **Base44 fields need manual creation** — coach_invite_code on Team, created_by_name on Play, parent_user_ids on TeamMember, industry_preset/overhead_profit_enabled/xactimate_enabled on FieldServiceProfile
+- **AdminSettings platform_stats:member_count** — needs manual Base44 creation for CommunityPulse headcount
+- **Base44 .filter().list() quirk** — confirmed recurring issue. Safe pattern: .list() then client-side filter.
+- **Medicaid review** — deed transfer may trigger 5-year Medicaid lookback. Need legal guidance before active property management.
 
 ## What's Next
 
-1. Test account walkthrough as parent
-2. Share invite codes with Coach Rick and team parents
-3. Load remaining plays, flag Game Day plays
-4. Print Quick Reference for sideline
-5. Newsletter Issue 1
-6. Frequency Station Phase 2
-7. Mycelia testimony draft (5/19 trial)
-8. DEC-090 Industry Presets build
-
-## What's In Flight
-
-- Parent walkthrough test (next session)
-- Coach Rick invite share
-- Plays loading and Game Day flagging
-- Newsletter Issue 1
-- Frequency Station Phase 2
+- Verify "Come Alive" on Listen tab (post-sync)
+- Doron Frequency Station feedback
+- Share team invite codes with Coach Rick and parents
+- Load remaining plays with boys
+- Newsletter Issue 1 send
+- High priority audit fixes: initializeWorkspace ownership checks, audit logging
+- Open event creation to community (Garden Door migration)
+- Surface PM Listings to directory
+- Admin pagination (audit finding)
 - Mycelia testimony draft (5/19 trial)
+
+## Garden Migration Status
+
+| Phase | Description | Status |
+|-------|-------------|--------|
+| Phase 1: Language | Garden metaphors in UI copy | ✅ Shipped (Shaping the Garden, Frequency Station) |
+| Phase 2: Door | Open events to all, directory visibility controls | 🔜 Next |
+| Phase 3: Pulse | CSS vitality hooks, CommunityPulse data wiring | Planned |
+| Phase 4: Guide | Workspace walkthrough system | ✅ Shipped (all 5 types) |
+| Phase 5: Game | Superpowers, Quests, Organism Phase 1 | Planned |
 
 ## Time-Sensitive Items
 
 - **Custody trial:** 2026-05-19 — revenue and stable employment needed before this date
-- **Boys with Doron:** This week
+- **Boys with Doron:** This week (Friday through Thursday)
+- **Ephraim:** Returns for Game Lab session
+
+---
+
+*Overwrite this file at the end of every session. Commit and push to spec-repo so all surfaces read current state.*

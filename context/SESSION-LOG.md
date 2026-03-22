@@ -706,4 +706,54 @@ None — operational fixes and polish only.
 
 ---
 
+## Session — Sunday, March 22, 2026
+
+**Focus:** PM fractal alignment (35→95), Finance alignment (52→78), full app audit (68/100), immediate security fixes, Frequency Station Phase 2, LinkedIn post, Ephraim's Game Lab project
+
+**Shipped:**
+1. PM Workspace Audit — fractal alignment score 35/100. BusinessCard.jsx nested anchor bug fixed. PropertyManagementDefaultsPanel entity name mismatch fixed.
+2. PM Phase 1 Critical Security — ownership guards on 9 components, managePMWorkspace.ts with 6 server function actions (delete cascades, settlement finalize/unfinalize, carry forward recurring).
+3. PM Phase 2 Data Integrity — settlement locking (locked field on finalize/unfinalize), ownership stake validation (server blocks finalize if stakes ≠ 100%), role key/label fix, pmPermissions.js with 8 helpers.
+4. PM Phase 3 Multi-User — claimPMSpot.ts (4 actions: join_as_tenant/owner/manager, promote_to_manager), JoinPM.jsx at /join-pm/:code, triple invite codes in Settings, PMWorkspaceMember entity, role-based tab filtering, PMTenant entity with People tab migration.
+5. PM Phase 4 Polish — initPropertyManagement seeds defaults (17 expense categories, 11 maintenance categories, 7 property types, reserve percentages), form validation on 6 dialogs, toast notifications on 41+ catch blocks, photo validation (5MB max), testingMode "ready to unlock" comment.
+6. Finance Workspace Audit — score 52/100, no critical bugs, V2 spec ~80% implemented.
+7. Finance Workspace All Phases — ownership guards on 5 components, manageFinanceWorkspace.ts (2 actions: delete_workspace_cascade, bulk_import_transactions), initFinance seeds V2 categories (16 expense, 6 income), mobile grid fixes on 3 components.
+8. Full App Audit — 68/100 overall. Server functions 9/10 (24/24 fractal compliant). Foundation 8/10. Weakest: cross-workspace consistency 5/10, garden alignment 6/10.
+9. Immediate Security Fixes — Global React ErrorBoundary in App.jsx, DOMPurify XSS sanitization on all user input storage points, validateFile() utility on all photo/file uploads, manageBusinessWorkspace.ts delete cascade (replacing client-side), manageFieldServiceWorkspace.ts delete cascade (filling gap).
+10. Frequency Station Audit — 35% built, submission pipeline working, song pipeline missing.
+11. Frequency Station Phase 2 — anonymous privacy fix (user_id: null for anonymous), release status in Queue, admin song creation form with audio upload (Core.UploadFile, 25MB max), audio player (compact + full variants), song cards, Listen tab wired to FrequencySong entity, SongDetail.jsx at /frequency/:slug, share links. First song "Come Alive" published.
+12. LinkedIn bell curve post — "Where do you sit?" with Gemini-generated canyon/bell curve image.
+13. Ephraim's Game Lab — Claude project created with fractal philosophy instructions, SuperMemory shared.
+14. Property deed — Joyce Ann Fletcher filed warranty deed transferring 1/2 interest in 2054/2064 Marion St, North Bend to Doron and Aria as tenants in common with life estate reserved. Medicaid concern flagged.
+
+**Decisions made:**
+- PM role keys fixed: admin, property_manager, owner, tenant, worker (replaces confusing owner/staff mapping)
+- Anonymous Frequency Station submissions truly anonymous (user_id: null, not cosmetic)
+- Ephraim's Game Lab carries fractal philosophy as project instructions
+- Base44 .filter().list() confirmed as recurring SDK issue — .list() then client-side filter is the safe pattern
+
+**Base44 entities added:**
+- FrequencySong (16 fields, public read)
+- PMTenant (16 fields, Creator Only + Authenticated Read)
+- PMWorkspaceMember (6 fields, Creator Only + Authenticated Read)
+- FSFrequencySubmission: user_id made optional, Create → Authenticated Users
+- PMPropertyProfile: 3 invite code fields added
+- PMSettlement: locked boolean added
+- FieldServiceProfile: overhead_profit_enabled, xactimate_enabled, industry_preset
+- Team: coach_invite_code
+- Play: created_by_name
+- TeamMember: parent_user_ids (JSON array)
+
+**Next up:**
+- Verify "Come Alive" displays on Listen tab after Base44 sync
+- Share invite codes with Coach Rick and team parents
+- Load remaining plays into Playbook with boys
+- Newsletter Issue 1 send
+- Admin pagination (from full app audit)
+- Open event creation to community (Garden alignment)
+- Surface PM Listings to directory
+- Mycelia testimony draft (5/19 trial)
+
+---
+
 *Append new entries at the top. Keep each entry to 1-3 lines. Facts and direction, not journal prose.*
