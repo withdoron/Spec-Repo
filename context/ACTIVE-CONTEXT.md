@@ -2,78 +2,80 @@
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
 > Any AI surface reads this to know the current state without searching conversation history.
-> Last updated: 2026-03-22
+> Last updated: 2026-03-25
 
 ---
 
 ## Current Phase
 
-Full app audit complete (68/100). Immediate security fixes shipped (ErrorBoundary, XSS sanitization, photo validation, delete cascades). Frequency Station Phase 2 live — first song "Come Alive" published. PM workspace at ~95/100. Finance at ~78/100. App health ~75/100 after security fixes.
+Base44 connection restored. Field Service multi-user ready for Bari walkthrough (Friday 3/28). Frequency Station Phase 2 live. Godot installed for Ephraim. Custody prep started (deposition 4/7, trial 5/19).
 
-## What Just Shipped (March 22)
+## What Just Shipped (March 25)
 
-1. **PM Workspace Phases 1-4** — security guards, settlement locking, multi-user (claimPMSpot.ts, JoinPM, triple invite codes, PMWorkspaceMember, PMTenant), Polish (init seeds, form validation, toast errors, photo validation). Score 35→95.
-2. **Finance Workspace All Phases** — ownership guards, manageFinanceWorkspace.ts, init seeds V2 categories, mobile fixes. Score 52→78.
-3. **Full App Audit** — 68/100 overall. 10 sections audited. Server functions 9/10. Foundation 8/10. Cross-workspace consistency 5/10. Garden alignment 6/10.
-4. **Immediate Security Fixes** — React ErrorBoundary, DOMPurify XSS on all input points, validateFile() on all uploads, manageBusinessWorkspace.ts server cascade, manageFieldServiceWorkspace.ts server cascade.
-5. **Frequency Station Phase 2** — anonymous privacy fix, admin song creation with audio upload, audio player (compact+full), Listen tab wired to FrequencySong, SongDetail page at /frequency/:slug, share links.
-6. **Property deed** — Joyce Ann Fletcher warranty deed filed (2054/2064 Marion St, North Bend). Medicaid concern flagged.
-7. **Ephraim's Game Lab** — separate Claude project with fractal philosophy.
+1. **Base44 GitHub reconnection** — support swapped connection string after repo disconnect. Sync verified (5d03a66), pipeline healthy.
+2. **Field Service multi-user fixes** — 30 entity queries protected with try/catch, isOwner guard on initializeWorkspace, template queries switched to .list() + client filter (Base44 SDK quirk).
+3. **Base44 entity permissions** — all 13 Field Service entities changed Read from Creator Only to Authenticated Users.
+4. **Frequency Station confirmed live** — "Come Alive" playing on Listen tab at locallane.app/frequency.
+5. **Godot 4.6.1 installed** — Intel x86_64, Compatibility renderer, first 3D scene running. Ephraim's first project created.
+6. **Custody case prep** — separate Claude project with trial prep instructions. Deposition April 7, trial May 19.
 
 ## Active Nodes
 
 | Node | Status | Score | What's Next |
 |------|--------|-------|-------------|
 | Community Node | Pilot-ready, blocked on legal | ~75/100 | Newsletter Issue 1, admin pagination, open event creation |
-| Field Service Workspace | Phase 6 complete (e-sign) | ~85/100 | Phase 7: Payments & Invoicing (blocked on LLC/EIN) |
-| Property Management Workspace | Phase 4 complete | ~95/100 | Field test with real property data (deed filed, Medicaid review needed) |
+| Field Service Workspace | Multi-user ready, Bari walkthrough Friday | ~90/100 | Bari estimate entry, e-sign test, industry presets (DEC-090) |
+| Property Management Workspace | Phase 4 complete | ~95/100 | Field test with real property data |
 | Personal Finance | V1 complete | ~78/100 | Field test with real data |
-| Play Trainer (Team) | Go-live ready | ~95/100 | Share invite with Coach Rick and players, load plays with boys |
-| Frequency Station | Phase 2 shipped | Functional | First song published, Listen tab fix deployed |
+| Play Trainer (Team) | Go-live ready | ~95/100 | Coaches meeting March 30, Playmaker prep |
+| Frequency Station | Phase 2 live | Functional | "Come Alive" confirmed playing |
 
 ## What's In Flight
 
-- **"Come Alive"** — first song published on Frequency Station, pending Listen tab verification after Base44 sync
-- **Boys with Doron** — Friday through Thursday, loading plays and testing Team workspace
-- **Bari** — Field Service active user, Oregon ORS confirmation pending
-- **Ephraim** — Game Lab project created, returns for next session
-- **LLC/EIN** — paper filing pending, blocks Stripe Connect
+- **Bari walkthrough** — Friday March 28 at 11 AM. Red Umbrella Field Service workspace. Templates visible, all tabs protected, e-sign flow ready to demo.
+- **Coaches meeting** — March 30 at 6:30 PM. Playmaker prep needed.
+- **Ephraim** — Godot installed, first 3D scene running, returns for next game dev session.
+- **Custody prep** — Deposition April 7, trial May 19. Father's blog posts identified as evidence.
+- **LLC/EIN** — paper filing pending, blocks Stripe Connect.
 
 ## Current Blockers
 
 - **LLC/EIN paper filing** — blocks Stripe Connect, blocks Phase 7 Payments & Invoicing
 - **AdminSettings platform_stats:member_count** — needs manual Base44 creation for CommunityPulse headcount
-- **Base44 .filter().list() quirk** — confirmed recurring issue. Safe pattern: .list() then client-side filter.
-- **Medicaid review** — deed transfer may trigger 5-year Medicaid lookback. Need legal guidance before active property management.
+- **Medicaid review** — deed transfer may trigger 5-year Medicaid lookback. Need legal guidance.
+
+## Base44 SDK Quirk (Expanded — 2026-03-25)
+
+`.filter()` returns empty for **service-role-created records**, not just `.filter().list()`. Any entity where records are created by `initializeWorkspace` via `asServiceRole` needs `.list()` + client filter. Confirmed on FSDocumentTemplate and FrequencySong. Documented in CLAUDE.md.
 
 ## What's Next
 
-- Verify "Come Alive" on Listen tab (post-sync)
-- Doron Frequency Station feedback
-- Share team invite codes with Coach Rick and parents
-- Load remaining plays with boys
-- Newsletter Issue 1 send
-- High priority audit fixes: initializeWorkspace ownership checks, audit logging
+- Enter Bari's Ag Building estimate for Friday walkthrough
+- Test e-sign flow end-to-end
+- Field Service customization for multiple trades (DEC-090 Industry Presets)
+- Playmaker prep for coaches meeting
+- Base44 agents exploration
+- Deposition prep (April 7)
+- Newsletter Issue 1
 - Open event creation to community (Garden Door migration)
 - Surface PM Listings to directory
-- Admin pagination (audit finding)
-- Mycelia testimony draft (5/19 trial)
 
 ## Garden Migration Status
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| Phase 1: Language | Garden metaphors in UI copy | ✅ Shipped (Shaping the Garden, Frequency Station) |
-| Phase 2: Door | Open events to all, directory visibility controls | 🔜 Next |
+| Phase 1: Language | Garden metaphors in UI copy | Shipped (Shaping the Garden, Frequency Station) |
+| Phase 2: Door | Open events to all, directory visibility controls | Next |
 | Phase 3: Pulse | CSS vitality hooks, CommunityPulse data wiring | Planned |
-| Phase 4: Guide | Workspace walkthrough system | ✅ Shipped (all 5 types) |
+| Phase 4: Guide | Workspace walkthrough system | Shipped (all 5 types) |
 | Phase 5: Game | Superpowers, Quests, Organism Phase 1 | Planned |
 
 ## Time-Sensitive Items
 
+- **Bari walkthrough:** 2026-03-28 at 11 AM
+- **Coaches meeting:** 2026-03-30 at 6:30 PM
+- **Deposition:** 2026-04-07
 - **Custody trial:** 2026-05-19 — revenue and stable employment needed before this date
-- **Boys with Doron:** This week (Friday through Thursday)
-- **Ephraim:** Returns for Game Lab session
 
 ---
 

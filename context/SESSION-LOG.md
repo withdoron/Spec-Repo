@@ -756,4 +756,38 @@ None — operational fixes and polish only.
 
 ---
 
+## Session Log — 2026-03-25
+
+**Focus:** Base44 reconnection, Field Service multi-user readiness for Bari, Godot setup for Ephraim
+
+**Shipped:**
+1. Base44 GitHub connection restored — support swapped connection string to withdoron/community-node after repo disconnect incident. Sync verified with test commit (5d03a66), pipeline healthy.
+2. Field Service Documents tab fix (095dc36) — try/catch on all 5 document queries, prevents 500 crash for non-owner users.
+3. Field Service initializeWorkspace guard (93143be) — isOwner check prevents initialization call for non-owner users on Documents tab.
+4. Field Service multi-user audit (8d49b89) — 25 additional try/catch wrappers across Home, Log, Projects, Estimates, People. All 30 FS entity queries now protected. Audit report at src/docs/FIELD-SERVICE-MULTI-USER-AUDIT.md.
+5. Field Service template visibility fix (04f2ec2) — all 5 document queries changed from .filter() to .list() + client-side filter. Root cause: Base44 .filter() returns empty for service-role-created records.
+6. Base44 entity permissions — all 13 Field Service entities changed Read from Creator Only to Authenticated Users. FieldServiceProfile was last one updated.
+7. Frequency Station confirmed live — "Come Alive" playing on Listen tab at locallane.app/frequency.
+8. Godot 4.6.1 installed — Intel x86_64, Compatibility renderer, first 3D scene running on Doron's 2017 MacBook Pro. Ephraim's first Godot project created.
+9. Custody case prep started — separate Claude project created with full trial preparation instructions. Deposition April 7, trial May 19. Father's blog posts identified as evidence.
+
+**Base44 SDK Quirk Discovered:**
+.filter() returns empty for service-role-created records, not just .filter().list(). Any entity where records are created by initializeWorkspace via asServiceRole needs .list() + client filter. Confirmed on FSDocumentTemplate and FrequencySong. Documented in CLAUDE.md.
+
+**Decisions made:**
+- Field Service workspace needs customization for non-contractor trades (mechanics, dog walkers, etc.) — DEC-090 Industry Presets not yet implemented
+- Workspace selector copy needs updating: "service business" not "contractors"
+- Base44 agents identified as path for agentic workflow on LocalLane
+
+**Next up:**
+- Playmaker prep for coaches meeting (March 30, 6:30 PM)
+- Field Service customization for multiple trades
+- Enter Bari's Ag Building estimate for Friday walkthrough
+- Test e-sign flow end-to-end
+- Base44 agents exploration
+- Deposition prep (April 7)
+- Newsletter Issue 1
+
+---
+
 *Append new entries at the top. Keep each entry to 1-3 lines. Facts and direction, not journal prose.*

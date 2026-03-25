@@ -1,7 +1,7 @@
 # LocalLane Launch Checklist
 
 > Living checklist for app readiness. Updated after each work session.
-> Last updated: 2026-03-22
+> Last updated: 2026-03-25
 
 ---
 
@@ -349,6 +349,9 @@
 - [x] Photo/file upload validation on all upload points (5MB max, type whitelist)
 - [x] Business delete cascade migrated to server function (manageBusinessWorkspace.ts)
 - [x] Field Service delete cascade added (manageFieldServiceWorkspace.ts)
+- [x] Field Service multi-user: 30 entity queries protected, 13 entities Authenticated Users read, template visibility fixed (2026-03-25)
+- [x] Base44 GitHub connection restored and verified (2026-03-25)
+- [x] Frequency Station Phase 2 confirmed live — "Come Alive" playing (2026-03-25)
 - Security Phase 3 (10 remaining entities need service role migration)
 - hub.locallane.com URL in LockedFeature.jsx — is this real or cleanup needed?
 - [x] Buttondown account setup and custom domain
