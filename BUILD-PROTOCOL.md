@@ -91,6 +91,20 @@ Mark each as: Shows Here / Not Applicable / Future Phase.
 
 **This is the step that prevents half-features.** If you build Joy Coin settings on the Business Dashboard but forget to show the badge in the Directory, members can't find participating businesses.
 
+**Mandatory Admin Surface Rule:**
+
+If a feature creates, modifies, or displays data that the steward (admin) would need to see, moderate, or manage, it MUST include an admin panel surface. This is not optional.
+
+Ask these questions:
+- Can a user create content with this feature? → Admin needs to see and moderate it.
+- Does this feature add a new entity or data type? → Admin needs visibility into the data.
+- Can this feature affect other users' experience? → Admin needs controls.
+- Does this feature have settings or configuration? → Admin needs a config panel.
+
+If any answer is yes: document what the admin sees and can control in the surface map. Include the admin panel route, component name, and what actions the admin can take.
+
+If no admin surface is needed, write "Admin: Not applicable — [reason]" in the surface map. This forces the explicit decision rather than letting it be forgotten.
+
 **Output:** Surface map table in the feature spec.
 
 ---
@@ -164,14 +178,51 @@ Build sequence:
 1. Data layer first (entities, hooks, utilities)
 2. Core component(s) next
 3. Integration into surfaces (from Phase 3 map)
-4. Tier gating (Phase 8)
+4. Tier gating (Phase 9)
 5. Test each piece as it ships
 
 **Output:** Working feature in the app.
 
 ---
 
-### Phase 8: Tier Gating
+### Phase 8: Construction Gate
+
+**Don't let people wander into a work zone.**
+
+Every new feature ships behind a feature guard. The guard stays up until the feature passes a walkthrough and is explicitly opened.
+
+This matches THE-GARDEN's Door concept — a feature under construction is a door that hasn't been opened yet. You don't invite people into a garden bed you're still tilling.
+
+**The pattern (already proven in the codebase):**
+
+```jsx
+{/* Construction Gate — remove when [FEATURE] passes walkthrough */}
+<Card className="bg-slate-900 border-slate-800 rounded-xl p-5">
+  <div className="flex flex-col items-center justify-center py-12 text-center">
+    <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-4">
+      <IconName className="w-8 h-8 text-slate-500" />
+    </div>
+    <h3 className="text-lg font-semibold text-slate-200">[Feature Name] — Coming Soon</h3>
+    <p className="text-slate-400 mt-2 max-w-md">
+      [One sentence about what's coming and why it matters.]
+    </p>
+  </div>
+</Card>
+{false && <ActualComponent />}
+```
+
+**Rules:**
+- The guard is added during the build phase, not after
+- The hidden component renders behind `{false && <Component />}` so it exists in the codebase but is invisible to users
+- Removal happens in a separate commit with message: `feat: open [feature] — construction gate removed`
+- The removal commit happens ONLY after the gardener (Doron) walks through the feature and confirms it's ready
+- Route-level features also get route guards — the route exists but redirects to a "Coming Soon" page or is excluded from nav until opened
+
+**Output:** Feature is accessible to developers/admin for testing but invisible to regular users.
+
+---
+
+### Phase 9: Tier Gating
 
 **Does this feature behave differently per tier?**
 
@@ -192,12 +243,12 @@ If this feature changes the tier value proposition: update TIER-SYSTEM.md and an
 
 ---
 
-### Phase 9: Polish
+### Phase 10: Polish
 
 **Edge cases, empty states, mobile, dark theme.**
 
 Checklist:
-- [ ] Empty states show friendly messages (not blank screens or "coming soon")
+- [ ] Empty states show friendly messages (not blank screens). Note: "Coming Soon" guards from Phase 8 are different from empty states — guards protect unfinished features, empty states handle finished features with no data yet.
 - [ ] Loading states show skeletons or spinners
 - [ ] Error states show human-readable messages
 - [ ] Mobile-responsive (test on phone-sized viewport)
@@ -211,11 +262,11 @@ Checklist:
 
 ---
 
-### Phase 10: Post-Build Audit
+### Phase 11: Post-Build Audit
 
 **Does what shipped match the plan?**
 
-Walk the feature spec from Phase 1-8:
+Walk the feature spec from Phase 1-9:
 1. Does the data model match the scheme?
 2. Does the feature appear on every surface from the map?
 3. Are security rules implemented correctly?
@@ -228,7 +279,7 @@ If anything's missing: fix it now or add it to the Quick Fixes table in STATUS-T
 
 ---
 
-### Phase 11: Documentation
+### Phase 12: Documentation
 
 **Update the system of record.**
 
@@ -243,10 +294,11 @@ If anything's missing: fix it now or add it to the Quick Fixes table in STATUS-T
 | Terms of Service | New data collection, new user-generated content |
 | Privacy Policy | New data processing, new third-party services |
 | claude.md | New conventions or pitfalls discovered |
+| CLAUDE.md | New construction gate patterns or admin panel conventions |
 
 ---
 
-### Phase 12: Legal Check
+### Phase 13: Legal Check
 
 **Does this feature change what we collect, store, or process?**
 
@@ -261,7 +313,7 @@ Most features won't trigger this. But when they do, it's critical to catch it be
 
 ---
 
-### Phase 13: Organism Signal
+### Phase 14: Organism Signal
 
 **Does this feature generate data that feeds the Organism?**
 
@@ -281,17 +333,18 @@ This phase is often "noted for future" rather than built immediately. The import
  0. Decision Filter    → Should we build this?
  1. Plan               → What and why?
  2. Scheme             → Data model and state
- 3. Surface Mapping    → Where does it show up?
+ 3. Surface Mapping    → Where does it show up? (Admin surface mandatory)
  4. UI/UX Design       → What does it look/feel like?
  5. Pre-Build Audit    → What exists? What can we reuse?
  6. Security           → Who can see/do what?
- 7. Build              → Cursor prompts and implementation
- 8. Tier Gating        → Different behavior per tier?
- 9. Polish             → Edge cases, mobile, dark theme
-10. Post-Build Audit   → Does reality match the plan?
-11. Documentation      → Update the system of record
-12. Legal Check        → Terms/Privacy affected?
-13. Organism Signal    → Data for the creature?
+ 7. Build              → Implementation
+ 8. Construction Gate  → Ship behind guard until walkthrough passes
+ 9. Tier Gating        → Different behavior per tier?
+10. Polish             → Edge cases, mobile, dark theme
+11. Post-Build Audit   → Does reality match the plan?
+12. Documentation      → Update the system of record
+13. Legal Check        → Terms/Privacy affected?
+14. Organism Signal    → Data for the creature?
 ```
 
 ---
@@ -300,9 +353,9 @@ This phase is often "noted for future" rather than built immediately. The import
 
 **For strategy chats:** Walk through Phases 0-6 to produce a complete feature spec before any code.
 
-**For build chats:** Reference the spec from Phases 0-6, then execute Phases 7-9.
+**For build chats:** Reference the spec from Phases 0-6, then execute Phases 7-10.
 
-**For status checks:** Use Phases 10-13 as a post-ship checklist.
+**For status checks:** Use Phases 11-14 as a post-ship checklist.
 
 **For Claude:** When Doron says "let's build [X]," run Phase 0 (Decision Filter), then check if a spec exists covering Phases 1-6. If not, produce one before writing Cursor prompts.
 

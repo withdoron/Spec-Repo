@@ -2114,4 +2114,22 @@ What this is NOT:
 
 ---
 
+### DEC-092: Construction Gate + Mandatory Admin Surface
+
+**Date:** 2026-03-26
+
+**Context:** Features were shipping without guards, letting users wander into incomplete work zones. Admin panel surfaces were sometimes forgotten because the BUILD-PROTOCOL listed admin as one row in a table rather than a mandatory check. Two real-world patterns drove this: (1) Team Management shipped behind a Coming Soon guard (BusinessSettings.jsx) — this worked well and should be the default. (2) Features have shipped without admin visibility, creating blind spots for the gardener.
+
+**Decision:** Two amendments to BUILD-PROTOCOL.md:
+
+1. **Construction Gate (new Phase 8):** Every new feature ships behind a Coming Soon feature guard. Uses the proven pattern: Coming Soon card UI + component hidden behind `{false && <Component />}`. Guard removed in a separate "open the door" commit only after the gardener walks through and confirms readiness. Matches THE-GARDEN Door concept — don't let people into a garden bed you're still tilling.
+
+2. **Mandatory Admin Surface (Phase 3 enforcement):** If a feature creates, modifies, or displays user-affecting data, it MUST include an admin panel surface. No exceptions without written justification. Forces the explicit decision rather than letting admin be forgotten.
+
+**Rationale:** The garden metaphor already has this concept (Door types: Open, Invite, Create). Construction gates are a fourth door state: Closed (under construction). Making it explicit in the protocol prevents half-shipped features from confusing real users. The admin mandate prevents gardener blind spots.
+
+**Status:** ✅ Active
+
+---
+
 *Add new decisions at the bottom of this document.*
