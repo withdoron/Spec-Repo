@@ -65,6 +65,19 @@ Questions to answer:
 
 **Output:** Entity definitions, field lists, state diagrams (can be text-based). Added to ARCHITECTURE.md or the feature spec.
 
+**Base44 Entity Changes: Always Via Agent Prompt**
+
+When the data model requires new entities, new fields on existing entities, or permission changes in Base44:
+
+- Write a Base44 agent prompt as a deliverable alongside the code prompt
+- The agent prompt is a separate document from the Claude Code prompt — Doron runs them on different surfaces
+- Format: plain table with Field, Type, Required, Description columns for each entity
+- Include permissions (Create, Read, Update, Delete) for new entities
+- For existing entity updates, explicitly state "Do NOT change any existing fields or permissions"
+- Doron runs the Base44 agent prompt BEFORE the Claude Code prompt (entities must exist before code references them)
+
+This replaces asking Doron to manually add fields in the Base44 dashboard. A prompt is faster, less error-prone, and documented.
+
 ---
 
 ### Phase 3: Surface Mapping

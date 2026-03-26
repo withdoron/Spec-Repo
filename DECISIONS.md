@@ -2132,4 +2132,18 @@ What this is NOT:
 
 ---
 
+### DEC-093: Base44 Entity Changes Via Agent Prompt
+
+**Date:** 2026-03-26
+
+**Context:** Build prompts were asking Doron to manually add fields in the Base44 dashboard — clicking through the UI to add each field one by one. Base44 has an agent that handles entity creation, field configuration, and permission settings via natural language prompts. We've used it before (PM workspace, 12 entities in one prompt) but hadn't codified it as the standard.
+
+**Decision:** All Base44 entity changes (new entities, new fields, permission changes) are delivered as a Base44 agent prompt document, separate from the Claude Code prompt. Doron runs the Base44 prompt first, then the code prompt. No more manual field creation in the dashboard.
+
+**Rationale:** Faster, less error-prone, documented, and consistent with the "everything is a prompt" workflow. Manual dashboard clicks are slower and leave no record of what was changed or why.
+
+**Status:** ✅ Active
+
+---
+
 *Add new decisions at the bottom of this document.*
