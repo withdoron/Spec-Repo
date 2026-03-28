@@ -9,6 +9,8 @@
 | Date | Focus | Commits | Key Decisions |
 |------|-------|---------|---------------|
 | 2026-03-27 | Marathon: marketplace, documents, e-sign, agent, mobile | 16+ | DEC-092 through DEC-098 |
+| 2026-03-27 (eve) | MCP server spec, platformPulse connection | 3 | DEC-099 |
+| 2026-03-28 | MCP testing, Hyphae naming, workflow optimization | — | DEC-100 | 6 items shipped |
 
 ## Node Status
 
