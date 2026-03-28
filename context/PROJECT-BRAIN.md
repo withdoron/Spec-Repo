@@ -1,7 +1,7 @@
 # PROJECT-BRAIN.md
 
 > Read this first. This file orients any AI model — Claude, Gemini, GPT, or other — to work effectively on LocalLane. It is the single source of truth for project identity, philosophy, and working style.
-> Last updated: 2026-03-03
+> Last updated: 2026-03-27
 
 ---
 
@@ -74,9 +74,23 @@ Before building any new node or major feature: find the real person who needs it
 
 ## Build Protocol
 
-All features ship through a 13-phase sequence: Decision Filter → Plan → Scheme → Surface Mapping → UI/UX Design → Pre-Build Audit → Security → Build → Tier Gating → Polish → Post-Build Audit → Documentation → Legal Check → Organism Signal.
+All features ship through a 16-phase sequence (Phases 0-15): Decision Filter → Plan → Scheme → Surface Mapping → UI/UX Design → Pre-Build Audit → Security → Build → Construction Gate → Tier Gating → Polish → Post-Build Audit → Documentation → Legal Check → Organism Signal → Space Agent.
 
 Reference BUILD-PROTOCOL.md for the full protocol. Don't skip phases.
+
+## Superagent Architecture
+
+Base44 Superagents are the organism's nervous system. Each space in the garden gets its own agent — an AI assistant that reads the space's entity data, answers user questions, provides workspace guidance, searches the directory, looks up external information via web search, and collects feedback through the ServiceFeedback entity.
+
+Architecture: One agent per space. Agent config lives in `agents/` directory as JSON. Chat UI is a reusable AgentChat component with `agentName` prop. Voice input via browser SpeechRecognition API. Conversations persist across page navigations. Agents are READ-ONLY on workspace entities (except ServiceFeedback for feedback capture).
+
+Credit model: Agent messages cost ~3+ integration credits each. Internal operations (entity reads, directory lookups) are cheaper than external operations (web search). Heavy agent users may incur a surcharge on top of the $9 workspace fee.
+
+First agent: FieldServiceAgent (shipped 2026-03-27). Reads all FS entities, web search for permit lookups, ServiceFeedback for user feedback. Live on all Field Service tabs with floating chat button and push-to-talk voice.
+
+Planned agents: HarvestAgent, RecessAgent, CreativeAgent, PropertyAgent, MyCeliaAdmin (platform-level agent for the gardener).
+
+The fractal: what's true of one space's agent is true of all spaces' agents. Same UI, same feedback entity, same voice input, different instructions and entity access.
 
 ## The Gold Standard Design System
 
@@ -125,24 +139,6 @@ One continuous copy-paste block. No extra explanation around it. No markdown cod
 - Saturday Market outreach active (spring season).
 - Aegis Asphalt fractional operations role applied for.
 
-## Fractal Build SOPs
-
-Three reference server function patterns — every new server function mirrors one:
-- **claimWorkspaceSpot.ts** — join flows (invite code → validate → duplicate check → link user)
-- **initializeWorkspace.ts** — workspace setup (create entity → seed defaults)
-- **manageTeamPlay.ts** — CRUD with permission checks (verify caller role → validate → execute)
-
-Three-tier permission model across all workspace types:
-- **Owner/Coach** — full access (create, edit, delete, manage members)
-- **Worker/Parent** — scoped access (view, limited actions, linked entities)
-- **Client/Player** — minimal access (view own data, participate)
-
-All prompts to Claude Code must include `REPO:` line at top. Claude Code is the primary implementation surface.
-
-## Frequency Station
-
-Community radio station — turns written submissions ("seeds") into AI-generated songs. Phase 2 shipped 2026-03-22. Submit tab (text + theme + anonymous toggle + dedication), My Seeds (edit/withdraw), Queue (admin processing), Listen tab (public song library with audio player), song detail pages at /frequency/:slug. First song "Come Alive" published. Anonymous submissions are truly anonymous (user_id: null). Audio upload via Base44 Core.UploadFile (25MB max). Song entity: FrequencySong. Submission entity: FSFrequencySubmission.
-
 ## File Map
 
 Key files to read before working:
@@ -151,7 +147,7 @@ Key files to read before working:
 |------|-----------------|
 | context/ACTIVE-CONTEXT.md | What's happening RIGHT NOW — current builds, blockers, priorities |
 | context/SESSION-LOG.md | Running timeline of what shipped and when |
-| BUILD-PROTOCOL.md | The 13-phase build sequence |
+| BUILD-PROTOCOL.md | The 16-phase build sequence (Phases 0-15) |
 | STYLE-GUIDE.md | Gold Standard design system — colors, components, patterns |
 | ARCHITECTURE.md | Technical patterns, node architecture, Base44 patterns |
 | DECISIONS.md | All numbered decisions and their rationale |
@@ -165,37 +161,6 @@ Private repo (sensitive strategy):
 - NODE-PLAYBOOK.md — Field testing SOP
 - ORGANISM-CONCEPT.md — North star vision document
 - COMMUNITY-PASS.md — Membership model details
-- THE-GARDEN.md — Spatial philosophy and pulse architecture (DEC-082)
-
-## Spatial Philosophy — The Garden (DEC-082)
-
-LocalLane is a garden. Four areas define the space:
-
-1. **Place to Play** — community spaces (Creation Station, Quests, Ideas). Open door. Low commitment, high discovery.
-2. **Place to Grow** — workspaces (Field Service, PM, Team, Finance). Invite door. Private by default. Your roots.
-3. **Place to Gather** — events and gatherings. Anyone creates. All flow into shared calendar.
-4. **Place to Be Seen** — the Directory. Not a space. The skin of the garden. Reflects everything that wants to be visible.
-
-Every space shares a universal heartbeat:
-
-* **Pulse** — how alive (vitality signal, fractal from cell to garden)
-* **Door** — how you enter (open, invite, create)
-* **Surface** — what it looks like from outside (glow in directory/search)
-* **Guide** — first-time walkthrough (toggleable, per-space-type content)
-
-Pulse is relational, not absolute. Five signals at every scale:
-
-1. Self-trend (compared to own baseline)
-2. Peer context (compared to similar spaces)
-3. Seasonal norm (adjusted for natural rhythms)
-4. Freshness (recency of latest activity)
-5. Diversity (range of participation, not volume of repetition)
-
-The architecture supports infinite space types — any new space plugs into the same pulse engine. The garden doesn't need to know what you are. It just needs to feel whether you're alive.
-
-Game layer: Superpowers revealed by participation, Quests driven by organism health.
-
-Full philosophy: THE-GARDEN.md (private repo). Companion to ORGANISM-CONCEPT.md.
 
 ---
 
