@@ -13,12 +13,13 @@
 | 2026-03-28 | MCP testing, Hyphae naming, workflow optimization, diary entries | — | DEC-100 | 8 items shipped |
 | 2026-03-29 | Superagent nervous system (5 agents), Open Garden spec, pricing model, creative engine | 6 | DEC-100 through DEC-104 | 13 items shipped |
 | 2026-03-29 (late) | Mylane Phases 1-4, agentScopedQuery, permission membrane | 5 | DEC-105 through DEC-109 | 12 items shipped |
+| 2026-03-30 | MCP v2, Mycelia Superagent, universal renderer, full audit, ObjectId fix | 4d9084f + others | DEC-110 through DEC-113 | 15 items shipped |
 
 ## Node Status
 
 | Node | Score | Status | Last Updated |
 |------|-------|--------|-------------|
-| Community Node | ~75/100 | Pilot-ready, 5 agents wired | 2026-03-29 |
+| Community Node | ~75/100 | Pilot-ready, 8 App Agents + 1 Mycelia Superagent | 2026-03-30 |
 | Field Service | ~92/100 | Documents + e-sign + FieldServiceAgent live | 2026-03-29 |
 | Harvest Network | ~60/100 | Phase 2 shipped, map gated | 2026-03-27 |
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |
@@ -45,6 +46,6 @@
 | 12 | Documentation | Active |
 | 13 | Legal Check | Active |
 | 14 | Organism Signal | Active |
-| 15 | Space Agent | LIVE -- 5 agents (DEC-094, DEC-103) |
+| 15 | Space Agent | LIVE -- 8 App Agents + 1 Mycelia Superagent (DEC-094, DEC-103, DEC-112) |
 
 ---

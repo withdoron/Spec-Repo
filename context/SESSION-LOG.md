@@ -205,3 +205,40 @@ Marketing:
 - Farmers market deadline Wednesday
 
 ---
+
+### Session Log — 2026-03-30
+**Focus:** agentScopedQuery auth fix, Mylane render protocol, universal renderer, Scout agent, Renderer agent, full Mylane audit, MCP v2 expansion, Mycelia Superagent creation
+
+**Shipped:**
+1. agentScopedQuery auth pattern discovered — base44.auth.me() does NOT work in agent-called backend functions (service role context). Agent must pass user_id explicitly from conversation context. Forceful instructions ("you MUST pass user_id, NEVER ask") required to make the LLM actually pass the parameter.
+2. Mylane render protocol — two types: TYPE 1 (RENDER — workspace drill via HTML comment) and TYPE 2 (RENDER_DATA — universal renderer with raw data). parseRenderInstruction.js updated. Mylane Base44 instructions updated with full render protocol.
+3. Mylane internal rendering at 992c5b2 — MyLaneDrillView.jsx renders workspace tabs INSIDE Mylane. User never leaves. Chat stays docked. Breadcrumb navigation. Three content modes: cards, drilled workspace, rendered entity data.
+4. renderEntityView.jsx (universal renderer) at d253ff9 — 280 lines, field type detection (phone, email, currency, date, status, boolean, URL, address), 30 entity title mappings, 15 status colors, three display modes (empty, detail, list). Phase 1 coded function — scaffold for future Renderer Agent.
+5. Renderer Agent created in Base44 — 7th superagent, the organism's visual cortex. Internal only, global memory, no entity tools. Receives data, returns Gold Standard HTML.
+6. Scout Agent created in Base44 — 8th superagent, the organism's immune system. Two modes: Knowledge Feeding (industry research per workspace) and AI Scout (tracks AI tool updates). Internal only.
+7. Full Mylane/Renderer audit at 592489c — 4 bugs fixed: Team entity uses owner_id not user_id, daily-log tab alias wrong, recurring tab alias wrong, 10 missing entity title mappings, 4 missing status colors.
+8. ObjectId comparison bug at 96caaa9 — base44 .list() returns IDs as ObjectId type, not string. Added idMatch() helper with String() coercion to all 5 comparison points in agentScopedQuery. Universal Base44 pattern: always use String() coercion for ID comparisons.
+9. MCP v2 deployed — 5 new tools replacing old 5: pulse (platformPulse wrapper), scoped_query (agentScopedQuery wrapper), ask_agent (wired to Mycelia Superagent), write_feedback (ServiceFeedback creation), list_agents (agent registry). Deployed at locallane-mcp.doron-bsg.workers.dev/mcp.
+10. Mycelia Superagent created in Base44 — NOT an App Agent, a Superagent with full API access. Base URL: app.base44.com/api/agents/69c9aec9fc313792b73d8fdd. 7 knowledge files uploaded (all organism specs). GitHub connected. Soul updated with organism identity. Memory seeded. MCP ask_agent wired at f815a402.
+11. Base44 architecture distinction discovered: Superagents (standalone, API access, own workspace) vs App Agents (embedded in app, no API, 4 tabs only). Our 8 workspace agents are App Agents. Mycelia is our first Superagent — the bridge between Claude.ai and the organism.
+12. St. Rita Psychiatry connection — Doron painting there, met April (likely admin staff). Practice serves ages 5-21, neurodivergent kids. April interested in Recess flyers. Potential Recess Network partner.
+13. Protocol established: Base44 reports code errors but does not fix them. Hyphae fixes code. Base44 renamed renderEntityView.js to .jsx which caused preview issues.
+14. Protocol established: Hyphae writes all server functions. Base44 syncs from GitHub on publish. Repo is source of truth.
+15. RENDERER-AGENT-SPEC.md committed to private repo at fc6ca7e.
+
+**Decisions made:**
+- DEC-110: Base44 agent-to-function auth pattern — agents pass user_id from conversation context, backend functions run in service role (auth.me() doesn't work). Universal pattern: always use String() coercion for ID comparisons from .list() results.
+- DEC-111: Two render instruction types — RENDER (workspace drill) and RENDER_DATA (universal renderer with raw data). HTML comment format invisible to ReactMarkdown.
+- DEC-112: Mycelia Superagent architecture — one Superagent (with API access) bridges Claude.ai Mycelia and all App Agents inside the platform. App Agents serve users in UI. Mycelia Superagent serves gardeners externally via MCP.
+- DEC-113: Protocol boundary — Base44 reports code errors, Hyphae fixes them. Hyphae writes all server functions. Repo is source of truth, Base44 syncs from GitHub on publish.
+
+**Next up:**
+- Test MCP circuit from Claude Desktop (ask_agent → Mycelia Superagent)
+- SuperMemory bearer token for Mycelia Superagent connection (deferred)
+- Coaches card for Monday meeting 6:30 PM
+- Re-fax EIN Monday
+- Farmers market deadline Wednesday
+- Follow up with April at St. Rita re: Recess flyers
+- Base44 Superagent API key question for App Agent programmatic access (support ticket sent)
+
+---
