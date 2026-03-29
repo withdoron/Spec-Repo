@@ -127,4 +127,31 @@ Does this space need its own intelligence? Every space in the garden has a Super
 
 Output: Base44 agent config, entity access list, UI integration, agent-active event update.
 
+### Base44 Superagent Critical Patterns
+
+**Auth context in backend functions:**
+- Backend functions receive authenticated user context automatically via createClientFromRequest(req) + base44.auth.me()
+- NEVER require user_id as an agent parameter — the function gets it from auth context
+- If a function needs to know who is calling, use base44.auth.me() inside the function
+
+**Entity Tools vs Backend Function Tools:**
+- Agents can have BOTH entity tools and backend function tools simultaneously
+- Entity Tools use Row-Level Security (RLS) only — if RLS is "Authenticated Users Read," the agent sees ALL records
+- Backend Function Tools (like agentScopedQuery) can enforce per-user scoping at the server level
+- Pattern: use entity tools for platform-wide reads (ServiceFeedback, Business), use agentScopedQuery for workspace-scoped reads
+
+**Agent Response Rendering:**
+- Agent responses CAN include structured JSON for UI rendering
+- Frontend intercepts via base44.agents.subscribeToConversation(conversationId, callback)
+- Pattern: agent returns { text: "response", render: { component: "name", props: {} } }
+- Frontend parses render instruction and mounts the component
+- AgentChat MessageBubble uses ReactMarkdown for content rendering
+
+**Data Scoping Protocol:**
+- All workspace data queries go through agentScopedQuery server function
+- Function uses base44.auth.me() to identify the user automatically
+- Function uses asServiceRole + .list() + client-side filter to scope by workspace profile
+- AdminAgent is exempt — needs cross-workspace vision with direct entity reads
+- When entities/fields change in a space, update BOTH the workspace code AND the agent's entity-to-FK mapping in agentScopedQuery
+
 ---
