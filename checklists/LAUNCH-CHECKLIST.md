@@ -40,6 +40,17 @@
 - [ ] Network application flow (construction gated)
 - [ ] Two egg sellers onboarded
 
+## Agents & MCP
+
+- [x] MCP v2 circuit test — all 5 tools passing (2026-03-30)
+- [x] agentScopedWrite server function built and confirmed
+- [x] Mylane write capability confirmed (first agent-created record)
+- [x] Agent tier gating infrastructure (subscription_tier on profiles)
+- [ ] Base44 publish unblocked
+- [ ] Mylane console upgrades deployed (new chat, upload, chips, cards)
+- [ ] Field test: full Mylane write flow from mobile
+- [ ] Propagate write capability to all workspace agents
+
 ## Platform
 
 - [ ] LLC/EIN paper filing (SSN missing, needs re-fax)

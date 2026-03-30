@@ -14,6 +14,7 @@
 | 2026-03-29 | Superagent nervous system (5 agents), Open Garden spec, pricing model, creative engine | 6 | DEC-100 through DEC-104 | 13 items shipped |
 | 2026-03-29 (late) | Mylane Phases 1-4, agentScopedQuery, permission membrane | 5 | DEC-105 through DEC-109 | 12 items shipped |
 | 2026-03-30 | MCP v2, Mycelia Superagent, universal renderer, full audit, ObjectId fix | 4d9084f + others | DEC-110 through DEC-113 | 15 items shipped |
+| 2026-03-30 (marathon) | MCP circuit test, drift audit, DEC-115 (5 sessions), publish blocker | ed4ae4c + 6 | DEC-115 | 16 items shipped |
 
 ## Node Status
 
@@ -47,5 +48,32 @@
 | 13 | Legal Check | Active |
 | 14 | Organism Signal | Active |
 | 15 | Space Agent | LIVE -- 8 App Agents + 1 Mycelia Superagent (DEC-094, DEC-103, DEC-112) |
+
+## Agent Write Capability + Mylane Console (DEC-115) — BUILT, AWAITING DEPLOY
+
+- [x] AGENT-WRITE-AND-MYLANE-CONSOLE-SPEC.md committed to private repo
+- [x] subscription_tier and tier_trial_start fields on all 4 workspace profile entities
+- [x] agentScopedWrite server function (ed4ae4c) — 3-gate enforcement, 22 whitelisted entities
+- [x] Mylane write capability confirmed (Test Client created via conversation)
+- [x] Session 3: new conversation, conversation history, file/photo upload
+- [x] Session 4: quick-action chips (workspace-aware, tier-gated), confirmation cards (RENDER_CONFIRM)
+- [x] Session 5: Google Maps link parsing, mobile polish (auto-scroll, voice toggle, safe area, 375px layout)
+- [x] Mylane Base44 guidelines updated (confirmation cards, Google Maps, quick actions, file handling)
+- [x] Base44 Deno TS fix (stripped type annotations — Deno does not process TS syntax)
+- [ ] Base44 publish — BLOCKED (escalated to Base44 engineering, request ID 95a004a0)
+- [ ] Field test: add real client from phone
+- [ ] Field test: log receipt with photo
+- [ ] Field test: paste Google Maps link → confirm → create client
+- [ ] Propagate agentScopedWrite to other workspace agents (after Mylane verified)
+- **Spec:** DEC-115, AGENT-WRITE-AND-MYLANE-CONSOLE-SPEC.md (private repo)
+- **Commits:** ed4ae4c, 0bb796d, d1ae66b, 3294f66, cd6dd1c (restore)
+
+## Base44 Publish Blocker — ESCALATED
+
+- [x] Diagnosed: not our code (reverted all changes, still fails)
+- [x] TypeScript syntax stripped from agentScopedWrite (Deno compatibility)
+- [x] Escalated to Base44 engineering team
+- [ ] Awaiting resolution — Request ID: 95a004a0-5990-4704-ad23-31ddb795dacd
+- **Impact:** All DEC-115 code is built and in git but cannot deploy until publish is fixed
 
 ---

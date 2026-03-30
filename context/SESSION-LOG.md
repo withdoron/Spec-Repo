@@ -242,3 +242,51 @@ Marketing:
 - Base44 Superagent API key question for App Agent programmatic access (support ticket sent)
 
 ---
+
+### Session Log — 2026-03-30 (Marathon Session)
+**Focus:** MCP circuit test, drift audit, Scout report, DEC-115 agent write + Mylane console upgrades, Base44 publish blocker
+
+**Shipped:**
+1. MCP v2 full circuit test — all 5 tools confirmed working from Claude Desktop: pulse (health), list_agents (8 agents), scoped_query (FSClient, Team), ask_agent (Mycelia Superagent responded coherently, conversation ID 69c9bf482e6fda0e3f68ee1c)
+2. Config fix — remote MCP servers must go through Settings > Connectors UI, NOT claude_desktop_config.json (which only supports local stdio servers)
+3. Drift audit completed — 27-day gap cataloged (2026-03-03 to 2026-03-30). Report committed to spec-repo at audits/DRIFT-REPORT-2026-03-30.md
+4. ACTIVE-CONTEXT.md fully rewritten and synced to both repos. DEC-100 collision fixed (second entry renamed DEC-100b)
+5. Scout report completed — Base44/Wix acquisition ($80M, $100M ARR), OpenClaw (247K GitHub stars, viral open-source agent), Claude Computer Use + Dispatch (March 23-24). Saved to SuperMemory.
+6. Dashboard cleanup (bc116b3) — removed dead Silver/Passes/Tickets badges from BusinessDashboard.jsx header. Mobile nav audit passed clean.
+7. Admin on phone — Doron accessed LocalLane as admin from mobile for the first time. Google sign-in worked.
+8. DEC-115 specced — AGENT-WRITE-AND-MYLANE-CONSOLE-SPEC.md committed to private repo. Covers agentScopedWrite server function, 3-gate tier enforcement, Mylane console upgrades across 5 sessions.
+9. agentScopedWrite server function (ed4ae4c, 244 lines) — 3-gate enforcement: admin check, tier check (subscription_tier on workspace profiles), entity whitelist (22 entities across 5 workspaces). Ownership stamping with created_via:"agent". Required field validation. idMatch() with String() coercion.
+10. Mylane write capability CONFIRMED — Test Client created at 123 Main St Eugene OR via Mylane conversation. First agent-created record in the organism.
+11. subscription_tier (default "full") and tier_trial_start fields added to all 4 workspace profile entities via Base44 dashboard.
+12. Session 3 (0bb796d) — AgentChat: new conversation button (+), conversation history panel (clock icon, localStorage, 20 max entries), file/photo upload (paperclip, Base44 UploadFile, 10MB limit, camera/gallery on mobile).
+13. Session 4 (d1ae66b) — Quick-action chips (workspace-aware, tier-gated, write chips for full tier only, horizontal scroll), ConfirmationCard.jsx (Gold Standard card with Confirm/Edit/Cancel), RENDER_CONFIRM instruction type in parseRenderInstruction.js.
+14. Session 5 (3294f66) — Google Maps link parsing (agent instruction), mobile polish: smart auto-scroll (80px threshold), voice/send toggle (WhatsApp pattern), safe-area padding (env(safe-area-inset-bottom)), hidden scrollbar on chips, input layout verified at 375px.
+15. Mylane Base44 guidelines updated with confirmation cards, Google Maps, quick action awareness, file handling, response style.
+16. Base44 publish blocker — diagnosed: NOT our code. Reverted everything, still failed. TypeScript annotations stripped from agentScopedWrite (Base44 Deno runtime does not process TS syntax despite .ts extension). Escalated to Base44 engineering. Request ID: 95a004a0-5990-4704-ad23-31ddb795dacd. Main restored to full state at cd6dd1c.
+
+**Decisions made:**
+- DEC-115: Agent Write Capability + Tier Gating + Mylane Console
+
+**Key learnings:**
+- Remote MCP servers connect via Settings > Connectors in Claude Desktop, never via claude_desktop_config.json
+- Base44 GitHub sync branch cannot be changed once connected. Disconnecting is permanent. All fixes must go through main.
+- Base44 Deno runtime runs .ts files but does NOT process TypeScript syntax — use plain JS in .ts extensions
+- Base44 publish can fail at infrastructure level — revert does not fix stuck pipeline. Must escalate to engineering.
+
+**Blockers:**
+- Base44 publish failure — escalated to engineering team. All code preserved in git at cd6dd1c.
+
+**Vision seeds planted:**
+- Supplier price sheets for dynamic estimates
+- EuDash — local errand/task marketplace
+- Meal prep agent — recipe + local ad scraping for optimized grocery lists
+
+**Next up:**
+- Coaches meeting Monday 6:30 PM
+- Re-fax EIN Monday
+- Check Base44 support response
+- Once publish unblocked: test full Mylane from phone in field
+- Farmers market deadline Wednesday
+- Follow up with April at St. Rita re: Recess flyers
+
+---
