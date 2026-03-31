@@ -29,6 +29,7 @@
 | Organism Creature (Avatar) | Feature | Designed (2026-03-31) | 7-param SVG mushroom (spaces, connections, recentActivity, tenure, modePreference, networkDepth, diversityScore). 5 composable layers. Breathing animation. Build when 50+ active users with diverse workspace usage. |
 | Pip-Boy Wearable | Hardware | Concept (2026-03-31) | Phone band docking to wrist/forearm. App switches to simplified glanceable interface. Voice-first Mylane. The band IS the onboarding. Needs working mobile app + manufacturing research. |
 | Mylane-to-Mylane Messaging | Feature | Designed (2026-03-31) | MylaneMessage entity. Cross-user communication via relationship links. Whisper/nudge/alert urgency. Companion-to-companion delivery. Build after items 5-6 (Mylane as default + ghost cards). |
+| Dynamic Pricing Gauge | Feature | Designed (2026-03-31) | UsageEvent metering + getUserGauge() server function + Mylane gauge card. $3 ante, $9 increments. Fuel gauge visible in Mylane. Needs Stripe integration + UsageEvent entity deployed. |
 
 ## Key Contacts
 

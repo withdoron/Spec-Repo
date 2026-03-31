@@ -18,6 +18,7 @@
 | 2026-03-30 (eve) | Team invite flow fixes (d703083, 05a08fe), Dark Until Explored philosophy (DEC-117-123), three-gardener architecture session, met Randy (NFL FLAG coordinator) | d703083, 05a08fe | DEC-117 through DEC-123 | 6 items shipped |
 | 2026-03-31 (AM) | Architecture deepening: Mylane-to-Mylane messaging (DEC-124), pricing transparency (DEC-125), communication as frequency (DEC-126). Hyphae rounds 2-3. Organism creature designed. Conductor-per-user confirmed. Foundation assessed: solid, ready to build. | — | DEC-124 through DEC-126 | 9 items shipped |
 | 2026-03-31 (Build) | "Dark Until Explored" full build day: 8 items shipped (e7ba445, 0c117ce, aaa6e8f, 57da05c, d723784, 4b0d0e1, 9e4afb2), polish (fe0a674), Phase 11 audit (8/8 aligned, 6 minor gaps). Contextual landing, claim-first join, onboarding skip, card dimming, Mylane as default, ghost cards, door slugs, Auto/Manual gradient. | 7 commits | — | 8 items + polish |
+| 2026-03-31 (PM) | Landing page (4746b17), finance fix (37a42fd), conversational onboarding (65adbc3), nav simplification (3de7bee), privacy/terms (299ee4e), invite consistency (e4238de). DEC-127-130: $3 ante, dynamic $9 pricing, agent boundary, query optimization. Credit economics analyzed. | 6 commits | DEC-127 through DEC-130 | 7 items shipped |
 
 ## Node Status
 
