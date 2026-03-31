@@ -15,6 +15,7 @@
 | 2026-03-29 (late) | Mylane Phases 1-4, agentScopedQuery, permission membrane | 5 | DEC-105 through DEC-109 | 12 items shipped |
 | 2026-03-30 | MCP v2, Mycelia Superagent, universal renderer, full audit, ObjectId fix | 4d9084f + others | DEC-110 through DEC-113 | 15 items shipped |
 | 2026-03-30 (marathon) | MCP circuit test, drift audit, DEC-115 (5 sessions), publish blocker | ed4ae4c + 6 | DEC-115 | 16 items shipped |
+| 2026-03-30 (eve) | Team invite flow fixes (d703083, 05a08fe), Dark Until Explored philosophy (DEC-117-123), three-gardener architecture session, met Randy (NFL FLAG coordinator) | d703083, 05a08fe | DEC-117 through DEC-123 | 6 items shipped |
 
 ## Node Status
 
@@ -25,7 +26,7 @@
 | Harvest Network | ~60/100 | Phase 2 shipped, map gated | 2026-03-27 |
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |
 | Personal Finance | ~78/100 + agent | FinanceAgent wired | 2026-03-29 |
-| Play Trainer (Team) | ~95/100 + agent | PlaymakerAgent wired | 2026-03-29 |
+| Play Trainer (Team) | ~95/100 + agent | Invite flow fixed. Randy (Grab It NFL FLAG coordinator) met — league-wide Playmaker sponsorship opportunity. | 2026-03-30 |
 | Frequency Station | Functional | Phase 2 live | 2026-03-25 |
 
 ## Build Protocol Phase Status

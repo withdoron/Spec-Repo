@@ -290,3 +290,38 @@ Marketing:
 - Follow up with April at St. Rita re: Recess flyers
 
 ---
+
+### Session Log — 2026-03-30 (Evening)
+**Focus:** Team invite flow bug fixes, "Dark Until Explored" philosophy, three-gardener architecture session
+**Shipped:**
+1. Team invite join flow fix — commit d703083: removed claimTeamSpot server function calls, replaced with direct entity operations (coach create, parent create, player claim). Added duplicate membership check. Fixed onboarding loop with ensureOnboardingComplete().
+2. Team picker Create/Join choice — commit 05a08fe: "I have an invite code" option in Add Workspace type picker. Onboarding persistence hardened with server function + fallback + optimistic cache. /join/ route confirmed exempt from onboarding guard.
+3. EIN SS-4 form re-faxed with SSN included (administrative, done).
+4. Hyphae architecture questions delivered and fully answered (two rounds, 10 questions + 3 follow-ups). Covers: claim-first join pattern, proximity computation, subdomain-as-hypha model, Mylane-as-dashboard phases, dimming mechanic, Manual/Auto mode gradient.
+5. "Dark Until Explored" philosophy crystallized — platform-wide rendering principle established across all three gardeners.
+6. Three Gardeners song seed written for Suno.
+
+**Decisions made:**
+- DEC-117: Dark Until Explored — platform-wide rendering philosophy
+- DEC-118: Claim-First Join Pattern — universal for all workspace joins
+- DEC-119: Invite Code IS Onboarding — skip wizard for invite-based entry
+- DEC-120: Two Dashboard Modes (Auto/Manual) with organic gradient
+- DEC-121: Subdomain-as-Hypha Growth Model
+- DEC-122: Renderer Agent Stays Visual — context lives upstream
+- DEC-123: Parent-Player Links as Cross-Space Relationship Prototype
+
+**Key people:**
+- Met Randy, head coordinator of Grab It NFL FLAG Eugene
+- Coach Rick attempted onboarding at coaches meeting, hit bugs (now fixed)
+
+**Next up:**
+1. Context-aware landing page (personalized invite copy)
+2. Claim-first join flow (port Field Service pattern)
+3. Onboarding skip for invite entry
+4. Card opacity dimming from existing localStorage
+5. Mylane as default post-login destination
+6. Ghost cards for proximate spaces
+7. Slug field + /door/:slug route
+8. Auto/Manual gradient
+
+---
