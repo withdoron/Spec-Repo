@@ -421,3 +421,74 @@ Marketing:
 5. Coast trip planning (North Bend + seed spreading)
 
 ---
+
+### Session Log — 2026-03-31 (Final)
+**Focus:** Comprehensive platform audit (2 passes), 4 fix waves, second audit fixes, pricing economics, landing page artwork direction, philosophy evolution
+**Two-day summary (2026-03-30 evening through 2026-03-31 afternoon):**
+
+This was the longest continuous build session in LocalLane history. Three gardeners working together across strategy, code, legal, economics, and design.
+
+**Code shipped (21+ commits):**
+1. Bug fixes from coaches meeting — d703083, 05a08fe
+2. 8 Dark Until Explored items — e7ba445 through 9e4afb2
+3. Polish pass — fe0a674
+4. Finance fixes x2 — 0d18a19, 37a42fd
+5. Landing page redesign — 4746b17
+6. Conversational onboarding (wizard replaced) — 65adbc3
+7. Nav simplification — 3de7bee
+8. Privacy/Terms update (SB 243 compliant) — 299ee4e
+9. Invite link consistency — e4238de
+10. New user UX fixes (full name, doors, conditional discover, philosophy page) — 7c449c4
+11. Audit Wave 1 (circulation fix, networks gated, dead code) — b06aff0
+12. Audit Wave 2 (all back buttons, community spaces gated) — d71dd8f
+13. Audit Wave 3 (staleTime caching) — db57905
+14. Audit Wave 4 (copy warmth, Support FAQ, dead code) — 9c87b91
+15. Second audit fixes (broken queries, contextual nav, dead code, staleTime) — 0859577
+
+**Net line impact across all commits:** approximately -1,350 lines removed
+
+**Decisions made (DEC-117 through DEC-130):**
+- DEC-117: Dark Until Explored
+- DEC-118: Claim-First Join Pattern
+- DEC-119: Invite Code IS Onboarding
+- DEC-120: Two Dashboard Modes (Auto/Manual)
+- DEC-121: Subdomain-as-Hypha Growth Model
+- DEC-122: Renderer Agent Stays Visual
+- DEC-123: Parent-Player Links as Cross-Space Prototype
+- DEC-124: Mylane-to-Mylane Messaging
+- DEC-125: Pricing Transparency
+- DEC-126: Communication as Frequency/Presence
+- DEC-127: $3 Ante (later revised: free discovery, free manual mode, $9 at AI boundary)
+- DEC-128: Dynamic Pricing in $9 Increments
+- DEC-129: Agent Access is the Pricing Boundary
+- DEC-130: Query Optimization Required Before League Scale
+
+**Pricing model established:** Free discovery → Free with account (manual mode) → Mylane Beta (free during beta, $9 when live) → $18 Personal Assistant. Workspace costs separate: $9 for money-making tools, free for life-organizing tools. Dynamic gauge shows value delivered, not cost incurred.
+
+**Philosophy crystallized:**
+- "Without money, the organism dies."
+- "Free carries little value. Life isn't free."
+- "Money is just the blood — not the purpose of the body, but what keeps the organs alive."
+- "The organism is the relationship, not the name. The frequency, not the flute."
+- "Things which are easy to be a part of lose value."
+- "How much is an hour of your time worth?"
+- "We don't focus on what others do, we focus on what we do."
+- "80% of marketing should come from within, not from without."
+
+**Landing page evolution:**
+- V1: 7 sections → 4 sections (4746b17)
+- V2: Mushroom artwork as full-screen landing page. No nav for unauthenticated visitors. The mushroom IS the door. Desktop and mobile portrait artwork generated. Hyphae provided full technical implementation plan. Build prompt ready for next session.
+
+**Comprehensive audit (2 passes):**
+- First audit: 9 misaligned items found, 4 fix waves shipped (-697 net lines)
+- Second audit (fresh eyes): C1 critical (.filter().list() bug), H1-H4 high, M1-M7 medium, L1-L5 low. Contextual back navigation pattern recommended (navigate(-1) with smart fallback).
+
+**Next up:**
+1. Mushroom artwork landing page build (next Hyphae session)
+2. Wire Mylane copilot into MyLane.jsx (Mylane Beta toggle)
+3. Query optimization (DEC-130) when Base44 publish blocker resolves
+4. Coach Rick invite retry
+5. Call Randy
+6. Coast trip (North Bend)
+
+---
