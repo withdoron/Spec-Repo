@@ -38,6 +38,7 @@
 | Peter (Elite Auto Tech N Tow) | Potential second FS vertical | Identified | Mechanic in Eugene. |
 | Hayley | Lane County Farmers Market ED | Building | Saturday Market orientation completed. |
 | Get Air (Charlie) | Recess Pass pilot | Declined for now | Open to future when established. |
-| Randy | Grab It NFL FLAG coordinator | Met 2026-03-30 | Head coordinator of Grab It NFL FLAG in Eugene. League-wide Playmaker sponsorship opportunity. Follow up after Coach Rick onboards successfully. |
+| Coach Rick | Team / Playmaker | Invite flow fixed | Invite flow bulletproof (8 items shipped). Duplicate cleaned from roster. Ready for retry. Follow up this week. |
+| Randy | Grab It NFL FLAG coordinator | Met 2026-03-30 | Head coordinator of Grab It NFL FLAG in Eugene. Paid position. League-wide Playmaker sponsorship opportunity. Call after Coach Rick confirms flow works. Research his scheduling workflow. |
 
 ---

@@ -51,6 +51,25 @@
 - [ ] Field test: full Mylane write flow from mobile
 - [ ] Propagate write capability to all workspace agents
 
+## Team / Playmaker
+
+- [x] Team invite flow working end to end
+- [x] Personalized invite landing page
+- [x] Claim-first join flow (coaches claim pre-seeded roster spots)
+- [x] Onboarding skip for invite-based entry
+- [x] Door links for physical-world entry (/door/:slug)
+- [ ] Coach Rick field test confirmation
+- [ ] Randy league demo + scheduling workflow research
+
+## Mylane / Dark Until Explored
+
+- [x] Mylane as default authenticated landing
+- [x] Card vitality dimming (continuous opacity curve)
+- [x] Discovery whisper ghost cards (proximate spaces)
+- [x] Auto/Manual gradient tracking (frequency data)
+- [ ] AgentChat dispatch wired for mylane-user-message
+- [ ] Dead code cleanup (6 old section components)
+
 ## Platform
 
 - [ ] LLC/EIN paper filing (SSN missing, needs re-fax)

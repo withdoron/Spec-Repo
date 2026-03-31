@@ -17,6 +17,7 @@
 | 2026-03-30 (marathon) | MCP circuit test, drift audit, DEC-115 (5 sessions), publish blocker | ed4ae4c + 6 | DEC-115 | 16 items shipped |
 | 2026-03-30 (eve) | Team invite flow fixes (d703083, 05a08fe), Dark Until Explored philosophy (DEC-117-123), three-gardener architecture session, met Randy (NFL FLAG coordinator) | d703083, 05a08fe | DEC-117 through DEC-123 | 6 items shipped |
 | 2026-03-31 (AM) | Architecture deepening: Mylane-to-Mylane messaging (DEC-124), pricing transparency (DEC-125), communication as frequency (DEC-126). Hyphae rounds 2-3. Organism creature designed. Conductor-per-user confirmed. Foundation assessed: solid, ready to build. | — | DEC-124 through DEC-126 | 9 items shipped |
+| 2026-03-31 (Build) | "Dark Until Explored" full build day: 8 items shipped (e7ba445, 0c117ce, aaa6e8f, 57da05c, d723784, 4b0d0e1, 9e4afb2), polish (fe0a674), Phase 11 audit (8/8 aligned, 6 minor gaps). Contextual landing, claim-first join, onboarding skip, card dimming, Mylane as default, ghost cards, door slugs, Auto/Manual gradient. | 7 commits | — | 8 items + polish |
 
 ## Node Status
 
@@ -27,7 +28,7 @@
 | Harvest Network | ~60/100 | Phase 2 shipped, map gated | 2026-03-27 |
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |
 | Personal Finance | ~78/100 + agent | FinanceAgent wired | 2026-03-29 |
-| Play Trainer (Team) | ~95/100 + agent | Invite flow fixed. Randy (Grab It NFL FLAG coordinator) met — league-wide Playmaker sponsorship opportunity. | 2026-03-30 |
+| Play Trainer (Team) | ~98/100 + agent | Dark Until Explored fully implemented. Invite flow bulletproof. Door links live (locallane.app/door/grab-it-nfl-flag). Ready for Coach Rick field test and Randy league rollout pitch. | 2026-03-31 |
 | Frequency Station | Functional | Phase 2 live | 2026-03-25 |
 
 ## Build Protocol Phase Status
