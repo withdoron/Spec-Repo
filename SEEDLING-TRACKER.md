@@ -26,6 +26,9 @@
 | Mycelia Admin Agent | Platform Agent | Planned | Platform-level Superagent for the gardener. Admin dashboard intelligence. |
 | HarvestAgent | Space Agent | Planned | Agent for Harvest Network space. Vendor lookup, market schedules. |
 | RecessAgent | Space Agent | Planned | Agent for movement/play spaces. Class schedules, instructor lookup. |
+| Organism Creature (Avatar) | Feature | Designed (2026-03-31) | 7-param SVG mushroom (spaces, connections, recentActivity, tenure, modePreference, networkDepth, diversityScore). 5 composable layers. Breathing animation. Build when 50+ active users with diverse workspace usage. |
+| Pip-Boy Wearable | Hardware | Concept (2026-03-31) | Phone band docking to wrist/forearm. App switches to simplified glanceable interface. Voice-first Mylane. The band IS the onboarding. Needs working mobile app + manufacturing research. |
+| Mylane-to-Mylane Messaging | Feature | Designed (2026-03-31) | MylaneMessage entity. Cross-user communication via relationship links. Whisper/nudge/alert urgency. Companion-to-companion delivery. Build after items 5-6 (Mylane as default + ghost cards). |
 
 ## Key Contacts
 
@@ -35,5 +38,6 @@
 | Peter (Elite Auto Tech N Tow) | Potential second FS vertical | Identified | Mechanic in Eugene. |
 | Hayley | Lane County Farmers Market ED | Building | Saturday Market orientation completed. |
 | Get Air (Charlie) | Recess Pass pilot | Declined for now | Open to future when established. |
+| Randy | Grab It NFL FLAG coordinator | Met 2026-03-30 | Head coordinator of Grab It NFL FLAG in Eugene. League-wide Playmaker sponsorship opportunity. Follow up after Coach Rick onboards successfully. |
 
 ---

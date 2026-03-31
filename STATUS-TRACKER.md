@@ -16,6 +16,7 @@
 | 2026-03-30 | MCP v2, Mycelia Superagent, universal renderer, full audit, ObjectId fix | 4d9084f + others | DEC-110 through DEC-113 | 15 items shipped |
 | 2026-03-30 (marathon) | MCP circuit test, drift audit, DEC-115 (5 sessions), publish blocker | ed4ae4c + 6 | DEC-115 | 16 items shipped |
 | 2026-03-30 (eve) | Team invite flow fixes (d703083, 05a08fe), Dark Until Explored philosophy (DEC-117-123), three-gardener architecture session, met Randy (NFL FLAG coordinator) | d703083, 05a08fe | DEC-117 through DEC-123 | 6 items shipped |
+| 2026-03-31 (AM) | Architecture deepening: Mylane-to-Mylane messaging (DEC-124), pricing transparency (DEC-125), communication as frequency (DEC-126). Hyphae rounds 2-3. Organism creature designed. Conductor-per-user confirmed. Foundation assessed: solid, ready to build. | — | DEC-124 through DEC-126 | 9 items shipped |
 
 ## Node Status
 
