@@ -20,6 +20,7 @@
 | 2026-03-31 (Build) | "Dark Until Explored" full build day: 8 items shipped (e7ba445, 0c117ce, aaa6e8f, 57da05c, d723784, 4b0d0e1, 9e4afb2), polish (fe0a674), Phase 11 audit (8/8 aligned, 6 minor gaps). Contextual landing, claim-first join, onboarding skip, card dimming, Mylane as default, ghost cards, door slugs, Auto/Manual gradient. | 7 commits | — | 8 items + polish |
 | 2026-03-31 (PM) | Landing page (4746b17), finance fix (37a42fd), conversational onboarding (65adbc3), nav simplification (3de7bee), privacy/terms (299ee4e), invite consistency (e4238de). DEC-127-130: $3 ante, dynamic $9 pricing, agent boundary, query optimization. Credit economics analyzed. | 6 commits | DEC-127 through DEC-130 | 7 items shipped |
 | 2026-03-31 (Final) | Two-day total: 21+ commits, 14 decisions (DEC-117-130), 2 comprehensive audits, 4 fix waves (-697 lines), second audit fixes (0859577), pricing economics revised (no $3 ante), philosophy page, mushroom artwork. Platform clean for league rollout pending Coach Rick retry. | 0859577 | DEC-117 through DEC-130 |
+| 2026-04-01 | MCP mobile confirmed, repo cleanup, Meal Prep Phase 1 built (7 new files, 11 modified), drill-through fixes, architecture questions raised | 4 commits | — |
 
 ## Node Status
 

@@ -492,3 +492,38 @@ This was the longest continuous build session in LocalLane history. Three garden
 6. Coast trip (North Bend)
 
 ---
+
+### Session Log -- 2026-04-01
+**Focus:** MCP mobile confirmation, Meal Prep seedling spec, repo cleanup, Phase 1 build, drill-through fixes, architecture questions
+
+**Shipped:**
+1. MCP confirmed working from Claude mobile app — full circuit operational across all surfaces
+2. Meal Prep seedling spec written (MEAL-PREP-SEEDLING.md) — pantry awareness, restaurant bridge, receipt scanning, community price intelligence, macro food cost context
+3. Full platform audit by Hyphae — 7 verification items, corrected repo paths
+4. Repo cleanup — deleted locallane-spec-repo/ duplicate, archived 6 legacy lab nodes, corrected GitHub remote mapping
+5. Three Base44 entities created: MealPrepProfile, Recipe, RecipeIngredient
+6. Meal Prep Phase 1 built — 7 new files, 11 modified. Config, onboarding, Recipe Book (Home/Recipes/Settings), MyLane card, server functions
+7. Warm entry messages backfilled for Field Service and Property Management
+8. Door buttons added to MyLane for existing users (filter out already-owned workspaces)
+9. RecipeBookCard onClick fix — card was rendering but not clickable
+10. MyLaneDrillView meal-prep scope case + supplementary profile query (workaround until server function publish)
+11. Safeway weekly flyer analyzed for concept validation
+12. Food inflation and Iran war supply chain research
+
+**Architecture Questions Raised (NOT decided):**
+- Do FS and Property Pulse sit inside Business space?
+- Is Business space the pricing gate container?
+- How do events flow across spaces?
+- BusinessDashboard retirement timeline?
+- Broad vision audit needed before detail work
+
+**Decisions made:**
+None (architecture questions captured, not decided)
+
+**Next up:**
+1. Broad vision audit — space architecture before more detail work
+2. Doron: publish Base44, update agentScopedQuery, walkthrough Meal Prep
+3. Gold Standard polish pass + flip construction gate
+4. Phase 2 planning (meal planner, shopping lists)
+
+---

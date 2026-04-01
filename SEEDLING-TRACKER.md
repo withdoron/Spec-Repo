@@ -21,6 +21,7 @@
 
 | Seedling | Type | Status | Notes |
 |----------|------|--------|-------|
+| Meal Prep & Groceries | Workspace | Phase 1 built (2026-04-01) | Recipe Book complete. 3 entities (MealPrepProfile, Recipe, RecipeIngredient). Construction gated (testingMode: true). Awaiting walkthrough. |
 | Creative Alliance | Network | Activation signal | Three real people identified: greeting card maker, natural remedies seller (Etsy), Saturday Market vendors. LocalLane's version of Etsy for non-food makers. |
 | The Circuit | Partnership | Conversations started | Community Pass / Recess Pass audit needed for partnership structure. |
 | Mycelia Admin Agent | Platform Agent | Planned | Platform-level Superagent for the gardener. Admin dashboard intelligence. |
