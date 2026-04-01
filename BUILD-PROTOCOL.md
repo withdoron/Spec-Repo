@@ -52,6 +52,8 @@ Where does this feature show up in the UI? Every user-facing feature MUST have a
 
 What does it look and feel like? Gold Standard dark theme. Mobile-first. 44px touch targets. Follow existing component patterns.
 
+**Mandatory: Visual mockup reference before build (DEC-131).** HTML mockup preferred — Hyphae reads CSS values as spec. No UI build starts without an approved mockup. The mockup CSS values ARE the implementation spec.
+
 ## Phase 5: Pre-Build Audit
 
 What exists that we can reuse? Check for existing components, hooks, patterns. Don't rebuild what's already there.

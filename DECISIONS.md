@@ -425,3 +425,34 @@
 **Status:** Active — must ship before Randy league rollout
 
 ---
+
+### DEC-131: MyLane Spinner Navigation
+
+**Date:** 2026-04-01
+**Context:** MyLane replaced BusinessDashboard as the sole authenticated surface, but the card grid navigation doesn't give the app a clear identity or handle the growing number of workspaces well. After two rounds of consultation with Hyphae, iterative mockup design sessions, and big-picture architecture discussion, we're replacing the card grid with a spinner-based navigation model.
+
+**Decision:** Replace MyLaneSurface's card grid with a horizontal gallery-style spinner (SpaceSpinner). The drill-through rendering pattern is unchanged -- only the selector UI changes. BusinessDashboard is retired in the same build. Artwork mockups become a mandatory step in BUILD-PROTOCOL.md Phase 4 before any UI build.
+
+**Layout:**
+- Header: Logo (tap = Home), Frequency Station (amber music icon, UI shell), Directory, Events, Settings gear
+- Horizontal Space Spinner: always visible, gallery-style picker. Center = 42px amber border, adjacent = 30px, far = 22px opacity 15%. 320ms cubic-bezier transition. Fade edges. Audio sine tick (440 + index*60 Hz). Touch swipe with 20px delta threshold.
+- Home Position: Three tabs (Attention | This week | Spaces) each feeding a vertical spinner. Center scale 1.0, adjacent 0.93/0.45 opacity, far 0.86/0.12. Audio tick (300 + index*35 Hz).
+- Attention: urgent (red) + action needed (amber). This week: scheduled (blue) + life (green). Spaces: quick-glance stats. Calm state: "All clear."
+- Space Positions: consistent structure via MyLaneDrillView (unchanged).
+- Discover Position: available spaces + invite key input.
+- Copilot: mushroom icon + input, always docked bottom.
+
+**Design Principles:**
+- Two spinners, two axes: horizontal (spaces), vertical (priorities within Home)
+- Dark Until Explored: zero-state = Home + Discover only
+- Dynamic and game-like, never static
+- Audio feedback on both spinners
+- Every element earns its place
+
+**BusinessDashboard Retirement:** Removed from pages.config.js. Business workspace renders through MyLaneDrillView with full scope (revenue, events, RSVP, archetype tabs, delete support).
+
+**Rationale:** The spinner gives the app a distinct identity, handles workspace growth gracefully, embodies Dark Until Explored, and enables future auto-mode. Two spinners, two axes, one consistent interaction model.
+
+**Status:** Active -- approved and built
+
+---
