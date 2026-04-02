@@ -456,3 +456,13 @@
 **Status:** Active -- approved and built
 
 ---
+
+### DEC-132: Semantic Tailwind Migration Rule (2026-04-02)
+
+**Date:** 2026-04-02
+**Context:** Theme propagation shipped -- 146 lines of CSS override 2,870 Tailwind utility classes across 35 workspace files using !important. Works but fragile.
+**Decision:** When modifying any workspace file for any reason, convert hardcoded color classes (bg-slate-900, text-white) to semantic equivalents (bg-card, text-foreground) before committing. Organic migration, not bulk rewrite.
+**Rationale:** Each file touched for features gets one step closer to clean theming. No risky big-bang rewrite.
+**Status:** Active -- ongoing
+
+---
