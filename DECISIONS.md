@@ -457,12 +457,25 @@
 
 ---
 
-### DEC-132: Semantic Tailwind Migration Rule (2026-04-02)
+### DEC-132: Semantic Tailwind Migration Rule (UPDATED 2026-04-02)
 
 **Date:** 2026-04-02
-**Context:** Theme propagation shipped -- 146 lines of CSS override 2,870 Tailwind utility classes across 35 workspace files using !important. Works but fragile.
-**Decision:** When modifying any workspace file for any reason, convert hardcoded color classes (bg-slate-900, text-white) to semantic equivalents (bg-card, text-foreground) before committing. Organic migration, not bulk rewrite.
-**Rationale:** Each file touched for features gets one step closer to clean theming. No risky big-bang rewrite.
-**Status:** Active -- ongoing
+**Original:** Organic migration — convert files as you touch them.
+**Updated (2026-04-02):** Migration COMPLETE. 208 files migrated in commit a0e4710. 3 new tokens added (foreground-soft, surface, primary-hover). 146-line !important override block removed. Cloud and Fallout themes restructured into clean single-selector variable blocks. New rule: ALL new code must use semantic tokens. No literal color classes (bg-slate-*, text-white, border-slate-*) in workspace files. Client-facing pages (ClientPortal, SigningFlow, estimates print) are exempt — they use intentional literal light-mode classes. Status colors (emerald, red, blue) kept literal across all themes.
+**Status:** Complete — maintain going forward
+
+---
+
+### DEC-133: Mylane Intelligence Tiers (2026-04-02)
+
+**Date:** 2026-04-02
+**Context:** Base44 agent messages cost ~3 integration credits each. Entity queries and server functions are free. Direct API calls with own key via backend functions are also free (confirmed by Base44 support).
+**Decision:** Three-tier intelligence architecture for Mylane:
+- **Tier 1 (Client-side):** Chip taps and known patterns render directly from cached React Query data. Zero cost. Instant response.
+- **Tier 2 (Server function):** Data queries that need fresh data hit agentScopedQuery server functions. Zero credits. Sub-second response.
+- **Tier 3 (LLM reasoning):** Complex cross-space queries, write actions, synthesis. Currently uses Base44 built-in agents (~3 credits/message). Future: migrate to direct Anthropic API calls in backend functions (zero Base44 credits, ~$0.003/question via Haiku 4.5).
+**Tier mapping:** Free/$9 plan = Tier 1 + 2 only. $18 plan = all three tiers.
+**Rationale:** Charge for intelligence, not access. The free tier gets a fast, responsive Mylane that answers from data. The paid tier gets a thinking partner that reasons across spaces. The upgrade sells itself — users see what Mylane can do at Tier 1-2 and want the deeper capability.
+**Status:** Active — architecture to be built incrementally
 
 ---

@@ -527,3 +527,27 @@ None (architecture questions captured, not decided)
 4. Phase 2 planning (meal planner, shopping lists)
 
 ---
+
+### Session Log — 2026-04-02 (Mega Session)
+**Focus:** Semantic Tailwind migration, Fallout CRT, CommandBar wiring, panel layout, render pipeline, query optimization, Living Map spec, Base44 credit research
+
+**Shipped:**
+1. Semantic Tailwind migration (a0e4710) — 208 files, ~10,700 literal color classes replaced with semantic tokens (bg-card, text-foreground, etc.). 3 new tokens: foreground-soft, surface, primary-hover. 146-line !important override block fully removed. Cloud and Fallout theme blocks restructured into clean single-selector variable definitions.
+2. Fallout CRT effects (d28b356) — phosphor glow text-shadow, scanlines via body::after, vignette radial gradient, subtle flicker animation. All CSS-only.
+3. CommandBar render wiring (7b83f4e) — Fixed critical overwrite bug: RENDER_DATA was being immediately overwritten by text portion. Panel close/minimize button. CRT sync bar (body::before, 40-second periodic sweep).
+4. Panel layout architecture (70d6912) — Mylane panel now position:absolute within position:relative body. Two independent scroll contexts. Spinner measures container via ResizeObserver, no hardcoded offsets. Panel state persists in localStorage.
+5. CommandBar polish (59eb0d5) — Input themed with semantic tokens, 44px click target, loading indicator (pulsing amber dots), spinner trackpad fix (wheelActiveRef), staleTime 5min on all card queries, 10min on auth.
+6. LIVING-MAP-SPEC.md written with deep research (gaming fog-of-war, ego-centric cartography, cooperative game design, Niantic spatial) and placed in private repo with Hyphae builder notes.
+7. Base44 credit system fully documented via support ticket. Entity queries free. Agent messages ~3 credits. Direct Anthropic API calls via backend functions = zero credits.
+
+**Decisions made:**
+- DEC-132 updated: migration complete, maintain semantic tokens for all new code
+- DEC-133: Mylane Intelligence Tiers (client-side free / server function free / LLM $18 tier)
+
+**Next up:**
+- Coach Rick demo Friday 5:00 PM (verify render pipeline, theme toggling, panel behavior on iPhone)
+- Base44 rate limit numbers (support ticket escalated, awaiting human team response)
+- Mylane agent instruction refresh if RENDER_DATA still not rendering through CommandBar
+- Living Map stays in seedling phase — Hyphae builder notes captured
+
+---

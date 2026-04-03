@@ -23,6 +23,7 @@
 | 2026-04-01 | MCP mobile confirmed, repo cleanup, Meal Prep Phase 1 built (7 new files, 11 modified), drill-through fixes, architecture questions raised | 4 commits | — |
 | 2026-04-01 (Spinner) | DEC-131: MyLane Spinner Navigation. SpaceSpinner + PrioritySpinner + HomeFeed + FrequencyStation shell + DiscoverPosition. BusinessDashboard retired (1,586 lines deleted). Business scope ported to MyLaneDrillView. BUILD-PROTOCOL Phase 4 updated. | pending | DEC-131 |
 | 2026-04-02 (Mega) | CommandBar copilot, 3 themes (Gold Standard/Cloud/Fallout), responsive refactor (useBreakpoint + container queries), desktop panels, spinner polish (momentum/wheel/iOS), FrequencyContext, theme propagation (146 lines CSS, 35 files covered). ~17 commits. | 17 | DEC-131, DEC-132 |
+| 2026-04-02 (Mega 2) | Semantic migration (208 files, a0e4710), Fallout CRT (d28b356), CommandBar wiring + overwrite fix (7b83f4e), panel layout (70d6912), polish + staleTime caching (59eb0d5). Living Map spec + builder notes. Base44 credit research. | 5 commits | DEC-132 updated, DEC-133 |
 
 ## Node Status
 
