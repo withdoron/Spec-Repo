@@ -607,3 +607,84 @@ None (architecture questions captured, not decided)
 - Base44 rate limit numbers (support ticket open)
 
 ---
+
+## Session — 2026-04-03 (All Day — Team Space Production Push)
+
+**Focus:** Team space from 85% to production-ready. 15 commits, 7+ builds, credit audit, seedling spec, live testing with parent account.
+
+**Build 1: Print + Learning Loop** (commit 4697add)
+- PrintPlaybook field refs fixed: image_url to diagram_image (3x), notes to coach_notes (2x)
+- PlayCreateModal editDataReady fix — plays with zero assignments no longer hang
+- Route Reference Sheet — 4th print layout with 25 mini SVG route diagrams from routeTemplates
+- Leaderboard enhanced — plays_mastered + best_streak columns, top 3 highlighted
+- Player Cards — trading card component with earned stats, opens from Roster tap
+
+**Build 2: TeamPhotos Gallery** (commit e6747f6)
+- New Photos tab (7th tab between Messages and Settings)
+- Upload via UploadFile, lightbox with caption/uploader/date, delete own photos
+- TeamPhoto entity created in Base44 (7 fields, proper permissions)
+- agentScopedQuery + PlaymakerAgent updated for TeamPhoto access
+- PlayerReadinessCard shows photo count
+
+**Build 3: Identity + Props + UX Fixes** (commit eb129dd)
+- Parent name capture from auth provider display_name
+- Messages + Schedule getProps fix (root cause of both tabs rendering null)
+- Quick Reference print — condensed assignments below each play diagram
+- League Link rename (was Door Link)
+- Pending badge updated to respect parent connections
+
+**Build 4: Schedule Phase 2** (commit 0d472b7)
+- Full event creation with duties (snack/water/setup/cleanup) and auto-rotation
+- RSVP (yes/no/maybe) with attendance counts
+- Recurring events (weekly/biweekly batch creation)
+- Team Readiness view on game events (player mastery of game-day plays)
+- Event type buttons, duration presets, grouped form sections
+
+**Build 5: Credit Audit + Seedling Review** (private + Spec-Repo)
+- Entity reads confirmed FREE (not integration credits) per Base44 support
+- PRICING-ECONOMICS.md corrected: league projection 23,550 to ~1,460 credits/mo
+- DEC-130 urgency revised URGENT to MEDIUM
+- League & Play Library seedling review notes integrated
+
+**Build 6: Regression Audit** (investigation only)
+- No regressions found — all issues were role-based rendering (parent vs coach)
+- One real bug: parent join didn't write parent_user_ids to player records
+
+**Build 7: Pending Fix + Parent UX + Event Polish** (commit 56c5963)
+- Bidirectional parent-player link fix
+- Schedule role-aware empty state for parents
+- Messages defaults parents to Discussion channel
+- Event form polish: type buttons with icons, duration dropdown presets, day-of-week selectors
+
+**Bug Fix Wave** (commits 500c1a8, 0c521d4, 481eae5, edd28ff, 59d8c3d, 355332f, d9439bb, 1cd81c5)
+- Messages tab crash: isCoach used before declaration (temporal dead zone)
+- TeamPhoto query safety guards (try/catch for entity not yet in SDK)
+- Recurring event count auto-calculated from dates (removed manual input)
+- Date off-by-one timezone fix (UTC midnight rollback, append T12:00:00)
+- Location links to Google Maps on tap
+- JoinTeam member fetch: .list() to avoid .filter() quirk with service-role records
+- Invite page: removed public header/footer, name input for parents, messages show linked kids
+- PlayAssignment batch fetch: single .list() instead of N parallel .filter() calls (429 fix)
+
+**Base44 Operations:**
+- All team entity permissions fixed
+- TeamPhoto entity created (7 fields)
+- TeamEvent fields added (rsvps, duties)
+
+**Research & Strategy:**
+- Credit economics confirmed: entity reads free, own API key = zero credits
+- Base44 rate limits received: analytics 50/min, list users 50/min, get user 75/min
+- League & Play Library seedling planted in private repo
+
+**Decisions:**
+- DEC-130 UPDATE: entity reads free, urgency MEDIUM (performance/429s, not credits)
+- League Link: renamed from Door Link, future rethink needed for league discovery page
+- Parent UX: default to Discussion channel, role-aware empty states, name capture in join flow
+
+**Next up:**
+- Test invite flow end-to-end with Coach Rick's phone
+- League Link rethink — league discovery page instead of team join
+- Play Library seedling matures at 3+ teams
+- DEC-130 query optimization for performance/429s before Randy league rollout
+
+---

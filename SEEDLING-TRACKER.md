@@ -13,7 +13,7 @@
 | Harvest Network | Network | Phase 2 shipped — product tags, payment methods, tag filtering, geocoding. Map view and application flow gated. Two egg sellers ready to join. | ~60/100 | 2026-03-27 |
 | Property Management | Workspace | Phase 4 complete | ~95/100 | 2026-03-25 |
 | Personal Finance | Workspace | V1 complete | ~78/100 | 2026-03-25 |
-| Play Trainer (Team) | Workspace | Go-live ready | ~95/100 | 2026-03-25 |
+| Play Trainer (Team) | Workspace | Production. Schedule (RSVP/duties/recurring/readiness), photos, 4 print layouts, player cards, leaderboard. Parent invite flow complete. | Production | 2026-04-03 |
 | Frequency Station | Feature | Phase 2 live, "Come Alive" playing | Functional | 2026-03-25 |
 | FieldServiceAgent | Space Agent | LIVE. First Superagent. Reads all FS entities, web search, ServiceFeedback. Chat UI with voice. Live on all FS tabs. | Live | 2026-03-27 |
 
@@ -31,6 +31,7 @@
 | Pip-Boy Wearable | Hardware | Concept (2026-03-31) | Phone band docking to wrist/forearm. App switches to simplified glanceable interface. Voice-first Mylane. The band IS the onboarding. Needs working mobile app + manufacturing research. |
 | Mylane-to-Mylane Messaging | Feature | Designed (2026-03-31) | MylaneMessage entity. Cross-user communication via relationship links. Whisper/nudge/alert urgency. Companion-to-companion delivery. Build after items 5-6 (Mylane as default + ghost cards). |
 | Dynamic Pricing Gauge | Feature | Designed (2026-03-31) | UsageEvent metering + getUserGauge() server function + Mylane gauge card. $3 ante, $9 increments. Fuel gauge visible in Mylane. Needs Stripe integration + UsageEvent entity deployed. |
+| League & Play Library | Workspace | Seedling (2026-04-03) | League workspace (Randy, $9/mo) > Teams (coaches, free) > Players. Shared play library with fork model. Hyphae review: use flag-on-Play instead of SharedPlay entity for V1, derive usage count, add LeagueAgent, season_id concept. Matures at 3+ teams. Spec in private repo. |
 
 ## Key Contacts
 

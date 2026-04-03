@@ -24,6 +24,7 @@
 | 2026-04-01 (Spinner) | DEC-131: MyLane Spinner Navigation. SpaceSpinner + PrioritySpinner + HomeFeed + FrequencyStation shell + DiscoverPosition. BusinessDashboard retired (1,586 lines deleted). Business scope ported to MyLaneDrillView. BUILD-PROTOCOL Phase 4 updated. | pending | DEC-131 |
 | 2026-04-02 (Mega) | CommandBar copilot, 3 themes (Gold Standard/Cloud/Fallout), responsive refactor (useBreakpoint + container queries), desktop panels, spinner polish (momentum/wheel/iOS), FrequencyContext, theme propagation (146 lines CSS, 35 files covered). ~17 commits. | 17 | DEC-131, DEC-132 |
 | 2026-04-02/03 (Mega) | 12 commits total. Semantic migration (208 files), Fallout CRT, CommandBar wiring, panel layout, staleTime caching, 3D SpaceSpinner (drum + cover flow variants), spring physics built then replaced with friction model, Dev Lab physics tuner, ratchet snap, iOS audio fix. Living Map spec + builder notes. MOJO competitor research. Landing page mockup. Base44 credit research. | 12 commits | DEC-132 updated, DEC-133, DEC-134, DEC-135 |
+| 2026-04-03 (Team) | Team space production push. 15 commits: print fixes + route reference + leaderboard + player cards + photo gallery + schedule (RSVP/duties/recurring/readiness) + parent UX + identity + credit audit + seedling review + 8 bug fixes (timezone, 429s, Messages crash, .filter() quirk, invite layout). | 15 commits | DEC-130 updated (credits free, urgency MEDIUM) |
 
 ## Node Status
 
@@ -34,7 +35,7 @@
 | Harvest Network | ~60/100 | Phase 2 shipped, map gated | 2026-03-27 |
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |
 | Personal Finance | ~78/100 + agent | FinanceAgent wired | 2026-03-29 |
-| Play Trainer (Team) | ~98/100 + agent | Dark Until Explored fully implemented. Invite flow bulletproof. Door links live (locallane.app/door/grab-it-nfl-flag). Ready for Coach Rick field test and Randy league rollout pitch. | 2026-03-31 |
+| Play Trainer (Team) | Production + agent | Full schedule (RSVP, duties, recurring, readiness). Photo gallery. 4 print layouts. Player cards. Leaderboard. Parent invite flow with name capture. Messages with linked-kid attribution. 429 rate limit fix (batch fetch). Credit audit confirmed entity reads free. League Link renamed. | 2026-04-03 |
 | Frequency Station | Functional | Phase 2 live | 2026-03-25 |
 
 ## Build Protocol Phase Status
