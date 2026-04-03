@@ -77,5 +77,9 @@
 - [ ] Newsletter Issue 1 sent
 - [ ] Admin panel audit
 - [ ] Community Pass / Recess Pass audit
+- [x] SpaceSpinner 3D variants (drum + cover flow) with friction physics
+- [x] Semantic Tailwind migration complete (208 files)
+- [x] Three themes live (Gold Standard, Cloud, Fallout with CRT effects)
+- [ ] Frequency Station playlist (auto-advance, shuffle, queue)
 
 ---

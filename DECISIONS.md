@@ -479,3 +479,25 @@
 **Status:** Active — architecture to be built incrementally
 
 ---
+
+### DEC-134: Spinner Physics — Friction + Mass, Not Spring (2026-04-03)
+
+**Date:** 2026-04-03
+**Context:** Built JS spring physics (mass-stiffness-damping model) for the 3D spinner. Doron tested extensively on iPhone: "I don't like bounce or spring. I want mass and friction. Not a toy, but a tool — something with substance." He intuitively turned mass to 0.3 and friction to 20 to kill the spring. The spring model was fundamentally wrong for a navigation dial — springs inherently oscillate, and trying to critically-damp them to prevent oscillation is fighting the math.
+**Decision:** Remove spring equation entirely. Replace with friction + mass deceleration model. Two knobs per theme (mass, friction) instead of four (stiffness, damping, mass, friction). Two modes on release: ratchet (slow drag, zero animation, instant lock) and momentum (fast flick, friction deceleration). No bounce, no oscillation, no overshoot. Every frame shows a valid resting position. The spinner is a heavy rotary dial with detents, not a bouncy toy.
+**Per-theme values:** Gold Standard: mass 1.0, friction 0.08. Cloud: mass 1.5, friction 0.06. Fallout: mass 1.0, friction 0.05.
+**Design principle:** "Not a toy, but a tool. Something with substance."
+**Status:** Active — shipped in 96ef772 and 0543a15
+
+---
+
+### DEC-135: Themes as Game Modes (2026-04-03)
+
+**Date:** 2026-04-03
+**Context:** Building per-theme spinner physics revealed that themes can be more than visual. Each theme can have different physics, different spinner variants, and potentially different interaction patterns.
+**Decision:** Themes are game modes, not just color schemes. Each theme gets: (1) its own visual rendering (semantic tokens, CRT effects, etc.), (2) its own spinner variant (drum for Fallout, cover flow for Gold Standard/Cloud), (3) its own physics personality (mass, friction values), (4) potentially its own audio character and interaction patterns. Adding a new theme means defining a complete sensory experience, not just swapping colors. The variant architecture (render function strategy pattern with THEME_VARIANT and THEME_PHYSICS maps) supports this cleanly.
+**Current themes:** Gold Standard (dark, premium, precise), Cloud (light, warm, unhurried), Fallout (CRT, mechanical, loose).
+**Future themes:** Elderly/Garden (simple, large text, high contrast), potential per-subdomain themes (fallout.locallane.app).
+**Status:** Active — architecture supports it, new themes are additive
+
+---
