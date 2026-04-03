@@ -422,7 +422,13 @@
 **Context:** Hyphae's credit analysis projected league scale (100 users, 20 active daily) would consume ~23,550 integration credits/month against a 10k limit. The bottleneck is page loads (~17 integration credits each from 6+ separate entity queries), not agent conversations.
 **Decision:** Before onboarding Randy's league, optimize page load queries: (1) Combine 6 profile queries into one getMyLaneProfiles(userId) server function (6→1 credits per load). (2) Aggressive React Query staleTime (5-minute cache). (3) Lazy-load card data via IntersectionObserver. Target: ~5 integration credits per page load. This drops monthly integration to ~6,000 at league scale — within the 10k plan limit.
 **Rationale:** The current plan ($50/month) supports 100 users if optimized. Without optimization, we'd need to upgrade Base44 plan (higher cost) or throttle features (worse experience). The optimization preserves the $3 ante economics: 100 x $3 = $300 revenue vs $50 Base44 cost.
-**Status:** Active — must ship before Randy league rollout
+**Status:** Active — priority revised from URGENT to MEDIUM (see audit note below)
+
+**Credit Audit Update (2026-04-03):** Base44 support ticket (App ID 69308d4dd5ee90afc9b011d3, filed 2026-04-02) clarified that integration credits are consumed by specific built-in integrations (LLM, SendEmail, UploadFile, GenerateImage, AI agents, automations) — NOT by entity CRUD operations (.list(), .filter(), .create(), .update()). Doron's credit balance held steady despite heavy entity querying all day, corroborating this. Code audit confirmed: of 35 server functions, only 1 (handleEventCancellation) calls a paid integration (SendEmail). All others are pure entity CRUD.
+
+This means the 23,550 integration credits/month projection was based on incorrect assumptions about entity read costs. Actual integration credit consumption at league scale is estimated at ~1,460/month (primarily agent messages + file uploads), well within the 10k plan limit.
+
+**The optimization is still valuable** for two non-credit reasons: (1) Rate limits — 12+ simultaneous entity queries trigger 429 errors, which getMyLaneProfiles consolidation directly fixes. (2) Performance — fewer requests means faster page loads on mobile. But it is no longer a credit-cost emergency. Awaiting Base44 human team response on entity API rate limit numbers (pending as of 2026-04-03).
 
 ---
 
