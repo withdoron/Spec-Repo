@@ -68,7 +68,12 @@
 - [x] Discovery whisper ghost cards (proximate spaces)
 - [x] Auto/Manual gradient tracking (frequency data)
 - [ ] AgentChat dispatch wired for mylane-user-message
-- [ ] Dead code cleanup (6 old section components)
+- [x] Dead code cleanup (19 dead files deleted, 31 unused imports removed — 2026-04-04)
+- [x] Full 13-category audit complete (68 to 87 — 2026-04-04)
+- [x] Entity permissions locked to Creator Only (9 entities — 2026-04-04)
+- [x] MylaneNote reminders live (2026-04-04)
+- [x] Feedback pipeline consolidated to ServiceFeedback (2026-04-04)
+- [x] Founding Gardener observation live via MCP (2026-04-04)
 
 ## Platform
 

@@ -688,3 +688,68 @@ None (architecture questions captured, not decided)
 - DEC-130 query optimization for performance/429s before Randy league rollout
 
 ---
+
+### Session — 2026-04-04 (Saturday — Full Day)
+
+**Focus:** MylaneNote reminders, Founding Gardener observation tools, feedback pipeline consolidation, full 13-category application audit, security lockdown, medium/low polish pass. Health score 68 to 87.
+
+**Build 1: MylaneNote — Persistent Reminders**
+- MylaneNote entity created in Base44 (7 fields: user_id, content, note_type, due_date, source_space, status, created_by_agent)
+- MyLane agent instructions updated with recognition patterns for reminders/tasks/notes
+- agentScopedWrite + agentScopedQuery whitelists updated for MylaneNote (platform entity, user_id scoped)
+- RemindersCard in Mylane Home feed, "My reminders" quick-action chip
+- Full lifecycle: create via conversation, display in feed, mark done via conversation
+
+**Build 2: Founding Gardener Observation**
+- platformPulse `gardeners` action: queries 15 entity types per user, returns engagement scores
+- Weighted score: spaces (10), feedback (5), weeks active (3), content (2), participation (1)
+- MCP worker redeployed with gardeners enum
+- First report: 22 users, 6 active. Doron (52), Bari (13), Gary Spetzler (13), Natasha (13, pure organic signup), Jeslyn Everitt (4), Coach Rick (4). 16 dormant accounts.
+
+**Build 3: Feedback Pipeline Consolidation**
+- Two parallel systems found (FeedbackLog + ServiceFeedback). Merged to ServiceFeedback only.
+- Floating Feedback button removed (~120 lines). "Have feedback?" chip on all 8 space positions.
+- Bug fix: agentScopedWrite ServiceFeedback required field was 'message' not 'feedback_text' (writes silently failing)
+
+**Build 4: Full 13-Category Application Audit**
+- 343 files scanned. Score: 68/100 — 6 Critical, 14 High, 22 Medium, 19 Low
+- Critical: FSClient/FSDocument/FSEstimate public read exposing PII and portal tokens, handleEventCancellation zero auth, dual auth state, no default staleTime
+- Strengths: architecture sound, semantic migration 98.5%, Dark Until Explored properly implemented
+
+**Build 5: Critical + High Fixes (3 commits)**
+- Base44: 9 entity permissions locked to Creator Only (FS entities, Team entities, NetworkApplication)
+- staleTime 5min default (40-60% API call reduction)
+- Dual auth resolved: AuthContext seeds RQ cache, refreshUser() syncs both
+- handleEventCancellation + agentScopedWrite ownership check + sendWebhookToSpoke auth added
+- 403 direct entity tool_configs removed from 5 agents (DEC-107 enforced)
+- Play required fields, MyLane instruction field names, meal-prep in agentScopedQuery
+- Dead-end routes fixed, League Link rename, WorkspaceErrorBoundary, CLAUDE.md updated
+- Score: 68 to 82
+
+**Build 6: Medium + Low Polish (4 commits)**
+- 19 dead files deleted (15 components + 4 hooks), -1,968 net lines
+- platformPulse header-only auth, /networks auth-gated (DEC-117)
+- Phantom FS attention item removed, Discover shows all workspace types
+- 27 redundant staleTime overrides removed, 31 unused imports cleaned
+- Agent cross-workspace references trimmed, MyLane meal-prep awareness added
+- Score: 82 to 87
+
+**Base44 Operations:** MylaneNote entity created. 9 entity permissions locked down.
+
+**MCP Operations:** Cloudflare Worker redeployed with gardeners action.
+
+**Decisions:**
+- MylaneNote is a platform entity scoped by user_id (crosses all spaces)
+- Feedback flows through companion, not standalone buttons
+- Founding Gardener is earned status (not signup bonus), assigned by Doron
+- Entity permissions default to Creator Only; server functions handle cross-user access
+- DEC-107 fully enforced: direct entity tools removed from all space agents
+
+**Next up:**
+- Coach Rick demo (foundation is stone)
+- Ephraim Pip-Boy design session
+- Newsletter "The Good News" to wake dormant accounts
+- Bari visit for feedback chip demo
+- Remaining polish: StepIndicator extraction, loading states, shared EmptyState, accessibility pass
+
+---

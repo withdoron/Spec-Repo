@@ -25,12 +25,13 @@
 | 2026-04-02 (Mega) | CommandBar copilot, 3 themes (Gold Standard/Cloud/Fallout), responsive refactor (useBreakpoint + container queries), desktop panels, spinner polish (momentum/wheel/iOS), FrequencyContext, theme propagation (146 lines CSS, 35 files covered). ~17 commits. | 17 | DEC-131, DEC-132 |
 | 2026-04-02/03 (Mega) | 12 commits total. Semantic migration (208 files), Fallout CRT, CommandBar wiring, panel layout, staleTime caching, 3D SpaceSpinner (drum + cover flow variants), spring physics built then replaced with friction model, Dev Lab physics tuner, ratchet snap, iOS audio fix. Living Map spec + builder notes. MOJO competitor research. Landing page mockup. Base44 credit research. | 12 commits | DEC-132 updated, DEC-133, DEC-134, DEC-135 |
 | 2026-04-03 (Team) | Team space production push. 15 commits: print fixes + route reference + leaderboard + player cards + photo gallery + schedule (RSVP/duties/recurring/readiness) + parent UX + identity + credit audit + seedling review + 8 bug fixes (timezone, 429s, Messages crash, .filter() quirk, invite layout). | 15 commits | DEC-130 updated (credits free, urgency MEDIUM) |
+| 2026-04-04 (Audit) | Full-day audit + security lockdown + polish. MylaneNote reminders. Founding Gardener observation (platformPulse gardeners). Feedback pipeline consolidated (FeedbackLog retired). 13-category audit (68/100). Critical+High fixes: 9 entity permissions locked, staleTime, auth consolidation, DEC-107 enforced. Medium+Low: 19 dead files deleted (-1,968 lines), platformPulse hardened, Discover wired, imports cleaned. Health score 68 to 87. | 7 commits | DEC-136, DEC-137, DEC-138 |
 
 ## Node Status
 
 | Node | Score | Status | Last Updated |
 |------|-------|--------|-------------|
-| Community Node | ~75/100 | Pilot-ready, 8 App Agents + 1 Mycelia Superagent | 2026-03-30 |
+| Community Node | ~87/100 | Audit complete. Entity permissions locked. Dead code cleaned. Auth consolidated. DEC-107 enforced. 8 App Agents + 1 Mycelia Superagent. | 2026-04-04 |
 | Field Service | ~92/100 | Documents + e-sign + FieldServiceAgent live | 2026-03-29 |
 | Harvest Network | ~60/100 | Phase 2 shipped, map gated | 2026-03-27 |
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |

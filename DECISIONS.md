@@ -507,3 +507,33 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Status:** Active — architecture supports it, new themes are additive
 
 ---
+
+### DEC-136: Creator Only as Default Entity Permission (2026-04-04)
+
+**Date:** 2026-04-04
+**Context:** Full application audit found FSClient, FSDocument, FSEstimate had public read (Authenticated Users), exposing Bari's client PII and portal tokens to any authenticated user. Team entities similarly exposed. The audit scored the app 68/100 with 6 Critical issues, 3 of which were entity permission holes.
+**Decision:** Entity permissions default to Creator Only for read, create, update, delete. Server functions with `asServiceRole` handle all authorized cross-user access (agentScopedQuery, manageTeamPlay, signDocument, etc.). Entity-level permissions are the last line of defense — they must be restrictive, not permissive. When creating new entities, start Creator Only and open up only with explicit justification.
+**Rationale:** Entity permissions in Base44 are the layer that can't be bypassed by client-side code. Any authenticated user can call `base44.entities.X.list()` from the browser console. If the entity has Authenticated Users read, all records are exposed. Server functions enforce proper scoping — the entity layer should be the backstop, not the gateway.
+**Status:** Active — 9 entities locked down in this session
+
+---
+
+### DEC-137: Feedback Flows Through Companion (2026-04-04)
+
+**Date:** 2026-04-04
+**Context:** Two parallel feedback systems existed: FeedbackLog (standalone floating button, dead-end data) and ServiceFeedback (agent-created, visible to Mycelia pulse). Bari's 14+ feedback items were verbal relay — they never reached any entity. The floating feedback button was redundant where agent chat exists.
+**Decision:** All user feedback flows through the Mylane companion agent, not standalone buttons. "Have feedback?" quick-action chip on all 8 space positions. MyLane writes to ServiceFeedback entity directly. No confirmation card for feedback — it should feel effortless, not bureaucratic. FeedbackLog entity retired. The agent IS the feedback channel.
+**Rationale:** DEC-104 already said "bug button hides in agent-enabled workspaces." This extends it: the button is gone everywhere. The companion knows the context (which space, what the user was doing) and can ask one clarifying question before writing the feedback. A floating button captures isolated complaints. A companion captures contextual feedback.
+**Status:** Active — floating button removed, chip added, ServiceFeedback is sole feedback entity
+
+---
+
+### DEC-138: Founding Gardener — Earned Status, Not Signup Bonus (2026-04-04)
+
+**Date:** 2026-04-04
+**Context:** platformPulse gardener observation revealed: 22 users, 6 active, 16 dormant. Engagement is highly concentrated — Doron (52), Bari (13), Natasha (13, pure organic signup). The question arose: how do early supporters get recognized? Should "Founding Gardener" be automatic for early signups?
+**Decision:** Founding Gardener is earned, not given. Criteria: spaces created, feedback contributed, networks invited into, weeks active. It is personally assigned by Doron after observation — not a first-come signup bonus. Mycelia can surface candidates via the gardener pulse. The organism observes from within (MCP data); Doron observes from the field (relationships, conversations). Both signals matter.
+**Rationale:** "Free carries little value." Signing up is not gardening. Bari is a Founding Gardener because he gave 14+ feedback items and tested every feature. The 16 dormant accounts from the early signup push are not gardeners — they planted nothing. The status must mean something real.
+**Status:** Active — gardener observation live via platformPulse + MCP
+
+---

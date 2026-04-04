@@ -8,7 +8,7 @@
 
 | Node | Type | Status | Score | Last Updated |
 |------|------|--------|-------|-------------|
-| Community Node | Platform | Pilot-ready, blocked on LLC/EIN | ~75/100 | 2026-03-27 |
+| Community Node | Platform | Audit complete (87/100). Entity permissions locked. Dead code cleaned. Auth consolidated. | ~87/100 | 2026-04-04 |
 | Field Service | Workspace | Documents + e-sign + agent live. Mobile optimized. | ~92/100 | 2026-03-27 |
 | Harvest Network | Network | Phase 2 shipped — product tags, payment methods, tag filtering, geocoding. Map view and application flow gated. Two egg sellers ready to join. | ~60/100 | 2026-03-27 |
 | Property Management | Workspace | Phase 4 complete | ~95/100 | 2026-03-25 |
@@ -32,6 +32,8 @@
 | Mylane-to-Mylane Messaging | Feature | Designed (2026-03-31) | MylaneMessage entity. Cross-user communication via relationship links. Whisper/nudge/alert urgency. Companion-to-companion delivery. Build after items 5-6 (Mylane as default + ghost cards). |
 | Dynamic Pricing Gauge | Feature | Designed (2026-03-31) | UsageEvent metering + getUserGauge() server function + Mylane gauge card. $3 ante, $9 increments. Fuel gauge visible in Mylane. Needs Stripe integration + UsageEvent entity deployed. |
 | League & Play Library | Workspace | Seedling (2026-04-03) | League workspace (Randy, $9/mo) > Teams (coaches, free) > Players. Shared play library with fork model. Hyphae review: use flag-on-Play instead of SharedPlay entity for V1, derive usage count, add LeagueAgent, season_id concept. Matures at 3+ teams. Spec in private repo. |
+| Founding Gardener Program | Feature | Concept (2026-04-04) | DEC-138. Earned status, not signup bonus. Weighted score: spaces (10), feedback (5), weeks active (3), content (2), participation (1). Observation live via platformPulse gardeners action + MCP. First report: 22 users, 6 active, 16 dormant. Doron assigns personally after observation. |
+| Newsletter "The Good News" | Content | Planned (2026-04-04) | Wake 16 dormant accounts. Tone: "We've been building. Here's what grew." Show what shipped, invite back. |
 
 ## Key Contacts
 
@@ -43,5 +45,7 @@
 | Get Air (Charlie) | Recess Pass pilot | Declined for now | Open to future when established. |
 | Coach Rick | Team / Playmaker | Invite flow fixed | Invite flow bulletproof (8 items shipped). Duplicate cleaned from roster. Ready for retry. Follow up this week. |
 | Randy | Grab It NFL FLAG coordinator | Met 2026-03-30 | Head coordinator of Grab It NFL FLAG in Eugene. Paid position. League-wide Playmaker sponsorship opportunity. Call after Coach Rick confirms flow works. Research his scheduling workflow. |
+| Natasha (nataherb2024) | First pure organic signup | Discovered 2026-04-04 | Gardener score 13 — same as Bari. Unknown connection to platform. Worth investigating. |
+| Jeslyn Everitt | First real parent user | Active | Gardener score 4. Entered via team invite. |
 
 ---
