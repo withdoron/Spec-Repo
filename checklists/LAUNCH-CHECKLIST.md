@@ -49,6 +49,8 @@
 - [ ] Base44 publish unblocked
 - [ ] Mylane console upgrades deployed (new chat, upload, chips, cards)
 - [ ] Field test: full Mylane write flow from mobile
+- [x] Server-authoritative user_id on agent writes (DEC-139 — 2026-04-05)
+- [ ] MylaneNote reminder loop end-to-end verification (pending publish)
 - [ ] Propagate write capability to all workspace agents
 
 ## Team / Playmaker

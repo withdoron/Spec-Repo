@@ -1,52 +1,49 @@
 # ACTIVE-CONTEXT.md
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
-> Last updated: 2026-04-04 (Full-day audit + security lockdown + polish pass)
+> Last updated: 2026-04-05 (MyLane reminder loop bug fix)
 
 ## Current Focus
 
-Application audit complete — health score 68 to 87. All Critical and High issues resolved. Entity permissions locked down. Dead code cleaned. Foundation is stone for Coach Rick demo. MylaneNote reminders live. Founding Gardener observation live via MCP. Feedback pipeline consolidated to ServiceFeedback.
+MylaneNote reminder loop diagnosed and fixed. Server-side user_id enforcement shipped (DEC-139). MyLane instructions updated. Bad record healed. Read path confirmed working. Write path pending Base44 publish.
 
 ## Active Architecture
 
-- **Theme system:** Semantic tokens throughout (98.5% migrated). Three themes: Gold Standard, Cloud, Fallout.
+- **Agent writes:** DEC-139 — identity fields (user_id, owner_id) are server-authoritative on all agentScopedWrite calls. Agents cannot set these fields. Query/write asymmetry: queries need user_id for scoping, writes forbid it.
+- **Theme system:** Semantic tokens (98.5% migrated). Three themes: Gold Standard, Cloud, Fallout.
 - **Spinner:** 3D variant architecture. Friction + mass physics. Ratchet snap.
 - **Team space (7 tabs):** Home, Playbook, Schedule, Roster, Messages, Photos, Settings.
-- **Query optimization:** staleTime 5min global default (DEC-130). getMyLaneProfiles batches 6 queries into 1. .list() + client-side filter for service-role records.
-- **Panel:** Mylane panel viewport-fixed. Desktop: 300px right panel. Mobile: bottom bar.
-- **Agent architecture:** DEC-107 fully enforced — space agents use agentScopedQuery only (no direct entity tools). 5 agents + AdminAgent + Renderer + Scout.
+- **Query optimization:** staleTime 5min global default (DEC-130). getMyLaneProfiles batches 6 queries into 1.
+- **Agent architecture:** DEC-107 enforced — space agents use agentScopedQuery only. DEC-136 — entity permissions default Creator Only.
 - **Auth:** Single source of truth — AuthContext seeds React Query cache, refreshUser() syncs both.
 - **Error isolation:** WorkspaceErrorBoundary wraps each workspace drill view.
-- **Security:** Entity permissions default Creator Only. Server functions with asServiceRole handle cross-user access.
-- **Credit model:** Entity reads = free. Agent messages = ~3 integration credits. Message credits (250/mo) = real bottleneck.
+- **Health score:** 87/100 (from 68 on 2026-04-04 audit)
 
-## What Just Shipped (2026-04-04)
+## What Just Shipped (2026-04-05)
 
-1. MylaneNote entity + reminders lifecycle (create, display, mark done via Mylane conversation)
-2. Founding Gardener observation (platformPulse gardeners action + MCP deploy)
-3. Feedback pipeline: FeedbackLog retired, ServiceFeedback is sole path, "Have feedback?" chip on all spaces
-4. Full 13-category audit: 343 files, 6 Critical, 14 High, 22 Medium, 19 Low
-5. Critical fixes: entity permissions (9 locked), staleTime, auth consolidation, ownership verification
-6. High fixes: DEC-107 enforced, agent field names corrected, meal-prep in agentScopedQuery
-7. Polish: 19 dead files deleted (-1,968 lines), 31 unused imports, Discover wired, phantom attention removed
-8. CLAUDE.md fully updated (was 1 month stale)
+1. Server-side fix: agentScopedWrite unconditionally stamps user_id/owner_id from auth context (DEC-139)
+2. MyLane instruction updates: removed user_id from write payloads, added query/write asymmetry docs
+3. Healed MylaneNote record: "Text Kate from LinkedIn" now visible on Home feed
+4. Confirmed: RemindersCard renders, client query path works, MylaneNote entity + permissions correct
 
-## Seeds Ready for Future
+## Pending (Blocked on Base44 Publish)
 
-- Newsletter "The Good News" — 16 dormant accounts to wake
-- Natasha (nataherb2024@gmail.com) — first pure organic signup, worth investigating
-- Ephraim Pip-Boy design session (3D printer arriving)
-- StepIndicator + generateInviteCode extraction (3 duplicated onboarding patterns)
-- Shared EmptyState component (establish pattern, use in Team space first)
-- Loading states for 4 Home components (TeamHome, FieldServiceHome, PropertyMgmtHome, DashboardHome)
-- Accessibility pass (aria-labels, htmlFor, contrast check)
+- Server fix live in Base44 runtime
+- MyLane instruction updates live in Base44 runtime
+- End-to-end write test: create new reminder → display → complete → verify status flip
+
+## Known Issues for Next Session
+
+1. **Date parsing bug:** MyLane parsed "tomorrow" as 2026-04-19 instead of 2026-04-06. One-line instruction fix likely.
+2. **MCP user_id fallback:** Weaker path than auth.me(). Future hardening candidate.
+3. **Broader user_id flow audit:** Today's cascade suggests more ambiguous identity paths may exist.
 
 ## Upcoming Priorities
 
-1. Coach Rick demo — foundation is stone, Team space production-ready
-2. Ephraim Pip-Boy design session
-3. Newsletter "The Good News" to wake dormant accounts
-4. Bari visit — show feedback chip, get verbal items into ServiceFeedback
-5. League Link rethink — league discovery page instead of team join
-6. Play Library seedling — matures when 3+ teams active
-7. Remaining polish: StepIndicator extraction, loading states, shared EmptyState, PM getProps, accessibility
+1. Base44 publish — unblocks reminder write-path verification
+2. Coach Rick demo — foundation is stone, Team space production-ready
+3. Date parsing bug fix in MyLane instructions
+4. Ephraim Pip-Boy design session
+5. Newsletter "The Good News" to wake dormant accounts
+6. Bari visit for feedback chip demo
+7. Remaining polish: StepIndicator extraction, loading states, shared EmptyState, accessibility

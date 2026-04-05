@@ -753,3 +753,45 @@ None (architecture questions captured, not decided)
 - Remaining polish: StepIndicator extraction, loading states, shared EmptyState, accessibility pass
 
 ---
+
+### Session — 2026-04-05 (Sunday — MyLane Reminder Loop Bug Fix)
+
+**Focus:** Field-tested MylaneNote reminder loop. Found it broken. Diagnosed to root cause, shipped server-side fix, updated MyLane instructions, healed bad record, confirmed read path end-to-end. Write path pending Base44 publish.
+
+**Bug diagnosis:**
+- Symptom: "My reminders" chip and RemindersCard showed nothing despite a MylaneNote record existing
+- Mycelia investigated: record `69d2ccd8ae352f9e7ce36ded` had `data.user_id: "special-user"` (literal string)
+- `created_by_id` on the record = Doron's real ID (Base44 auto-populated from auth)
+- Client query filters by `data.user_id === currentUser.id` — mismatch, record invisible
+- Root cause: MyLane agent instructions said "pass the authenticated user's ID from your context" and the LLM interpreted it as a placeholder token, writing the literal string
+
+**Server-side fix (1 commit):**
+- `agentScopedWrite` now unconditionally overwrites `user_id` and `owner_id` on writes where those are FK fields
+- Removed the `writeData[fk] == null` guard that let agent-provided values through
+- Affected entities: ServiceFeedback, Recommendation, MylaneNote, plus blanket `workspace === 'platform'` catch-all
+- Verified: no `owner_id` entities in the FK whitelist today, so `owner_id` branch is defensive only
+- Commit: `fix(agent-write): server-authoritative user_id on per-user entity writes`
+
+**MyLane instruction updates (Base44 Builder):**
+- Removed `user_id` from MylaneNote write payload instructions
+- Added query-vs-write asymmetry paragraph (queries need user_id for scoping, writes forbid it)
+- Updated Write Capability section to explicitly forbid passing user_id
+
+**Data cleanup:**
+- Mycelia healed record `69d2ccd8ae352f9e7ce36ded`: `data.user_id` updated from `"special-user"` to `"69308d4dd5ee90afc9b011d4"`
+- Content: "Text Kate from LinkedIn" (due_date: 2026-04-19 — date parsing bug, see below)
+- RemindersCard confirmed rendering the healed record on Home feed
+
+**Decisions:** DEC-139 (server-authoritative identity on agent writes)
+
+**Known issues for next session:**
+1. Date parsing bug: MyLane parsed "tomorrow" as 2026-04-19 instead of 2026-04-06. Likely stale date awareness or arithmetic error.
+2. MCP user_id fallback path is weaker than auth.me() — known from audit, not introduced by this fix
+3. Broader user_id flow audit — today's cascade suggests more ambiguous identity paths may exist
+
+**Pending (blocked on Base44 publish):**
+- Server fix deployed to Base44 runtime
+- MyLane instruction updates deployed
+- End-to-end write-path verification (create → display → complete lifecycle)
+
+---

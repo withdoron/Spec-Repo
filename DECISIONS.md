@@ -537,3 +537,14 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Status:** Active — gardener observation live via platformPulse + MCP
 
 ---
+
+### DEC-139: Server-Authoritative Identity on Agent Writes (2026-04-05)
+
+**Date:** 2026-04-05
+**Context:** MylaneNote reminder loop field test revealed MyLane agent wrote `user_id: "special-user"` as a literal string — the LLM interpreted the instruction "pass the authenticated user's ID from your context" as a placeholder token. Record persisted but was invisible (query filtered by real user_id, found nothing). The `agentScopedWrite` function had a `writeData[fk] == null` guard that preserved whatever the agent passed — if the agent sent a non-null string, the server-known value was never applied.
+**Decision:** Identity fields (`user_id`, `owner_id`) are set exclusively by `agentScopedWrite` from server-resolved auth context. The null-check guard is removed for these fields — the server always wins, unconditionally. The query/write asymmetry is explicit: queries require `user_id` from the agent (to scope reads via agentScopedQuery), writes forbid it (server stamps from `auth.me()` or validated MCP fallback). This is defense in depth against LLM placeholder-token interpretation errors.
+**Cross-references:** Extends DEC-115 (agentScopedWrite three-gate enforcement) with a fourth gate: identity stamping. Complements DEC-136 (Creator Only default permissions) — entity permissions are the last defense, server-authoritative identity is the second-to-last.
+**Affected entities:** ServiceFeedback, Recommendation, MylaneNote (fkField: `user_id`), plus blanket `workspace === 'platform'` catch-all for future platform entities. No entities currently use `owner_id` as FK field — that branch is defensive.
+**Status:** Active — shipped in community-node, pending Base44 publish
+
+---
