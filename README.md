@@ -283,21 +283,21 @@ Additional strategy and business documents are maintained privately:
 
 | Document | Repo | Purpose |
 |----------|------|---------|
-| ORGANISM-CONCEPT.md | locallane-private | North star vision — the Organism |
-| COMMUNITY-PASS.md | locallane-private | Membership model, Joy Coins, revenue share |
-| LEGAL-RESEARCH.md | locallane-private | Oregon regulatory analysis |
-| LEGAL-CONSULTATION-PREP.md | locallane-private | Lawyer meeting prep |
-| SILVER-BARTER-CONCEPT.md | locallane-private | Silver barter directory model |
-| SILVER-DIME-LAYER.md | locallane-private | Physical value layer concept |
-| NODE-LAB-MODEL.md | locallane-private | Node development model (DEC-047) |
-| NODE-PLAYBOOK.md | locallane-private | Node registry and lifecycle |
-| SEEDLING-TRACKER.md | locallane-private | Weekly gardener's dashboard |
-| PERSONAL-FINANCE-NODE.md | locallane-private | Financial Node spec |
-| FIELD-SERVICE-ENGINE.md | locallane-private | Multi-vertical field service strategy |
-| BJJ-RANKED-QUEUE.md | locallane-private | Competition workspace seed packet |
-| BOMB-SQUAD-GROWERS.md | locallane-private | Dormant cannabis brand strategy |
-| DASHBOARD-WORKSPACES.md | locallane-private | Workspace engine + Play Trainer implementation spec |
-| USER-GROUPS-v1.md | locallane-private | User Groups spec (Phase 4) |
+| ORGANISM-CONCEPT.md | private | North star vision — the Organism |
+| COMMUNITY-PASS.md | private | Membership model, Joy Coins, revenue share |
+| LEGAL-RESEARCH.md | private | Oregon regulatory analysis |
+| LEGAL-CONSULTATION-PREP.md | private | Lawyer meeting prep |
+| SILVER-BARTER-CONCEPT.md | private | Silver barter directory model |
+| SILVER-DIME-LAYER.md | private | Physical value layer concept |
+| NODE-LAB-MODEL.md | private | Node development model (DEC-047) |
+| NODE-PLAYBOOK.md | private | Node registry and lifecycle |
+| SEEDLING-TRACKER.md | private | Weekly gardener's dashboard |
+| PERSONAL-FINANCE-NODE.md | private | Financial Node spec |
+| FIELD-SERVICE-ENGINE.md | private | Multi-vertical field service strategy |
+| BJJ-RANKED-QUEUE.md | private | Competition workspace seed packet |
+| BOMB-SQUAD-GROWERS.md | private | Dormant cannabis brand strategy |
+| DASHBOARD-WORKSPACES.md | private | Workspace engine + Play Trainer implementation spec |
+| USER-GROUPS-v1.md | private | User Groups spec (Phase 4) |
 
 ---
 

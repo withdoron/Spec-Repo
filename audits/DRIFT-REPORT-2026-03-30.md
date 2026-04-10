@@ -264,7 +264,7 @@ Both the community-node and Spec-Repo copies of ACTIVE-CONTEXT.md were updated o
 
 ### Specs Committed
 
-**Private repo (locallane-private):**
+**Private repo (`private`):**
 
 | Date | Spec | Description |
 |------|------|-------------|
@@ -282,7 +282,7 @@ Both the community-node and Spec-Repo copies of ACTIVE-CONTEXT.md were updated o
 | 3/29 | AGENT-SCOPED-QUERY-SPEC.md | Permission membrane, entity-to-FK mapping, tier gating hook |
 | 3/30 | RENDERER-AGENT-SPEC.md | Visual cortex agent, data-to-UI pipeline |
 
-**Spec-Repo (locallane-spec-repo / Spec-Repo):**
+**Spec-Repo (`Spec-Repo`):**
 
 | Date | Spec | Description |
 |------|------|-------------|
