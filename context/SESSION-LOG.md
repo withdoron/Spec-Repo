@@ -795,3 +795,37 @@ None (architecture questions captured, not decided)
 - End-to-end write-path verification (create → display → complete lifecycle)
 
 ---
+
+### Session — 2026-04-10 (Thursday — Playmaker Visibility Resolution + Platform Thesis)
+
+**Focus:** Two-day Playmaker visibility bug resolved end-to-end. Coach Rick confirmed from his own phone: "Hi looks like - I have everything!" Platform thesis work emerged in parallel.
+
+**The bug — root cause (four layers deep):**
+
+The symptom: each user in a team space saw only the records they personally created. Doron saw 12 roster, 12 plays, 0 schedule. Coach Rick saw 0 roster, 4 plays, 17 schedule. Same team, different data.
+
+The diagnosis identified Creator Only RLS on all team-scoped entities as the cause. The fix architecture: a generic `readTeamData` server function that verifies team membership, then reads data via `asServiceRole` to bypass RLS. Spec written, validated by Base44 platform team, implementation shipped.
+
+But the fix didn't work. Four layers of issues stacked:
+
+1. **Entity permissions:** `asServiceRole` does not reliably bypass Creator Only RLS in SDK 0.8.23, despite documentation saying it should (confirmed by Base44 support). Fix: change Read permissions on all 8 team entities from Creator Only to Authenticated Users. The security membrane moves from entity level to server function level. (DEC-140)
+2. **Client-side crash guards:** Components used `[...data]` spread and `.filter()` on query results without `Array.isArray` checks. When the server function returned errors, the data became non-array values, crashing the component tree. Fix: defensive `Array.isArray` guards on every external data spread/filter in team components.
+3. **Axios response wrapper:** `base44.functions.invoke()` returns an Axios response wrapper `{data, status, headers, config}`, not the parsed JSON body. `fetchTeamData` was extracting `result.data` (the Axios data field = the JSON body) when it needed `result.data.data` (the JSON body's data field = the actual array).
+4. **The one-line fix:** `result.data` → `result.data.data` in `fetchTeamData`.
+
+**Process lesson:** Layers 1-2 were found by reasoning from code. Layer 3 was found by a single `console.log` of the actual runtime value. When diagnosing unknown SDK behavior, a one-line log of the actual shape is faster than four theories from code alone. (DEC-141)
+
+**What shipped:**
+- `readTeamData` server function (generic team-scoped read primitive with membership verification)
+- `useTeamEntity` hook + `fetchTeamData` utility (client-side guardrail for all team reads)
+- 8 entity Read permissions relaxed to Authenticated Users (TeamMember, Play, TeamEvent, TeamMessage, TeamPhoto, PlayerStats, QuizAttempt, PlayAssignment)
+- 32 read sites migrated across 14 files
+- Defensive `Array.isArray` guards on all external data spreads/filters in team components
+- CLAUDE.md updated with Axios wrapper pattern and readTeamData documentation
+- TEAM-VISIBILITY-ARCHITECTURE.md spec in private repo
+
+**Decisions:** DEC-140 (readTeamData as security boundary), DEC-141 (runtime logging before theorizing)
+
+**Confirmed working:** Coach Rick, logged in on his own phone, sees full roster, playbook, and schedule. Doron sees the same data. The membrane holds.
+
+---

@@ -37,7 +37,7 @@
 | Harvest Network | ~60/100 | Phase 2 shipped, map gated | 2026-03-27 |
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |
 | Personal Finance | ~78/100 + agent | FinanceAgent wired | 2026-03-29 |
-| Play Trainer (Team) | Production + agent | Full schedule (RSVP, duties, recurring, readiness). Photo gallery. 4 print layouts. Player cards. Leaderboard. Parent invite flow with name capture. Messages with linked-kid attribution. 429 rate limit fix (batch fetch). Credit audit confirmed entity reads free. League Link renamed. | 2026-04-03 |
+| Play Trainer (Team) | Production + agent | Visibility bug CLOSED (2026-04-10, confirmed by Coach Rick on phone). readTeamData server function + useTeamEntity hook. 8 entity Read permissions relaxed to Authenticated Users. Full schedule, photo gallery, 4 print layouts, player cards, leaderboard, parent invite flow, messages. Next: test coach onboarding with fresh account. | 2026-04-10 |
 | Frequency Station | Functional | Phase 2 live | 2026-03-25 |
 
 ## Build Protocol Phase Status
