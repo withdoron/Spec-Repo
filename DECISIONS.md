@@ -548,3 +548,12 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Status:** Active — shipped in community-node, pending Base44 publish
 
 ---
+
+### DEC-142: Frequency Station Pip-Boy Radio Model + Canonicalized Taxonomies (2026-04-10)
+
+**Date:** 2026-04-10
+**Context:** Frequency Station audit found audio architecture fragmented: provider scoped to MyLane (audio dies on navigation), multiple local `<audio>` elements competing, no MediaSession/lock-screen integration. Status and mood taxonomies diverged between spec and code.
+**Decision:** (1) Pip-Boy radio: provider at app root, single `<audio playsInline>`, MediaSession API, persistent mini-player, localStorage song persistence. (2) Taxonomies canonicalized to match code: moods `fire/water/earth/air/storm/custom`, statuses `submitted/in_progress/released/archived`. (3) FrequencyArtist confirmed as planned entity for Build 2. Full details in FREQUENCY-STATION-SPEC.md (private).
+**Status:** Active — Build 1 shipped
+
+---
