@@ -557,3 +557,12 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Status:** Active — Build 1 shipped
 
 ---
+
+### DEC-143: Frequency Station Build 2 — Studio, Library, Ownership Model (2026-04-10)
+
+**Date:** 2026-04-10
+**Context:** Build 1 shipped background playback. Build 2 adds studio: ownership, library, rich submissions, admin transform workflow.
+**Decision:** (1) Ownership model: `owner_user_id` + `is_public` on FrequencySong. Listen tab filters by is_public. (2) Multi-step submission wizard with dynamic FrequencyMood entity. (3) Admin workbench with Suno copy-paste boxes + delivery-to-submitter. (4) FrequencyArtist entity for identity. (5) FrequencyNotification for in-app delivery alerts. Full details in FREQUENCY-STATION-SPEC.md (private).
+**Status:** Active — Build 2 shipped
+
+---
