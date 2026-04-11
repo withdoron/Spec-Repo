@@ -829,3 +829,50 @@ But the fix didn't work. Four layers of issues stacked:
 **Confirmed working:** Coach Rick, logged in on his own phone, sees full roster, playbook, and schedule. Doron sees the same data. The membrane holds.
 
 ---
+
+### 2026-04-10 (evening) — Frequency Station Build 1 + Build 2 + Field Audit Debug Chain
+
+**Focus:** Frequency Station goes from "audio player on a page" to "Pip-Boy radio with a studio and library." Two builds, a long debug chain, and the first real song transformation.
+
+**Build 1 — Pip-Boy Radio Model (DEC-142):**
+- FrequencyProvider lifted from MyLane.jsx to App.jsx root — audio survives all navigation
+- Consolidated to single `<audio playsInline>` element; page components are pure UI reading from `useFrequency()`
+- MediaSession API wired: lock-screen controls (play/pause/skip/seekto) on iOS Safari and Android Chrome
+- Persistent mini-player bar at bottom of every screen (title, artist, play/pause, skip, progress)
+- localStorage persistence: current song, position (debounced 3s), master toggle
+- iPhone testing confirmed: background playback works with screen off
+
+**Build 2 — Studio & Library (DEC-143):**
+- SubmitWizard: 3-step form (words → sound → details) with dynamic FrequencyMood entity, style_genre, vocal_style, tempo_feel, reference_artist
+- AdminWorkbench: Suno copy-paste boxes (Lyrics + Styles) assembled from submission fields, "Deliver to submitter" creates owned song + FrequencyNotification
+- MyLibrary tab: personal song library with public/private toggle, FrequencyArtist CRUD, song upload
+- NotificationBell: unread count badge + dropdown, client-side user_id filter
+- Ownership model: owner_user_id + is_public on FrequencySong. Listen tab filters is_public. Library shows owned songs.
+- New entities: FrequencyArtist, FrequencyMood, FrequencyNotification
+
+**Debug chain (the real story of the evening):**
+1. ListenTab infinite render loop — `useEffect` depended on `freq` (whole context object); every `setPlaylist` call created new ref → infinite loop. Fix: stable function ref + memoized song-ID fingerprint.
+2. Wizard Enter-key form submission — pressing Enter in text inputs triggered native form submit, bypassing step 3. Fix: `handleSubmit` checks step and advances instead of submitting on non-final steps.
+3. Base44 entity duplicate cleanup — unprefixed `FrequencySubmission` deleted (was duplicate of `FSFrequencySubmission`). New fields added to FSFrequencySubmission.
+4. RLS permission audit — `FSFrequencySubmission.Read` was `owner` (RLS: created_by == user.email). Admin workbench couldn't see other users' submissions. `FrequencyNotification.Read` had same problem. Both loosened to `authenticated`. `FSFrequencySubmission.Update` also loosened.
+5. Field name audit — Hyphae frontend audit vs Base44 schema revealed: FrequencyArtist uses `owner_user_id` not `user_id`; FrequencyNotification uses `body` not `message`; DeliveryForm owner chain had `created_by` (email) before `user_id` (ID). All fixed.
+
+**Key lessons:**
+- Base44 agent defaults to discussion mode — action mode only for entity/permission/server-function work. Prevents drift. Extends DEC-093.
+- Schema-reality audits (Base44 discussion mode + Hyphae frontend audit) are a repeatable pattern when debugging spirals. The join between what the backend actually has and what the frontend writes is where bugs hide.
+- RLS on cross-user entities blocks core workflows. Client-side scoping is the pragmatic choice when the alternative is "the feature doesn't work." Tighten later with server functions.
+
+**First real song transformed:** "Grow, Little Seedlings" by The OG (dedication: Egan, Elek, Ephraim). Seed → Suno boxes → audio → delivered to library → played on lock screen.
+
+**Decisions:** DEC-142 (Pip-Boy radio), DEC-143 (Studio + Library), DEC-144 (RLS loosening + client-side scoping)
+
+**What shipped (code):**
+- FrequencyContext.jsx rewritten (MediaSession, playsinline, localStorage persistence, lock-screen metadata fix)
+- FrequencyMiniPlayer.jsx (new component)
+- SubmitWizard.jsx, AdminWorkbench.jsx, MyLibrary.jsx, NotificationBell.jsx (new components)
+- FrequencyStation.jsx updated (new tab wiring, ListenTab is_public filter, playlist fingerprint)
+- SongDetail.jsx updated (pure UI, no local audio)
+- MyLane.jsx updated (FrequencyProvider removed, lives in App.jsx now)
+- App.jsx updated (FrequencyProvider + mini-player at root)
+
+---

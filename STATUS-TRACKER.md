@@ -38,7 +38,7 @@
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |
 | Personal Finance | ~78/100 + agent | FinanceAgent wired | 2026-03-29 |
 | Play Trainer (Team) | Production + agent | Visibility bug CLOSED (2026-04-10, confirmed by Coach Rick on phone). readTeamData server function + useTeamEntity hook. 8 entity Read permissions relaxed to Authenticated Users. Full schedule, photo gallery, 4 print layouts, player cards, leaderboard, parent invite flow, messages. Next: test coach onboarding with fresh account. | 2026-04-10 |
-| Frequency Station | Functional | Phase 2 live | 2026-03-25 |
+| Frequency Station | Production | Phase 3 in progress. Build 1 (Pip-Boy radio) + Build 2 (studio, library, ownership) complete. End-to-end loop functional. Polish queue active. First song: "Grow, Little Seedlings." | 2026-04-10 |
 
 ## Build Protocol Phase Status
 

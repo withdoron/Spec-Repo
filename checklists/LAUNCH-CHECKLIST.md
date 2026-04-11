@@ -87,6 +87,10 @@
 - [x] SpaceSpinner 3D variants (drum + cover flow) with friction physics
 - [x] Semantic Tailwind migration complete (208 files)
 - [x] Three themes live (Gold Standard, Cloud, Fallout with CRT effects)
-- [ ] Frequency Station playlist (auto-advance, shuffle, queue)
+- [x] Frequency Station background playback (Pip-Boy radio model — provider at root, MediaSession, mini-player)
+- [x] Frequency Station studio + library (ownership model, submission wizard, admin workbench)
+- [x] Frequency Station end-to-end submission→transform→deliver flow
+- [x] Frequency Station notification system (in-app bell + dropdown — polish pending)
+- [ ] Frequency Station playlist polish (auto-advance working, shuffle + queue UI pending)
 
 ---
