@@ -876,3 +876,58 @@ But the fix didn't work. Four layers of issues stacked:
 - App.jsx updated (FrequencyProvider + mini-player at root)
 
 ---
+
+### 2026-04-11 — Frequency Station Polish A + B1 + B1.5 + B2 + Debug Chain
+
+**Focus:** Five-prompt build day. Lock-screen fix, dead code removal, wizard collapse, bulk upload, three-section library, and a long payload-debugging chain that surfaced the difference between React bugs and schema bugs.
+
+**Prompt A — Polish (5 fixes):**
+- Lock-screen stale title: `onPlay` handler's closure captured previous song's metadata, overwrote correct metadata set by `setSongInternal`. Fix: removed redundant `updateMediaSession` from `onPlay`.
+- Notification bell: reviewed fully, no remaining bug — the `message→body` field fix from last night resolved it.
+- Duplicate song on delivery: added ref-based sync guard (`deliveringRef`) to prevent double-click double-invocation.
+- Dead code removal: deleted old SubmitTab, SongCreationForm, QueueTab (515 lines). EditSeedForm and MySeedsTab kept.
+- DeliveryForm now writes `mood_tag` and `artist_id` on delivered songs.
+
+**Prompt B1 — Wizard collapse + tab restructure + station default:**
+- Wizard collapsed from 3-step to single scrollable page. All fields visible at once. Two buttons: Save as Draft + Plant this seed.
+- Tabs reordered: My Library > Explore > Submit > My Submissions > Workbench. Listen→Explore, My Seeds→My Submissions.
+- Default-active tab: My Library if user owns songs, Explore otherwise.
+- Per-user station default: `freq_playing_${userId}` localStorage key with legacy migration.
+- Mood/FrequencyMood dropdown removed from wizard (admin sets during transformation if needed).
+
+**Prompt B1.5 — Bulk upload:**
+- BulkUploadModal: multi-file select, title parsed from filename (simple: strip extension, underscores→spaces, user reviews inline).
+- jsmediatags attempted for ID3 cover art extraction — failed in Base44 deployment (broken package.json main field). Removed entirely. Songs upload without covers.
+- 17 of Doron's Suno back catalog imported into My Library.
+
+**Prompt B2 — Three-section library + favorites + queue:**
+- MyLibrary restructured: My Songs / My Favorites / My Queue.
+- SongRow shared component: one-line expandable, used everywhere (My Songs, Favorites, Queue, Explore).
+- `useFrequencyFavorites` hook: FSFrequencyFavorite CRUD, `favoriteIds` Set, `toggleFavorite`.
+- `useFrequencyQueue` hook: FSFrequencyPlaylist (title='queue'), `addToQueue`, `removeFromQueue`, `reorderQueue`, `clearQueue`.
+- Dedupe rule: owned+favorited songs show in My Songs with filled heart, not duplicated in Favorites.
+
+**Debug chain (the long one):**
+1. SongRow `useNavigate` ReferenceError — imported but not defined. Removed dead reference.
+2. Favorites/queue not working from My Library — diagnosed as "stale closure" → added refs → didn't fix it.
+3. Actually: two hook instances (parent + child) racing on concurrent Base44 creates → ERR_CONNECTION_CLOSED. Fix: single-owner pattern — hooks in parent only, props to children.
+4. Actually actually: FSFrequencyPlaylist.create 422 — `track_ids: '[]'` (string) instead of `track_ids: []` (array). Schema says array of string. Fix: send real arrays.
+5. FSFrequencyFavorite.create — `user_id` not wrapped in `String()`, potential type mismatch. Fix: all fields explicitly `String()` wrapped with defensive defaults.
+
+**Key lesson — payload first, architecture second (DEC-145):**
+When a Base44 entity operation fails, the first step is logging the exact payload and comparing field-by-field against the schema. The bug is almost always wrong JS type, wrong field name, or null where string expected. Do not theorize about React state, closures, or component lifecycle until the payload is confirmed correct. Two bugs today (queue string-not-array, favorites type coercion) would have been caught in seconds by payload inspection. The closure refactoring was defensive hardening, not the fix.
+
+**Decisions:** DEC-145 (payload-first debugging + single-owner hooks + FrequencyLibraryContext planned)
+
+**What shipped (code):**
+- FrequencyContext.jsx: lock-screen metadata fix, per-user localStorage key
+- FrequencyStation.jsx: tab rename/reorder, default-active logic, single-owner hooks, ListenTab→SongRow, MySeedsTab one-line rows, 515 lines dead code removed
+- SubmitWizard.jsx: single-page form with draft/submit
+- MyLibrary.jsx: three sections, props-based favorites/queue
+- SongRow.jsx: shared one-line expandable row component
+- BulkUploadModal.jsx: multi-file upload with filename parsing
+- AdminWorkbench.jsx: delivery ref guard, mood_tag/artist_id writes, draft exclusion
+- useFrequencyFavorites.js: ref-based callbacks, String() defensive defaults
+- useFrequencyQueue.js: ref-based callbacks, array (not string) track_ids
+
+---

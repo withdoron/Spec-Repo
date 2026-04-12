@@ -576,3 +576,12 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Status:** Active
 
 ---
+
+### DEC-145: Payload-First Debugging + Single-Owner Hooks (2026-04-11)
+
+**Date:** 2026-04-11
+**Context:** Three-layer debug chain: stale closures (defensive fix, not the bug) → duplicate hook instances racing (single-owner fix) → FSFrequencyPlaylist track_ids string-not-array (the actual 422). Two hours on architecture theories before 10 seconds of payload inspection found the type mismatch.
+**Decision:** (1) Payload-first debugging: when Base44 ops fail, log the payload and compare to schema before theorizing about React. (2) Single-owner hooks: call entity-managing hooks in exactly one component, pass as props. (3) FrequencyLibraryContext planned to replace prop drilling.
+**Status:** Active
+
+---
