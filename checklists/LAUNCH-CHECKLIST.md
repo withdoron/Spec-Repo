@@ -76,6 +76,19 @@
 - [x] MylaneNote reminders live (2026-04-04)
 - [x] Feedback pipeline consolidated to ServiceFeedback (2026-04-04)
 - [x] Founding Gardener observation live via MCP (2026-04-04)
+- [x] Mylane shell containment audit complete (2026-04-15)
+- [x] All 6 known escape points closed (Sessions A+B+C — 2026-04-15)
+- [x] Overlay system refactored to OV constant (DEC-146 Living Feet — 2026-04-15)
+- [x] Philosophy + Support surfaced inside shell (2026-04-15)
+- [x] Newsletter inline form in Account overlay (2026-04-15)
+- [x] Backdrop click-to-close on all overlays (2026-04-15)
+- [x] 4 dead pages deleted: SpokeDetails, ShapingTheGarden, CategoryPage, Search (~1,170 lines — 2026-04-15)
+- [x] Agent gated to R&D allowlist (DEC-147 — 2026-04-15)
+- [x] Viewport pinch-to-fit fix (fontSize 16 — 2026-04-15)
+- [ ] Walkthrough verification: Sessions A/B/C in live app (Doron)
+- [ ] ClaimBusiness + BusinessEditDrawer cleanup (co-presence model)
+- [ ] Footer removal or strip (content now inside shell)
+- [ ] Admin per-space reframe
 
 ## Platform
 

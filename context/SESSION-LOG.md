@@ -931,3 +931,67 @@ When a Base44 entity operation fails, the first step is logging the exact payloa
 - useFrequencyQueue.js: ref-based callbacks, array (not string) track_ids
 
 ---
+
+## 2026-04-15 — Mylane Containment + Living Feet Principle
+
+### What shipped
+
+**Foundation fixes (early in day):**
+- Viewport pinch-to-fit: CommandBar input fontSize 13 → 16, iOS auto-zoom resolved
+- Mylane agent gated to MYLANE_AGENT_ALLOWLIST (R&D, doron.bsg@gmail.com only) — 4 UI surfaces hidden for non-allowlisted users
+
+**Mylane Containment Audit:**
+- Full audit at `audit-reports/MYLANE-CONTAINMENT-AUDIT-2026-04-15.md`
+- 29 routes mapped, 6 escape points, 10 orphans
+- Structural root: Layout wrapper and Mylane shell are parallel, not nested
+- Approved approach: overlay expansion (DEC-148)
+
+**Session A — Closed 4 escape points:**
+- BusinessCard → BusinessProfile stacked overlay (z-50 over z-40, Escape unwinds)
+- FrequencyMiniPlayer → custom event opens shell Frequency overlay (with fallback for non-shell pages)
+- Events overlay → removed redundant navigate() calls, deep-link route still works
+- Newsletter → inline form in Account overlay
+
+**Session B — Refactor + orphans + polish + deletions:**
+- 13 hardcoded overlay strings refactored to OV constant (Living Feet proof)
+- Philosophy and Support overlays added (Account → About section)
+- Recommend stacked overlay (z-60 over BusinessProfile z-50, mode-parameterized)
+- Backdrop click-to-close on all 6 OverlayContainer instances
+- Deleted: SpokeDetails (574 lines), ShapingTheGarden (50 lines), CategoryPage (185 lines), Search + components/search/ directory (~360 lines)
+- ClaimBusiness deferred to future cleanup session (BusinessEditDrawer reference, co-presence model deletion)
+- JoyCoinsHistory left parked (Recess feature, surfaces when Recess ships)
+
+**Session C — Networks containment:**
+- NetworkPage stacked overlay at z-55 (between BusinessProfile z-50 and Recommend z-60)
+- BusinessCard and BusinessProfile network chips now fire `onNetworkClick` callback when inside shell
+- Mirrors BusinessProfile containment pattern exactly (Living Feet — instantiate, don't invent)
+- All 6 known escapes from audit are now closed
+
+### Decisions made
+
+- DEC-146: Living Feet Design Principle (constitutional)
+- DEC-147: R&D Allowlist Pattern for Pre-Release Features
+- DEC-148: Mylane Shell Containment via Overlay Expansion
+
+### Known accepted escapes (documented in STATUS-TRACKER)
+
+- Onboarding wizards (one-time flows, stepping aside is natural UX)
+- Terms/Privacy in new tabs (industry standard, deep-linkable for compliance)
+- Admin standalone (admin-only, complex, single user — future reframe: per-space admin toggle)
+- Networks index `/networks` (not reachable from inside shell)
+- Log out (auth requirement)
+
+### Known technical debt
+
+- Overlay z-indices are hardcoded (z-50/55/60). Refactor to stack-based assignment when third stacked-from-overlay scenario appears.
+
+### What's next
+
+- Walkthrough Sessions A/B/C in the live app — Doron to find UX issues Hyphae can't see
+- ClaimBusiness deletion + BusinessEditDrawer cleanup (co-presence model session)
+- Footer removal or strip (Philosophy/Support/Newsletter now inside shell)
+- Admin containment reframe (per-space admin toggle, not monolithic Admin panel)
+- Mylane reminders root cause investigation (deferred from earlier)
+- Audio mini-player / Mylane input stacking (small fix, only matters for Doron now)
+
+---

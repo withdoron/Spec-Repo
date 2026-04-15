@@ -1,7 +1,7 @@
 # PROJECT-BRAIN.md
 
 > Read this first. This file orients any AI model — Claude, Gemini, GPT, or other — to work effectively on LocalLane. It is the single source of truth for project identity, philosophy, and working style.
-> Last updated: 2026-04-04
+> Last updated: 2026-04-15
 
 ---
 
@@ -64,6 +64,18 @@ Give Hyphae the goal and context, not step-by-step instructions. Include our thi
 *"A mirror only matters when there's enough life to reflect." — Hyphae, 2026-03-31*
 
 *"The organism already knows what it knows. The architecture question is always: what's the lightest way to let that knowledge become visible?" — Hyphae, 2026-03-30*
+
+## Living Feet (DEC-146)
+
+Anything that exists in more than one place should exist as one thing. When it changes, every place it appears changes with it. The cost of adding a new instance should be one line, never twelve. Stone is for foundations; everything that grows is feet.
+
+This principle is load-bearing for every architectural decision in LocalLane. It applies to themes, overlays, spaces, agents, cards, forms, permissions, navigation, and entity reads. The opposite of Living Feet is duplication frozen as stone — twelve hardcoded overlay strings instead of one constant, two parallel layout containers instead of nested ones, per-component permission checks instead of a unified gating system.
+
+When the same pattern repeats in three or more places, it stops being a pattern and becomes a structural debt. Living Feet says: refactor it once, propagate it everywhere, and adding the next instance becomes a one-line change.
+
+Companion principle: DEC-089 (Fractal SOP) — find one bug, audit all instances of the same pattern. Living Feet is the architectural response: if instances keep accumulating, the pattern itself should be one thing.
+
+*"Anything that exists in more than one place should exist as one thing." — Doron, 2026-04-15*
 
 ## $3 Ante (DEC-127)
 

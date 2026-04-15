@@ -27,6 +27,8 @@
 | 2026-04-03 (Team) | Team space production push. 15 commits: print fixes + route reference + leaderboard + player cards + photo gallery + schedule (RSVP/duties/recurring/readiness) + parent UX + identity + credit audit + seedling review + 8 bug fixes (timezone, 429s, Messages crash, .filter() quirk, invite layout). | 15 commits | DEC-130 updated (credits free, urgency MEDIUM) |
 | 2026-04-04 (Audit) | Full-day audit + security lockdown + polish. MylaneNote reminders. Founding Gardener observation (platformPulse gardeners). Feedback pipeline consolidated (FeedbackLog retired). 13-category audit (68/100). Critical+High fixes: 9 entity permissions locked, staleTime, auth consolidation, DEC-107 enforced. Medium+Low: 19 dead files deleted (-1,968 lines), platformPulse hardened, Discover wired, imports cleaned. Health score 68 to 87. | 7 commits | DEC-136, DEC-137, DEC-138 |
 | 2026-04-05 | MyLane reminder loop bug fix. Agent wrote literal "special-user" as user_id. Server-side fix: agentScopedWrite now stamps user_id unconditionally from auth context (DEC-139). MyLane instructions updated. Bad record healed. Read path confirmed. Write path pending publish. | 1 commit | DEC-139 |
+| 2026-04-10 | Team visibility bug CLOSED. readTeamData server function + useTeamEntity hook. 8 entity Read permissions relaxed. Frequency Station Builds 1+2 (Pip-Boy radio, studio, library). | multiple | DEC-140 through DEC-145 |
+| 2026-04-15 | Mylane Containment day. Viewport fix, agent gate, containment audit (29 routes, 6 escapes, 10 orphans). Sessions A+B+C closed all 6 escapes. Overlay refactor (OV constant). Philosophy/Support/Recommend/Network overlays. Backdrop click-to-close. 4 dead pages deleted (~1,170 lines). Living Feet principle formalized. | 6 commits | DEC-146, DEC-147, DEC-148 |
 
 ## Node Status
 
@@ -87,5 +89,18 @@
 - [x] Escalated to Base44 engineering team
 - [ ] Awaiting resolution — Request ID: 95a004a0-5990-4704-ad23-31ddb795dacd
 - **Impact:** All DEC-115 code is built and in git but cannot deploy until publish is fixed
+
+## Known Accepted Escapes (Mylane Shell)
+
+These pages/links intentionally render outside the Mylane shell. Documented here so future audits don't flag them as bugs:
+
+| Escape | Reason | Decision Date |
+|--------|--------|---------------|
+| Onboarding wizards (Team, FieldService, PM, Kitchen, Finance, Business) | One-time flows. Stepping aside to set something up is natural UX. User returns to MyLane on completion. | 2026-04-15 |
+| Terms (`/Terms`) | Industry standard to open legal in new tab. Deep-linkable for compliance. | 2026-04-15 |
+| Privacy (`/Privacy`) | Same as Terms. | 2026-04-15 |
+| Admin (`/Admin/*`) | Admin-only, complex, single user. Will be reframed as per-space admin toggle in future session, not contained as monolithic panel. | 2026-04-15 |
+| Networks index (`/networks`) | Not reachable from inside the shell (no "Browse all networks" link). Only detail route `/networks/:slug` was an escape — that's now contained as overlay. | 2026-04-15 |
+| Log out | Auth requirement — must navigate away on sign-out. | N/A |
 
 ---

@@ -1,43 +1,52 @@
 # ACTIVE-CONTEXT.md
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
-> Last updated: 2026-04-11 (Frequency Station B1 + B1.5 + B2 polish + payload debug chain)
+> Last updated: 2026-04-15 (Mylane Containment Sessions A+B+C + Living Feet)
 
 ## Current Focus
 
-Frequency Station is a three-section personal library with favorites, queue, and a Spotify-shaped listening surface. 17 songs in Doron's library via bulk upload. End-to-end flows working: submit → transform → deliver → favorite → queue → play. Payload-first debugging principle established (DEC-145).
+Mylane shell is now the contained frame for the authenticated experience. All 6 known escape points from the containment audit are closed. Living Feet (DEC-146) is the active constitutional design principle — proven by overlay refactor (Session B) and Networks containment (Session C). R&D Allowlist pattern (DEC-147) available for pre-release feature gating. Overlay expansion (DEC-148) is the containment approach.
 
 ## Active Architecture
 
-- **Frequency Station:** Phase 3 complete. Three-section My Library (My Songs / Favorites / Queue). Single-owner hook pattern: favorites + queue hooks in FrequencyStation.jsx, passed as props to children. SongRow shared component everywhere. Pip-Boy radio (DEC-142), Studio + Library (DEC-143), RLS (DEC-144), payload-first (DEC-145).
-- **Frequency hooks:** `useFrequencyFavorites` (FSFrequencyFavorite CRUD), `useFrequencyQueue` (FSFrequencyPlaylist title='queue'). Both use refs to avoid stale closures. All payloads explicitly String()-typed. track_ids sent as real arrays, not JSON strings.
-- **Agent writes:** DEC-139 — identity fields server-authoritative on all agentScopedWrite calls.
+- **Mylane shell containment:** Complete. 8 overlays in the OV constant (FREQ, DIR, EVT, ACCT, PHILOSOPHY, SUPPORT, NETWORK + stacked BusinessProfile/Recommend). Backdrop click-to-close on all base overlays. Escape key unwinds overlay stack.
+- **Agent gating:** MYLANE_AGENT_ALLOWLIST gates 4 agent UI surfaces. Doron-only during R&D.
+- **Overlay stacking:** BusinessProfile (z-50), Network (z-55), Recommend (z-60) stack on top of base overlays (z-40). Hardcoded z-indices — flagged for refactor when third stacking scenario appears.
+- **Frequency Station:** Phase 3 complete. Three-section My Library. Pip-Boy radio (DEC-142). Mini-player now opens shell overlay via custom event when on /MyLane.
 - **Theme system:** Semantic tokens (98.5% migrated). Three themes: Gold Standard, Cloud, Fallout.
-- **Team space:** Production-ready. Coach Rick confirmed. readTeamData server function (DEC-140).
-- **Query optimization:** staleTime 5min global default (DEC-130).
+- **Team space:** Production-ready. readTeamData server function (DEC-140).
 - **Health score:** 87/100
 
-## What Just Shipped (2026-04-11)
+## What Just Shipped (2026-04-15)
 
-1. **Prompt A — Polish:** Lock-screen metadata fix (stale closure in onPlay), delivery double-click guard, dead code removal (515 lines), mood_tag + artist_id on delivered songs
-2. **B1 — Wizard + Tabs:** Single-page wizard with drafts, tab rename/reorder (My Library > Explore > Submit > My Submissions), per-user station default
-3. **B1.5 — Bulk Upload:** BulkUploadModal with filename parsing, 17 songs imported
-4. **B2 — Library Restructure:** Three sections, SongRow shared component, favorites via FSFrequencyFavorite, queue via FSFrequencyPlaylist, heart + add-to-queue buttons everywhere
-5. **Debug chain:** SongRow useNavigate fix → single-owner hook pattern → queue track_ids string→array (422 fix) → favorites String() defensive defaults
+1. **Viewport fix:** CommandBar input fontSize 13 → 16 (iOS Safari auto-zoom prevention)
+2. **Agent gate:** MYLANE_AGENT_ALLOWLIST with `agentEnabled` derived flag
+3. **Containment audit:** 29 routes mapped, 6 escapes, 10 orphans identified
+4. **Session A:** BusinessProfile overlay, FrequencyMiniPlayer event, Events URL state, Newsletter inline form
+5. **Session B:** OV constant refactor (13 strings → 1 object), Philosophy/Support overlays, Recommend overlay, backdrop click-to-close, 4 dead pages deleted (~1,170 lines)
+6. **Session C:** Networks overlay (z-55), onNetworkClick callback threading, last known escape closed
+7. **DEC-146/147/148:** Living Feet, R&D Allowlist, Overlay Expansion
 
-## Known Issues (Remaining Polish)
+## Known Accepted Escapes (intentional)
 
-1. **FrequencyLibraryContext refactor** — favorites/queue hooks should move from prop-drilling to a context provider (planned for next touch of this area)
-2. **EditSeedForm uses old field set** — still writes legacy fields, not Build 2 fields
-3. **AdminUploadForm dead code** in MyLibrary.jsx — function defined but no longer rendered
-4. **Old SongCard component** in FrequencyStation.jsx — replaced by SongRow but function still defined
-5. **FrequencyMood sort_order not respected** in wizard (mood removed from wizard, but entity still exists)
-6. **Bulk upload doesn't extract cover art** — jsmediatags removed due to Base44 deployment incompatibility
+- Onboarding wizards (one-time flows)
+- Terms/Privacy (new tabs, compliance)
+- Admin (standalone, future per-space reframe)
+- Networks index `/networks` (not reachable from shell)
+- Log out (auth requirement)
+
+## Known Issues
+
+1. **Overlay z-indices hardcoded** — z-50/55/60, refactor to stack-based when third scenario appears
+2. **ClaimBusiness route** — page is going away (co-presence model), but BusinessEditDrawer still generates claim URLs
+3. **FrequencyLibraryContext refactor** — prop drilling for favorites/queue should become context provider
+4. **Footer still renders** on non-MyLane pages — Philosophy/Support/Newsletter now inside shell, Footer's purpose limited to unauthenticated public pages
 
 ## Upcoming Priorities
 
-1. FrequencyLibraryContext refactor (eliminate prop drilling for favorites/queue)
-2. Newsletter "The Good News" — wake dormant accounts
-3. Ephraim Pip-Boy design session
-4. Responsive polish pass for Frequency Station mobile
-5. Base44 discussion-mode pattern documentation
+1. Walkthrough Sessions A/B/C in live app — Doron finds UX issues
+2. ClaimBusiness + BusinessEditDrawer cleanup (co-presence model)
+3. Footer removal or strip
+4. Admin per-space reframe
+5. Mylane reminders root cause investigation
+6. Newsletter "The Good News" — wake dormant accounts
