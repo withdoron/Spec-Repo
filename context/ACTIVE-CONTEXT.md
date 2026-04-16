@@ -1,52 +1,48 @@
 # ACTIVE-CONTEXT.md
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
-> Last updated: 2026-04-15 (Mylane Containment Sessions A+B+C + Living Feet)
+> Last updated: 2026-04-16 (Mylane Agent v2 + Shell Polish + Smart Routing)
 
 ## Current Focus
 
-Mylane shell is now the contained frame for the authenticated experience. All 6 known escape points from the containment audit are closed. Living Feet (DEC-146) is the active constitutional design principle — proven by overlay refactor (Session B) and Networks containment (Session C). R&D Allowlist pattern (DEC-147) available for pre-release feature gating. Overlay expansion (DEC-148) is the containment approach.
+Mylane agent v2 is live with mandatory tool-call-first protocol — agent hallucination fixed. Smart routing deployed: "show me" queries mount real workspace components via TYPE 1 RENDER. Shell polish complete: fixed CommandBar, overlay containment, hidden fields, tab routing, loading state. Home Canvas spec designed, reviewed by Hyphae, and shelved — existing architecture handles it with smarter agent routing.
 
 ## Active Architecture
 
-- **Mylane shell containment:** Complete. 8 overlays in the OV constant (FREQ, DIR, EVT, ACCT, PHILOSOPHY, SUPPORT, NETWORK + stacked BusinessProfile/Recommend). Backdrop click-to-close on all base overlays. Escape key unwinds overlay stack.
-- **Agent gating:** MYLANE_AGENT_ALLOWLIST gates 4 agent UI surfaces. Doron-only during R&D.
-- **Overlay stacking:** BusinessProfile (z-50), Network (z-55), Recommend (z-60) stack on top of base overlays (z-40). Hardcoded z-indices — flagged for refactor when third stacking scenario appears.
-- **Frequency Station:** Phase 3 complete. Three-section My Library. Pip-Boy radio (DEC-142). Mini-player now opens shell overlay via custom event when on /MyLane.
+- **Mylane agent v2 (DEC-149):** Mandatory 4-step protocol: Classify → Execute → Verify → Respond. "Never lie" rule. Failure logging to ServiceFeedback. 2 tools only (agentScopedQuery + agentScopedWrite).
+- **Smart routing (DEC-150):** TYPE 1 RENDER for workspace views (mounts real components via MyLaneDrillView), TYPE 2 RENDER_DATA for novel queries only (with HIDDEN_FIELDS filter).
+- **Mylane shell containment:** Complete. 9 overlays. useBottomInset hook (HEADER_HEIGHT, MINI_PLAYER_HEIGHT, COMMAND_BAR_HEIGHT). CommandBar pinned to viewport bottom (z-9997).
+- **Overlay system:** All overlays use OverlayContainer with dynamic bottomInset. Stacked overlays (BusinessProfile z-50, Network z-55, Recommend z-60) have scroll containment.
+- **Agent gating:** MYLANE_AGENT_ALLOWLIST gates agent UI. Doron-only during R&D.
+- **Frequency Station:** Phase 3 complete. Mini-player (z-9998) coordinates with CommandBar via useBottomInset.
 - **Theme system:** Semantic tokens (98.5% migrated). Three themes: Gold Standard, Cloud, Fallout.
 - **Team space:** Production-ready. readTeamData server function (DEC-140).
 - **Health score:** 87/100
 
-## What Just Shipped (2026-04-15)
+## What Just Shipped (2026-04-16)
 
-1. **Viewport fix:** CommandBar input fontSize 13 → 16 (iOS Safari auto-zoom prevention)
-2. **Agent gate:** MYLANE_AGENT_ALLOWLIST with `agentEnabled` derived flag
-3. **Containment audit:** 29 routes mapped, 6 escapes, 10 orphans identified
-4. **Session A:** BusinessProfile overlay, FrequencyMiniPlayer event, Events URL state, Newsletter inline form
-5. **Session B:** OV constant refactor (13 strings → 1 object), Philosophy/Support overlays, Recommend overlay, backdrop click-to-close, 4 dead pages deleted (~1,170 lines)
-6. **Session C:** Networks overlay (z-55), onNetworkClick callback threading, last known escape closed
-7. **DEC-146/147/148:** Living Feet, R&D Allowlist, Overlay Expansion
-
-## Known Accepted Escapes (intentional)
-
-- Onboarding wizards (one-time flows)
-- Terms/Privacy (new tabs, compliance)
-- Admin (standalone, future per-space reframe)
-- Networks index `/networks` (not reachable from shell)
-- Log out (auth requirement)
+1. **Overlay containment polish:** useBottomInset hook, all 9 overlays fixed, stacked overlay scroll containment
+2. **Mylane Agent v2:** Full instruction rewrite, 26 entity tools removed, hallucination fixed
+3. **Smart routing:** TYPE 1 for views, TYPE 2 for novel queries, drillview tab routing fixed
+4. **Shell polish:** CommandBar pinned to viewport, hidden fields filter (33 fields), loading state fix
+5. **RemindersCard read path:** agentScopedQuery bypass for Creator Only RLS, staleTime 30s
+6. **Home Canvas spec:** Designed, reviewed, shelved (DEC-151 — spec review protocol established)
+7. **DEC-149/150/151:** Agent v2 protocol, smart routing, spec review protocol
 
 ## Known Issues
 
 1. **Overlay z-indices hardcoded** — z-50/55/60, refactor to stack-based when third scenario appears
-2. **ClaimBusiness route** — page is going away (co-presence model), but BusinessEditDrawer still generates claim URLs
+2. **ClaimBusiness route** — page going away (co-presence model), BusinessEditDrawer still generates claim URLs
 3. **FrequencyLibraryContext refactor** — prop drilling for favorites/queue should become context provider
-4. **Footer still renders** on non-MyLane pages — Philosophy/Support/Newsletter now inside shell, Footer's purpose limited to unauthenticated public pages
+4. **Footer still renders** on non-MyLane pages — purpose limited to unauthenticated public pages
+5. **Riley TeamMember data** — parent_user_ids shows "$69.00" (data issue, fix in Base44 dashboard)
 
 ## Upcoming Priorities
 
-1. Walkthrough Sessions A/B/C in live app — Doron finds UX issues
-2. ClaimBusiness + BusinessEditDrawer cleanup (co-presence model)
-3. Footer removal or strip
-4. Admin per-space reframe
-5. Mylane reminders root cause investigation
-6. Newsletter "The Good News" — wake dormant accounts
+1. Walkthrough verification of today's fixes in live app
+2. CLAUDE.md compression pass (Vercel pattern — passive context, dense index)
+3. Agent Soul Seed Protocol (shared template for all space agents)
+4. ClaimBusiness + BusinessEditDrawer cleanup (co-presence model)
+5. Footer removal or strip
+6. Admin per-space reframe
+7. Newsletter "The Good News" — wake dormant accounts

@@ -50,7 +50,10 @@
 - [ ] Mylane console upgrades deployed (new chat, upload, chips, cards)
 - [ ] Field test: full Mylane write flow from mobile
 - [x] Server-authoritative user_id on agent writes (DEC-139 — 2026-04-05)
-- [ ] MylaneNote reminder loop end-to-end verification (pending publish)
+- [x] MylaneNote reminder loop end-to-end verified (agent v2 — 2026-04-16)
+- [x] Mylane Agent v2 deployed (DEC-149 — mandatory protocol, hallucination fixed — 2026-04-16)
+- [x] Smart routing deployed (DEC-150 — TYPE 1 for views, TYPE 2 for novel — 2026-04-16)
+- [x] RemindersCard read path fixed (Creator Only RLS bypass via agentScopedQuery — 2026-04-16)
 - [ ] Propagate write capability to all workspace agents
 
 ## Team / Playmaker
@@ -85,7 +88,13 @@
 - [x] 4 dead pages deleted: SpokeDetails, ShapingTheGarden, CategoryPage, Search (~1,170 lines — 2026-04-15)
 - [x] Agent gated to R&D allowlist (DEC-147 — 2026-04-15)
 - [x] Viewport pinch-to-fit fix (fontSize 16 — 2026-04-15)
-- [ ] Walkthrough verification: Sessions A/B/C in live app (Doron)
+- [x] Overlay containment polish (useBottomInset, all 9 overlays — 2026-04-16)
+- [x] CommandBar pinned to viewport bottom (position: fixed — 2026-04-16)
+- [x] Hidden fields filter for TYPE 2 renders (33 fields — 2026-04-16)
+- [x] DrillView tab routing (TYPE 1 view param wired — 2026-04-16)
+- [x] Agent loading state cleared on RENDER parse (2026-04-16)
+- [x] Home Canvas spec reviewed and shelved (DEC-151 — 2026-04-16)
+- [ ] Walkthrough verification: today's fixes in live app (Doron)
 - [ ] ClaimBusiness + BusinessEditDrawer cleanup (co-presence model)
 - [ ] Footer removal or strip (content now inside shell)
 - [ ] Admin per-space reframe

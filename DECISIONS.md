@@ -585,3 +585,33 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Status:** Active
 
 ---
+
+### DEC-149: Mylane Agent v2 — Mandatory Protocol Architecture (2026-04-16)
+
+**Date:** 2026-04-16
+**Context:** v1 Mylane instructions allowed the agent to say "Done" without calling tools (hallucination). MCP testing confirmed: agent responded "Saved" for a reminder but never invoked agentScopedWrite. Record did not exist. Vercel AGENTS.md research validated: passive context (mandatory rules in instructions) beats on-demand retrieval (hoping the agent picks the right tool).
+**Decision:** Full instruction rewrite with mandatory 4-step protocol: (1) Classify intent, (2) Execute via tool call, (3) Verify result by querying back, (4) Respond to user. "Never lie" rule: saying "Done" without calling the tool is explicitly a lie. Failure protocol: honest failure reporting + ServiceFeedback logging with source "mylane-supervisor" + suggest manual path. Removed all 26 individual entity tools (104 permissions) — 2 backend functions remain (agentScopedQuery + agentScopedWrite). Fewer tools = more reliable.
+**Rationale:** Mandatory protocol eliminates the hallucination class of bugs entirely. Verification step catches silent write failures. Failure logging creates an audit trail. Tool reduction reduces the LLM's decision space.
+**Status:** Active — v2 is the live instruction set
+
+---
+
+### DEC-150: Smart Routing — TYPE 1 for Views, TYPE 2 for Novel Queries (2026-04-16)
+
+**Date:** 2026-04-16
+**Context:** TYPE 2 RENDER_DATA renders raw entity records as cards showing every field (including created_by, updated_date, etc.). Home Canvas spec proposed a new TYPE 4 RENDER_CANVAS to mount real workspace components. Hyphae's review found: no component accepts raw data as props — they all self-fetch from workspace profiles. Building TYPE 4 was unnecessary.
+**Decision:** Update Mylane classification to emit TYPE 1 RENDER (workspace drill via MyLaneDrillView) for "show me" queries instead of TYPE 2 RENDER_DATA. TYPE 1 mounts the real workspace component with full drill-through and interactivity — zero code changes needed, instruction change only. TYPE 2 reserved for genuinely novel queries where no workspace view exists (with HIDDEN_FIELDS filter for clean display). Quick answers (counts, dates, amounts) stay as brief text responses.
+**Rationale:** The fastest path to real components on the Home canvas is teaching the agent to navigate, not building a new rendering pipeline. One redundant query (agent queries to confirm data exists, component re-queries to display) is irrelevant at our scale.
+**Status:** Active
+
+---
+
+### DEC-151: Spec Review Protocol — Review Before Architecting (2026-04-16)
+
+**Date:** 2026-04-16
+**Context:** Home Canvas Rendering spec proposed TYPE 4 RENDER_CANVAS with 5 implementation phases. Hyphae's codebase review found the spec's core assumption was wrong: no component accepts raw data as props. The existing TYPE 1 → MyLaneDrillView pipeline already does what TYPE 4 proposed. The review saved weeks of unnecessary work.
+**Decision:** Before building any new architecture or protocol, get Hyphae's codebase review first. The review should check: (1) Does the infrastructure already exist? (2) Do the assumptions about component APIs hold? (3) Is there a lighter path using existing patterns? (4) What's the smallest slice that produces visible improvement? Write the spec, but treat it as a hypothesis until Hyphae validates it against the codebase.
+**Rationale:** Mycelia and Doron design from vision and user need. Hyphae sees what actually exists in the code. The gap between "what we think the code does" and "what the code actually does" is where wasted work lives. Ten minutes of review saves days of building the wrong thing.
+**Status:** Active — process rule
+
+---

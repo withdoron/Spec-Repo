@@ -995,3 +995,50 @@ When a Base44 entity operation fails, the first step is logging the exact payloa
 - Audio mini-player / Mylane input stacking (small fix, only matters for Doron now)
 
 ---
+
+## 2026-04-16 — Mylane Agent Architecture + Shell Polish
+
+### What shipped
+
+**Overlay containment fix:**
+- useBottomInset hook (single source of truth for bottom UI stack)
+- Exported constants: HEADER_HEIGHT (45), MINI_PLAYER_HEIGHT (54), COMMAND_BAR_HEIGHT (54)
+- All 9 overlays fixed at container level (top/bottom/sides/scroll containment)
+
+**Mylane Agent v2 (DEC-149):**
+- Full instruction rewrite deployed to Base44 (soul seed, mandatory 4-step protocol, failure logging, growth protocol)
+- 26 entity tools removed, 2 backend functions remain (agentScopedQuery + agentScopedWrite)
+- Agent hallucination FIXED — tested and verified: reminder write succeeds, record confirmed in database
+- Smart routing (DEC-150): "show me" queries emit TYPE 1 RENDER (real components) not TYPE 2 (data dumps)
+
+**Shell polish:**
+- RemindersCard read path fixed (Creator Only RLS bypass via agentScopedQuery, staleTime 30s)
+- CommandBar pinned to viewport bottom (position: fixed, dynamic offset via useBottomInset)
+- Hidden fields filter (33 fields) in renderEntityView.jsx for TYPE 2 renders
+- DrillView tab routing fix (view parameter wired through 3-layer render chain)
+- Agent loading state fix (clear on RENDER tag parse, not on text completion)
+
+**Design work:**
+- Home Canvas spec designed with mockups (TYPE 4 RENDER_CANVAS)
+- Hyphae review saved weeks: no component accepts raw data as props, all self-fetch
+- Recommendation: don't build TYPE 4, use smart TYPE 1 routing instead (DEC-150)
+- Spec shelved — existing architecture handles it with smarter routing (DEC-151)
+
+### Decisions made
+
+- DEC-149: Mylane Agent v2 — mandatory classify/execute/verify/respond protocol
+- DEC-150: Smart Routing — TYPE 1 for workspace views, TYPE 2 only for novel queries
+- DEC-151: Spec Review Protocol — always get Hyphae's codebase review before architecting
+
+### What's next
+
+- Walkthrough of today's fixes (verify tab routing, reminders display, loading state)
+- CLAUDE.md compression pass (Vercel pattern — passive context, dense index)
+- Agent Soul Seed Protocol (shared template for all space agents)
+- Mylane action tiles Phase 1 (reminders as proof of concept)
+- Space agent attention signals (when 3+ spaces have real signals)
+- ClaimBusiness deletion + co-presence model session
+- Footer removal/strip
+- Admin per-space reframe
+
+---
