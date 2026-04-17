@@ -1042,3 +1042,49 @@ When a Base44 entity operation fails, the first step is logging the exact payloa
 - Admin per-space reframe
 
 ---
+
+## 2026-04-17 — Cockpit Library (spinner + compass)
+
+### What shipped
+
+**Cockpit library architecture:**
+- `ll_cockpit` localStorage preference with `data-cockpit` DOM attribute, mirroring the theme plumbing (localStorage + attribute + MutationObserver). Pre-paint in main.jsx prevents FOUC.
+- `resolveVariant()` inside SpaceSpinner decouples variant selection from theme. The old `THEME_VARIANT = { dark: 'coverFlow', light: 'coverFlow', fallout: 'drum' }` is wrapped inside the spinner cockpit branch — existing users see zero behavioral change.
+- `useCockpit()` hook mirrors the existing `useTheme()` DIY hook in SpaceSpinner (same MutationObserver pattern, different attribute).
+- No React provider, no context, no server-persisted preference. Matches codebase convention.
+
+**Compass variant (fourth entry in VARIANT_MAP):**
+- Chrome row (22px): `BEARING` affordance label left, live degrees right, empty center.
+- Dial strip (54px): horizontal track, stations at ITEM_WIDTH rhythm, 1px needle with solid triangular arrow heads, gradient fade to 40% opacity through the active word.
+- Orientation arc (36px): shallow SVG arc with compressed dots (max 5), active dot scaled/colored, labels below (start / "here" / edge).
+- Active station lights up in place: `hsl(var(--primary))` name at 11px weight 500, `hsl(var(--primary) / 0.75)` bearing at 8px. Inactive stations muted with distance-opacity fade.
+- `COMPASS_BEARINGS` soft convention (home=0°, east for active work, NW/W for inward/community) with `getBearing()` fallback for unregistered spaces.
+- Fallout-theme handling: green-phosphor accent threads through via existing theme tokens, monospace font added via single CSS rule scoped to `[data-theme="fallout"] [data-cockpit="compass"]`.
+
+**Picker UI:**
+- Two-state cycle button in AccountOverlay, mirroring the theme cycle button pattern. Same row structure, same hover treatment, same label + sublabel.
+- Available to all users. No "New!" badge, no onboarding nudge — Dark Until Discovered.
+
+**Polish arc (three commits):**
+- v1 (c44bb21): library + compass + picker shipped.
+- v2 (b4d187e): removed redundant readouts — hid active station from strip, removed global dot indicator row under compass. Overcorrected — needle pointed at empty space.
+- v3 (ad04eb1): restored active station in place with accent-color treatment, simplified chrome row to affordance-only. Identity lives where the eye lives.
+
+### Decisions made
+
+- DEC-152: Cockpit Library Pattern
+- DEC-153: Color-in-Place Over Out-of-Band Readout
+- DEC-154: Iterate on the Live Surface
+
+### Tensions noted
+
+- DevLab physics sliders do not affect compass behavior (compass uses CSS transitions, not the friction loop). Harmless; low-priority cleanup would gate DevLab visually by cockpit.
+- `BEARING` label in chrome row may be slightly over-weighted relative to degrees readout after active name moved back to strip. Soft polish flag for field test.
+- Arc active-dot is still scaled + colored. Not currently redundant (strip = micro, arc = macro position), but worth watching.
+- Needle arrow treatment in Fallout may want a green-phosphor adjustment after field test.
+
+### What's next
+
+Changing focus — Doron directing next work. Cockpit library paused in a shipped, field-testable state. Follow-up polish happens only when field testing surfaces specific needs.
+
+---

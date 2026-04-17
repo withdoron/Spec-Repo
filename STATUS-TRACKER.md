@@ -30,12 +30,13 @@
 | 2026-04-10 | Team visibility bug CLOSED. readTeamData server function + useTeamEntity hook. 8 entity Read permissions relaxed. Frequency Station Builds 1+2 (Pip-Boy radio, studio, library). | multiple | DEC-140 through DEC-145 |
 | 2026-04-15 | Mylane Containment day. Viewport fix, agent gate, containment audit (29 routes, 6 escapes, 10 orphans). Sessions A+B+C closed all 6 escapes. Overlay refactor (OV constant). Philosophy/Support/Recommend/Network overlays. Backdrop click-to-close. 4 dead pages deleted (~1,170 lines). Living Feet principle formalized. | 6 commits | DEC-146, DEC-147, DEC-148 |
 | 2026-04-16 | Mylane Agent v2 + Shell Polish. Overlay containment fix (useBottomInset). Agent v2 instructions deployed (hallucination fixed). Smart routing (TYPE 1 for views). Shell polish: fixed CommandBar, hidden fields, tab routing, loading state. RemindersCard RLS bypass. Home Canvas spec designed, reviewed, shelved. | 5 commits | DEC-149, DEC-150, DEC-151 |
+| 2026-04-17 | Cockpit Library shipped. `ll_cockpit` preference + `data-cockpit` attribute mirror theme plumbing. `resolveVariant()` decouples variant from theme. Compass as fourth variant in VARIANT_MAP (chrome row, dial strip with needle-through-word, orientation arc, COMPASS_BEARINGS map). Fallout monospace rule. Cockpit picker in AccountOverlay. Three-iteration polish arc: library + polish v1 (remove redundancy) + polish v2 (color-in-place course correction). | c44bb21, b4d187e, ad04eb1 | DEC-152, DEC-153, DEC-154 |
 
 ## Node Status
 
 | Node | Score | Status | Last Updated |
 |------|-------|--------|-------------|
-| Community Node | ~87/100 | Mylane Agent v2 live (DEC-149). Smart routing (DEC-150). Shell polished: overlay containment, fixed CommandBar, hidden fields, tab routing. 8 App Agents + 1 Mycelia Superagent. | 2026-04-16 |
+| Community Node | ~87/100 | Mylane Agent v2 live (DEC-149). Smart routing (DEC-150). Shell polished: overlay containment, fixed CommandBar, hidden fields, tab routing. Cockpit library shipped (DEC-152) — spinner + compass, picker in AccountOverlay, Dark Until Discovered. 8 App Agents + 1 Mycelia Superagent. | 2026-04-17 |
 | Field Service | ~92/100 | Documents + e-sign + FieldServiceAgent live | 2026-03-29 |
 | Harvest Network | ~60/100 | Phase 2 shipped, map gated | 2026-03-27 |
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |

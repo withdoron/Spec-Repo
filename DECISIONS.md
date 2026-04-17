@@ -615,3 +615,33 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Status:** Active — process rule
 
 ---
+
+### DEC-152: Cockpit Library Pattern (2026-04-17)
+
+**Date:** 2026-04-17
+**Context:** Spinner UX felt off. Doron proposed letting users choose their Mylane interaction style (spinner, compass, future cockpits) independently of theme, with a growth path similar to how themes grow. Initial vision assumed a ChromeProvider React context. Hyphae's codebase review found no ThemeProvider exists — themes work via localStorage + data-theme attribute + CSS variables, a pattern that works for styling but does not transfer to component-level swaps. Also found SpaceSpinner already contained a VARIANT_MAP with three render functions ({flat, drum, coverFlow}) selected by a THEME_VARIANT mapping — a chrome-like mechanism already coupled to theme.
+**Decision:** Cockpits are a library, not a feature flag. Each cockpit is a render function registered in SpaceSpinner's VARIANT_MAP. User preference is stored in `ll_cockpit` localStorage with a `data-cockpit` DOM attribute, applied pre-paint in main.jsx to prevent FOUC. A `useCockpit()` hook mirrors the existing DIY `useTheme()` (MutationObserver on the attribute). A `resolveVariant()` function picks variant from (cockpit, theme, reduced-motion) — spinner cockpit preserves the old THEME_VARIANT logic unchanged, compass cockpit routes to `renderCompass`. No React provider, no context, no server-persisted preference. Growth path: add new cockpit by registering a render function and a COCKPITS entry — no provider, no context, no migration required until we hit three+ cockpits.
+**Rationale:** Applies Living Feet (DEC-146) by turning theme-coupled variant selection into cockpit-decoupled variant selection — the VARIANT_MAP scaffolding was already there, just coupled to the wrong axis. Avoids over-architecture per the "two is coincidence, three is a pattern" principle from DEC-148. Matches existing theme plumbing conventions so the organism stays coherent across preference types. The cockpit contract is enforced by the shared drag/pointer handling in SpaceSpinner — each cockpit render function is pure (items, currentIndex, opts) → JSX.
+**Status:** Active — shipped c44bb21 (library + compass), b4d187e (polish v1), ad04eb1 (polish v2)
+
+---
+
+### DEC-153: Color-in-Place Over Out-of-Band Readout (2026-04-17)
+
+**Date:** 2026-04-17
+**Context:** Compass v1 (b4d187e) removed the active station from the strip to avoid duplication with the chrome row. Implementation was correct by one reading of "one voice per piece of information." Field test revealed the needle now terminated in empty space and the user's eye had to travel ~60px up to the chrome row to see which station was active. Doron: "It breaks where the eye goes. I don't mind the color changing to show the space we are aimed at, but the position itself shouldn't change."
+**Decision:** When signaling active state on a navigation surface, illuminate the element in place via color/size/weight — do not relocate its identity to a separate readout. The primary interaction surface is where the user's attention lives during use; keep identity there. Chrome rows and readout bars become framing or affordance cues, not identity displays. Applied in ad04eb1: active station on the compass strip renders in `hsl(var(--primary))` at 11px weight 500, bearing in `hsl(var(--primary) / 0.75)` at 8px. Chrome row is now framing only — `BEARING` label left, live degrees right, empty center. Strip carries identity.
+**Rationale:** Real instruments illuminate the active position in place rather than relocating labels. The needle meeting the lit word is a single integrated signal; a needle pointing at empty space plus a remote readout is two fragments. Applies to future cockpits (tiled launcher, single-letter chrome, etc.) and any navigation UI where an active element needs to be distinguished. Companion to DEC-146 (Living Feet) — identity is one thing, not two places.
+**Status:** Active — applied in ad04eb1
+
+---
+
+### DEC-154: Iterate on the Live Surface (2026-04-17)
+
+**Date:** 2026-04-17
+**Context:** Three-iteration arc on compass (build → remove-active → restore-active-with-color). Each iteration was internally consistent but the correct answer only became obvious after seeing the previous version in the device. Spec ambiguity in items 1 and 2 of the polish-v1 prompt turned out to be genuine design tension — neither interpretation was wrong, but only one was right for the user's eye-flow, and that only surfaced through field test.
+**Decision:** Favor short build cycles with live device feedback over attempts to spec every visual decision upfront. Spec ambiguity in visual work is often genuine design tension that resolves only through embodied experience. Mycelia/Doron write specs that capture intent and principles; Hyphae flags ambiguity in the debrief but doesn't block on it; field test closes the loop. The rhythm is: spec → build → look → adjust, not spec → debate → spec → build.
+**Rationale:** Validated by the compass arc. Each iteration took minutes; field-test feedback took one message; total time was less than debating the spec would have taken. Matches Doron's natural rhythm of "build, look, adjust." Codified so future cockpits and visual work follow the same cadence.
+**Status:** Active — process rule
+
+---

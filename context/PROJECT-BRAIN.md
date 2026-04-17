@@ -1,7 +1,7 @@
 # PROJECT-BRAIN.md
 
 > Read this first. This file orients any AI model — Claude, Gemini, GPT, or other — to work effectively on LocalLane. It is the single source of truth for project identity, philosophy, and working style.
-> Last updated: 2026-04-15
+> Last updated: 2026-04-17
 
 ---
 
@@ -76,6 +76,18 @@ When the same pattern repeats in three or more places, it stops being a pattern 
 Companion principle: DEC-089 (Fractal SOP) — find one bug, audit all instances of the same pattern. Living Feet is the architectural response: if instances keep accumulating, the pattern itself should be one thing.
 
 *"Anything that exists in more than one place should exist as one thing." — Doron, 2026-04-15*
+
+## Cockpit Library (DEC-152)
+
+Users pick their own Mylane interaction style — spinner, compass, future cockpits — independently of theme. Theme paints the panel; cockpit picks the instruments. Two orthogonal preferences, both plumbed the same way: localStorage key + DOM attribute + MutationObserver. Each cockpit is a render function registered in SpaceSpinner's `VARIANT_MAP`. No React provider, no context — adding a new cockpit is a render function and a COCKPITS entry.
+
+The principle extends LocalLane's surface philosophy: everyone gets to be who they are. Equal presence for businesses in the directory. No algorithmic ranking. That principle now extends to the user's own Mylane — your surface looks like you, not like the "recommended" default. Picker in AccountOverlay, Dark Until Discovered.
+
+## Color-in-Place (DEC-153)
+
+When signaling active state on a navigation surface, illuminate the element in place via color, size, or weight. Do not relocate its identity to a separate readout. The primary interaction surface is where the user's attention lives; identity belongs there, not 60px above in a remote chrome row.
+
+Real instruments light up the active position in place rather than renaming it on a legend. The needle meeting the lit word is a single integrated signal; a needle pointing at empty space plus a remote readout is two fragments. Applies to future cockpits and any navigation UI where an active element needs to be distinguished. Companion to Living Feet — identity is one thing, not two places.
 
 ## $3 Ante (DEC-127)
 
