@@ -1,60 +1,64 @@
 # ACTIVE-CONTEXT.md
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
-> Last updated: 2026-04-17 (Cockpit Library shipped — spinner + compass)
+> Last updated: 2026-04-23 (Phase 2 shipped — Mycelia tree anchored)
 
 ## Current Focus
 
-Cockpit library shipped. Spinner (preserved) + compass (new) available via `ll_cockpit` localStorage preference and data-cockpit DOM attribute, mirroring theme plumbing. Picker in AccountOverlay, Dark Until Discovered. Doron field-testing compass. Changing focus — ready for next direction.
+Round 1 Phase 2 complete. Mycelia, LLC now exists as a production Business record with LocalLane (exempt), TCA, and reparented Recess as children. Bari's Red Umbrella promoted from his FieldServiceProfile to a first-class Business with all brand fields preserved. Doron's test FS sandbox archived. Dan Sikes Construction preserved as unclaimed orphan. Bari flagged `is_legacy_user: true`. 9 AuditLog rows written, all reversible. Phase 3 (business switcher) queued for a future session.
 
 ## Active Architecture
 
-- **Cockpit library (DEC-152):** `ll_cockpit` preference with `data-cockpit` attribute + MutationObserver. SpaceSpinner's VARIANT_MAP is the registry. `resolveVariant()` picks variant from cockpit + theme + reduced-motion. No React provider until cockpit #3 proves the pattern needs formalization.
-- **Compass variant:** Chrome row (affordance only: `BEARING` left, degrees right), dial strip (stations slide under fixed needle, active station lit in place via accent color + size + weight), orientation arc (macro position with scaled active dot).
-- **Mylane agent v2 (DEC-149):** Mandatory 4-step protocol: Classify → Execute → Verify → Respond. 2 tools only (agentScopedQuery + agentScopedWrite).
-- **Smart routing (DEC-150):** TYPE 1 RENDER for workspace views, TYPE 2 RENDER_DATA for novel queries only.
-- **Mylane shell containment:** Complete. 9 overlays. useBottomInset hook. CommandBar pinned to viewport bottom (z-9997).
-- **Overlay system:** OverlayContainer with dynamic bottomInset. Stacked overlays (BusinessProfile z-50, Network z-55, Recommend z-60).
-- **Agent gating:** MYLANE_AGENT_ALLOWLIST gates agent UI. Doron-only during R&D.
-- **Frequency Station:** Phase 3. Mini-player (z-9998) coordinates with CommandBar via useBottomInset.
-- **Theme system:** Semantic tokens (98.5% migrated). Three themes: Gold Standard, Cloud, Fallout. Now orthogonal to cockpit.
-- **Team space:** Production-ready. readTeamData server function (DEC-140).
-- **Health score:** 87/100
+- **Production Business tree:** `Mycelia, LLC` (hidden, `subscription_exempt: true`, `parent_business_id: null`) → `LocalLane` (exempt) + `The Camel Academy` + `Recess` (reparented). `Red Umbrella` (Bari) exists as a peer of Mycelia, not a child. Other originals (Spetzler Designs, NH systems, Danny Sikes Construction) untouched.
+- **Per-entity $9 pricing (DEC-155):** every LocalLane entity — user personal account OR public-facing business — pays $9/month from its own books. LocalLane-the-brand is exempt because charging itself is circular. Hidden holding entities (Mycelia, LLC) don't count. Supersedes DEC-115.
+- **Business-as-scoped-peer (DEC-156):** tools (Desk/Clients/Finance/Events) stay top-level with a `business_id` filter instead of physically nesting. Same UX, cheaper to build.
+- **Legacy user grace pattern (DEC-159):** `is_legacy_user` boolean marks pre-v4 users. `legacy_grace_until` datetime stays null until Round 2 billing goes live — then a migration will populate it to `billing_live_date + 30 days` for everyone flagged. Bari flagged today.
+- **Migration machinery:** `reparentBusiness` + `migrationHelpers` Base44 server fns (in main, published). Shared `MIGRATION_SECRET` gate + `asServiceRole` for all I/O. Admin-role gating dropped because Base44 API-key auth doesn't populate `caller.role`. AuditLog `user_id` = Doron per DEC-139 server-authoritative identity.
+- **DEC-095 clarified:** `security.update` and `rls.update` are two independent layers in Base44 entities. Both must be open (or the `rls.update` key absent) for `asServiceRole` writes to land. Previously documented as a one-layer fix; today's migration surfaced the second layer.
+- **Base44 working agreement (DEC-162):** applied-directly prompts with four-category confirmation. Report-don't-fix is a standing rule to prevent auto-lint-fix overreach during schema changes.
+- **Cockpit library (DEC-152):** spinner + compass variants via `ll_cockpit` preference. Doron field-testing compass.
+- **Mylane agent v2 (DEC-149), smart routing (DEC-150), shell containment:** all live, no regressions from Phase 2 migration (backend-only, no UI touched).
+- **Health score:** 87/100 (unchanged from 2026-04-17).
 
-## What Just Shipped (2026-04-17)
+## What Just Shipped (2026-04-23)
 
-1. **Cockpit library plumbing (c44bb21):** ll_cockpit localStorage, data-cockpit attribute, pre-paint in main.jsx, useCockpit hook, resolveVariant function.
-2. **Compass variant (c44bb21):** renderCompass in VARIANT_MAP, COMPASS_BEARINGS map, OrientationArc SVG helper, Fallout monospace rule in index.css.
-3. **Cockpit picker (c44bb21):** Two-state cycle button in AccountOverlay next to theme.
-4. **Compass polish v1 (b4d187e):** Removed redundant readouts (hid active station on strip, removed global dot indicator row under compass).
-5. **Compass polish v2 (ad04eb1):** Course correction — restored active station on strip with color-in-place treatment, simplified chrome row to affordance-only framing.
-6. **DEC-152/153/154:** Cockpit Library Pattern, Color-in-Place Over Out-of-Band Readout, Iterate on the Live Surface.
+1. **Phase 1 schema foundation** (cfdcdb9 — 2026-04-22): Business/User/FS family field additions + AuditLog entity + TEMPLATE.js canonical migration pattern.
+2. **Phase 1.5 schema additions:** User.is_legacy_user, User.legacy_grace_until, Business.subscription_exempt.
+3. **reparentBusiness + migrationHelpers + phase-2-production-migration.js** (cc051a9 + 210d087): reparent/rollback, 8-action helper surface with idempotency and dry-run.
+4. **Phase 2 production migration applied:** 4 new Business records (Mycelia/LocalLane/TCA/Red Umbrella), Recess reparented, Bari FS profile linked via business_id, Doron sandbox archived, Bari marked legacy, 9 AuditLog rows.
+5. **Reports to private repo** (177e915): PHASE-2-DRY-RUN-2026-04-23 + PHASE-2-POSTMIGRATION-REPORT-2026-04-23.
+6. **DEC-155 through DEC-162 + DEC-095 amendment** (this session).
+7. **Cleanup:** MIGRATION_SECRET removed from Base44 env and local .env.
 
 ## Known Issues
 
-1. **Overlay z-indices hardcoded** — z-50/55/60, refactor to stack-based when third scenario appears.
-2. **DevLab physics sliders don't affect compass** — compass uses CSS transitions, not the friction loop. Harmless. Low-priority cleanup would gate DevLab visually by cockpit.
-3. **BEARING label in compass chrome row** may be slightly over-weighted relative to degrees readout after active name moved back to strip. Soft polish flag for field test.
-4. **ClaimBusiness route** — page going away (co-presence model), BusinessEditDrawer still generates claim URLs.
-5. **FrequencyLibraryContext refactor** — prop drilling for favorites/queue should become context provider.
-6. **Footer still renders** on non-MyLane pages — purpose limited to unauthenticated public pages.
-7. **Riley TeamMember data** — parent_user_ids shows "$69.00" (data issue, fix in Base44 dashboard).
+1. **DECISIONS.md drift** between Spec-Repo and community-node — Spec-Repo skipped 146-148; both have conflicting DEC-152. Today's new decisions went to Spec-Repo only. Future: dedicated audit/merge session to reconcile.
+2. **Base44 auto-push behavior** — "File changes" commits to main with uninformative messages, occasional unrelated lint fixes bundled with intended schema changes. DEC-162 mitigates in prompts; not eliminated.
+3. **Overlay z-indices hardcoded** — z-50/55/60, refactor to stack-based when third scenario appears.
+4. **DevLab physics sliders don't affect compass** — compass uses CSS transitions. Harmless.
+5. **BEARING label weighting** in compass chrome row — soft polish flag for field test.
+6. **ClaimBusiness route** — page going away (co-presence model). BusinessEditDrawer still generates claim URLs.
+7. **FrequencyLibraryContext refactor** — prop drilling for favorites/queue should become context provider.
+8. **Footer still renders** on non-MyLane pages — purpose limited to unauthenticated public.
+9. **Riley TeamMember `$69.00`** data issue — fix in Base44 dashboard.
+10. **Dan Sikes Construction orphan** — `owner_user_id: null`, unclaimed. Onboarding fork (Phase 6) should offer the existing record when Dan signs in instead of creating new.
 
 ## In Flight
 
-None. Cockpit library paused in shipped, field-testable state. Ready for next direction from Doron.
+None. Phase 2 shipped in a settled state. Awaiting Doron's device-level Bari workspace verification as a final smoke test.
 
 ## Active Blockers
 
-None related to this work.
+None.
 
 ## Upcoming Priorities
 
-1. Field testing compass (Doron)
-2. Walkthrough verification of 2026-04-16 fixes in live app
-3. CLAUDE.md compression pass (Vercel pattern — passive context, dense index)
-4. Agent Soul Seed Protocol (shared template for all space agents)
-5. ClaimBusiness + BusinessEditDrawer cleanup (co-presence model)
-6. Footer removal or strip
-7. Admin per-space reframe
-8. Newsletter "The Good News" — wake dormant accounts
+1. Bari workspace smoke test (Doron, when convenient)
+2. Phase 3 — business switcher (UI, handles parent-child rendering + exempt badging)
+3. Phase 4 — Desk rename + business-scoped rendering
+4. Phase 5 — membership gate ($9/mo per entity)
+5. Round 2 — Stripe Connect (prerequisite for real money flow + legacy grace population)
+6. DECISIONS.md drift audit + merge session
+7. Field testing compass (Doron, ongoing)
+8. Walkthrough verification of 2026-04-16/17 fixes in live app
+9. Newsletter "The Good News" — wake dormant accounts

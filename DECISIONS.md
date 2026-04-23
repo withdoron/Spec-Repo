@@ -44,6 +44,18 @@
 
 **Implementation:** Documented in CLAUDE.md Base44 SDK Quirks section.
 
+### DEC-095 Amendment (2026-04-23) — security.update is only half of the fix
+
+**Context:** Phase 2 production migration surfaced a deeper layer. First `--apply` completed steps 1-4 then 500'd at step 5 with "Permission denied for update operation on FieldServiceProfile entity" — after Base44 had already flipped `security.update` to `true` ("No restrictions"). Investigating revealed a separate `rls` block on the entity with `"update": {"created_by": "{{user.email}}"}` that the service role identity doesn't satisfy.
+
+**Amendment:** `security.update: true` alone is **not sufficient** for `asServiceRole` writes when an entity also carries an `rls.update` rule. The `rls.update` key must be removed entirely, not relaxed. Both layers — top-level `security` AND row-level `rls` — must be opened in parallel for the write to land.
+
+**Reference pattern:** FSDocument (post-original-DEC-095) has `security.update: {"owner": true}` AND its `rls` block contains only `read` and `delete` keys — no `update`. That's the shape to match.
+
+**Fix path during Phase 2:** removed the `"update"` key from FieldServiceProfile.rls entirely; User entity had no `rls` block so `security.update: true` was sufficient there.
+
+**Status:** Active — two-layer permission model is now the working understanding.
+
 ---
 
 ## DEC-096: Request Signature Is One Action (2026-03-27)
@@ -643,5 +655,92 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Decision:** Favor short build cycles with live device feedback over attempts to spec every visual decision upfront. Spec ambiguity in visual work is often genuine design tension that resolves only through embodied experience. Mycelia/Doron write specs that capture intent and principles; Hyphae flags ambiguity in the debrief but doesn't block on it; field test closes the loop. The rhythm is: spec → build → look → adjust, not spec → debate → spec → build.
 **Rationale:** Validated by the compass arc. Each iteration took minutes; field-test feedback took one message; total time was less than debating the spec would have taken. Matches Doron's natural rhythm of "build, look, adjust." Codified so future cockpits and visual work follow the same cadence.
 **Status:** Active — process rule
+
+---
+
+### DEC-155: Per-Entity $9 Membership Model With LocalLane Exemption (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** Architecture v4 → v4.1 closure conversation. DEC-115 (pre-v4) charged a single ante per user. v4.1 recognizes that each entity with a public face (person OR business) benefits independently from the platform and should therefore carry its own ante. LocalLane-the-brand is the obvious exception: charging itself is circular.
+**Decision:** Every LocalLane entity — user personal account (if public) or public-facing business — pays $9/month from its own books. LocalLane-the-brand is exempt (`Business.subscription_exempt: true`, set during Phase 2) because charging itself is circular. Hidden holding entities (Mycelia, LLC — `listed_in_directory: false`) don't count; they have no public presence. Network memberships (Recess Pass at $45/mo, etc.) are separate from the platform ante — those are paid to the operating business, not the platform. Doron's personal total under this model: $36/mo ($9 personal user page + $9 each for TCA, Recess, Consulting once Consulting is created via onboarding).
+**Rationale:** Matches the organism principle of circulation: each living entity contributes what keeps it alive. Holding companies are scaffolding, not organs — they don't circulate. The brand ante being waived is the one concession necessary for the model to work without recursion. Clean replacement for DEC-115 — no grandfathering, no partial migration.
+**Status:** Active — supersedes DEC-115 in full. Billing implementation is Round 2 Stripe Connect work.
+
+---
+
+### DEC-156: Business-as-Scoped-Peer, Not Nested Container (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** v4 briefly explored physically nesting workspace tools (Desk, Clients, Finance, Events) under a Business entity as child records. Phase 2 review revealed this would require: (a) migrating every FS/Finance/PM record to a child collection, (b) rewriting every scoped query, (c) handling cross-business views differently. The same UX can be achieved with a filter.
+**Decision:** Tools stay top-level entities. Each gains a `business_id` field (or uses an existing FK that resolves to a business). When a user enters a business context, every tool's query adds a `business_id` filter. Same UX as nested containers — appearing to drill into a business shows only that business's records — without the migration cost or the query-rewrite cost.
+**Rationale:** Living Feet (DEC-146 in community-node DECISIONS.md) applied to architecture: don't build two places when one place with a filter achieves the same thing. The `business_id` field lands in Phase 1 (schema) and the switcher reads it in Phase 3. Cheaper to build, cheaper to change, cheaper to audit.
+**Status:** Active — Phase 1 laid the foundation (FS family has `business_id`). Phase 3 (business switcher) wires the filter at the UI layer.
+
+---
+
+### DEC-157: Networks Unified Architecture (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** Recess, Runhub NW, and Harvest each evolved with different implementations and configurations. Maintaining three parallel architectures would fight the fractal principle (what's true of one space is true of all).
+**Decision:** All networks run on one architecture with three configurable settings: **cost** (free / paid), **access** (public / private / hybrid), **discovery mode** (list / map / events). Every network is operated by a business (the parent Business record handles billing, staff, settings). Recess (paid / hybrid / list), Runhub NW (free / public / events), Harvest (free / public / map) all run on the same infrastructure with different configurations.
+**Rationale:** Matches the DEC-136 pattern for entity permissions (one default, exceptions at the function level) and the DEC-140 pattern for team-scoped reads (one server function, every entity). One architecture with three axes replaces three architectures with hardcoded differences.
+**Status:** Active — target for a future dedicated build. Current state: Harvest and Recess have separate implementations; unification is tech-debt paydown.
+
+---
+
+### DEC-158: Users as First-Class Entities With Optional Public Pages (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** Several use cases surfaced that don't fit the "business" shape: a yoga teacher offering classes under her own name, a weed-puller doing ad-hoc yardwork, a fractional-leadership consultant offering advisory services. Forcing these through a Business entity creates an awkward "business named after me" pattern.
+**Decision:** Users gain first-class status with optional public pages. Each user can toggle a public page on/off (default off). Public user pages have bio, location, reviews/vouches — same shape as Business directory listings. Public pages cost $9/mo, matching the DEC-155 per-entity model. Private users stay free. The pattern lets a person operate on the platform as themselves without inventing a fake business name.
+**Rationale:** The garden has room for people who don't want to be a business but do want to be findable. "Yoga teacher Jane" and "Jane's Yoga Studio LLC" serve different mental models. Forcing one into the other loses meaning. First-class users close the gap without adding a new entity type.
+**Status:** Active — schema field `page_public_toggle` shipped in Phase 1 (default `false`). UI + billing wiring comes with Round 2.
+
+---
+
+### DEC-159: Legacy User Grace Period Pattern (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** Bari and Dan exist in production from before DEC-155 pricing landed. Charging them on day-one of billing would be unfair. Equally, pre-setting a specific `legacy_grace_until` date during development is meaningless — no clock can tick when there's no gate.
+**Decision:** Two fields on User: `is_legacy_user` (Boolean, default false) and `legacy_grace_until` (ISO datetime, nullable). Phase 2 sets `is_legacy_user: true` for pre-v4 users with real activity (Bari today; Dan on sign-in; any future discoveries). `legacy_grace_until` stays null. When Round 2 billing goes live, a one-shot migration walks all `is_legacy_user: true` users and sets `legacy_grace_until = billing_live_date + 30 days`. Fair 30-day runway starting the day the gate turns on.
+**Rationale:** Flipping a boolean now is trivial and reversible. Setting a specific date now would drift as billing-live date slips. Separating "who qualifies for grace" from "when does their grace end" keeps the two concerns independent.
+**Status:** Active — Bari flagged in Phase 2. Dan not flagged (no User record yet). Grace clock activation lives in Round 2.
+
+---
+
+### DEC-160: Desk Rename (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** "Field Service" is a domain-specific label from the original Bari pilot. As the tool generalizes to other archetypes (contractor, jobsite work, property maintenance, one-off handyman), the name becomes narrower than the tool actually is. The tool is now a general-purpose work-management surface.
+**Decision:** Field Service / Jobsite tool renames to **Desk** when it moves into the business dashboard (Phase 4). Universal work-management tool for any archetype — contractor, handyman, property manager, freelancer. Rename communicated **in person** to Bari and Dan; no in-app notice needed at current user scale.
+**Rationale:** Name the tool for what it does, not the domain it started in. "Desk" reads as "your work surface" — it scales to every archetype that manages clients, projects, documents, and invoices.
+**Status:** Active — rename happens in Phase 4 alongside business-scoped rendering. Until then, code and UI keep the "FieldService" identifier to avoid churn during Phase 2/3 transitions.
+
+---
+
+### DEC-161: Living Tiles, Not Photos (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** Public directory listings and user pages were trending toward photo-heavy profile cards. Photos are static and age poorly — they don't reflect current activity, current offerings, current rhythm. The directory started to look like a frozen catalog instead of a living garden.
+**Decision:** Public representations surface as compact **living tiles** showing current status — what's happening now, what's available this week, the pulse of the entity — not photo-heavy profiles. Depth (photos, story, full bio) reveals on drill-in. The first read is "what is this entity doing right now?" not "what does this entity look like?"
+**Rationale:** Matches Dark Until Explored (DEC-117) and the Organism principle. A garden isn't a museum; the interesting thing is what's growing today. Tiles update continuously from the entity's own data — no manual refresh of a "profile photo." Photos become one signal among many, not the entire frontage.
+**Status:** Active — design principle for Phase 3 business switcher UI, directory v2, user public pages. Existing photo-heavy UIs convert organically per DEC-132 pattern.
+
+---
+
+### DEC-162: Base44 Agent Working Agreement (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** Multiple sessions surfaced the same pattern: Base44's agent, when applying schema or permission changes, auto-runs lint-fixes on unrelated files and pushes them to main as part of the same commit. The Phase 1 schema commit included 8 pre-existing component lint fixes as a side effect; the Phase 2 permission changes pulled in 13+ more. The commit messages are uninformative ("File changes"), making post-hoc scope review hard.
+**Decision:** All Base44 agent prompts follow this pattern:
+- Grant **explicit permission to apply directly** for scoped changes (not discussion mode — that slows scoped work without preventing overreach).
+- Require a **structured four-category confirmation** in the agent's response:
+  - (a) **Scoped change applied** — what was asked for, now done.
+  - (b) **Files read but not modified** — files the agent opened to understand context.
+  - (c) **Out-of-scope observations** — issues noticed in other files.
+  - (d) **Files consciously not touched** — explicitly NOT fixed, despite noticing issues.
+- **Report-don't-fix is a standing rule** — Base44 must surface observations in category (c), not silently roll them into the commit.
+**Rationale:** Base44's auto-lint-fix reflex is a feature, not a bug, in day-to-day development. But during schema changes it overrides explicit scope constraints and pollutes commit history. The four-category confirmation turns the implicit "I also fixed these 8 things" into an explicit "here are 8 things I noticed — do you want me to fix them?" That restores scope control without losing the benefit of a pair of extra eyes.
+**Status:** Active — start using in every Base44 prompt from Phase 3 onward. Extends DEC-093 (Base44 entity changes via agent prompt) and DEC-144 (Base44 agent discussion mode default).
 
 ---

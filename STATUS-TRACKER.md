@@ -31,12 +31,14 @@
 | 2026-04-15 | Mylane Containment day. Viewport fix, agent gate, containment audit (29 routes, 6 escapes, 10 orphans). Sessions A+B+C closed all 6 escapes. Overlay refactor (OV constant). Philosophy/Support/Recommend/Network overlays. Backdrop click-to-close. 4 dead pages deleted (~1,170 lines). Living Feet principle formalized. | 6 commits | DEC-146, DEC-147, DEC-148 |
 | 2026-04-16 | Mylane Agent v2 + Shell Polish. Overlay containment fix (useBottomInset). Agent v2 instructions deployed (hallucination fixed). Smart routing (TYPE 1 for views). Shell polish: fixed CommandBar, hidden fields, tab routing, loading state. RemindersCard RLS bypass. Home Canvas spec designed, reviewed, shelved. | 5 commits | DEC-149, DEC-150, DEC-151 |
 | 2026-04-17 | Cockpit Library shipped. `ll_cockpit` preference + `data-cockpit` attribute mirror theme plumbing. `resolveVariant()` decouples variant from theme. Compass as fourth variant in VARIANT_MAP (chrome row, dial strip with needle-through-word, orientation arc, COMPASS_BEARINGS map). Fallout monospace rule. Cockpit picker in AccountOverlay. Three-iteration polish arc: library + polish v1 (remove redundancy) + polish v2 (color-in-place course correction). | c44bb21, b4d187e, ad04eb1 | DEC-152, DEC-153, DEC-154 |
+| 2026-04-22 | **Round 1 Phase 1 — Schema Foundation shipped.** Base44 prompt applied cleanly: 10+2 new fields on Business, 6 new on User, `business_id` on all 10 FS entities, archive fields on FieldServiceProfile, new `AuditLog` entity (admin-only Read). Canonical migration pattern TEMPLATE.js committed. Base44 auto-fixed 8 pre-existing component lint errors as side effect; reconciled. Manifest of production state at `private/MANIFEST-2026-04-22.md`. | cfdcdb9, 1bb8936 | — (Phase 1 used existing DECs) |
+| 2026-04-23 | **Round 1 Phase 2 — Reparenting machinery + production migration shipped.** reparentBusiness + migrationHelpers Base44 server fns (shared-secret gated, asServiceRole, idempotent, dry-run-first). phase-2-production-migration.js Node script. 4 new Businesses (Mycelia hidden/exempt, LocalLane exempt, TCA, Red Umbrella from Bari FS), Recess reparented under Mycelia, Bari FS linked via `business_id`, Doron sandbox archived, Bari flagged legacy, Dan preserved as unclaimed orphan. 9 AuditLog rows, all reversible. DEC-095 deepened (security.update + rls.update both required). Base44 working agreement established. Three-day v4→v4.1 architecture arc closed. | cc051a9, 210d087, 177e915 (private) | DEC-155 through DEC-162, DEC-095 amendment |
 
 ## Node Status
 
 | Node | Score | Status | Last Updated |
 |------|-------|--------|-------------|
-| Community Node | ~87/100 | Mylane Agent v2 live (DEC-149). Smart routing (DEC-150). Shell polished: overlay containment, fixed CommandBar, hidden fields, tab routing. Cockpit library shipped (DEC-152) — spinner + compass, picker in AccountOverlay, Dark Until Discovered. 8 App Agents + 1 Mycelia Superagent. | 2026-04-17 |
+| Community Node | ~87/100 | Round 1 Phase 2 shipped (2026-04-23). Mycelia/LocalLane/TCA anchored; Recess reparented; Red Umbrella promoted from Bari FS; sandbox archived; Bari flagged legacy. 9 AuditLog rows reversible. Mylane Agent v2 live (DEC-149). Smart routing (DEC-150). Shell polished. Cockpit library (DEC-152). 8 App Agents + 1 Mycelia Superagent. | 2026-04-23 |
 | Field Service | ~92/100 | Documents + e-sign + FieldServiceAgent live | 2026-03-29 |
 | Harvest Network | ~60/100 | Phase 2 shipped, map gated | 2026-03-27 |
 | Property Management | ~95/100 + agent | PropertyPulseAgent wired | 2026-03-29 |
@@ -104,5 +106,27 @@ These pages/links intentionally render outside the Mylane shell. Documented here
 | Admin (`/Admin/*`) | Admin-only, complex, single user. Will be reframed as per-space admin toggle in future session, not contained as monolithic panel. | 2026-04-15 |
 | Networks index (`/networks`) | Not reachable from inside the shell (no "Browse all networks" link). Only detail route `/networks/:slug` was an escape — that's now contained as overlay. | 2026-04-15 |
 | Log out | Auth requirement — must navigate away on sign-out. | N/A |
+
+---
+
+## Round 1 Phase Status
+
+| Phase | Name | Status | Date | Commits |
+|-------|------|--------|------|---------|
+| Phase 1 | Schema Foundation | ✅ Complete | 2026-04-22 | cfdcdb9, 1bb8936 |
+| Phase 2 | Reparenting machinery + production migration | ✅ Complete | 2026-04-23 | cc051a9, 210d087, 177e915 (private) |
+| Phase 3 | Business switcher | 🔜 Queued | — | — |
+| Phase 4 | Desk rename + business-scoped rendering (DEC-160, DEC-156) | Pending | — | — |
+| Phase 5 | Membership gate ($9/mo per entity, DEC-155) | Pending | — | — |
+| Phase 6 | Onboarding fork (invite vs. cold, incl. Dan claim path) | Pending | — | — |
+
+**Round 2:** Stripe Connect integration. Prerequisite for real money flow and for populating `legacy_grace_until` on all `is_legacy_user: true` users (DEC-159) at billing-live date.
+
+## Flagged Behaviors (known and accommodated)
+
+- **Base44 auto-lint-fix during schema changes.** Base44 agent auto-runs lint fixes on unrelated files and pushes them as "File changes" commits. DEC-162 working-agreement prompts (applied-directly + four-category confirmation + report-don't-fix) mitigate but do not eliminate. Expect it in any entity-change session.
+- **Base44 auto-push to main.** Commit messages are uninformative ("File changes"). Keeps Git in sync but post-hoc scope review requires reading the diff, not the message.
+- **DECISIONS.md drift.** Spec-Repo/DECISIONS.md and community-node/DECISIONS.md have diverged (different numbering for DEC-146/147/148 and DEC-152). Needs its own cleanup audit/merge session — do not attempt to sync ad hoc.
+- **Dan Sikes Construction orphan.** `owner_user_id: null`, no User record. Record stays in the directory unclaimed. Phase 6 onboarding fork should offer the existing record when Dan signs in rather than creating a new one.
 
 ---

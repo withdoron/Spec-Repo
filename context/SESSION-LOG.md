@@ -1088,3 +1088,78 @@ When a Base44 entity operation fails, the first step is logging the exact payloa
 Changing focus — Doron directing next work. Cockpit library paused in a shipped, field-testable state. Follow-up polish happens only when field testing surfaces specific needs.
 
 ---
+
+## Session Log — 2026-04-23 (Mycelia tree anchored)
+
+**Focus:** Close the three-day architecture arc (v4 → v4.1), ship Phase 1 schema foundation, ship Phase 2 production migration. Mycelia, LLC now exists as a real Business record with LocalLane, TCA, and reparented Recess as children. Bari's Red Umbrella promoted from his FS profile. Doron's test sandbox archived. Dan preserved as unclaimed orphan.
+
+### Architecture arc closure
+
+The three-day v4 → v4.1 conversation finalized during today's prep. Scoped-peer beat nested-containers (DEC-156) for tool architecture — tools remain top-level entities with a `business_id` filter, which is cheaper to build and produces the same UX. Per-entity $9 pricing with LocalLane exemption (DEC-155) supersedes the old DEC-115 model in full. Networks unified into one architecture with three configurable axes (cost/access/discovery mode — DEC-157). Users became first-class entities with optional public pages (DEC-158). DEC-117 (Dark Until Explored) preserved — the architecture doesn't touch user-visible flow. Settings stays in avatar. Tool rename ("Field Service" → "Desk", DEC-160) communicated in person to Bari and Dan; no in-app notice at current user scale.
+
+### Phase 1 — Schema Foundation shipped (2026-04-22)
+
+Base44 prompt at `community-node/base44-prompts/PHASE-1-SCHEMA-FOUNDATION.md` applied cleanly. Added 12 fields to Business (10 new + 2 archive), 6 fields to User, `business_id` to all 10 FS entities, archive fields to FieldServiceProfile, created new `AuditLog` entity (entity_type/entity_id/action/old_value/new_value/user_id/source/timestamp, admin-only Read). Canonical migration pattern at `src/scripts/migrations/TEMPLATE.js` (idempotent, dry-run-first, audit-logged). Committed `cfdcdb9` — Base44 auto-fixed 8 pre-existing component lint errors as a side effect; reconciled cleanly since Base44 pushes directly to main.
+
+Phase 1.5 (this morning): three more fields requested and applied — User.is_legacy_user, User.legacy_grace_until, Business.subscription_exempt. Cascaded into the entity jsonc files via Base44 auto-push.
+
+### Phase 2 — Reparenting machinery + production migration shipped
+
+Two Base44 server functions + one Node migration script, all gated by a shared `MIGRATION_SECRET` header (Base44 API-key auth does not populate `caller.role`, so role-based gating was wrong). All entity I/O via `asServiceRole`. All mutations write to AuditLog with `user_id = Doron` per DEC-139 server-authoritative identity.
+
+- **`reparentBusiness`** (Base44 server fn) — actions: `reparent` | `rollback`. Idempotent (if current parent matches target → skip). Dry-run skips parent-existence check (fix in commit `210d087` after first dry-run surfaced symbolic-parent edge case).
+- **`migrationHelpers`** (Base44 server fn) — actions: `create_business`, `create_business_from_fs_profile`, `archive_business`/`unarchive_business`, `archive_fs_profile`/`unarchive_fs_profile`, `mark_legacy_user`/`unmark_legacy_user`, `find_user_by_email`.
+- **`phase-2-production-migration.js`** (Node) — dry-run by default, `--apply` executes, prints audit_log_ids on mid-step failure for surgical rollback.
+
+Code committed to community-node main: Commit 1 `cc051a9` (machinery) + `210d087` (dry-run fix). Reports committed to private repo: `177e915`.
+
+**Production tree after apply:**
+
+```
+Mycelia, LLC (69ea4eb39932effeb503d889) — hidden, subscription_exempt
+├── LocalLane (69ea4eb4ff90f499289e5def) — exempt
+├── The Camel Academy (69ea4eb5d5b69f39bbcc404f)
+└── Recess (699e0d3deb3cfa670a28b275) — reparented
+
+Red Umbrella (69ea5590481b7e15af7216b6) — NEW, owner Bari, peer not child
+Spetzler Designs, NH systems, Danny Sikes Construction — untouched
+```
+
+Pulse: 4 → 8 businesses, 3 → 7 claimed. Bari's FS profile has `business_id` linked. Bari's User has `is_legacy_user: true`. Doron's test sandbox archived (`archived_at` set). 9 AuditLog rows written, all reversible.
+
+### What the migration surfaced (DEC-095 amendment — see DECISIONS.md)
+
+First `--apply` completed steps 1-4 then 500'd at step 5 ("Permission denied for update operation on FieldServiceProfile entity"). The assumed fix (open `security.update: true`) wasn't enough. Base44 has a **separate `rls` block** whose update rule is independent of the security layer. `asServiceRole` respects `rls.update: {"created_by": "{{user.email}}"}` and rejects when the service role identity ≠ the record's creator. Full fix required removing the `rls.update` key entirely (matches post-original-DEC-095 FSDocument pattern). Append amendment to DEC-095 formalizes this.
+
+### Base44 working agreement established (DEC-162)
+
+Multiple sessions this week surfaced the same pattern: Base44's agent auto-lint-fixes files beyond the scope of the prompt when applying schema changes. Fix: applied-directly prompts with four-category confirmation checklist — (a) scoped change applied, (b) files read but not modified, (c) out-of-scope observations, (d) files consciously not touched despite noticing issues. Report-don't-fix is a standing rule. DEC-162 codifies.
+
+### Decisions made
+
+- DEC-155: Per-entity $9 membership model with LocalLane exemption (supersedes DEC-115)
+- DEC-156: Business-as-scoped-peer, not nested container
+- DEC-157: Networks unified architecture
+- DEC-158: Users as first-class entities with optional public pages
+- DEC-159: Legacy user grace period pattern
+- DEC-160: Desk rename
+- DEC-161: Living tiles, not photos
+- DEC-162: Base44 agent working agreement
+- DEC-095 amendment: `security.update` is only half of the fix — `rls.update` key must also be absent
+
+### Drift + cleanup items noted (future sessions)
+
+- **DECISIONS.md drift:** `Spec-Repo/DECISIONS.md` and `community-node/DECISIONS.md` have diverged. Spec-Repo jumped 145 → 149 skipping 146-148; community-node has 146 (Living Feet), 147 (R&D Allowlist), 148 (Overlay Expansion). Both have a DEC-152 pointing at different decisions (Spec-Repo = Cockpit Library; Doron's intended DEC-152 now renumbered to DEC-162). This session adds new entries to Spec-Repo only; community-node copy not synced. Needs its own audit/merge session.
+- **Base44 auto-push behavior:** continues to push "File changes" commits directly to main (uninformative messages, occasional unrelated lint fixes bundled with intended schema changes). DEC-162 working-agreement mitigates but does not eliminate; expect it in any entity-change session.
+
+### What's next
+
+Phase 3 — business switcher — queued for a future session (separate day, UI-only, no production mutations). Phases 4 (Desk rename + business-scoped rendering), 5 (membership gate), 6 (onboarding fork) follow. Round 2 (Stripe Connect) is the prerequisite for real money flow and will re-invoke the legacy grace pattern (DEC-159) to populate `legacy_grace_until` on all `is_legacy_user: true` users.
+
+Bari workspace verification pending — Doron will log in from a real device when it's convenient. No UI changes expected; the migration only populated a background `business_id` link.
+
+### Cleanup
+
+- `MIGRATION_SECRET` removed from Base44 env config (Doron) and from `community-node/.env` (Hyphae). `.env` file kept for Round 2 Stripe keys; verified gitignored; verified no commits contain the secret.
+
+---

@@ -115,4 +115,24 @@
 - [x] Frequency Station notification system (in-app bell + dropdown — polish pending)
 - [ ] Frequency Station playlist polish (auto-advance working, shuffle + queue UI pending)
 
+## Round 1 — Business Foundation
+
+- [x] **Phase 1: Schema foundation** (2026-04-22) — Business/User/FS family field additions, AuditLog entity, TEMPLATE.js canonical pattern (cfdcdb9, 1bb8936)
+- [x] **Phase 1.5: additional fields** — User.is_legacy_user, User.legacy_grace_until, Business.subscription_exempt
+- [x] **Phase 2: Reparenting machinery** — reparentBusiness + migrationHelpers server fns + phase-2-production-migration.js Node script (cc051a9, 210d087)
+- [x] **Phase 2: Production migration applied** (2026-04-23) — Mycelia/LocalLane/TCA created, Recess reparented, Red Umbrella promoted from Bari FS, Doron sandbox archived, Bari flagged legacy, 9 AuditLog rows reversible
+- [ ] **Phase 2: Bari workspace smoke test** (Doron, when convenient — log in from real device and confirm his FieldService workspace loads normally with new `business_id` link)
+- [ ] **Phase 3: Business switcher** — UI for parent-child tree; LocalLane exempt badging; Red Umbrella as peer, not under Mycelia
+- [ ] **Phase 4: Desk rename + business-scoped rendering** (DEC-160, DEC-156) — "Field Service" becomes "Desk"; tools filter by `business_id` when in a business context
+- [ ] **Phase 5: Membership gate** — $9/mo per entity per DEC-155, with LocalLane exempt
+- [ ] **Phase 6: Onboarding fork** — invite-based vs. cold entry; Dan Sikes claim path for his orphan Business
+- [ ] **Round 2: Stripe Connect** (prerequisite for real money flow + for populating `legacy_grace_until` on all `is_legacy_user: true` users per DEC-159)
+
+### Critical path to real users (next blockers)
+
+1. Phase 3 business switcher (unblocks Doron's multi-business UI)
+2. Phase 4 Desk rename + business-scoped rendering
+3. Phase 5 membership gate (prerequisite for charging)
+4. Round 2 Stripe Connect (prerequisite for real money)
+
 ---
