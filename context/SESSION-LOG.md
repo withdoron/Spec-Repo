@@ -1163,3 +1163,66 @@ Bari workspace verification pending — Doron will log in from a real device whe
 - `MIGRATION_SECRET` removed from Base44 env config (Doron) and from `community-node/.env` (Hyphae). `.env` file kept for Round 2 Stripe keys; verified gitignored; verified no commits contain the secret.
 
 ---
+
+## Session Log — 2026-04-23 (Bari-prep)
+
+**Focus:** Build-and-ship session to prepare Bari Swartz's Red Umbrella Services LLC workspace for the 2026-04-24 morning meeting. User-owned templates as a feature, preview UX on all template cards, legal disclaimer on system templates, `video_url` field on Business (plumbing only), and load Bari's two attorney-drafted contracts (General Construction Contract + Subcontractor Agreement) into his workspace.
+
+**Shipped to community-node (origin/main):**
+
+1. **Track A — feature surface (commit `e3ba53a`):** Two-tier FSDocumentTemplate (DEC-163) with `business_id` field and client-side partition (DEC-140 pattern). Two-section templates UI on FS Documents tab: "{{BUSINESS NAME}} TEMPLATES" above "DOCUMENT TEMPLATES" system section. Click-any-template preview modal (DEC-165) with business-branded letterhead, bracketed per-client placeholders, Close + "Use this Template" CTAs, Escape + backdrop close. Lightweight legal disclaimer on system templates only: banner in preview modal + small italic footer on rendered FSDocument. `buildMergeData` rewritten business-first (DEC-164): 14 new `{{business_*}}` merge fields including `logo_url` and `banner_url`, legacy `{{company_*}}` preserved. Branded letterhead (logo + name + tagline) in DocumentDetail. `video_url` field plumbed: `PROFILE_ALLOWLIST` in `updateBusiness/entry.ts`, URL input after Facebook in `BusinessSettings.jsx`, jsonc reference copy updated. No render on BusinessProfile — deferred to BusinessProfile redesign session.
+2. **Track B cleanup (commit `4c6ceda`):** Strip italic `*(Note: ...)*` implementer annotations from loaded template content. Source `.md` files in `base44-prompts/assets/` keep the annotations for repo documentation; only what reaches Base44 is clean. Regex eats leading whitespace so both standalone-paragraph and inline note forms collapse cleanly.
+3. **Track B load (commit `c3a7091`):** `base44-prompts/assets/` directory with `bari-red-umbrella-construction-contract.md` + `bari-red-umbrella-subcontract.md` (source verbatim). New `migrationHelpers.create_fs_document_template` action: idempotent on `business_id + title`, `asServiceRole` write, AuditLog row. Loader at `src/scripts/migrations/load-bari-templates.js` — dry-run default, `--apply` executes, strips metadata header at first `---` divider then strips implementer notes.
+4. **Bari's templates applied** via `node src/scripts/migrations/load-bari-templates.js --apply`. Two `FSDocumentTemplate` records created:
+   - `69ea7974c5f30ff25c860702` — "Red Umbrella General Construction Contract" (21 unique merge fields, 14,860 chars, audit `69ea7974395160c0cb100bf6`)
+   - `69ea797533163127a73aeef3` — "Red Umbrella Subcontractor Agreement" (26 unique merge fields, 21,252 chars, audit `69ea7975450b88cc171192ba`)
+   Both scoped to Red Umbrella (`business_id: 69ea5590481b7e15af7216b6`), Bari's FS profile (`profile_id: 69baba55a6b9cca0c7d5700b`), `is_system: false`. Source typos preserved verbatim: Section 6 appears twice in the construction contract, Section 15 of the subcontract reads "fifteen percent (25%)", Section 21 has duplicate 21.2, Section 22 is missing 22.4. Idempotent re-apply returned SKIPPED for both — idempotency verified.
+5. **Regression fix (commit `9e349be`):** `TemplateEditor.handleSave` line 1157 wrapped `merge_fields` in `JSON.stringify(...)`; Base44 schema declares `merge_fields` as `array`. Pre-existing bug from Phase 4 (DEC-085 era, commit `6ce2faa`), dormant for months because no UI path had walked the "+ Custom" TemplateEditor save against live Base44 validation between Phase 4 and tonight's dogfood. Not a Track A regression. One-line fix: drop the stringify, pass raw array. Bug scope limited to TemplateEditor create + update paths — document generation, template preview, and system-template seeding all passed proper arrays and were unaffected. Bari's two migration-loaded templates also unaffected (loader script passed a real JS array).
+
+**Base44 changes applied by Doron (via agent prompts):**
+
+- `FSDocumentTemplate.business_id` (string, optional, FK→Business) — Read permission confirmed authenticated (no rls.read rule existed at audit time)
+- `Business.video_url` (string, optional) — URL field for intro video (YouTube, Vimeo, or direct mp4)
+- `migrationHelpers` — new `create_fs_document_template` action pushed via GitHub auto-sync, deployed by Base44 platform sync
+
+**Dogfood observations:**
+
+- Template creation "+ Custom" flow hit the dormant `merge_fields` stringify bug → fix pushed same session (`9e349be`).
+- Doron needed to verify Bari's workspace view (templates visible under "RED UMBRELLA TEMPLATES") but couldn't without logging in as Bari → surfaced as a seedling (Admin Impersonation Mode, private/SEEDLING-TRACKER.md).
+- Video URL input needed to be pasted into Bari's settings but Doron couldn't impersonate → same seedling, second hit in 30 minutes — strong signal this gap will keep biting.
+- Current-business signal on the Documents tab reads `profile.business_id` — works for today's single-business case, resolves cleanly in Phase 3 when the business switcher becomes the authoritative source.
+- Test template created in Doron's workspace (business_id `69ea4eb5d5b69f39bbcc404f`) deleted post-session.
+
+**Decisions made:**
+
+- **DEC-163** Two-tier template architecture — system + business-scoped user-owned
+- **DEC-164** Business-first branding composition in FS document rendering
+- **DEC-165** Template preview before commit
+- **DEC-166** Bari-prep user-template provisioning via admin migration path
+- **DEC-167** Write-mutation schema-conformance audit protocol (from the `merge_fields` bug root-cause)
+
+**Tech debt logged (private/TECH-DEBT.md, new file this session):**
+
+- FSDocumentTemplate `rls.update` creator-only — business teammates cannot edit each other's templates; Bari cannot edit the two migration-loaded templates. Workaround: fresh "+ Custom" copy. Fix: remove `rls.update` per DEC-095 amendment pattern.
+- Phase 2 carryover — FieldServiceProfile + User `security.update: true` with no RLS. Wide-open by design to let Phase 2 migration run. Phase 5 (membership gate) re-tightens per DEC-095 amendment pattern.
+- Phase 2 migration scripts `eslint-env node` placement bug in `scripts/migrations/TEMPLATE.js` and `scripts/migrations/phase-2-production-migration.js`. Cosmetic, no runtime impact.
+
+**Seedlings logged (private/SEEDLING-TRACKER.md):**
+
+- Admin Impersonation Mode (Phase 6+)
+- Shared Base44 Entity Schema Validator Module (Living Feet DEC-146 pattern — architectural mitigation for the class of bug DEC-167 addresses procedurally)
+- BusinessProfile Website-Shaped Redesign (video render becomes live at that point)
+
+**Next up:**
+
+- Bari workspace live check from Bari's device (2026-04-24 morning)
+- Phase 3 — business switcher
+- Phase 4 — Desk rename + business-scoped rendering (DEC-160, DEC-156)
+- Phase 5 — membership gate + re-tighten FSProfile/User `rls.update`
+- Round 2 — Stripe Connect (prerequisite for real money flow + legacy grace population)
+- BusinessProfile redesign (video render goes live)
+- DECISIONS.md drift audit + merge session
+
+**Ship-it timestamp:** 2026-04-23, evening. Session closed.
+
+---

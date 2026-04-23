@@ -1,51 +1,56 @@
 # ACTIVE-CONTEXT.md
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
-> Last updated: 2026-04-23 (Phase 2 shipped — Mycelia tree anchored)
+> Last updated: 2026-04-23 (Bari-prep shipped — Red Umbrella workspace ready for 2026-04-24)
 
 ## Current Focus
 
-Round 1 Phase 2 complete. Mycelia, LLC now exists as a production Business record with LocalLane (exempt), TCA, and reparented Recess as children. Bari's Red Umbrella promoted from his FieldServiceProfile to a first-class Business with all brand fields preserved. Doron's test FS sandbox archived. Dan Sikes Construction preserved as unclaimed orphan. Bari flagged `is_legacy_user: true`. 9 AuditLog rows written, all reversible. Phase 3 (business switcher) queued for a future session.
+Bari-prep session closed. Red Umbrella Services LLC workspace is ready for Bari's 2026-04-24 morning meeting: two attorney-drafted templates loaded, two-section template UI shipped, preview modal live, legal disclaimer on system templates, branded letterhead composited from his Business record. Phase 3 (business switcher) is the next queued session — and it will resolve the multi-business template visibility edge case Doron hit during dogfood, where the current-business signal lives in a client-side state rather than a proper switcher.
 
 ## Active Architecture
 
-- **Production Business tree:** `Mycelia, LLC` (hidden, `subscription_exempt: true`, `parent_business_id: null`) → `LocalLane` (exempt) + `The Camel Academy` + `Recess` (reparented). `Red Umbrella` (Bari) exists as a peer of Mycelia, not a child. Other originals (Spetzler Designs, NH systems, Danny Sikes Construction) untouched.
-- **Per-entity $9 pricing (DEC-155):** every LocalLane entity — user personal account OR public-facing business — pays $9/month from its own books. LocalLane-the-brand is exempt because charging itself is circular. Hidden holding entities (Mycelia, LLC) don't count. Supersedes DEC-115.
-- **Business-as-scoped-peer (DEC-156):** tools (Desk/Clients/Finance/Events) stay top-level with a `business_id` filter instead of physically nesting. Same UX, cheaper to build.
-- **Legacy user grace pattern (DEC-159):** `is_legacy_user` boolean marks pre-v4 users. `legacy_grace_until` datetime stays null until Round 2 billing goes live — then a migration will populate it to `billing_live_date + 30 days` for everyone flagged. Bari flagged today.
-- **Migration machinery:** `reparentBusiness` + `migrationHelpers` Base44 server fns (in main, published). Shared `MIGRATION_SECRET` gate + `asServiceRole` for all I/O. Admin-role gating dropped because Base44 API-key auth doesn't populate `caller.role`. AuditLog `user_id` = Doron per DEC-139 server-authoritative identity.
-- **DEC-095 clarified:** `security.update` and `rls.update` are two independent layers in Base44 entities. Both must be open (or the `rls.update` key absent) for `asServiceRole` writes to land. Previously documented as a one-layer fix; today's migration surfaced the second layer.
-- **Base44 working agreement (DEC-162):** applied-directly prompts with four-category confirmation. Report-don't-fix is a standing rule to prevent auto-lint-fix overreach during schema changes.
-- **Cockpit library (DEC-152):** spinner + compass variants via `ll_cockpit` preference. Doron field-testing compass.
-- **Mylane agent v2 (DEC-149), smart routing (DEC-150), shell containment:** all live, no regressions from Phase 2 migration (backend-only, no UI touched).
-- **Health score:** 87/100 (unchanged from 2026-04-17).
+- **Two-tier FSDocumentTemplate (DEC-163):** `business_id: null` = system template (the 4 LocalLane-drafted Oregon lien templates), `business_id` set = business-scoped user template. Visible to all users with access to that Business. Client-side partition (DEC-140 pattern). Two-section UI on the Documents tab.
+- **Business-first branding (DEC-164):** `buildMergeData` reads Business record first with FSProfile fallback. 14 new `{{business_*}}` merge fields including `logo_url` and `banner_url`. Legacy `{{company_*}}` preserved. Branded letterhead (logo + name + tagline) in DocumentDetail and preview modal.
+- **Template preview before commit (DEC-165):** Every template card opens a preview modal. Business branding composited from viewer's Business; per-client fields shown as `[Bracketed]` placeholders. "Use this Template" routes to existing CreateDocumentFlow with `initialTemplate` prop.
+- **Legal disclaimer on system templates:** banner in preview modal + small italic footer on rendered FSDocument. User-owned templates do not receive it (user's content, user's responsibility).
+- **Bari's Red Umbrella templates loaded (DEC-166):** `69ea7974c5f30ff25c860702` (General Construction Contract) and `69ea797533163127a73aeef3` (Subcontractor Agreement). Both `business_id: 69ea5590481b7e15af7216b6`, `profile_id: 69baba55a6b9cca0c7d5700b`, `is_system: false`. Loaded via `load-bari-templates.js` + new `migrationHelpers.create_fs_document_template` action. Source typos preserved verbatim.
+- **Business.video_url field:** plumbing only. Paste URL in BusinessSettings → saves. No render yet; deferred to BusinessProfile redesign session.
+- **Schema-conformance audit protocol (DEC-167):** any write-mutation session now audits the full payload against the entity schema, not just the diff. Surfaced after a Phase-4-era dormant `merge_fields` JSON.stringify bug hit Doron's dogfood.
+- **Production Business tree (Phase 2 state preserved):** Mycelia, LLC → LocalLane / TCA / Recess; Red Umbrella is Bari's peer (not nested). 9 AuditLog rows from Phase 2 remain reversible.
+- **Mylane Agent v2, smart routing, shell containment:** all live, no regressions from Bari-prep (UI-additive only, no agent-path changes).
+- **Health score:** 87/100 (unchanged).
 
-## What Just Shipped (2026-04-23)
+## What Just Shipped (2026-04-23, Bari-prep session)
 
-1. **Phase 1 schema foundation** (cfdcdb9 — 2026-04-22): Business/User/FS family field additions + AuditLog entity + TEMPLATE.js canonical migration pattern.
-2. **Phase 1.5 schema additions:** User.is_legacy_user, User.legacy_grace_until, Business.subscription_exempt.
-3. **reparentBusiness + migrationHelpers + phase-2-production-migration.js** (cc051a9 + 210d087): reparent/rollback, 8-action helper surface with idempotency and dry-run.
-4. **Phase 2 production migration applied:** 4 new Business records (Mycelia/LocalLane/TCA/Red Umbrella), Recess reparented, Bari FS profile linked via business_id, Doron sandbox archived, Bari marked legacy, 9 AuditLog rows.
-5. **Reports to private repo** (177e915): PHASE-2-DRY-RUN-2026-04-23 + PHASE-2-POSTMIGRATION-REPORT-2026-04-23.
-6. **DEC-155 through DEC-162 + DEC-095 amendment** (this session).
-7. **Cleanup:** MIGRATION_SECRET removed from Base44 env and local .env.
+1. **Track A — feature surface (e3ba53a):** Two-section template UI, preview modal, legal disclaimer constant + render sites, `buildMergeData` business-first with logo/banner in merge fields, branded letterhead in DocumentDetail, Business.video_url input + PROFILE_ALLOWLIST + jsonc reference copy.
+2. **Track B cleanup (4c6ceda):** Strip italic `*(Note: ...)*` implementer annotations from loaded content. Source .md files keep annotations for repo docs; Base44 content is clean.
+3. **Track B load (c3a7091):** `base44-prompts/assets/` with both contract markdown files, `migrationHelpers.create_fs_document_template` action, `load-bari-templates.js` idempotent loader.
+4. **Bari's templates applied** via migration script (dry-run + --apply). 2 `FSDocumentTemplate` records, 2 `AuditLog` rows.
+5. **Regression fix (9e349be):** `TemplateEditor.handleSave` — dropped `JSON.stringify` wrapper on `merge_fields` write. Pre-existing dormant bug from Phase 4 (DEC-085), surfaced by dogfood. Not a Track A regression.
+6. **DEC-163 through DEC-167 recorded.** Three seedlings and three tech-debt entries in private repo.
 
 ## Known Issues
 
-1. **DECISIONS.md drift** between Spec-Repo and community-node — Spec-Repo skipped 146-148; both have conflicting DEC-152. Today's new decisions went to Spec-Repo only. Future: dedicated audit/merge session to reconcile.
-2. **Base44 auto-push behavior** — "File changes" commits to main with uninformative messages, occasional unrelated lint fixes bundled with intended schema changes. DEC-162 mitigates in prompts; not eliminated.
-3. **Overlay z-indices hardcoded** — z-50/55/60, refactor to stack-based when third scenario appears.
-4. **DevLab physics sliders don't affect compass** — compass uses CSS transitions. Harmless.
-5. **BEARING label weighting** in compass chrome row — soft polish flag for field test.
+1. **DECISIONS.md drift** between Spec-Repo and community-node — pre-existing, not touched today. Future: dedicated audit/merge session.
+2. **FSDocumentTemplate `rls.update` creator-only** — business teammates can't edit each other's templates; Bari can't edit the two migration-loaded templates (service role is creator). Workaround: fresh "+ Custom" copy. Logged in private/TECH-DEBT.md.
+3. **Phase 2 FieldServiceProfile + User `security.update: true` with no RLS** — wide-open by design for Phase 2 migration. Phase 5 (membership gate) re-tightens. Logged in private/TECH-DEBT.md.
+4. **Base44 auto-push behavior** — "File changes" commits to main with uninformative messages. DEC-162 mitigates in prompts; expect it any entity-change session.
+5. **Overlay z-indices hardcoded** — z-50/55/60, refactor when third stacked-overlay scenario appears.
 6. **ClaimBusiness route** — page going away (co-presence model). BusinessEditDrawer still generates claim URLs.
 7. **FrequencyLibraryContext refactor** — prop drilling for favorites/queue should become context provider.
 8. **Footer still renders** on non-MyLane pages — purpose limited to unauthenticated public.
-9. **Riley TeamMember `$69.00`** data issue — fix in Base44 dashboard.
-10. **Dan Sikes Construction orphan** — `owner_user_id: null`, unclaimed. Onboarding fork (Phase 6) should offer the existing record when Dan signs in instead of creating new.
+9. **Phase 2 migration scripts eslint-env node placement bug** — cosmetic, no runtime impact. Logged in private/TECH-DEBT.md.
+
+## Dogfood Observations (2026-04-23, Bari-prep)
+
+- **Template creation "+ Custom" flow** hit the `merge_fields` stringify bug — fixed tonight (9e349be).
+- **Multi-business template visibility** edge case: current-business signal on the Documents tab reads `profile.business_id` as the source of truth. Works for Doron's single-business today; resolves cleanly in Phase 3 when the business switcher becomes the authoritative source.
+- **Admin impersonation need surfaced twice** during dogfood: verifying Bari's workspace view, pasting a video URL to Bari's settings. Neither was possible without the feature. Logged as seedling (private/SEEDLING-TRACKER.md).
+- **Doron's test template** from dogfood (in his own Business workspace, `business_id: 69ea4eb5d5b69f39bbcc404f`) deleted post-session.
 
 ## In Flight
 
-None. Phase 2 shipped in a settled state. Awaiting Doron's device-level Bari workspace verification as a final smoke test.
+None. Bari-prep shipped in a settled state.
 
 ## Active Blockers
 
@@ -53,12 +58,12 @@ None.
 
 ## Upcoming Priorities
 
-1. Bari workspace smoke test (Doron, when convenient)
-2. Phase 3 — business switcher (UI, handles parent-child rendering + exempt badging)
-3. Phase 4 — Desk rename + business-scoped rendering
-4. Phase 5 — membership gate ($9/mo per entity)
-5. Round 2 — Stripe Connect (prerequisite for real money flow + legacy grace population)
-6. DECISIONS.md drift audit + merge session
-7. Field testing compass (Doron, ongoing)
-8. Walkthrough verification of 2026-04-16/17 fixes in live app
+1. Bari workspace live check from Bari's device (2026-04-24 morning)
+2. Phase 3 — business switcher (UI, handles parent-child rendering + exempt badging + current-business source of truth)
+3. Phase 4 — Desk rename + business-scoped rendering (DEC-160, DEC-156)
+4. Phase 5 — membership gate ($9/mo per entity, DEC-155) — also re-tightens FSProfile/User `rls.update`
+5. Round 2 — Stripe Connect (prerequisite for real money flow + legacy grace population per DEC-159)
+6. BusinessProfile website-shaped redesign (video render becomes live at that point)
+7. DECISIONS.md drift audit + merge session
+8. Field testing compass (Doron, ongoing)
 9. Newsletter "The Good News" — wake dormant accounts

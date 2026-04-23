@@ -26,9 +26,17 @@
 - [x] FieldServiceAgent Superagent live
 - [x] Agent chat with voice input
 - [x] Admin document stats
+- [x] Two-tier template architecture: system + business-scoped user-owned (DEC-163 — 2026-04-23)
+- [x] Template preview modal with bracketed per-client placeholders (DEC-165 — 2026-04-23)
+- [x] Business-first branding composition; logo/banner in merge fields; branded letterhead (DEC-164 — 2026-04-23)
+- [x] Lightweight legal disclaimer on system templates (banner + footer — 2026-04-23)
+- [x] Business.video_url field + allowlist + Settings input (render deferred to BusinessProfile redesign)
+- [x] Bari's Red Umbrella contracts loaded (2026-04-23 — General Construction Contract + Subcontractor Agreement, business-scoped to Red Umbrella)
 - [ ] Settings tab walkthrough with Bari
 - [ ] View permissions customization
 - [ ] Industry presets (DEC-090)
+- [ ] Attorney review of system template disclaimer language (current is reasonable-best-practice, unreviewed)
+- [ ] Attorney partnership for ongoing system template review (surfaced during Bari-prep as deferred need)
 
 ## Harvest Network
 

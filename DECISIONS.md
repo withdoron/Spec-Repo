@@ -744,3 +744,81 @@ This means the 23,550 integration credits/month projection was based on incorrec
 **Status:** Active — start using in every Base44 prompt from Phase 3 onward. Extends DEC-093 (Base44 entity changes via agent prompt) and DEC-144 (Base44 agent discussion mode default).
 
 ---
+
+### DEC-163: Two-Tier Template Architecture — System + Business-Scoped User-Owned (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** FSDocumentTemplate shipped in Phase 4 (DEC-085) as a single-tier entity: LocalLane seeded 4 Oregon lien templates per workspace and users could add custom templates via "+ Custom." No distinction between LocalLane-authored value-add and user-authored private contracts. Bari needed to load his attorney-drafted General Construction Contract and Subcontractor Agreement; they are his IP, not platform templates, and must not leak to other contractors.
+**Decision:** FSDocumentTemplate gets a `business_id` field (optional, FK→Business). Two tiers result:
+- **System templates:** `business_id: null`. LocalLane-drafted research. Visible to all FS users. Receive a lightweight legal disclaimer in the preview modal and as a footer on generated documents.
+- **Business-scoped templates:** `business_id` set to owning Business. Private to users with access to that business. No disclaimer — user's content, user's responsibility.
+
+Client-side partition per DEC-140 pattern (Read is authenticated; scoping enforced in frontend filter). Two-section UI on the Documents tab: "{{BUSINESS NAME}} TEMPLATES" above "DOCUMENT TEMPLATES" system section. Empty-state CTA opens the existing TemplateEditor. The 4 existing system templates are NOT migrated — they keep `profile_id` set and `business_id: null`.
+**Rationale:** Respects user IP: Bari's contracts stay private to Red Umbrella. Preserves LocalLane's value-add: the 4 lien templates remain the default starting point for any new contractor. Scoping at the Business level (not FSProfile) means multi-user businesses work: if Red Umbrella adds a second FSProfile, both see the same templates.
+**Status:** Active. Two templates loaded for Red Umbrella (`69ea7974c5f30ff25c860702`, `69ea797533163127a73aeef3`) — Bari-prep session 2026-04-23.
+
+---
+
+### DEC-164: Business-First Branding Composition in FS Document Rendering (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** The FSDocumentTemplate renderer composited branding from FSProfile only (company_name, owner_name, license_number, phone, email, website). Logo and banner URLs — stored on the Business record — never reached the document. Generated lien notices had no visible logo. For Bari's contracts, which reference his Red Umbrella branding in multiple sections, this was a correctness gap.
+**Decision:** `buildMergeData(profile, business, client, project, estimate)` reads from the Business record first, with FSProfile as fallback. New merge fields added: `{{business_name}}`, `{{business_phone}}`, `{{business_email}}`, `{{business_website}}`, `{{business_address}}`, `{{business_city}}`, `{{business_state}}`, `{{business_zip_code}}`, `{{business_full_address}}`, `{{business_logo_url}}`, `{{business_banner_url}}`, `{{business_license_number}}`, `{{business_tagline}}`, `{{owner_signature_name}}`, `{{owner_signature_email}}`, `{{owner_signature_phone}}`. Legacy `{{company_*}}` fields preserved and sourced from the same Business-first chain. `DocumentDetail` and the preview modal render a branded letterhead (logo + name + tagline) at the top of the rendered document.
+**Rationale:** Branding is a Business-level concern, not a workspace-level concern. FSProfile is a tool for field service operations; Business is the entity customers recognize. Pulling branding from Business keeps the contractor's identity consistent across multiple workspaces (Field Service, future Finance, future PM). Fallback chain to FSProfile preserves backward compatibility for profiles that predate the Phase 2 migration linking them to a Business.
+**Status:** Active. Shipped as part of Bari-prep session 2026-04-23. Extends DEC-163.
+
+---
+
+### DEC-165: Template Preview Before Commit (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** Prior document creation flow required a contractor to walk through the full 3-step wizard (client → template → content) before seeing the rendered template body. A contractor couldn't read the language of a lien notice or Bari couldn't preview his own contract without committing to a client + template selection. Reading legal language before filling in details is how real humans work with contracts.
+**Decision:** Every template card (system + user-owned, in both the main Documents tab templates section and inside the create flow's template step) becomes click-to-preview. Clicking opens a modal that:
+- Composites business branding from the viewer's Business record (logo + name + tagline at the top)
+- Renders per-client merge fields as visible bracketed placeholders: `[Client Name]`, `[Scope of Work]`, `[Subcontractor Name]`, etc.
+- Shows the legal disclaimer banner for system templates
+- Offers two CTAs: "Close" exits, "Use this Template" proceeds to the existing CreateDocumentFlow with the template pre-selected (new `initialTemplate` prop)
+- Closes on Escape key and backdrop click
+
+Document creation from the modal's "Use this Template" routes to the existing flow — the wizard is unchanged, only gated by preview confirmation.
+**Rationale:** Preview is how contracts work in the real world. It adds zero friction to the happy path (click card → preview → click "Use this Template" → same wizard) and eliminates a dark pattern (committing to a template before seeing its content). The bracketed-placeholder pattern makes the variable parts legible — the contractor sees exactly what will be filled in during creation.
+**Status:** Active. Shipped in Bari-prep session 2026-04-23.
+
+---
+
+### DEC-166: Bari-Prep User-Template Provisioning via Admin Migration Path (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** Bari paid an attorney to draft his Red Umbrella General Construction Contract and Subcontractor Agreement. The contracts are his IP. He needed them loaded into his workspace before the 2026-04-24 morning meeting so he could read them into real jobs. Having him paste thousands of characters of contract language into the "+ Custom" TemplateEditor during a meeting is bad UX and error-prone.
+**Decision:** Bari's two templates were loaded programmatically via a one-shot Node migration script (`src/scripts/migrations/load-bari-templates.js`) using a new `create_fs_document_template` action on the existing `migrationHelpers` server function. Pattern matches Phase 2 migration: shared-secret auth, `asServiceRole` write, idempotent on `business_id + title`, AuditLog row per create. Asset source files live at `base44-prompts/assets/bari-red-umbrella-construction-contract.md` and `bari-red-umbrella-subcontract.md` — complete with implementer-facing metadata headers and typo annotations preserved for repo documentation; the loader strips both (metadata header + italic `*(Note: ...)*` annotations) before writing so the server-stored content is clean contract body only.
+**Rationale:** Admin-provisioned user templates as a pattern applies beyond Bari. Any contractor who has existing attorney-drafted contracts will have this same need; asking them to paste contract bodies into a UI is wrong. The migration path is the cleanest surface — auditable, idempotent, reviewable.
+
+**Known limitation:** `rls.update: { created_by: "{{user.email}}" }` on FSDocumentTemplate means Bari cannot edit these templates via his client — the service role is the creator. Workaround documented: Bari creates a fresh copy via "+ Custom" if he wants to modify the language. Not blocking for tomorrow's meeting (use case is read-and-sign, not edit).
+
+**Source verbatim preservation:** Bari's typos are preserved in the rendered templates — Section 6 appears twice in the construction contract, Section 15 of the subcontract reads "fifteen percent (25%)", Section 21 has duplicate 21.2, Section 22 is missing 22.4. These are his language and get flagged in conversation with him, not silently corrected.
+**Status:** Active. Both templates loaded (`69ea7974c5f30ff25c860702` — General Construction Contract, `69ea797533163127a73aeef3` — Subcontractor Agreement). AuditLog rows `69ea7974395160c0cb100bf6` and `69ea7975450b88cc171192ba` written.
+
+---
+
+### DEC-167: Write-Mutation Schema-Conformance Audit Protocol (2026-04-23)
+
+**Date:** 2026-04-23
+**Context:** During the Bari-prep dogfood, a Template save via "+ Custom" returned `Failed to save template: Error in field merge_fields: Input should be a valid list`. Root cause: `TemplateEditor.handleSave` was wrapping the merge-fields array in `JSON.stringify(...)` before write, but the FSDocumentTemplate entity declares `merge_fields` as `type: array`. The bug was introduced in Phase 4 (DEC-085 era, commit 6ce2faa) and stayed dormant for months because:
+- System templates seed via `initializeWorkspace` which passes arrays natively
+- Bari's templates loaded via the migration script which passes arrays natively
+- No user had walked the "+ Custom" UI against live Base44 validation between Phase 4 and today
+
+The Bari-prep session added `business_id` to the template write path and audited the added field for correctness — but did not re-audit the full existing payload against the entity schema. The regression was not a Track A change; it was a dormant bug surfaced by the post-ship dogfood.
+**Decision:** Any session that modifies a write mutation — even tangentially — runs a schema-conformance audit on the **entire payload**, not just the diff. The audit is:
+1. Read the target entity's schema (jsonc reference or live Base44 definition).
+2. For each field the frontend sends, confirm the JS type matches the declared Base44 type.
+3. If the session has no path to a live-authenticated dev session (e.g., preview environment is unauthenticated), explicitly flag "save-path not live-tested" in the post-build report so the dogfood walkthrough is the first live-tested run.
+
+This protocol would have caught the `merge_fields` bug: the loop would have noted `JSON.stringify(...)` produces a string, the schema declares an array, mismatch, fix.
+**Rationale:** The gap that let the bug survive was not a coding error — the author of the Phase 4 code made a judgment call that turned out wrong. The gap is that no subsequent session that touched the write path audited for schema conformance. Making the audit explicit (not implicit) means future sessions will catch the mismatch even if they didn't author the line.
+**Related seedling:** "Shared Base44 entity schema validator module" — lifting the entity schemas into a TypeScript module that auto-validates write payloads would eliminate the class of bug entirely. Current protocol is process-based; future hardening is tooling-based. See SEEDLING-TRACKER.md (private).
+
+Links to Living Feet (DEC-146): the schema definition is "stone" (one source in Base44), but the payload shape is duplicated at every write site (currently feet). The schema-conformance audit is a process-level mitigation for this duplication. Derivation from a shared validator module is the architectural mitigation.
+**Status:** Active. Applies to all write-mutation sessions starting now. Extends DEC-140 (readTeamData as security boundary), DEC-141 (runtime logging before theorizing), DEC-145 (payload-first debugging).
+
+---
