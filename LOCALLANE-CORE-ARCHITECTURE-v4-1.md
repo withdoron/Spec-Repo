@@ -1,9 +1,15 @@
 # LocalLane Core Architecture — v4.1
 
 > Plain-English blueprint for how LocalLane works going forward.
-> Date: 2026-04-22
+> Date: 2026-04-22 (original), amendments 2026-04-24
 > Version: 4.1 (minor refinement of v4; supersedes v1, v2, v3, v4)
 > Incorporates v4 changes plus: per-entity $9 model ($9 per user account + $9 per business), LocalLane brand exempt from its own fee, processing fees as visible line items
+
+## Revision history
+
+- **2026-04-22** — v4.1 originally authored.
+- **2026-04-23** — Section 10 amended post-Phase 3 Build 1 (outward cockpit extension, DEC-168).
+- **2026-04-24** — Amendments: new subsection 3.1 (Region as scoping layer); major rework of Section 6 (Spaces belong to scopes, `enabled_spaces`); new subsection 10.1 (Cockpits as folder renderers); new subsection 13.1 (Hidden entities); full rewrite of Section 14 (folder-tree MyLane navigation); full restructure of Section 17 (Phases 1–10+). New Sections 18 (Regions & Federation), 19 (Direct Doors), 20 (Resurface Before Rebuild) inserted; the prior Section 18 (Deferred), 19 (Known Issues), 20 (Open Questions) are preserved and renumbered to 21/22/23 respectively. DEC-169 through DEC-173 logged in `DECISIONS.md`.
 
 ---
 
@@ -104,6 +110,24 @@ Networks, members, participating businesses, events all flow as separate relatio
     Operates: Runhub NW Running Community
 ```
 
+### 3.1 — Region as a scoping layer
+
+Above Business and User sits Region. Every user has a primary region. Every business belongs to a region. Every event belongs to a region. Region is a first-class entity, not a derived filter on address strings.
+
+Round 1 begins with a single region: Lane County, Oregon. All existing users, businesses, and events are backfilled to this region. As LocalLane grows beyond Lane County, each new community becomes its own region — with its own directory, its own events, its own network roster, and eventually its own local lead.
+
+Regions have lifecycle states:
+
+- **Seed.** One or more interested neighbors have signed up, but the community is not yet active. Directory and events for this region are empty. The region exists as a placeholder so that users landing there have a home. Seed users can use their Personal surface and browse other active regions.
+- **Sprouting.** A threshold of interest has been reached — some number of neighbors plus a local lead willing to nurture the region. Businesses can begin joining. The directory populates. Events begin.
+- **Established.** The region functions fully. Full directory, active events, networks operational, community pass functional.
+
+The transition between states is gardened, not automated. A human at LocalLane (or eventually, a regional representative) decides when a seed becomes sprouting, and when sprouting becomes established. Living feet: the structure supports any pace a community chooses.
+
+This is how the organism spreads. A user visits Eugene, experiences LocalLane, returns home to Salem where no region yet exists. Their interest creates Salem-as-seed. They invite their neighbors. Salem grows into sprouting, then established — at its own pace, with its own local shape. LocalLane does not "expand to Salem" by corporate decision. Salem grows into LocalLane by community energy.
+
+The same data model supports the ten-year arc toward federation. Today all regions share one database, scoped by `region_id`. Tomorrow, any region that grows enough can be peeled off to its own instance, with federation protocols syncing aggregate data back to a shared directory layer. No rewrite required — the `region_id` on every record is already the seam.
+
 ---
 
 ## 4. Businesses
@@ -167,32 +191,57 @@ A user can be:
 
 ## 6. Spaces and Tools
 
-**A space is where work happens.** Three kinds:
+### 6.1 — Spaces belong to scopes
 
-**Business spaces — tools inside a business dashboard:**
+Every space exists within a scope. The same space (Finance, Events) renders differently depending on which scope it's inside.
 
-- **Desk** (formerly Jobsite / Field Service) — work management. Clients, projects, estimates, daily logs, materials, labor, invoices, payments. Universal across archetypes: contractors, CPAs, therapists, yoga teachers, dog walkers, anyone with clients. Renamed in Phase 4 of Round 1.
-- **Finance** (business flavor) — the business's books.
-- **Events** — events hosted by this business, public or private.
-- **Property Pulse** — rentals. Units, tenants, rent, maintenance.
-- **Storefront** (future) — e-commerce for retail.
-- **Market Stand** (future) — simple product listing + inventory + payment methods for micro-producers (Harvest Network participants).
-- **Network** (future, Round 4) — operate your own network (paid or free) with participating businesses and members.
+Scopes, in order of containment:
+- **Personal scope.** Spaces belonging to the user themselves.
+- **Business scope.** Spaces belonging to a specific business the user operates.
+- **Network scope (Round 4+).** Spaces belonging to a network the user has joined.
 
-A business turns tools on and off as needed. A business with just a directory listing and no active tools is valid. No tool is required; none is forced.
+A user with three businesses has Finance inside Personal (their personal books), Finance inside Business A, Finance inside Business B, Finance inside Business C — four distinct Finance surfaces, each rendering only its scope's data.
 
-**Personal spaces — attached to the user:**
+### 6.2 — Personal spaces
 
-- **Home** — MyLane's entry surface. Automatic.
-- **Discover** — navigable space. Entry point to explore from. Not a buffet. Dark-until-explored preserved.
-- **Personal Finance** — household books.
-- **Meal Prep** — family food.
-- **Networks** — aggregated view of all networks the user is a member of (visible when they've joined any).
-- **Playmaker** — appears when user has parent/coach/player role somewhere.
+The defaults inside Personal:
 
-**Settings** is accessed via avatar in the app header — not on the spinner. Keeps work separate from configuration.
+- **Home.** The user's landing surface. Attention items, this week, personal organism pulse.
+- **Personal Finance.** Books scoped to the user.
+- **Meal Prep.** Household food planning.
+- **Playmaker (contextual).** Appears only for users with a Playmaker role (parent, coach, player).
+- **Networks (contextual).** Appears for users who have joined any network — one folder that nests their joined networks.
 
-**Future: user-pinned spaces.** A user can decide which spaces appear on their spinner, hiding what they don't use and pinning favorites. This is Round 3+ work.
+Additional personal spaces may be enabled over time. The default set stays small.
+
+### 6.3 — Business spaces
+
+The defaults inside a business, at creation:
+
+- **Desk.** The operational home of the business. Clients, projects, logs, estimates, documents, people. Combines what was previously called Jobsite and Home inside a business — there is no separate "Home" inside a business because Desk is the home of business work.
+- **Finance.** Books scoped to this business.
+- **Profile.** The business's public-facing directory presence. Logo, tagline, services, gallery, contact, financing, blog. Eventually, the full public website.
+- **Settings.** Business-level configuration. Listing visibility, branding, enabled spaces, billing.
+
+Additional business spaces, available via "+ Add Space":
+
+- **Events.** Event organizing for businesses that run them (Recess, Harvest Network member farms, art studios).
+- **Network.** For businesses that operate their own network (Recess, future Harvest Hub, future Creative Alliance).
+- **Property Pulse.** For businesses managing rentals.
+- **Storefront (future).** For businesses with physical retail or e-commerce.
+- **Kitchen (future).** For food businesses with menu, inventory, supply chain.
+
+A business starts lean with four spaces. As its needs grow, it adds spaces. Each space is data — enabled or disabled per business via its `enabled_spaces` field — not code. Adding a space for your business does not require a deploy.
+
+### 6.4 — The `enabled_spaces` field on Business
+
+Business gains a field: `enabled_spaces: array<string>`. Default at creation: `["desk", "finance", "profile", "settings"]`. Users can add or remove spaces in business Settings. Data for disabled spaces is retained (not deleted), simply hidden from the spinner until re-enabled.
+
+Backfill strategy for existing businesses: inspect actual data. A business with FS data gets Desk. A business with finance transactions gets Finance. Every business gets Profile and Settings. Additional spaces added by explicit inspection of what each business currently uses.
+
+### 6.5 — Dark-until-explored applied to spaces
+
+Per DEC-117, spaces follow dark-until-explored. A business that has never used Events doesn't see Events in its spinner until explicitly adding it. A user who has not joined any network doesn't see Networks in their Personal folder. The cockpit shows what the user has, not what they could have.
 
 ---
 
@@ -319,6 +368,20 @@ Cockpits also extend **outward** into business-depth — each cockpit is respons
 
 **Physics toggle** is experimental. Pending. May grow or retire.
 
+### 10.1 — Cockpits as folder renderers
+
+The cockpit is the UI chrome for navigating a folder tree. Each folder in the tree contains either sub-folders or a workspace. The cockpit renders whichever it finds.
+
+At the root, the cockpit shows universal folders (Directory, Events, Personal, Businesses) plus any contextual folders the user has earned (Playmaker if they have a role, Networks if they've joined any, Admin if they are one).
+
+Inside a folder, the cockpit shows that folder's contents — which may themselves be folders (Businesses → your businesses → one business → its spaces) or workspaces (a specific space's tools).
+
+Workspace renders below the cockpit only at the leaf level. At non-leaf levels, the area below the cockpit shows a preview pulse — living-tile language describing what's alive in the folder currently centered on the spinner. This gives the user context about what they're navigating toward before they enter.
+
+This extends section 10's principle of "spinner dissolves as you descend" to include lateral dissolution: the cockpit can also dissolve into a sibling-selection mode (the business switcher, per DEC-168) when the user wants to switch which branch of the tree they're operating within.
+
+Different cockpit styles (Spinner, Bearing, future Voice) each render folder navigation in their own visual language. The folder tree is identical across cockpits; the rendering differs. A user switches cockpits in Settings and sees the same underlying structure through a different lens.
+
 ---
 
 ## 11. Stripe and Payments
@@ -403,22 +466,61 @@ Every listed business (public) appears as a **living tile** in the directory. No
 
 **Browsing remains free for everyone.**
 
+### 13.1 — Hidden entities
+
+`listed_in_directory: false` is the mechanism for hidden entities. Mycelia, LLC is the first hidden entity — visible operationally to its owner (for consolidated books and tax filing) but absent from the public directory and from other users' surfaces. No separate `is_hidden` field is needed.
+
+Directory queries must filter on `listed_in_directory !== false`. The owner's own surfaces do not apply this filter — owners see their full tree including hidden entities.
+
 ---
 
 ## 14. MyLane Navigation
 
-**At home:** The cockpit shows:
-- Your businesses as chips/tiles/bearings (per active cockpit)
-- Your personal spaces (Discover, Finance, Networks if joined, Playmaker if role exists)
-- Settings via avatar in header (not on main cockpit)
+MyLane is the user's navigable view of their slice of the organism. It is structured as a folder tree. Every path through MyLane is a path through the tree. The URL reflects the path.
 
-**Spinner dissolves as you descend.** Tap Businesses → secondary spinner of individual businesses. Tap TCA → TCA dashboard. One level at a time.
+### 14.1 — The folder tree
 
-**Breadcrumb appears when past home:** `MyLane › TCA › Desk`. Tappable segments; jump back to any level with one tap.
+At the root:
+- **Directory** (universal). Browse businesses across the organism, scoped to the user's region by default.
+- **Events** (universal). Browse events across the organism, scoped to the user's region by default.
+- **Personal** (universal for members). The user's personal spaces: Home, Personal Finance, Meal Prep, Networks (if joined), Playmaker (if applicable).
+- **Businesses** (universal for members). The user's businesses. Nested: each business is a folder containing that business's spaces.
+- **Admin** (contextual). Appears for users with admin role. The bird's-eye admin hub.
+- **Playmaker** (contextual). Appears for users with any Playmaker role.
+- **Networks** (contextual). Appears when the user has joined any network. Nests their joined networks.
 
-**MyLane button always in header.** One tap returns home regardless of depth.
+### 14.2 — Header elements
 
-**Context is always clear.** Visual identity carries through every screen.
+- **Left: LocalLane logo.** Tap returns to root at any depth.
+- **Right: Frequency Station glyph, small gap, avatar.** Frequency Station is tier-gated in its full functionality; avatar opens settings, themes, account, feedback (when resurfaced), sign out.
+
+### 14.3 — Addressable navigation (direct doors)
+
+Every folder and every workspace in MyLane is addressable by URL. Full paths include the scope's slug. Examples:
+
+- `/mylane` — root
+- `/mylane/personal` — Personal folder
+- `/mylane/personal/finance` — user's Personal Finance workspace
+- `/mylane/businesses` — Businesses folder
+- `/b/red-umbrella` — Red Umbrella's folder (or its public profile, depending on auth)
+- `/b/red-umbrella/desk` — Red Umbrella's Desk workspace (authenticated operators)
+- `/b/red-umbrella/profile` — Red Umbrella's Profile workspace / public page
+
+The `/b/{slug}` form is the canonical direct door into a business. It renders public profile for unauthenticated visitors and tools for authenticated operators — same URL, auth-aware rendering.
+
+URL is the primary source of scope. `useActiveBusiness` and related hooks read from URL first, localStorage second.
+
+### 14.4 — Descent, return, and lateral switching
+
+- **Descent:** tap the centered folder in the cockpit to enter it. The cockpit reforms to show that folder's contents.
+- **Return:** tap the LocalLane logo (back to root) or the back affordance (up one level) to ascend.
+- **Lateral switching within a folder:** per DEC-168, tap the space-name pill to switch which sibling branch you're operating within, using the cockpit's native visual language. This is most useful for business switching but applies anywhere lateral movement makes sense.
+
+### 14.5 — Workspace at the leaf
+
+When the user descends to a space (leaf), the cockpit stays at the top of the viewport as the space selector within that business. The area below becomes the actual workspace. Swipe / tap to switch between spaces within the business; the workspace below updates accordingly.
+
+Only at leaves does the cockpit occupy the same screen as workspace content. Above leaves, the screen is cockpit + preview pulse.
 
 ---
 
@@ -447,66 +549,27 @@ LocalLane appears in Eugene's physical world through stickers. Chanterelle mushr
 
 ## 17. Round 1 — The Business Foundation
 
-Six phases, adapted from Hyphae's design review (rejecting the five-phase version I proposed earlier as too big and mis-sized).
+**Phase 1 (shipped).** Entity schema foundation. Nullable `business_id` on all FS entities. `AuditLog` entity. Public-page-reserved fields on User. Brand fields on Business.
 
-### Phase 0 — Decisions (complete)
+**Phase 2 (shipped).** Schema foundation + reparenting. Mycelia, LLC created as hidden parent. LocalLane, TCA, Recess reparented under it. Red Umbrella established as Bari's first-class business. Bari flagged `is_legacy_user: true`.
 
-All six decisions Hyphae required are settled:
+**Phase 3 (shipped).** Cockpit-native business switcher (DEC-168). Shared `useActiveBusiness` hook. `MyLaneDrillView` drill fix. OverlayContainer close button. TDZ patch, commit-handler patch.
 
-- **Business implementation:** scoped-peer (not nested container). Tools get `business_id` field; render filtered to active business.
-- **DEC-115 transition:** clean deprecation. No one is paying; no grandfather complexity.
-- **Billing math:** $9 per entity. Each user account, each public-facing business. LocalLane-the-brand is exempt (circular). Hidden entities don't count. Doron's case: $36/mo ($9 personal + $9 each for TCA, Recess, Consulting).
-- **DEC-117 preservation:** Discover remains a navigable space but "dark-until-explored" holds. Entry point, not buffet.
-- **Settings placement:** stays in avatar. Not on cockpit. Personal profile access secondary (Round 2).
-- **FS rename communication:** Doron will explain in person to Bari and Dan. No in-app notice needed for such small user base.
+**Phase 3.5 (upcoming — direct doors foundation).** Slug backfill and reserved-word enforcement. `/b/{slug}` path routing. Public vs authenticated rendering on business URLs. Minimum-viable public Profile view. `react-helmet` meta tag management. Bari's first shareable URL.
 
-### Phase 1 — Schema Foundation (no UI changes)
+**Phase 4 (upcoming — folder architecture).** Top-level cockpit restructure (universal + contextual root folders). Nested navigation (root → folder → sub-folder → workspace). Home→Desk collapse. Preview pulse at non-leaf levels. Spaces add/remove mechanic. Default business spaces at creation. Directory toggle (formerly Phase 3 Build 2, absorbed here). Desk rename pass (92 strings across ~40 files).
 
-- Add to Business: `legal_name`, `display_name`, `listed_in_directory`, `brand_color`, `logo_url`, `tagline`, `location_precision`, `parent_business_id`. All nullable.
-- Add to User: `bio`, `latitude`, `longitude`, `page_public_toggle`, `geocoded_at`. All nullable.
-- Add `business_id` (nullable) to all 10 FieldService entities: FieldServiceProfile, FSClient, FSProject, FSEstimate, FSDocument, FSPermit, FSDailyLog, FSMaterialEntry, FSLaborEntry, FSPayment.
-- Create `AuditLog` entity: entity, entity_id, action, old_value, new_value, user_id, timestamp.
-- Add `archived_at`, `archived_by` to FS profiles and Business.
-- Commit `src/scripts/migrations/TEMPLATE.ts` showing dry-run + audit-log pattern.
-- **First task: produce production record manifest** — Hyphae queries Base44 to produce verified list of all Business records (with owner, state, flags), all FieldServiceProfile records (with owner, state), User counts, Doron's specific records. Flags orphans.
-- **Backfill dry-run script:** For each FieldServiceProfile, map to its owner's Business via owner_user_id → businesses they own. Report ambiguous cases (user with >1 business requires manual mapping).
-- Deploy schema. Verify Bari and Dan unaffected.
+**Phase 4.5 (upcoming — admin & feedback).** Admin root folder (contextual, Doron-only until authority model extends). Admin lens inside every space (authority-aware affordances). Feedback resurfaced as persistent affordance. Other buried surfaces resurfaced as found.
 
-### Phase 2 — Reparenting Machinery (no UI changes)
+**Phase 5 (upcoming — custom domains & profile growth).** Custom domain support per-business (white-glove config). Profile space grows to full business-website capability. SSR or pre-render strategy for SEO-dependent businesses. Business-website replacement pitch becomes deliverable.
 
-- `reparentBusiness()` server function with idempotent steps, audit logging, rollback on failure.
-- Dry-run framework.
-- First real reparent: create Mycelia, LLC record; reparent Doron's Recess under it. This is the production smoke test.
+**Phase 6 (upcoming — region foundation).** Region entity added. Backfill Lane County on all existing records. Region-scoped queries on Directory and Events. Region lifecycle states (seed, sprouting, established). No cross-region UI yet, no regional leads — just foundation.
 
-### Phase 3 — Business Switcher + Directory Toggle
+**Phase 7 (upcoming — membership gate).** Legacy grace period. $9 membership activation. $18 personal assistant tier. Workspace billing for revenue tools. DEC-115's gating pattern live.
 
-- MyLane shell switcher for multi-business users. Persist active business to localStorage.
-- Fix `MyLaneDrillView.jsx:53` to use selected business instead of `[0]`.
-- Directory query respects `listed_in_directory` (separate from `is_active`).
-- Settings toggle for listing visibility.
-- Single-business users see no change; multi-business users get the switcher.
+**Phase 8+ (upcoming — national expansion).** Cross-region browsing UI. Regional lead authority (specialization of the gardener/authority model). Regional branding overlays. Seed-to-sprouting transition automation (or semi-automation).
 
-### Phase 4 — Desk Rename + Business-Scoped Rendering
-
-Only after FS has `business_id` and switcher exists.
-
-- Rename pass: Jobsite → Desk (92 strings across ~40 files).
-- Render Desk inside business-scoped view — the "business dashboard" implemented as filter + layout, not new container component.
-- Test against Bari's live workspace first.
-- Doron communicates rename in person to Bari and Dan.
-
-### Phase 5 — Membership Gate
-
-- Add `active_member` field on User.
-- Gate at action level (per-space configuration). Don't gate browsing.
-- Pop-up prompt for non-members hitting gated actions.
-- Stripe Connect wiring comes in Round 2 — Phase 5 can operate with temporary manual override until then.
-
-### Phase 6 — Onboarding Fork + Tool Suggestions + Personal Spaces Cleanup
-
-- Onboarding asks: "new business or brand under existing?"
-- Tool suggestions based on user's description.
-- Verify Home and Settings are correctly already in place. Discover remains a space but respects DEC-117 (dark-until-explored, not auto-populated).
+**Phase 10+ (ten-year arc).** Federation. Regional instances on local hardware. Aggregate sync protocols. Community-owned data.
 
 ### Phases as Hyphae-sized sessions
 
@@ -514,7 +577,111 @@ Each phase is scoped to fit a single focused Hyphae session (under 400 messages)
 
 ---
 
-## 18. Deferred
+## 18. Regions & Federation
+
+### 18.1 — Region as data
+
+The Region entity has these fields at minimum: `name`, `slug`, `state`, `founded_date`, `region_lead_user_id` (nullable), `is_active`, `lifecycle_state` (seed / sprouting / established), `created_date`.
+
+Every User has `region_id` (their primary region). Every Business has `region_id` (the region they operate in). Every Event has `region_id` (the region they happen in). Every Network may have `region_id` (for regional networks) or be cross-regional (national networks).
+
+Round 1 begins with one region: Lane County, Oregon. All existing records backfill to it. This is a Phase 6 migration (as restructured in Section 17).
+
+### 18.2 — Region-scoped queries
+
+Directory and Events default to querying within the user's primary region. Cross-region browsing is allowed via explicit action — a toggle or a path-prefixed URL like `/r/multnomah/directory`. The default experience is local; the optional experience is broader.
+
+### 18.3 — The carried-in-the-wind mechanic
+
+When a user accesses LocalLane from a location outside any active region, they are not turned away. They become a seed for their location. Their interest plants a region. The region exists in seed state until threshold is reached and a local lead is identified.
+
+This is the growth mechanic. The organism spreads by interest, not by corporate expansion. A visitor to Eugene who experiences LocalLane and returns home becomes the founder of their hometown's LocalLane simply by caring about it.
+
+### 18.4 — Region leads
+
+When a region reaches sprouting state, it needs a local lead — a neighbor willing to cultivate the community within it. Region leads have elevated authority within their region (can curate, invite, moderate) but do not have authority outside it. This is an instance of the general authority/gardener model parked in Section 8, scoped to region.
+
+### 18.5 — Federation (Round 10+)
+
+Long-term, each active region may choose to run its own LocalLane instance on modest local hardware — a community data center — federated to the wider organism via aggregate sync protocols (similar in spirit to Mastodon or Matrix, adapted to the organism's shape). This is explicitly deferred to Round 10+. What Round 1 must do is make it possible: every record is tagged with `region_id`, so a region's data can be extracted cleanly when the time comes. No rewrite required.
+
+### 18.6 — The brand
+
+"LocalLane" operates nationally by letting "local" mean the user's local. Each region's LocalLane is that region's LocalLane. Regional tagline variants are permissible (LocalLane · Lane County, LocalLane · Multnomah County) without changing the brand. The word "Lane" carries the semantic of "a way, a path, your way" — naturally scaling beyond its Lane-County origin.
+
+---
+
+## 19. Direct Doors
+
+### 19.1 — Purpose
+
+Every business (and eventually, every user and every network) in LocalLane has an addressable URL that serves as both a public-facing surface for unauthenticated visitors and an authenticated entry for operators. These are called direct doors. They make LocalLane addressable the same way the open web is addressable.
+
+Direct doors serve users as much as they serve the platform. A business shares their door with their clients; clients reach the business without the platform being in the way. The platform, meanwhile, gains every direct door as a pointer back — a business sharing their URL 50 times a year is 50 new impressions for the organism.
+
+### 19.2 — URL structure (Round 1 — path-based)
+
+Because wildcard subdomains are not currently supported on Base44's infrastructure, Round 1 direct doors are path-based:
+
+- `/b/{business-slug}` — a business's direct door
+- `/u/{user-slug}` — a user's direct door (Round 2+)
+- `/n/{network-slug}` — a network's direct door (Round 4+)
+- `/e/{event-slug}` — an event's direct door (Round 2+)
+- `/r/{region-slug}` — a region's direct door (Round 6+)
+
+The prefix pattern (`/b/`, `/u/`, etc.) is explicit and extensible. Reserved top-level paths are the app's own (`/mylane`, `/directory`, `/events`, `/settings`, etc.). Slug generation must check against a reserved-word list and against other slugs within the same scope.
+
+### 19.3 — URL structure (Round 2+ — custom domains)
+
+Base44 supports custom domains per-business. A business may point their own domain at Base44; the app recognizes the domain and renders that business's surface. Example: Bari points `redumbrellaservices.com` at Base44; visits to that domain render Red Umbrella's business surface as if they had gone to `/b/red-umbrella`, but with the custom domain in the URL bar.
+
+Setup is white-glove per-business in Round 2 (manual DNS on business's side, manual dashboard config on our side). Self-service flow is Round 4+.
+
+### 19.4 — Public vs authenticated rendering
+
+Same URL, different view based on auth state.
+
+- **Unauthenticated visitor** to `/b/red-umbrella`: sees public profile — logo, tagline, services, gallery, contact form. No login prompt, no redirect. This is an open door.
+- **Authenticated operator** of Red Umbrella at `/b/red-umbrella`: sees business tools — Desk, Finance, etc. This is the operator's workplace.
+- **Authenticated non-operator** (another LocalLane user) at `/b/red-umbrella`: sees the public profile with additional member-context (contact directly via LocalLane message system when that ships, see full profile).
+
+This requires Base44's App Visibility be set to Public at the platform level, with per-component auth-aware rendering inside.
+
+### 19.5 — SEO & discoverability
+
+Base44 currently supports client-side rendering only; no SSR. This affects how search engines index business profiles. Round 1 strategy:
+
+- Use `react-helmet` or equivalent to manage per-route meta tags dynamically.
+- Ensure every public profile has a title, description, Open Graph tags, and canonical URL.
+- Base44's auto-generated sitemap at `/sitemap.xml` includes public routes.
+- Accept that rankings will be slower to build than server-rendered sites.
+- Track SSR availability on Base44's roadmap; upgrade when available.
+
+Businesses currently operating their own SEO-ranked site (like Bari's WordPress site) should be advised transparently: replacing their current site with LocalLane in Round 1 may affect search rankings until SSR is solved. The full website replacement pitch is Round 2+ when we have a pre-render or SSR story.
+
+### 19.6 — Business Profile space as eventual website
+
+The Profile space inside a business is the long-term target for replacing standalone business websites. Round 1 Profile is minimum-viable (logo, tagline, services, gallery, contact). Round 2+ Profile grows to include blog, extended process descriptions, service detail pages, financing, testimonials — the full feature set of a traditional small-business website.
+
+When a business reaches the point where their LocalLane Profile matches or exceeds their current site, they can switch: point their domain at LocalLane, retire their WordPress hosting, operate their public presence inside the organism.
+
+---
+
+## 20. Resurface Before Rebuild
+
+LocalLane has accumulated useful surfaces during iteration that got buried as the architecture evolved. A persistent feedback affordance. An admin panel. Others yet to be identified.
+
+When a previously-built surface is needed in the current architecture, the first action is to find the existing component in the codebase and wire it into the new cockpit structure. The action is not to rebuild from scratch.
+
+This preserves accumulated design intent. It respects the work already done. And it catches buried capabilities before they become forgotten entirely.
+
+Operationally: when Doron says "we used to have this," Hyphae's first step is to grep the codebase for the relevant component. If found, wire it into the current architecture. If not found, reconstruct from git history before rebuilding. Only rebuild if the original is genuinely lost.
+
+This principle applies to entire surfaces (admin panel, feedback form) and to smaller affordances (keyboard shortcuts that used to work, empty states that used to have helpful copy). The resurface pass is part of Phase 4.5 work but the principle applies throughout.
+
+---
+
+## 21. Deferred
 
 Not blocked. Not built yet.
 
@@ -535,7 +702,7 @@ Not blocked. Not built yet.
 
 ---
 
-## 19. Known Issues — Separate Investigation (Completed)
+## 22. Known Issues — Separate Investigation (Completed)
 
 Hyphae's directory investigation (April 22, 2026) resolved:
 
@@ -548,7 +715,7 @@ Hyphae's directory investigation (April 22, 2026) resolved:
 
 ---
 
-## 20. Open Questions — Things We'll Learn by Doing
+## 23. Open Questions — Things We'll Learn by Doing
 
 - What does Desk look like when a CPA uses it for client engagements vs. a contractor for projects?
 - How do network memberships show in Personal Finance (as recurring expenses)?

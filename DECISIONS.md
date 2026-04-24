@@ -833,3 +833,53 @@ Links to Living Feet (DEC-146): the schema definition is "stone" (one source in 
 **Status:** Active. Spinner implementation shipped in Phase 3 Build 1. Bearing cockpit implementation deferred to whichever session next touches Bearing — leave a TODO at the Bearing entry point so the next gardener picks it up.
 
 ---
+
+### DEC-169: Folder Architecture (2026-04-24)
+
+**Date:** 2026-04-24
+**Context:** Phase 3 Build 1 shipped a flat-spinner model (one row of space tiles at the surface). As businesses accumulate their own spaces and the user surface fills with universal + contextual folders (Directory, Events, Personal, Businesses, Admin, Playmaker, Networks), a single flat spinner does not scale. The question is whether to build yet another bespoke navigation shape or recognize that cockpits are already folder renderers in disguise.
+**Decision:** Cockpits render folders at each depth. Root folders are universal (Directory, Events, Personal, Businesses) plus contextual (Playmaker, Networks, Admin — appearing based on user state). Inside each root folder, the tree continues — Businesses contains your businesses, each business contains its spaces, etc. Workspace renders only at the leaf. Above the leaf, the cockpit shows sub-folders with a preview pulse below. Living feet: the folder tree is queried against user state, not hardcoded.
+**Rationale:** A single data shape (a tree) carries all navigation. The cockpit's job becomes "render the current folder" — the same job at every depth. Adding a new space type, a new contextual folder, or a new cockpit style is a rendering concern, not a navigation redesign. This also makes the switcher (DEC-168) structurally consistent: it is the cockpit dissolving laterally across a folder's siblings rather than descending into one.
+**Status:** Active. Related: DEC-155 (scoped-peer), DEC-117 (dark-until-explored), DEC-146 (living feet), DEC-168 (cockpit-native switcher). Effective: Phase 4 implementation.
+
+---
+
+### DEC-170: Home Collapses Into Desk Inside a Business (2026-04-24)
+
+**Date:** 2026-04-24
+**Context:** Early MyLane had a "Home" tile at the surface that served both as the user's landing surface and as an implicit stand-in for a business's landing surface when one was selected. As the folder architecture (DEC-169) separates Personal scope from Business scope, the double meaning breaks — Home belongs to the user, not the business.
+**Decision:** There is no separate "Home" space inside a business. Desk is the home of business work. The current flat cockpit's Home tile is obsolete as a business-scope space; a user-scope Home tile lives inside Personal.
+**Rationale:** A space should mean one thing in each scope. "Home" made sense when scope was implicit; once Personal and Business scopes are explicit (DEC-169), Home is only a Personal concept. Desk is where the operator goes to see client activity, projects, and logs — the operational center — which is what "home inside a business" was gesturing at.
+**Status:** Active. Effective: Phase 4 implementation.
+
+---
+
+### DEC-171: Direct Doors Are Path-Based for Round 1 (2026-04-24)
+
+**Date:** 2026-04-24
+**Context:** Every business (and eventually user, network, event, region) needs an addressable URL that works as both a public-facing surface and an authenticated entry for operators. Subdomains (`red-umbrella.locallane.app`) are the ideal shape — DEC-121's "subdomain-as-hypha" growth model points there. But Base44's current infrastructure does not support wildcard subdomains. A Round 1 implementation has to work on what exists, not on what is promised.
+**Decision:** Base44 does not support wildcard subdomains. Direct-door URLs use path prefixes: `/b/{slug}` for businesses, with analogous patterns for users, networks, events, and regions as those scopes ship. Custom domains per-business are supported for Round 2+ (white-glove config in R2, self-service in R4+). URL is the primary source of scope for `useActiveBusiness` and related; localStorage is fallback persistence.
+**Rationale:** Paths ship today without infrastructure blocking. The `/b/{slug}` form is canonical and survives the eventual subdomain migration — both resolve to the same business entity. Making URL the primary scope source (with localStorage as fallback) means a direct door like `/b/red-umbrella/desk` works for anyone, even a user who was mid-flow in another business; the URL overrides the stored preference because URLs are explicit intent.
+**Status:** Active. Effective: Phase 3.5 implementation. Related: DEC-155, DEC-168.
+
+---
+
+### DEC-172: Region as First-Class Entity with Lifecycle States (2026-04-24)
+
+**Date:** 2026-04-24
+**Context:** Round 1 today has one community — Lane County, Oregon. As LocalLane grows, each new community must be able to join at its own pace without a platform rebuild. Treating region as a filter on address strings makes growth fragile (addresses change, spellings vary, borders blur). Treating region as a first-class entity from the start means the data model already carries the seam for every downstream concern: region-scoped directories, regional leads, eventual federation.
+**Decision:** Region is an entity with `name`, `slug`, `state`, `founded_date`, `region_lead_user_id`, `is_active`, `lifecycle_state` (seed / sprouting / established). Every user, business, event has `region_id`. Users in unfounded regions become seeds of those regions — "carried in the wind" growth. Phase 6 implements the entity + backfill (single region: Lane County); Phase 8+ adds cross-region UI and regional leads; Phase 10+ enables federation.
+**Rationale:** The lifecycle states (seed / sprouting / established) make it safe to let a region exist before it has activity — the platform doesn't turn away a visitor from an unfounded community, it plants their interest as a seed. The data shape also supports the ten-year arc: every record already tagged with `region_id` can be peeled off to a regional instance without rewrite. Region leads are an instance of the authority model parked in Section 8, scoped to region — not a separate concept.
+**Status:** Active. Effective: Phase 6 implementation. Related: DEC-115 (legacy grace), DEC-146 (living feet), the authority model parked at Section 8 of `LOCALLANE-CORE-ARCHITECTURE-v4-1.md`.
+
+---
+
+### DEC-173: Resurface Before Rebuild (2026-04-24)
+
+**Date:** 2026-04-24
+**Context:** LocalLane has accumulated useful surfaces during iteration that got buried as the architecture evolved — a persistent feedback affordance that used to hover bottom-right, an admin panel that used to live at `/Admin`, helpful empty-state copy that used to guide new users, keyboard shortcuts that used to work. "We used to have this" is a signal that the work already exists somewhere in the codebase or git history; rebuilding from scratch discards that work.
+**Decision:** When a previously-built surface is needed in the current architecture, the first action is to find the existing component in the codebase and wire it into the current structure. Rebuilding from scratch is the last resort, taken only if the original is genuinely lost (not findable in code or git history).
+**Rationale:** Preserves accumulated design intent — the original surface was built with specific UX decisions, copy choices, edge cases handled. Respects the work already done. Catches buried capabilities before they become forgotten entirely. Operationally: Hyphae's first step on any "we used to have X" prompt is `grep` + `git log --follow`; rebuild is last resort. Applies across all future phases, not scoped to any specific one — a standing rule.
+**Status:** Active. Applies across all future phases, not scoped to any specific phase. Related: DEC-146 (Living Feet — don't duplicate what already exists as one thing).
+
+---
