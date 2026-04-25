@@ -136,21 +136,32 @@
 - [x] **Phase 3: Jobsite → Desk vocabulary rename** (2026-04-24, Build C `9598128`, DEC-170) — three PLATFORM-LABEL changes; FieldServiceAgent persona preserved; user content preserved
 - [x] **Phase 3: Cockpit centering on wide viewports** (2026-04-24, Build D `47d1af2`) — removed dead `.mylane-content-area.panel-open` margin-right rule
 - [x] **Phase 3: Service area structured editor** (2026-04-24, Build E `7c21c3e`, DEC-174) — `src/config/laneCountyTowns.js` (21 towns) + `TownMultiSelect.jsx` reusable component; universal across archetypes; legacy strings preserved with owner-only annotation
-- [ ] **Phase 3: Build F — multi-category support + SDK wrap into `src/api/`** (closes Phase 3; bundled because F touches many files anyway; first migration-prep seam hardening per DEC-175)
-- [ ] **Phase 3: Build G — Desk tile icon swap** (cosmetic ~15 min)
-- [ ] **Phase 3: Build H — workspace content centering on wide monitors** (cosmetic; needs more thought; defer past Build F)
-- [ ] **Phase 3.5: Direct doors `/b/{slug}`** (DEC-171 — path-based for Round 1; custom domains Round 2+)
-- [ ] **Phase 4: Desk implementation rename + business-scoped rendering** (DEC-160, DEC-156) — code-tier rename; tools filter by `business_id` when in a business context
-- [ ] **Phase 5: Membership gate** — $9/mo per entity per DEC-155, with LocalLane exempt; re-tightens FSProfile/User `rls.update`
+- [x] **Phase 3: Build F — multi-category support + SDK wrap into `src/api/`** (2026-04-25, three commits `946b9eb` / `cd8d700` / `bb76fbc` — F.1 SDK wrap foundation + businessCategories config hoist; F.2 TownMultiSelect → SlugMultiSelect rename; F.3 wire SlugMultiSelect into BusinessSettings + Directory pill filter patch + `updateProfile()` wrap amendment per DEC-177)
+- [x] **Phase 3: Build G — Desk tile icon swap** (2026-04-25, `a2c46b5` — HardHat → Briefcase)
+- [x] **Phase 3: Build H — workspace content centering on wide monitors** (2026-04-25, `9c3d080` — closes Phase 3)
+- [x] **Base44 schema fix:** `Business.service_area` field type `string` → `array<string>` (2026-04-25, DEC-178 codifies the pairing rule)
+- [ ] ~~**Phase 3.5: Direct doors `/b/{slug}`**~~ — **Deferred to post-migration per DEC-179.** Bari has redumbrellaservices.com, no farmers-market URL pressure; build once on post-migration stack.
+- [ ] **Phase 4: Desk implementation rename + business-scoped rendering** (DEC-160, DEC-156) — code-tier rename; tools filter by `business_id` when in a business context. Plus: MyLaneSurface hook reordering, MyLaneDrillView latent bug fix, eslint-plugin-react-hooks exhaustive-deps enforcement, resurfacing buried surfaces per DEC-173.
+- [ ] **Phase 4.5: Seedlings** — Admin Impersonation, post-migration welcome flow
+- [ ] **Phase 5 (NEW): Pre-migration cleanup** (DEC-180) — dead code removal, unused entity audit, archetype/main_category/sub_category_id consolidation into `subcategories[]`, walking-the-app cleanup findings:
+  - [ ] Remove `legacyCategoryMapping` (`categoryData.jsx:229-240` — pre-DEC-055 IDs)
+  - [ ] Remove `BusinessEditDrawer` derived-write pattern (`BusinessEditDrawer.jsx:75-98` — vestigial after Build F.3)
+  - [ ] Remove unused `Business.categories` field (DEC-176 — added in error during Build F verify)
+  - [ ] Replace HardHat string-icon in `workspaceTypes.js:232` (cleanup when archetype-neutralizing the workspace type)
+  - [ ] Audit and prune unused entities before Supabase migration (every dormant entity = wasted Supabase schema + RLS + indexes + migration script)
+  - [ ] Consolidate archetype + main_category + sub_category_id into `subcategories[]` (Hyphae's "Option 3 future" from Build F verify)
+  - [ ] Walking-the-app cleanup findings from Doron's separate notes-taking session
 - [ ] **Phase 6: Onboarding fork + Region foundation backfill (DEC-172) + Pattern C+ migration window (DEC-175)** — invite-based vs. cold entry; Dan Sikes claim path; Region entity + backfill; Supabase + Vercel migration combined into the same fragility window
-- [ ] **Round 2: Stripe Connect** (prerequisite for real money flow + for populating `legacy_grace_until` on all `is_legacy_user: true` users per DEC-159)
+- [ ] **Post-migration: Membership gate** — $9/mo per entity per DEC-155, with LocalLane exempt; re-tightens FSProfile/User `rls.update`. Was Phase 5; deferred to post-migration with payment infrastructure.
+- [ ] **Post-migration: Direct Doors** — DEC-179 (was Phase 3.5)
+- [ ] **Post-migration: Stripe Connect** (prerequisite for real money flow + for populating `legacy_grace_until` on all `is_legacy_user: true` users per DEC-159). Was Round 2; deferred to post-migration with the rest of payment infrastructure.
 
 ### Critical path to real users (next blockers)
 
-1. Build F (closes Phase 3, validates SDK wrap shape per DEC-175)
-2. Phase 3.5 direct doors (DEC-171)
-3. Phase 4 Desk implementation rename + business-scoped rendering
-4. Phase 5 membership gate (prerequisite for charging)
-5. Round 2 Stripe Connect (prerequisite for real money)
+1. Phase 4 — Desk implementation rename + business-scoped rendering
+2. Phase 4.5 — Seedlings (Admin Impersonation, post-migration welcome flow)
+3. Phase 5 (NEW) — Pre-migration cleanup (DEC-180)
+4. Phase 6 — Migration window + Region backfill (DEC-175 Pattern C+)
+5. Post-migration — Membership gate, Direct Doors, Stripe Connect (payment infrastructure built once on the new stack)
 
 ---

@@ -909,3 +909,67 @@ Links to Living Feet (DEC-146): the schema definition is "stone" (one source in 
 **Status:** Active. Migration window: Phase 6. Reference: `community-node/docs/migration-research.md` (commit `78fc8c7`; flagged for cleanup — was supposed to be deleted post-decision per its own ephemeral note). Related: DEC-095 amendment, DEC-115 (publish blocker), DEC-140 (asServiceRole RLS), DEC-162 (Base44 working agreement), DEC-167 (schema-conformance audit), DEC-172 (Region as trigger), DEC-146 (Living Feet — `src/api/` is the one place entity access lives after Build F).
 
 ---
+
+### DEC-176: Business.categories Field Added in Error, Left in Place (2026-04-25)
+
+**Date:** 2026-04-25
+**Context:** During Build F Phase 1 verify (2026-04-25), Mycelia fired a Base44 agent prompt to add a `categories: array<string>` field to the Business entity before Hyphae's verify report could complete. The verify pass then surfaced that the codebase already had `subcategories: array<string>` working under DEC-055, making the new `categories` field redundant.
+**Decision:** Leave the empty `categories` field in place rather than fire a second Base44 prompt to remove it. Field is permissive (`array<string>`, default `[]`, no enum) and costs nothing sitting empty.
+**Rationale:** Removing it would burn another Base44 agent round-trip and another auto-push cycle for zero functional gain. An empty optional field is cheaper than the change risk of re-touching the schema. Multi-category writes flow through `subcategories[]` per DEC-055; nothing reads or writes `categories`.
+**Status:** Active. Candidate for Phase 5 schema consolidation. Related: DEC-055 (subcategories), DEC-180 (Phase 5 cleanup).
+
+---
+
+### DEC-177: Schema-Conformance Audits Include Write-Path Conformance (2026-04-25)
+
+**Date:** 2026-04-25
+**Context:** DEC-167 established schema-conformance audits before assuming Base44 entity behavior. Build F Phase 3 verify (2026-04-25) surfaced that this discipline must include write-path conformance — not just field-shape conformance. Hyphae's Phase 1 wrap delegated to `base44.entities.Business.update()` while the codebase routes 29 owner-write call sites through the `updateBusiness` server function (which gates writes via `PROFILE_ALLOWLIST` per DEC-025). Wrap had to be amended in Phase 3 to add `updateProfile()` wrapping the server function call.
+**Decision:** Going forward, schema-conformance audits answer three questions: (1) what is the field shape, (2) what is the write path (entity SDK vs. server function), (3) what allowlists/permissions gate the write path.
+**Rationale:** Field-shape conformance alone misses the security and gating layer. A wrap that bypasses the server function bypasses `PROFILE_ALLOWLIST` and any future write-time validation. Codifying the three-question audit before any wrap or migration prevents that whole class of regression.
+**Status:** Active. Extends DEC-167. Related: DEC-025 (PROFILE_ALLOWLIST), DEC-146 (Living Feet — one write path per entity).
+
+---
+
+### DEC-178: Code-Level Schema Changes Paired with Base44 Dashboard Updates (2026-04-25)
+
+**Date:** 2026-04-25
+**Context:** Build E (commit `7c21c3e`, 2026-04-24) shipped `service_area` as `array<slug>` in code, and DEC-174 documented this as the canonical shape, but the Base44 dashboard entity schema was never updated to match. Field stayed as `string` while code wrote arrays. Result: every owner save returned `422 "Error in field service_area: Input should be a valid string"`. First surfaced by Bari smoke-test 2026-04-25. Fixed via Base44 agent prompt to change field type to `array<string>`.
+**Decision:** Any DEC that documents a Business field shape change MUST include a paired Base44 agent prompt that updates the actual schema, fired and published before code that depends on the new shape ships to a real user.
+**Rationale:** The `.jsonc` file in code is not source of truth — the Base44 dashboard is. A code-side shape change without the dashboard counterpart is a guaranteed save-time 422 the first time a real user hits the path. Pairing the two artifacts at decision time means the schema and code ship together, not in two separate sessions where the second one is forgotten.
+**Status:** Active. Related: DEC-167 (schema-conformance audit), DEC-174 (`service_area` shape), DEC-093 (Base44 entity changes via agent prompts).
+
+---
+
+### DEC-179: Phase 3.5 Direct Doors Deferred to Post-Migration (2026-04-25)
+
+**Date:** 2026-04-25
+**Context:** Bari Swartz's $500/mo retainer covers Doron's time helping him with Field Service workflow (contracts, estimates, current Excel flow plus the new LocalLane flow), NOT replacement of his public website. Bari already operates redumbrellaservices.com and is not under farmers market URL pressure. Phase 3.5 (path-based routing for `/b/{slug}`, public profile rendering, react-helmet meta tags) is therefore deferable to post-migration without breaking Bari's expectations.
+**Decision:** Defer Phase 3.5 (Direct Doors per DEC-171) to post-migration. Bari remains listed in the LocalLane directory (already shipped via Build F). Field Service node maturation is the priority for Bari-specific value.
+**Rationale:** Direct Doors are most valuable when there's a public-facing URL pressure point — and Bari doesn't have one. Building a public profile renderer + path routing on Base44 only to rebuild it on Supabase+Vercel post-migration is two builds for one outcome. Better to ship it once, on the post-migration stack, when the next paying user with a real URL need surfaces.
+**Status:** Active. Phase 3.5 moves out of the pre-migration phase queue. Related: DEC-171 (path-based direct doors), DEC-175 (Pattern C+ migration plan).
+
+---
+
+### DEC-180: Phase 5 — Pre-Migration Cleanup (2026-04-25)
+
+**Date:** 2026-04-25
+**Context:** With Phase 3 closed and the migration window resolved at Phase 6 (DEC-175), the pre-migration backlog has accumulated dead code, vestigial patterns, and dormant entities that would each translate into wasted Supabase migration work. Migrating a dormant entity requires Supabase schema, RLS policies, indexes, and a migration script — pure waste if no live code reads or writes it.
+**Decision:** Insert a new **Phase 5: Pre-Migration Cleanup** into the roadmap, between Phase 4.5 (Seedlings) and Phase 6 (Migration to Supabase + Vercel). Phase 5 covers:
+- (a) **Dead code removal** — `legacyCategoryMapping` in `categoryData.jsx:229-240` (pre-DEC-055 IDs); `BusinessEditDrawer` derived-write pattern at `BusinessEditDrawer.jsx:75-98` (vestigial after Build F.3's Directory patch); the unused `Business.categories` field per DEC-176.
+- (b) **Unused entity audit** — every entity to be migrated to Supabase requires Supabase schema, RLS policies, indexes, migration script.
+- (c) **Architectural consolidation** — legacy `category` field finally retired; archetype + main_category + sub_category_id shape consolidated into `subcategories[]` (Hyphae's "Option 3 future" from Build F verify).
+- (d) **Walking-the-app cleanup findings** from Doron's separate notes-taking session.
+**Rationale:** Cheaper to delete pre-migration than port-then-delete. The migration window is already a fragility event (DEC-175); arriving at it with a clean codebase halves the surface area being migrated and removes the "do we still use this?" uncertainty from every entity migration question.
+**Status:** Active. Effective: Phase 5 implementation. Related: DEC-055 (subcategories), DEC-175 (migration plan), DEC-176 (categories field), DEC-146 (Living Feet).
+
+---
+
+### DEC-181: Multi-Machine Development Setup (2026-04-25)
+
+**Date:** 2026-04-25
+**Context:** Doron added a Mac mini as a second development machine on 2026-04-25, alongside the existing MacBook Pro 2017. Path drift between machines is a special class of pain — silent until it bites mid-session. To prevent this, both machines run identical setups: GitHub Desktop, Claude Desktop, Claude Code (Hyphae) v2.1.119, Node.js v24.15.0 with `~/.npm-global` prefix, SSH keys authenticated to github.com/withdoron. All four repos cloned at `~/Documents/GitHub/` on both machines: community-node, Spec-Repo, private, ephraim-games. All remotes use SSH.
+**Decision:** Treat Mac mini as primary (more powerful, eventual Clawbot host) and MacBook Pro as secondary (mobility, field visits to Bari, etc.). Working discipline: pull as the first action of any session, push after every commit (Hyphae default cadence — already standard, now load-bearing for multi-machine). All Hyphae-touched docs reference paths as `~/Documents/GitHub/...` so prompts work identically on either surface.
+**Rationale:** Two surfaces beats one for both resilience (laptop dies, mini still has the work) and reach (field visits with the laptop, deep work on the mini). The cost is discipline around pull/push cadence — but that cadence already exists, so the marginal cost is zero. Path alignment was completed today (Spec-Repo commit `29351e4`) before this DEC; first Hyphae session run from the mini doubled as the round-trip smoke test.
+**Status:** Active. Related: future Clawbot work (Mac mini host), DEC-146 (Living Feet — one path convention across surfaces).
+
+---

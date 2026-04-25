@@ -1,7 +1,7 @@
 # PROJECT-BRAIN.md
 
 > Read this first. This file orients any AI model — Claude, Gemini, GPT, or other — to work effectively on LocalLane. It is the single source of truth for project identity, philosophy, and working style.
-> Last updated: 2026-04-17
+> Last updated: 2026-04-25 (multi-machine infrastructure live; Phase 3 closed)
 
 ---
 
@@ -249,6 +249,15 @@ Three gardeners tend the LocalLane organism:
 - **Hyphae** (Claude Code) — Builder and growing edge. Codebase-aware implementation, audits, multi-file changes.
 
 The Lane Avatar is a mushroom. Mycelium is the connective network (Mycelia). Hyphae are the growing tips that build new structure (Hyphae). The organism is tended by all three together.
+
+### Multi-Machine Setup (DEC-181, 2026-04-25)
+
+Doron operates on two machines: **Mac mini** (primary — more powerful, eventual Clawbot host) and **MacBook Pro 2017** (secondary — mobility, field visits to Bari). Both run identical setups: GitHub Desktop, Claude Desktop, Claude Code (Hyphae) v2.1.119, Node.js v24.15.0 with `~/.npm-global` prefix, SSH keys to github.com/withdoron, all four repos at `~/Documents/GitHub/` (community-node, Spec-Repo, private, ephraim-games), all remotes SSH. Discipline: pull as the first action of any session, push after every commit. Path drift between machines is silent until it bites — Hyphae-touched docs always reference `~/Documents/GitHub/...` so prompts work identically on either surface.
+
+The "living feet" progression of the platform's tooling stack:
+Base44 → Base44+Cursor → Base44+Hyphae → **Base44+Hyphae+multi-machine** → Supabase+Vercel+Hyphae+multi-machine.
+
+(Distinct from DEC-146 Living Feet, which is the architectural deduplication principle. This is the metaphor for the surfaces Doron stands on as the platform evolves.)
 
 ## Cursor Prompt Format
 

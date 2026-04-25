@@ -1287,3 +1287,81 @@ Migration research doc at `community-node/docs/migration-research.md` (commit `7
 **Ship-it timestamp:** 2026-04-24, evening. Session closed.
 
 ---
+
+## Session Log — 2026-04-25 (Phase 3 closeout + multi-machine infrastructure)
+
+**Focus:** Phase 3 closed across Builds F, G, and H. One Base44 schema fix (`service_area`). Multi-machine development infrastructure brought online (Mac mini as primary alongside MacBook Pro). DEC-176 through DEC-181 added. Strategic clarifications: Phase 3.5 deferred, new Phase 5 (pre-migration cleanup) inserted, payment infrastructure deferred.
+
+**Shipped to community-node (origin/main):**
+
+1. **Build F.1 — SDK wrap foundation + businessCategories config hoist (`946b9eb`):** Foundation for the Base44 SDK wrap landing in `src/api/`. Multi-category config (`businessCategories`) hoisted from where it lived inline into a config module ready to be consumed by the wrap. First migration-prep seam-hardening step per DEC-175.
+2. **Build F.2 — TownMultiSelect → SlugMultiSelect rename (`cd8d700`):** Generalized Build E's reusable curated-multi-select chip component from town-specific naming to the broader slug pattern. Preparation for the multi-category use case in F.3 (subcategories are also slugs).
+3. **Build F.3 — Wire SlugMultiSelect into BusinessSettings + Directory pill filter patch + updateProfile wrap amendment (`bb76fbc`):** Multi-category support live end-to-end via `subcategories[]`. Directory pill filter patched to drive off the new structure. Wrap amended to add `updateProfile()` wrapping the `updateBusiness` server function (DEC-177 — write-path conformance, not just field-shape conformance — surfaced when initial wrap delegated to `base44.entities.Business.update()` while 29 owner-write call sites route through the server function gated by `PROFILE_ALLOWLIST`). Closes Build F.
+4. **Build G — Desk tile icon swap (`a2c46b5`):** HardHat → Briefcase. Cosmetic. The HardHat icon was archetype-leaky (read as Field Service) for what is now the universal Desk surface.
+5. **Build H — Workspace content centering on wide viewports (`9c3d080`):** Closes Phase 3. Same root cause as Build D (cockpit centering) but at the workspace-content layer.
+
+**Shipped to Spec-Repo (origin/main):**
+
+6. **Path alignment commit (`29351e4`):** All `~/Documents/LocalLane/` references in repo docs aligned to `~/Documents/GitHub/`. Five replacements in `audits/MEAL-PREP-READINESS-AUDIT.md`. Strikethrough historical reference to deleted `locallane-spec-repo` preserved as historical fact. **Shipped via Hyphae from the Mac mini — first Hyphae session run from the new primary machine.** Round-trip smoke test (commit on mini, push, pull on laptop) passed.
+7. **Phase 3 closeout docs commit (this session):** DECISIONS.md DEC-176 through DEC-181, STATUS-TRACKER updates, SEEDLING-TRACKER additions, ACTIVE-CONTEXT refresh, PROJECT-BRAIN multi-machine note, LAUNCH-CHECKLIST Phase 3 marks + Phase 5 additions.
+
+**Base44 schema fix applied by Doron (via agent prompts):**
+
+- **`Business.service_area`** field type changed from `string` to `array<string>` to match Build E's code-side restructure (DEC-174). First surfaced by Bari smoke-test 2026-04-25 — every owner save returned `422 "Error in field service_area: Input should be a valid string"`. Decision DEC-178 codifies pairing code-level schema changes with Base44 dashboard updates so this whole class of regression doesn't recur.
+- **`Business.categories`** field added in error during Build F Phase 1 verify; left in place pending Phase 5 cleanup (DEC-176). Field is permissive (`array<string>`, default `[]`) and costs nothing sitting empty. Multi-category writes flow through `subcategories[]` per DEC-055.
+
+**Infrastructure migration (today):**
+
+- **Mac mini** added as primary development machine alongside MacBook Pro 2017. Both machines now run identical setups: GitHub Desktop, Claude Desktop, Claude Code (Hyphae) v2.1.119, Node.js v24.15.0 with `~/.npm-global` prefix, SSH keys authenticated to github.com/withdoron.
+- **Repos moved** from `~/Documents/LocalLane/` to `~/Documents/GitHub/` on both machines (matches GitHub Desktop's default clone path).
+- **All four repos** (community-node, Spec-Repo, private, ephraim-games) on SSH remotes on both machines.
+- **Working discipline:** pull as the first action of any session, push after every commit. Already the Hyphae default cadence — now load-bearing for multi-machine.
+- **DEC-181** records the setup. Mac mini is primary (more powerful, eventual Clawbot host); MacBook Pro is secondary (mobility, field visits to Bari).
+
+**Decisions made:**
+
+- **DEC-176** Business.categories field added in error, left in place
+- **DEC-177** Schema-conformance audits include write-path conformance (extends DEC-167)
+- **DEC-178** Code-level schema changes paired with Base44 dashboard updates (extends DEC-093, DEC-167)
+- **DEC-179** Phase 3.5 Direct Doors deferred to post-migration (Bari has redumbrellaservices.com, no URL pressure)
+- **DEC-180** Phase 5 — Pre-migration cleanup added to roadmap between Phase 4.5 and Phase 6
+- **DEC-181** Multi-machine development setup (Mac mini primary, MacBook Pro secondary, paths aligned at `~/Documents/GitHub/`)
+
+**Strategic clarifications:**
+
+- **Phase 3.5 (Direct Doors) deferred to post-migration** per DEC-179. Bari's $500 retainer covers Field Service workflow + direct platform time, not public profile replacement. He already operates redumbrellaservices.com.
+- **New Phase 5 (Pre-Migration Cleanup) added** per DEC-180. Inserted between Phase 4.5 (Seedlings) and Phase 6 (Migration). Covers dead code removal, unused entity audit, archetype/main_category/sub_category_id consolidation into `subcategories[]`, walking-the-app cleanup findings.
+- **Payment infrastructure deferred to post-migration.** Membership gate (was Phase 5, DEC-155) and Stripe Connect (was Round 2) both move to the post-migration window. Cheaper to build payment once on Supabase+Vercel than to build it twice.
+
+**Field Service node assessment:**
+
+Bari is a paying user, multi-category classification working end-to-end after Build F. Node now considered **production-shaped** given paying-user dependency. Score nudged to ~95/100. Flag raised: NODE-LAB-MODEL.md (private repo) likely needs a phase-review note — Field Service may have crossed the seed → sprout → grow → thrive threshold with the paying-user signal. Not updated this session (NODE-LAB-MODEL is in private/, outside this Spec-Repo + community-node commit scope).
+
+**Carryover items (still pending):**
+
+- `community-node/docs/migration-research.md` cleanup (was supposed to be deleted post-DEC-175, still in main)
+- DECISIONS.md drift between Spec-Repo and community-node (pre-existing, dedicated session)
+- community-node `context/` doc files diverged from Spec-Repo (`ACTIVE-CONTEXT.md`, `STATUS-TRACKER.md`, `SESSION-LOG.md`, `PROJECT-BRAIN.md` all dated 2026-04-15) — same drift pattern as DECISIONS.md, dedicated session needed.
+- Field Service node phase review in NODE-LAB-MODEL.md (private repo, separate session).
+
+**Seedlings logged (this session):**
+
+- `legacyCategoryMapping` cleanup (`categoryData.jsx:229-240`, Phase 5 candidate)
+- `BusinessEditDrawer` derived-write pattern (`BusinessEditDrawer.jsx:75-98`, Phase 5 candidate)
+- HardHat string-icon in `workspaceTypes.js:232` (Phase 5 candidate when archetype-neutralizing)
+- Persistent Base44 SDK 404 console spam on every page load (root-cause investigation candidate)
+- Duplicate `DC` key React warning in Radix Select (likely state-code Select; separate cosmetic fix)
+
+**Phase position:**
+
+- **Round 1 Phase 3 closed.** All builds (1-patch, 2, B, C, D, E, F, G, H) shipped. Phase 3.5 deferred to post-migration.
+- **Phase 4 next.** Desk implementation rename + business-scoped rendering (DEC-160, DEC-156); plus reaffirmed scope: MyLaneSurface hook reordering, MyLaneDrillView latent bug fix, eslint-plugin-react-hooks exhaustive-deps enforcement, resurfacing buried surfaces per DEC-173.
+- **Pre-migration progression:** Phase 4 → Phase 4.5 (Seedlings: Admin Impersonation, post-migration welcome flow) → Phase 5 (pre-migration cleanup, NEW) → Phase 6 (Migration to Supabase + Vercel + Region foundation, Pattern C+ per DEC-175).
+
+**Multi-machine smoke test:**
+
+This is the first Hyphae session running from the Mac mini. The path-alignment commit (`29351e4` Spec-Repo) was created on the mini and pushed via SSH; pulling on the MacBook Pro would complete the round-trip smoke test. Closeout commit from this session is the second test of the same loop.
+
+**Ship-it timestamp:** 2026-04-25, evening. Session closed. Phase 3 closed. Ready for Phase 4.
+
+---
