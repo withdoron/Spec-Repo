@@ -7,9 +7,9 @@
 
 | Repo | Path | Notes |
 |------|------|-------|
-| community-node | `~/Documents/LocalLane/community-node/` | Codebase |
-| Spec-Repo | `~/Documents/LocalLane/Spec-Repo/` | Capital S, capital R |
-| private | `~/Documents/LocalLane/private/` | Lowercase. Contains MEAL-PLANNING-CONCEPT.md |
+| community-node | `~/Documents/GitHub/community-node/` | Codebase |
+| Spec-Repo | `~/Documents/GitHub/Spec-Repo/` | Capital S, capital R |
+| private | `~/Documents/GitHub/private/` | Lowercase. Contains MEAL-PLANNING-CONCEPT.md |
 | ~~locallane-spec-repo~~ | ~~`~/Documents/LocalLane/locallane-spec-repo/`~~ | Deleted 2026-03-31. Canonical repo is `Spec-Repo/`. |
 
 ---
@@ -48,7 +48,7 @@ Three entries exist: `team`, `business`, `finance`. No `fieldservice`, `property
 
 **Result: NOTHING EXISTS in the codebase.** Zero references to MealPrepProfile, Recipe, RecipeIngredient. No `src/components/mealprep/` directory. No meal-prep references in any server functions.
 
-**However:** `MEAL-PLANNING-CONCEPT.md` exists in the private repo (`~/Documents/LocalLane/private/`), dated 2026-02-01. It contains a comprehensive vision document with:
+**However:** `MEAL-PLANNING-CONCEPT.md` exists in the private repo (`~/Documents/GitHub/private/`), dated 2026-02-01. It contains a comprehensive vision document with:
 - Doron's original insight about meal planning tied to farmers market + sale ads
 - Detailed data model for Recipe entity (very close to what we'll build)
 - Five-phase build sequence: Recipe Book → Meal Planner → Market Integration → Sale Ad Scanning → Smart Sourcing
@@ -115,7 +115,7 @@ RecipeIngredient: { fkField: 'profile_id', workspace: 'meal-prep' },
 | SESSION-LOG.md | Spec-Repo `context/` + community-node `context/` | Both current through 2026-03-31. Community-node copy has audit session appended. |
 | MEAL-PLANNING-CONCEPT.md | `private/` repo | Exists, dated 2026-02-01. Vision-level spec. |
 
-**Key finding:** Spec-Repo (`~/Documents/LocalLane/Spec-Repo/`) has the most up-to-date copies of STATUS-TRACKER.md and SEEDLING-TRACKER.md. Community-node copies were staler but have been updated this session.
+**Key finding:** Spec-Repo (`~/Documents/GitHub/Spec-Repo/`) has the most up-to-date copies of STATUS-TRACKER.md and SEEDLING-TRACKER.md. Community-node copies were staler but have been updated this session.
 
 ---
 
