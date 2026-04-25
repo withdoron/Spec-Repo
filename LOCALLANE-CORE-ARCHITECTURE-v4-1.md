@@ -456,6 +456,8 @@ Every listed business (public) appears as a **living tile** in the directory. No
 
 **Drill-in reveals full content:** photos, detailed profile, contact info, events, services.
 
+**Coverage as structured data (DEC-174).** `service_area` on Business is `array<slug>` (curated Lane County town list in Round 1). Every searchable directory field is structured for the same reason: freeform text doesn't filter. Slugs are forward-compatible with the Region/Town promotion in §18 — when towns become first-class entities in Phase 6, `array<slug>` becomes `array<id>` with no Business-side schema change. Legacy freeform strings on pre-Build-E records are preserved verbatim for read-only display; owners migrate themselves via the Settings editor.
+
 **Visibility is immediate.** A business appears as soon as basic onboarding completes. Stripe setup shown as a badge ("Accepting payments") but doesn't gate listing.
 
 **Parent-child shown subtly** ("A Mycelia, LLC brand" — optional).

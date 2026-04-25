@@ -883,3 +883,29 @@ Links to Living Feet (DEC-146): the schema definition is "stone" (one source in 
 **Status:** Active. Applies across all future phases, not scoped to any specific phase. Related: DEC-146 (Living Feet — don't duplicate what already exists as one thing).
 
 ---
+
+### DEC-174: `service_area` is `array<slug>` on Business (2026-04-24)
+
+**Date:** 2026-04-24
+**Context:** Until Build E, `service_area` on Business was a freeform string ("Eugene/Springfield area," "Lane County," "Eugene area"). Different owners produced structurally identical service ranges in unsearchable spellings. The Directory had no clean way to filter or search on coverage. DEC-155 (per-entity $9 model) and the directory becoming the platform front-door make searchable structure on coverage non-optional.
+**Decision:** `service_area` is now `array<slug>` on the Business entity. Slugs come from a curated Lane County town list (`src/config/laneCountyTowns.js` — 21 incorporated cities + notable unincorporated communities, each carrying `{slug, display_name, region_slug: 'lane-county'}` for forward compatibility with the Phase 6 Region/Town entities per DEC-172). The structured editor (`TownMultiSelect.jsx`) is universal across archetypes — no longer gated to `service_provider`. Legacy string values are preserved verbatim on existing records and rendered read-only on the public profile with an owner-only "(legacy)" annotation; the Settings editor shows the legacy string above the multi-select with "Pick the towns below to update." The first time an owner saves a structured selection, the array overwrites the legacy string. No backfill script — owner-initiated migration only.
+**Rationale:** Forward-compatible with the Phase 6 Region/Town promotion (DEC-172) — when towns become first-class entities, the `array<slug>` shape becomes `array<id>` with no Business-side schema change. Curated source list eliminates the spelling-drift class of bug. Universal across archetypes per Doron's call: contractors, caterers, mobile groomers, house cleaners, farmers, art studios all have valid coverage declarations. Editorial, not geographic — a business *declares* where it operates; address doesn't constrain it. Legacy preservation respects existing records without a fragile auto-migration.
+**Status:** Active. Implementation: Build E commit `7c21c3e` (community-node). `service_area` was already in `PROFILE_ALLOWLIST`; no server-side changes required. Related: DEC-155 (structure beats freeform for searchable directory data), DEC-161 (living tiles), DEC-172 (region as first-class entity), DEC-146 (living feet — one curated source for the town list).
+
+---
+
+### DEC-175: Migration Plan — Pattern C+ at Phase 6 (2026-04-24)
+
+**Date:** 2026-04-24
+**Context:** Migration research at `community-node/docs/migration-research.md` (commit `78fc8c7`) evaluated five patterns for moving LocalLane off Base44 onto Supabase + Vercel. Base44 has known constraints — auto-push to main with uninformative messages (DEC-162), agent auto-lint-fixes outside scope, publish blocker still open (escalation `95a004a0`), and `asServiceRole` does not bypass Creator Only RLS reliably (DEC-095 amendment, DEC-140). The platform is functional for Phase 3-5 work but the friction compounds. Phase 6 already opens the database for Region foundation backfill (DEC-172); migrating then bundles two fragility events into one.
+**Decision:** **Pattern C+ — build to prepare on Base44, migrate at Phase 6 combined with Region backfill.** Specifically:
+- **Trigger:** Phase 6 backfill window. One fragility cost, not two.
+- **Target stack:** Supabase + Vercel.
+- **Sandbox during construction:** `lanecountyrecess.com`. `locallane.app` continues running on Base44 until the migration switches over.
+- **AI plan:** retire all 8 Base44 agents at migration. Build a single warm-presence companion fresh, designed from Bari's "AI tour guide" framing — softer, fewer agents, more presence — rather than porting the eight existing agents (each carrying hardcoded entity-name vocabulary that wouldn't survive a schema port).
+- **Seam hardening through Phases 4-5:** no new direct CRUD anywhere. Build F bundles the Base44 SDK wrap into `src/api/`, with the multi-category build as first consumer validating the wrapper shape. At migration time, `src/api/` is the single replacement layer.
+- **No backfill script for legacy data shapes** beyond what each phase already carries. Existing `service_area` strings, existing Phase 2 carryover fields, etc. all migrate as-is.
+**Rationale:** Two migrations cost twice. Phase 6 already disturbs the database. The companion redesign is owed independently (Bari's framing makes the case more convincing than the existing eight-agent split), and combining it with the migration removes a future "now we port agents too" delay. The sandbox on `lanecountyrecess.com` lets us verify behavior on real domain shape (DEC-171 path-based doors, eventual custom domains in Round 2+) without risking the production tenant. SDK wrap into `src/api/` is migration insurance that pays off in Phase 4-5 anyway by enforcing one entity-access pattern.
+**Status:** Active. Migration window: Phase 6. Reference: `community-node/docs/migration-research.md` (commit `78fc8c7`; flagged for cleanup — was supposed to be deleted post-decision per its own ephemeral note). Related: DEC-095 amendment, DEC-115 (publish blocker), DEC-140 (asServiceRole RLS), DEC-162 (Base44 working agreement), DEC-167 (schema-conformance audit), DEC-172 (Region as trigger), DEC-146 (Living Feet — `src/api/` is the one place entity access lives after Build F).
+
+---

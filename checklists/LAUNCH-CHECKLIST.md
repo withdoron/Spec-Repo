@@ -129,18 +129,28 @@
 - [x] **Phase 1.5: additional fields** — User.is_legacy_user, User.legacy_grace_until, Business.subscription_exempt
 - [x] **Phase 2: Reparenting machinery** — reparentBusiness + migrationHelpers server fns + phase-2-production-migration.js Node script (cc051a9, 210d087)
 - [x] **Phase 2: Production migration applied** (2026-04-23) — Mycelia/LocalLane/TCA created, Recess reparented, Red Umbrella promoted from Bari FS, Doron sandbox archived, Bari flagged legacy, 9 AuditLog rows reversible
-- [ ] **Phase 2: Bari workspace smoke test** (Doron, when convenient — log in from real device and confirm his FieldService workspace loads normally with new `business_id` link)
-- [ ] **Phase 3: Business switcher** — UI for parent-child tree; LocalLane exempt badging; Red Umbrella as peer, not under Mycelia
-- [ ] **Phase 4: Desk rename + business-scoped rendering** (DEC-160, DEC-156) — "Field Service" becomes "Desk"; tools filter by `business_id` when in a business context
-- [ ] **Phase 5: Membership gate** — $9/mo per entity per DEC-155, with LocalLane exempt
-- [ ] **Phase 6: Onboarding fork** — invite-based vs. cold entry; Dan Sikes claim path for his orphan Business
+- [x] **Phase 2: Bari workspace smoke test** (2026-04-24 morning meeting — Bari paid $500 retainer; first external revenue)
+- [x] **Phase 3: Business switcher** (2026-04-24, `c0d7c3f` — cockpit-native switcher per DEC-168; commit-handler patch made center-tile commits fire reliably; only wakes when `isMultiBusiness`)
+- [x] **Phase 3: Directory visibility filter + Settings toggle** (2026-04-24, Build 2 `65e3fd7`) — `src/utils/directoryVisibility.js` helper applied at Directory/NetworkPage/Home; `listed_in_directory` allowlist; Mycelia hidden from public
+- [x] **Phase 3: Profile Settings editors** (2026-04-24, Build B `6521232`) — tagline + services[] structured editor + photos gallery + accepts toggles + empty-state nudge; subtitle ladder fixed; closes Phase 2 origination gap
+- [x] **Phase 3: Jobsite → Desk vocabulary rename** (2026-04-24, Build C `9598128`, DEC-170) — three PLATFORM-LABEL changes; FieldServiceAgent persona preserved; user content preserved
+- [x] **Phase 3: Cockpit centering on wide viewports** (2026-04-24, Build D `47d1af2`) — removed dead `.mylane-content-area.panel-open` margin-right rule
+- [x] **Phase 3: Service area structured editor** (2026-04-24, Build E `7c21c3e`, DEC-174) — `src/config/laneCountyTowns.js` (21 towns) + `TownMultiSelect.jsx` reusable component; universal across archetypes; legacy strings preserved with owner-only annotation
+- [ ] **Phase 3: Build F — multi-category support + SDK wrap into `src/api/`** (closes Phase 3; bundled because F touches many files anyway; first migration-prep seam hardening per DEC-175)
+- [ ] **Phase 3: Build G — Desk tile icon swap** (cosmetic ~15 min)
+- [ ] **Phase 3: Build H — workspace content centering on wide monitors** (cosmetic; needs more thought; defer past Build F)
+- [ ] **Phase 3.5: Direct doors `/b/{slug}`** (DEC-171 — path-based for Round 1; custom domains Round 2+)
+- [ ] **Phase 4: Desk implementation rename + business-scoped rendering** (DEC-160, DEC-156) — code-tier rename; tools filter by `business_id` when in a business context
+- [ ] **Phase 5: Membership gate** — $9/mo per entity per DEC-155, with LocalLane exempt; re-tightens FSProfile/User `rls.update`
+- [ ] **Phase 6: Onboarding fork + Region foundation backfill (DEC-172) + Pattern C+ migration window (DEC-175)** — invite-based vs. cold entry; Dan Sikes claim path; Region entity + backfill; Supabase + Vercel migration combined into the same fragility window
 - [ ] **Round 2: Stripe Connect** (prerequisite for real money flow + for populating `legacy_grace_until` on all `is_legacy_user: true` users per DEC-159)
 
 ### Critical path to real users (next blockers)
 
-1. Phase 3 business switcher (unblocks Doron's multi-business UI)
-2. Phase 4 Desk rename + business-scoped rendering
-3. Phase 5 membership gate (prerequisite for charging)
-4. Round 2 Stripe Connect (prerequisite for real money)
+1. Build F (closes Phase 3, validates SDK wrap shape per DEC-175)
+2. Phase 3.5 direct doors (DEC-171)
+3. Phase 4 Desk implementation rename + business-scoped rendering
+4. Phase 5 membership gate (prerequisite for charging)
+5. Round 2 Stripe Connect (prerequisite for real money)
 
 ---

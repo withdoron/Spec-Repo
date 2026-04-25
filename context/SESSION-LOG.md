@@ -1226,3 +1226,64 @@ Bari workspace verification pending — Doron will log in from a real device whe
 **Ship-it timestamp:** 2026-04-23, evening. Session closed.
 
 ---
+
+## Session Log — 2026-04-24 (Phase 3 marathon)
+
+**Focus:** Multi-build day closing most of Round 1 Phase 3. Six community-node commits + one Spec-Repo architecture commit. First external revenue logged (Bari, $500 retainer). Migration plan resolved (Pattern C+, Phase 6 trigger). Service area becomes structured. Vocabulary settled (Jobsite → Desk).
+
+**Shipped to community-node (origin/main):**
+
+1. **Build 1 commit-handler patch (`c0d7c3f`):** SpaceSpinner pointer-capture issue resolved — center-tile commits now fire reliably; `onCenterTap` prop added. The cockpit-native business switcher (DEC-168) is functional end-to-end after this. Preceded by a TDZ-error patch (`e6b4c4c`) and a diagnostic commit (`87a8ee4`).
+2. **Build 2 — Directory visibility filter + Settings toggle (`65e3fd7`):** new `src/utils/directoryVisibility.js` helper (`filterListedBusinesses`, predicate `b.listed_in_directory !== false`) applied at all three public surfaces — `Directory.jsx`, `NetworkPage.jsx`, `Home.jsx`. Owner-only "Directory Visibility" card in `BusinessSettings` with immediate write + toast (matches the Build 2 pattern). `listed_in_directory` added to `PROFILE_ALLOWLIST` in `updateBusiness/entry.ts`. Mycelia, LLC stops leaking to public surfaces; admin surfaces unaffected (owners always see their full tree per DEC §13.1).
+3. **Build B — Profile Settings editors + tagline render + photos + accepts toggles + empty-state nudge (`6521232`):** preceded by diagnostic commit `57db9d6`. Closes the origination gap from Phase 2 — businesses created via reparenting (Mycelia, Red Umbrella) skipped the directory content `BusinessOnboarding` would have captured, so Settings now carries editors for every rendered-but-previously-uneditable field. Tagline editor in Basic Info; universal `services[]` structured editor (port of `BusinessOnboarding` add/remove/update pattern); standalone Photos card (upload-then-append, reuses `Step2Details.jsx`); standalone Accepts Payments card (Joy Coins + Silver toggles, immediate write); empty-state nudge banner (owner-only, only while sparse, session-dismissable). `BusinessProfile.jsx` subtitle ladder fixed: `tagline → getCategoryDisplayLabel → "New to LocalLane"`. `PROFILE_ALLOWLIST` audited; no additions needed. The legacy `services_offered` textarea was removed (new writes go to `services[]`); legacy data still renders via the profile's existing fallback.
+4. **Build C — Jobsite → Desk vocabulary rename (`9598128`, DEC-170):** three `PLATFORM-LABEL` changes in `MyLaneSurface.jsx` (label + welcome map) and `HomeFeed.jsx` (priority spinner). Inside-the-business cockpit no longer says "Jobsite"; says "Desk." `FieldServiceAgent` persona text intentionally preserved (domain vernacular). Bari's subcontract preserved (user content, not platform copy). No URL or component file renames — Phase 4 (DEC-160) will rename the implementation tier; this build cleans the user-visible vocabulary.
+5. **Build D — Cockpit centering on wide viewports (`47d1af2`):** root cause was `.mylane-content-area.panel-open { margin-right: 300px }` reserving width for an agent panel that's already an absolute overlay (Living Feet violation — the panel was load-bearing in two places: the absolute overlay layout and the margin reservation). Removed the margin rule; layout now centers cleanly on 375 / 1280 / 1400 / 1600 / 1920 / 2560 px.
+6. **Build E — Service area structured editor (`7c21c3e`, DEC-174):** new `src/config/laneCountyTowns.js` with curated 21-town list (Coburg, Cottage Grove, Creswell, Dexter, Dunes City, Elmira, Eugene, Fall Creek, Florence, Junction City, Lowell, Marcola, McKenzie Bridge, Noti, Oakridge, Pleasant Hill, Springfield, Veneta, Vida, Walterville, Westfir — incorporated cities + notable unincorporated communities). Each town carries `{slug, display_name, region_slug: 'lane-county'}` for forward compatibility with the Phase 6 Region entity (DEC-172). New `src/components/business/TownMultiSelect.jsx` reusable curated multi-select chip component (matches Build B's `product_tags` chip visual). `BusinessSettings.jsx` replaces the freeform `service_area` Input with `TownMultiSelect`, universal across archetypes — no longer gated to `service_provider`. `service_area` is now `array<slug>`; legacy strings preserved verbatim and rendered with an owner-only "(legacy)" annotation on `BusinessProfile.jsx`. `serviceAreaMutation` writes immediately on chip toggle (matches Build 2's `acceptsMutation`). `service_area` was already in `PROFILE_ALLOWLIST`; no server-side changes.
+
+**Shipped to Spec-Repo (origin/main):**
+
+7. **Architecture v4.1 amendments (`955f8e2`):** DEC-169 (folder architecture — cockpits render folders at every depth; root universal + contextual; workspace at the leaf), DEC-170 (Home collapses into Desk inside a business — Home is a Personal-scope concept; Desk is the home of business work), DEC-171 (path-based direct doors `/b/{slug}` for Round 1 — Base44 has no wildcard subdomains; custom domains for Round 2+; URL is the primary scope source for `useActiveBusiness`), DEC-172 (Region as first-class entity with `seed / sprouting / established` lifecycle; "carried in the wind" growth — visitors from unfounded regions become seeds of those regions; Phase 6 implementation), DEC-173 (resurface before rebuild — when a previously-built surface is needed, find it in the codebase or git history first; rebuild from scratch is the last resort; standing rule across all phases).
+
+**Decisions made:**
+
+- **DEC-169** Folder architecture
+- **DEC-170** Home collapses into Desk inside a business
+- **DEC-171** Direct doors are path-based for Round 1 (custom domains Round 2+)
+- **DEC-172** Region as first-class entity with lifecycle states
+- **DEC-173** Resurface before rebuild
+- **DEC-174** `service_area` is `array<slug>` on Business (forward-compatible with Phase 6 Region/Town foundation)
+- **DEC-175** Migration to Supabase + Vercel deferred to Phase 6, combined with Region foundation backfill (single fragility window). All 8 Base44 agents retired during migration; new warm-presence AI companion designed fresh based on Bari's "AI tour guide" framing. Sandbox new platform on `lanecountyrecess.com`; `locallane.app` stays on Base44 during construction. Disciplined seam-hardening through Phase 4-5 (Build F bundles SDK wrap into `src/api/`).
+
+**Organism milestone — first external revenue:**
+
+Bari Swartz paid a **$500 retainer check on 2026-04-24**. Pricing structure agreed: $45/mo platform (founding rate, locked vs $69 launch standard), $45/hr dogfood rate, $90/hr service rate, $40 service call, $350 half-day, $650 full-day. **First external revenue in LocalLane history.** Phase milestone, logged.
+
+**Migration plan resolved (DEC-175 — Pattern C+):**
+
+Migration research doc at `community-node/docs/migration-research.md` (commit `78fc8c7`) evaluated five patterns. Selected: **C+ — build to prepare on Base44, migrate at Phase 6 combined with Region backfill.** Rationale:
+- Phase 6 already opens the database for Region backfill — adding the platform migration to that window incurs one fragility cost instead of two.
+- Eight existing Base44 agents have hardcoded entity-name vocabulary. Retiring them and birthing a single warm-presence companion fresh at migration time is cheaper than porting eight.
+- Bari's "AI tour guide" framing is the design seed for the new companion — softer, fewer agents, more presence.
+- `lanecountyrecess.com` is the sandbox for the new platform (Supabase + Vercel) so `locallane.app` keeps running on Base44 during construction.
+- Phases 4 and 5 will harden seams: Build F bundles the SDK wrap into `src/api/` (no new direct CRUD anywhere), giving the swap layer a single point of replacement at migration time.
+
+**Build queue (pending):**
+
+- **Build F — Multi-category support + SDK wrap into `src/api/`** (bundled — F touches many files anyway, validating the wrapper shape with the first real consumer). Closes Phase 3.
+- **Build G — Desk tile icon swap** (cosmetic, ~15 min — HardHat → Briefcase or similar).
+- **Build H — Workspace content centering on wide monitors** (cosmetic; needs more thought than a one-line fix; defer past Build F).
+- **Phase 3.5 — Direct doors** (`/b/{slug}` per DEC-171).
+
+**Phase position:**
+
+- **Round 1 Phase 3 ~95% complete.** Switcher (Build 1 patch), directory visibility (Build 2), profile editors (Build B), Desk vocabulary rename (Build C), centering fix (Build D), service area structured editor (Build E). Build F closes Phase 3.
+- **Phase 3.5 (direct doors)** is next.
+
+**Carryover items:**
+
+- `community-node/docs/migration-research.md` was supposed to be deleted post-decision per its own ephemeral note; still present in main as of `78fc8c7`. Cleanup owed in a future community-node commit (not this Spec-Repo session).
+- DECISIONS.md drift between Spec-Repo and community-node still pending (carryover from 2026-04-23).
+
+**Ship-it timestamp:** 2026-04-24, evening. Session closed.
+
+---
