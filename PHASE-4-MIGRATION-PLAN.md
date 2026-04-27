@@ -269,9 +269,12 @@ The brief proposed 4.1–4.7. The audit confirms the broad shape but suggests tw
 - **Reorder 4.4 (Preview pulse) before 4.5 (Spaces add/remove).** The preview pulse is what the user sees while navigating; the add-space mechanic is configuration. Building the navigation experience before the configuration UI lets the configuration UI be informed by what the navigation actually looks like.
 - **Consider splitting 4.2 (Folder structure refactor) into 4.2a (root folders) and 4.2b (Businesses-as-folder + per-business sub-folders).** 4.2a is mostly mechanical (Directory, Events, Personal as cockpit positions). 4.2b touches the switcher pattern (DEC-168) and the business-context machinery — higher risk because it's where Bari's daily flow lives. Splitting lets 4.2a ship and stabilize before 4.2b lands.
 
+**Phase 4.0 added 2026-04-27.** Before any Phase 4 UI work, the folder tree is established as a declarative configuration (in `src/config/folderTree.js`) read by a small predicate registry (in `src/config/folderPredicates.js`). MyLaneSurface's imperative `buildSpinnerItems()` is refactored to filter the config rather than build items inline. This is invisible to users (same folders, same conditions, same order) but converts the cockpit from "stone stairs" (every new folder = a code edit) to "living feet" (every new folder = a config entry). Phase 4.0 makes everything after it cheaper and makes the eventual Engagements addition (planned but not yet a DEC) a one-line config plug-in.
+
 **Recommended order:**
 
 ```
+4.0  Folder tree as configuration                           [architectural foundation, no UI change]
 4.1  Entity (Business.enabled_spaces + backfill)            [Base44 + code]
 4.2a Root folders (Directory/Events/Personal as cockpit)    [structural, low Bari risk]
 4.2b Businesses-as-folder + per-business sub-folders        [structural, touches switcher]
@@ -439,6 +442,16 @@ The migration script for adding `enabled_spaces` to existing businesses uses the
 This resolves Open Question #7. The backfill is concrete and the migration script can be specced from this directly.
 
 A useful side-effect: the seed values surface real data about the platform — how many businesses are directory-only vs actively using multiple spaces. That's a circulation signal worth tracking.
+
+### 8.11 — Living feet at the architectural level
+
+DEC-146 ("living feet, not stone stairs") was originally captured as a philosophical principle — the foundation moves with the organisms living on it. After tonight's Engagements concept conversation surfaced the question of how new contextual roots get added to the cockpit, the principle generalizes to the engineering layer: **the codebase should accept new folders, predicates, and (eventually) entity-relationship types by configuration rather than by net-new code**.
+
+Phase 4.0 (added to the sequence) enforces this for the folder tree specifically. The folder tree becomes a declarative config; visibility predicates become a registry; MyLaneSurface becomes a thin renderer over both. Future contextual roots — Admin (already planned for Phase 4.6), Engagements (concept under design), future ones we don't yet know — plug in by adding a config entry plus an optional predicate. No core rewrite.
+
+Adjacent living-feet patterns already shipped in the codebase: `VARIANT_MAP` for cockpit variants (DEC-152), `WORKSPACE_TYPES` for tab structures, `myLaneRegistry` for cards. Phase 4.0 extends this established pattern to the folder tree itself.
+
+The deeper question — whether the relationship-shape entities (TeamMember, Client, Subcontractor, future Engagement) should unify into a single `Relationship` primitive — is parked. Engagements MVP can build on existing entity shapes for now. The unification question is a Phase 5 or Phase 6 architectural call when it becomes load-bearing.
 
 ### Summary of resolution status (Open Questions, Section 7)
 
