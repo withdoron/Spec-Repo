@@ -1,19 +1,22 @@
 # ACTIVE-CONTEXT.md
 
 > What's happening RIGHT NOW. This file gets overwritten each session, not appended.
-> Last updated: 2026-04-26 (Phase 4 warmup shipped; DEC-182 ratified; Cursor retired from canonical docs; Field Instrument seed committed)
+> Last updated: 2026-04-26 (evening — Phase 4 migration plan in fully-planned state; Section 8 closes all seven open questions; DEC-183 path-walking cadence + DEC-184 alibi-first-Supabase ratified; tomorrow's first move = Phase 4.1 entity prompt)
 
 ## Current Focus
 
-**Phase 4 warmup is complete.** Today's session planned light (one warmup prompt to sync community-node's drifted context layer with Spec-Repo canonical) and compounded into four shipped pieces of work: the warmup itself, the architectural call ratifying single-source-with-sync as policy (DEC-182), the Cursor-retirement cleanup of canonical docs in both repos, and the long-overdue commit of `FIELD-INSTRUMENT-SEED.md` to the private repo. Pedrom thread brought current with v0.1 protocol outcome (live test 2026-04-24 — both AIs hit posture, framing-bias failure mode flagged). Phase 4 main work has not started; this was foundation-laying. Phase 4 main work is next.
+**Phase 4 is fully planned, not yet executing.** Morning session shipped the warmup (community-node doc-drift sync, DEC-182, Cursor retirement, Field Instrument seed). Afternoon shipped Hyphae's pre-Phase-4 audit as `PHASE-4-MIGRATION-PLAN.md` (Spec-Repo `1ed1a6c`, 355 lines) — mapped current `community-node/src/` against v4.1's folder model, surfaced seven open questions, proposed sequence 4.1 → 4.2a → 4.2b → 4.3 → 4.4 → 4.5 → 4.6 → 4.7. Evening planning conversation closed all seven questions in Section 8 of the migration plan (`b519ef3` Spec-Repo, +115 lines). Bari's working list captured in new `private/users/bari/` folder structure (`b651c91` private). Two architectural decisions ratified: **DEC-183 (Walk the Path Before Sinking Thought)** — path-walking cadence between sub-phase shipments, smaller steps used between beat large pre-sequenced blocks; **DEC-184 (Greenfield Alibi Project as First Supabase + Vercel Build)** — alibi develops in slow hours alongside Phase 4/5 work, informs Phase 6 LocalLane migration. Tomorrow's first move: Phase 4.1 entity prompt.
 
 ## Active Architecture
 
-- **Phase 3 closed (2026-04-25)** — all eight community-node Phase 3 builds (1-patch, 2, B, C, D, E, F, G, H) shipped. No regressions today. Cockpit-native business switcher, directory visibility, profile editors, Desk vocabulary, cockpit + workspace centering, structured `service_area`, multi-category `subcategories[]`, SDK wrap in `src/api/`, Desk tile icon, workspace centering — all live, all stable.
+- **Phase 3 closed (2026-04-25)** — all eight community-node Phase 3 builds (1-patch, 2, B, C, D, E, F, G, H) shipped. No regressions. Cockpit-native business switcher, directory visibility, profile editors, Desk vocabulary, cockpit + workspace centering, structured `service_area`, multi-category `subcategories[]`, SDK wrap in `src/api/`, Desk tile icon, workspace centering — all live, all stable.
+- **Phase 4 fully-planned state (2026-04-26 evening)** — `Spec-Repo/PHASE-4-MIGRATION-PLAN.md` (commit `1ed1a6c` audit, `b519ef3` Section 8 amendment) is the canonical reference for what Phase 4 ships and in what order. Section 8's ten subsections close all seven open questions Hyphae's audit raised. Future Phase 4 execution prompts read this plan before being written.
+- **Path-walking cadence (DEC-183, today)** — Phase 4 (and future phases) ships in path-walking cadence, not sequential-execution. Each sub-phase ships, gets used, generates real-world friction signal, and only then informs the next sub-phase's spec. Smaller steps used between beat large pre-sequenced blocks shipped back-to-back. Applied immediately: tomorrow's first move (Phase 4.1) is the smallest possible move that earns the right to think about Phase 4.2.
+- **Alibi-first Supabase + Vercel (DEC-184, today)** — the greenfield Field Instrument (alibi) project is the first build on Supabase + Vercel, developing in slow hours alongside Phase 4/5 LocalLane work. Operationalizes DEC-183 at platform-migration scale: greenfield isolates platform-learning unknown so Phase 6 LocalLane migration doesn't compound platform + migration mechanics simultaneously.
 - **Multi-machine infrastructure live (DEC-181)** — Mac mini primary, MacBook Pro 2017 secondary. Both machines on `~/Documents/GitHub/`, all four repos on SSH. Today's full session ran from the mini.
-- **Single-source documentation policy ratified (DEC-182, today)** — Spec-Repo is canonical for project documentation. Tool-specific repos reach across via explicit `~/Documents/GitHub/Spec-Repo/...` paths and do not mirror reference docs. The narrow exception is `community-node/context/` (PROJECT-BRAIN, ACTIVE-CONTEXT, SESSION-LOG), which is mirrored as a lean read-only copy refreshed on scheduled drift-sync passes (one Hyphae prompt per Phase or per Monthly Sharpening). `CLAUDE.md` and `AGENTS.md` are community-node-native, not mirrors.
-- **Cursor retired from canonical docs (today)** — Spec-Repo/.cursorrules deleted; PROJECT-BRAIN.md drops Cursor IDE from AI Tools, drops Base44+Cursor from the tooling-stack progression, removes the "Cursor Prompt Format" section, removes `.cursorrules` from the File Map. community-node/context/PROJECT-BRAIN.md re-synced from canonical. Six remaining Cursor references identified across `WORKFLOW.md` (~17), `ARCHITECTURE.md:156`, `README.md:261/265/277`, `checklists/farm-program-launch.md:60` — queued for May 4 Monthly Sharpening sweep. `MAP-VIEW.md:9` and `DECISIONS.md:93` (DEC-099 historical) intentionally left as append-only history.
-- **Schema-conformance discipline (DEC-167 / DEC-177 / DEC-178)** — code-level Base44 entity changes ship paired with Base44 prompts; write-path conformance enforced (not just field-shape); audit dashboard schema before any write-path change.
+- **Single-source documentation policy (DEC-182)** — Spec-Repo is canonical for project documentation. Tool-specific repos reach across via explicit `~/Documents/GitHub/Spec-Repo/...` paths and do not mirror reference docs. The narrow exception is `community-node/context/` (PROJECT-BRAIN, ACTIVE-CONTEXT, SESSION-LOG), refreshed on scheduled drift-sync passes (one Hyphae prompt per Phase or per Monthly Sharpening). `CLAUDE.md` and `AGENTS.md` are community-node-native, not mirrors.
+- **Cursor retired from canonical docs (2026-04-26 morning)** — Spec-Repo/.cursorrules deleted; PROJECT-BRAIN.md drops Cursor IDE from AI Tools, drops Base44+Cursor from the tooling-stack progression. Six remaining Cursor references queued for May 4 Monthly Sharpening sweep.
+- **Schema-conformance discipline (DEC-167 / DEC-177 / DEC-178)** — code-level Base44 entity changes ship paired with Base44 prompts; write-path conformance enforced (not just field-shape); audit dashboard schema before any write-path change. Phase 4.1 (`Business.enabled_spaces`) is the next paired-change.
 - **Mylane Agent v2, smart routing, shell containment** — all live, no regressions.
 - **Health score:** 87/100 (unchanged).
 
@@ -44,11 +47,31 @@
 
 ## What Just Shipped (2026-04-26)
 
+**Morning (warmup + DEC-182 + Cursor retirement + Field Instrument seed):**
+
 1. **Phase 4 warmup — context layer drift sync (`fe9fad9` community-node):** CLAUDE.md, AGENTS.md, PROJECT-BRAIN, ACTIVE-CONTEXT, SESSION-LOG synced to Spec-Repo canonical; broken `@`-imports fixed; Hyphae three-gardener model and DEC-167/177/178/181 references added.
 2. **`.cursorrules` deletion (`4cb0e3d` Spec-Repo).**
 3. **PROJECT-BRAIN Cursor retirement + DEC-182 (`6638c29` Spec-Repo).**
 4. **community-node Cursor + stale-files cleanup (`b7b1a19` community-node):** PROJECT-BRAIN re-synced from canonical; `PUNCH-PASS-AUDIT.md` and `DEC-025-ENTITY-PERMISSIONS.md` removed.
 5. **FIELD-INSTRUMENT-SEED.md committed (`e00bcda` private):** 244 lines at private repo root.
+6. **Earlier ship-it commits (`9fa698f` Spec-Repo, `e4d0fa2` private):** session-end docs sync for above.
+
+**Afternoon / evening (Phase 4 plan + Bari working list + Section 8 amendment + DEC-183/184):**
+
+7. **`PHASE-4-MIGRATION-PLAN.md` shipped (`1ed1a6c` Spec-Repo):** 355 lines. Hyphae's pre-Phase-4 audit. Maps current `community-node/src/` against v4.1 folder model. Sequence proposal: 4.1 (entity) → 4.2a (root folders) → 4.2b (Businesses-as-folder) → 4.3 (Home → Desk) → 4.4 (preview pulse) → 4.5 (spaces add/remove) → 4.6 (resurface pass) → 4.7 (Desk rename mechanical sweep). Surfaces seven open questions for Mycelia + Doron planning.
+8. **`private/users/bari/BARI-WORK-LIST.md` (`b651c91` private):** new per-collaborator folder structure. Captures Bari's named priorities: custom contracts (active), profile polish (shelf), e-sign + invites (shelf), estimates with change-order workflow + dual-direction payment ledger (active alongside Phase 4).
+9. **Phase 4 migration plan Section 8 amendment (`b519ef3` Spec-Repo):** +115 lines. Closes all seven open questions:
+   - 8.1 Preview pulse silence-by-default, signal-when-warranted.
+   - 8.2 Folder placement static for Phase 4; user-determined shortcuts deferred.
+   - 8.3 Multiple businesses under Businesses folder; holding hierarchy in data not display.
+   - 8.4 Apple Finder spatial model as reference (with explicit borrow/reject lists).
+   - 8.5 URL nesting deferred; behavior works as if nested.
+   - 8.6 Desk inherits Home's content as-is for Phase 4.
+   - 8.7 Discover stays as fifth root folder.
+   - 8.8 Admin contextual root in Phase 4 (Thing 1 only); admin lens deferred to 4.5.
+   - 8.9 Playmaker contextual root, default placement.
+   - 8.10 `enabled_spaces` backfill: `["profile"]` for everyone except Doron's businesses (self-activate) and Bari's (inspect actual usage).
+10. **DEC-183 (Walk the Path Before Sinking Thought) + DEC-184 (Greenfield Alibi Project as First Supabase + Vercel Build):** ratified tonight. Recorded in this session-end commit.
 
 ## Strategic Clarifications (still in force from 2026-04-25)
 
@@ -92,14 +115,14 @@ None.
 
 ## Upcoming Priorities
 
-1. **Phase 4 main work** — Desk implementation rename + business-scoped rendering (DEC-160, DEC-156); MyLaneSurface hook reordering; MyLaneDrillView latent bug fix; eslint-plugin-react-hooks exhaustive-deps enforcement; resurfacing buried surfaces per DEC-173.
-2. **Phase 4.5** — Seedlings (Admin Impersonation, post-migration welcome flow).
-3. **Phase 5 (NEW)** — Pre-migration cleanup per DEC-180.
-4. **Phase 6** — Onboarding fork + Region backfill + Pattern C+ migration window (DEC-175).
-5. **Post-migration** — Membership gate (DEC-155); Direct Doors (DEC-179); Stripe Connect.
-6. **May 4 Monthly Sharpening** — Cursor reference sweep across `WORKFLOW.md`, `ARCHITECTURE.md`, `README.md`, `checklists/farm-program-launch.md`.
-7. **Field Instrument** — when Pedrom responds: GitHub repo `alibi-protocol` setup with Pedrom as collaborator; companion artifacts moved from laptop to mini and committed alongside seed doc.
-8. **Standalone cleanup walk session** (Doron's notes-taking pass when bandwidth allows).
+1. **Phase 4.1 — entity prompt (TOMORROW'S FIRST MOVE).** `Business.enabled_spaces` field added in Base44 (paired prompt + code per DEC-178). Backfill existing businesses per Section 8.10 of `PHASE-4-MIGRATION-PLAN.md`: `["profile"]` for everyone except Doron's businesses (self-activate) and Bari's Red Umbrella (inspect actual usage). Smallest possible move that earns the right to think about Phase 4.2. Mycelia drafts the prompt fresh tomorrow morning. Path-walking cadence per DEC-183 — ship 4.1, use it, then write 4.2a's spec from that use.
+2. **Phase 4.2a / 4.2b / 4.3 / 4.4 / 4.5 / 4.6 / 4.7** — sequenced per `PHASE-4-MIGRATION-PLAN.md`. Each ships, gets used, then informs the next. No back-to-back execution.
+3. **Phase 4.5** — Seedlings (Admin Impersonation, post-migration welcome flow). Admin lens inside spaces lands here per Section 8.8.
+4. **Phase 5 (NEW)** — Pre-migration cleanup per DEC-180.
+5. **Phase 6** — Onboarding fork + Region backfill + Pattern C+ migration window (DEC-175). By this point, alibi-first Supabase + Vercel work (DEC-184) has produced platform-learning fluency that informs the migration.
+6. **Post-migration** — Membership gate (DEC-155); Direct Doors (DEC-179); Stripe Connect.
+7. **Field Instrument as first Supabase + Vercel build (DEC-184)** — develops in slow hours alongside Phase 4/5. When Pedrom responds: GitHub repo `alibi-protocol` setup with Pedrom as collaborator; companion artifacts moved from laptop to mini and committed alongside seed doc; first Supabase + Vercel scaffolding when the relationship and project shape warrants it.
+8. **May 4 Monthly Sharpening** — Cursor reference sweep across `WORKFLOW.md`, `ARCHITECTURE.md`, `README.md`, `checklists/farm-program-launch.md`. Plus `community-node/docs/migration-research.md` cleanup (carryover from 2026-04-25). Plus DECISIONS.md drift audit + merge session.
 9. **NODE-LAB-MODEL.md phase-review note** for Field Service crossing production-shaped (private repo, deliberate review).
-10. **Carryovers** — `community-node/docs/migration-research.md` cleanup; DECISIONS.md drift audit + merge session.
+10. **Standalone cleanup walk session** (Doron's notes-taking pass when bandwidth allows).
 11. **Newsletter "The Good News"** — wake dormant accounts.

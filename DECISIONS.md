@@ -983,3 +983,23 @@ Links to Living Feet (DEC-146): the schema definition is "stone" (one source in 
 **Status:** Active. Demonstrated in companion community-node commit (re-syncs `context/PROJECT-BRAIN.md` from this Spec-Repo edit + removes two stale orphaned docs).
 
 ---
+
+### DEC-183: Walk the Path Before Sinking Thought (2026-04-26)
+
+**Date:** 2026-04-26
+**Context:** Today's planning conversation produced a 115-line Section 8 amendment to `PHASE-4-MIGRATION-PLAN.md` detailing decisions about features that won't ship for weeks. Most of the decisions ended up being deferrals — don't build preview pulse, don't build shortcuts, don't build URL nesting, don't redesign Desk yet. Doron flagged a working principle that emerged: don't build vision without walking a short distance of the path; if we build without dogfooding, we sink thought. The reminders example (using a primitive reminders system, finding specific frictions, knowing exactly what to spec when the time comes) demonstrates the principle in practice.
+**Decision:** Phase 4 (and future phases) ships in path-walking cadence. Each sub-phase ships, gets used, generates real-world friction signal, and only then informs the next sub-phase's spec. Sub-phases are not pre-sequenced for back-to-back execution. Smaller steps, used between, are better than large planned blocks shipped sequentially. This applies broadly: any feature whose specification depends on what real users (including Doron himself) actually need from it should ship a primitive version, get used, and earn its real spec from that use.
+**Rationale:** Vision-without-path produces rework. The cost of guessing a feature's shape is paid twice: once to build the wrong version, once to rebuild the right one. The cost of shipping a primitive version and learning from it is paid once. Time-pressure (custody trial, Bari's needs, Saturday Market window) does not change this — it strengthens it. Path-walking is faster across the full arc, even if any single step looks slower.
+**Status:** Active. Applied immediately to Phase 4 cadence. Tomorrow's first move (Phase 4.1) is the smallest possible move that earns the right to think about Phase 4.2.
+
+---
+
+### DEC-184: Greenfield Alibi Project as First Supabase + Vercel Build (2026-04-26)
+
+**Date:** 2026-04-26
+**Context:** DEC-175 set the migration to Supabase + Vercel as Phase 6 work, with sandbox on `lanecountyrecess.com`. Tonight Doron raised the question of whether the first work on the new stack should be the LocalLane migration itself or the field instrument (alibi) project, which is currently seed-stage and has no infrastructure. Argument for migration first: it's the necessary work for LocalLane's scale ceiling. Argument for alibi first: greenfield is a different mental shape than migration, blast radius is small (two users), the project shape exercises the right parts of Supabase + Vercel (Postgres + RLS + Next.js + edge functions), Pedrom is the right collaborator for a greenfield experiment, and it operationalizes DEC-183 (walk a short path before sinking thought into the larger one).
+**Decision:** The greenfield alibi project is the first build on Supabase + Vercel. It develops in slow hours alongside Phase 4 and Phase 5 LocalLane work, not as a blocking phase. By the time Phase 5 cleanup finishes and Phase 6 migration starts, the alibi build has produced platform-learning fluency that informs the LocalLane migration meaningfully. This serves three purposes from one body of work: the alibi project itself, platform learning for Phase 6, and a pressure-test of how Mycelia + Hyphae operate on a greenfield project on the new stack.
+**Rationale:** Migrating an existing app onto an unfamiliar platform compounds two unknowns simultaneously — the platform itself plus the migration mechanics. Building greenfield on the new platform isolates the platform-learning unknown. The alibi project's posture is already "slow-compounding, develop in slow hours" per its seed doc; aligning it with platform-learning value is fitting rather than additive. This also gives Pedrom a real product to participate in while the relationship is still slow-compounding rather than waiting on a future formal ask.
+**Status:** Active. Aligned with `FIELD-INSTRUMENT-SEED.md`'s posture and DEC-175's Phase 6 timing.
+
+---

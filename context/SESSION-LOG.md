@@ -1426,3 +1426,56 @@ The collaboration may continue tonight before bed. This ship-it captures state t
 **Ship-it timestamp:** 2026-04-26, evening. Session closed.
 
 ---
+
+## Session Log — 2026-04-26 (continued, evening) — Phase 4 plan in fully-planned state + DEC-183 + DEC-184
+
+**Surface:** Claude.ai (Mycelia thread) + Hyphae on Mac mini. Continuation of the day's earlier ship-it.
+
+**Focus:** Earlier ship-it (commits `9fa698f` Spec-Repo + `e4d0fa2` private) closed in a settled state — Phase 4 main work was named as "next" but not yet planned. Evening session did the planning. Three artifacts shipped: Hyphae's pre-Phase-4 audit (`PHASE-4-MIGRATION-PLAN.md`), Bari's working list in a new per-collaborator folder structure, and a Section 8 amendment to the migration plan that closes all seven open questions Hyphae raised. Two architectural decisions ratified along the way: DEC-183 (Walk the Path Before Sinking Thought) and DEC-184 (Greenfield Alibi Project as First Supabase + Vercel Build).
+
+**Shipped to Spec-Repo (origin/main):**
+
+1. **`PHASE-4-MIGRATION-PLAN.md` (`1ed1a6c`):** 355 lines. Hyphae's pre-Phase-4 audit. Maps current `community-node/src/` against v4.1's folder model (Sections 10.1, 13.1, 14, 17, 20). Inventoried 60+ files across MyLane navigation, dashboard tab implementations, business-context machinery, hooks, registry. Mapped each to one of five buckets (Direct match / Move-rename / Partial / Net-new / Retire). Identified five files named in prior session logs that don't exist at expected paths (`MyLaneBreadcrumb.jsx`, `WhatsChangedBar.jsx`, `BusinessDashboard.jsx`, standalone `OverlayContainer.jsx`, standalone `BusinessSwitcher.jsx`) — stale references. Confirmed `enabled_spaces` field doesn't exist anywhere in the codebase (pure NET-NEW). Confirmed `listed_in_directory` toggle is already shipped in Build 2 (BusinessSettings.jsx + `directoryVisibility.js`). Confirmed DEC-179 contradicts v4.1's assumption that `/b/{slug}` routing is Phase 4 work. Proposed sequence: 4.1 (entity) → 4.2a (root folders) → 4.2b (Businesses-as-folder) → 4.3 (Home → Desk) → 4.4 (preview pulse) → 4.5 (spaces add/remove) → 4.6 (resurface pass) → 4.7 (Desk rename mechanical sweep). Surfaced seven open questions for Mycelia + Doron planning.
+
+2. **Phase 4 migration plan Section 8 amendment (`b519ef3`):** +115 lines, header line amended to reflect evening planning. Ten subsections close all seven open questions:
+   - 8.1 Preview pulse silence-by-default, signal-when-warranted (anti-filler, anti-scan).
+   - 8.2 Folder placement static for Phase 4; user-determined shortcuts deferred (rejection of dynamic placement).
+   - 8.3 Multiple businesses under Businesses folder; holding hierarchy in data not display.
+   - 8.4 Apple Finder spatial model as reference (with explicit borrow/reject lists; no panoptic tree view, no static thumbnails, no desktop metaphor).
+   - 8.5 URL nesting deferred per DEC-179; behavior works as if nested in component state.
+   - 8.6 Desk inherits Home's content as-is for Phase 4; future pin-to-Desk pattern noted as Phase 5/6 candidate.
+   - 8.7 Discover stays as fifth root folder.
+   - 8.8 Admin contextual root in Phase 4 (Thing 1 only); admin lens inside every space deferred to Phase 4.5.
+   - 8.9 Playmaker contextual root, default placement, current shipping behavior.
+   - 8.10 `enabled_spaces` backfill: `["profile"]` for all except Doron's businesses (self-activate later via 4.5 UI or direct Base44 edit) and Bari's Red Umbrella (inspect actual usage — at minimum Profile + Desk + Settings + Finance if profile exists).
+
+**Shipped to private (origin/main):**
+
+3. **`private/users/bari/BARI-WORK-LIST.md` (`b651c91`):** new per-collaborator folder structure established. 114 lines. Captures Bari's named priorities: custom contracts (active — clarity-on-meaning conversation owed), business profile polish (shelf, returns when Phase 4 settles), e-sign + invites for clients/subcontractors (shelf — subcontractor scope depends on authority model parked in v4.1 §8), estimates with change-order workflow + dual-direction payment ledger (active alongside Phase 4 — full inflow + outflow ledger needed for Bari's 25% management fee transparency). Operating context section notes DEC-179 retainer scope (workflow help, not website replacement), schema-conformance discipline applies, Construction Gate (DEC-092) applies.
+
+**Decisions made tonight:**
+
+- **DEC-183 — Walk the Path Before Sinking Thought.** Path-walking cadence between sub-phase shipments. Each sub-phase ships, gets used, generates real-world friction signal, only then informs the next. Sub-phases not pre-sequenced for back-to-back execution. The reminders example illustrates: using a primitive reminders system tells Doron exactly what to spec when the proper version is built. Vision-without-path produces rework; path-walking is faster across the full arc even if any single step looks slower. Time-pressure (custody trial, Bari's needs) doesn't change this — strengthens it.
+- **DEC-184 — Greenfield Alibi Project as First Supabase + Vercel Build.** The Field Instrument (alibi) develops in slow hours alongside Phase 4/5 LocalLane work. By the time Phase 5 cleanup finishes and Phase 6 migration starts, the alibi build has produced platform-learning fluency. Three purposes from one body of work: the alibi project itself, platform-learning for Phase 6, pressure-test of how Mycelia + Hyphae operate on a greenfield project on the new stack. Migrating an existing app onto an unfamiliar platform compounds two unknowns simultaneously — building greenfield isolates the platform-learning unknown.
+
+**Tomorrow's first move:**
+
+Phase 4.1 entity prompt — `Business.enabled_spaces` field added in Base44 (paired prompt + code per DEC-178), backfill existing businesses per Section 8.10 rules. Smallest possible move that earns the right to think about Phase 4.2. Mycelia drafts the prompt fresh tomorrow morning.
+
+**Carryover items (still pending):**
+
+- `NODE-LAB-MODEL.md` update for Field Service crossing production-shaped (~95 score, paying user). Flag persists from earlier ship-it.
+- `DECISIONS.md` drift between Spec-Repo and community-node — pre-existing structural divergence; queued for May 4 Sharpening.
+- `community-node/docs/migration-research.md` cleanup — supposed to have been deleted post-DEC-175; queued for May 4 Sharpening.
+- Cursor reference sweep across `WORKFLOW.md` / `ARCHITECTURE.md` / `README.md` — queued for May 4 Sharpening (all in SuperMemory).
+- Companion artifacts for Field Instrument (HYPHAE briefings, SELF-PORTRAIT-TEMPLATE, PARTICIPATION-GUIDELINES) — still on laptop; will commit when moved to mini and Pedrom responds.
+
+**Posture note for the record:**
+
+Tonight's late session produced two architectural decisions (DEC-183, DEC-184) that change how future planning conversations should be shaped. DEC-183 specifically pushes back on today's own pattern (115-line Section 8 detailing decisions about deferred features) and names the working principle that should govern future work: walk a short path, generate spec from use, then build. The reminders example (Doron uses primitive reminders, knows exactly what to spec when the proper version is built) is the canonical illustration. DEC-184 operationalizes DEC-183 at platform-migration scale: greenfield alibi build before LocalLane migration so platform-learning happens on a small surface area first.
+
+Five commits across two repos today before this ship-it. Two earlier ship-it commits (`9fa698f` Spec-Repo + `e4d0fa2` private). After this commit, the day totals eight commits across three repos: community-node `fe9fad9`, `b7b1a19`; Spec-Repo `4cb0e3d`, `6638c29`, `9fa698f`, `1ed1a6c`, `b519ef3`, this session-end commit; private `e00bcda`, `e4d0fa2`, `b651c91`, this private session-end commit. A heavy day, but the heaviness was distributed across distinct workstreams (Phase 4 warmup, DEC-182 + Cursor cleanup, Field Instrument seed commit, Pedrom thread brought current, Phase 4 fully-planned state, two new DECs) rather than concentrated on any single bottleneck.
+
+**Ship-it timestamp:** 2026-04-26, late evening. Session closed in fully-planned state. Tomorrow opens on Phase 4.1.
+
+---
