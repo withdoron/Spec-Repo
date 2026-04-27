@@ -1,6 +1,6 @@
 # Phase 4 Migration Plan — Pre-Build Audit
 
-> Authored by Hyphae, 2026-04-26.
+> Authored by Hyphae 2026-04-26. Amended 2026-04-26 (evening) with Mycelia + Doron planning decisions in Section 8.
 > Maps the current `community-node/src/` structure against the folder model in
 > `LOCALLANE-CORE-ARCHITECTURE-v4-1.md` (Sections 10.1, 13.1, 14, 17, 20).
 > Docs-only artifact. No code touched. Input to future Phase 4 execution prompts.
@@ -337,6 +337,120 @@ These are the spots where the audit found enough ambiguity to warrant a Mycelia 
 6. **URL nesting in Phase 4 vs. waiting for migration.** v4.1 14.3 wants `/mylane/personal/finance` etc. Building nested routing is independent of `/b/{slug}` direct doors (which are deferred). Should Phase 4 add the nested `/mylane/...` routes, or wait until the post-migration stack? Building them on Base44 is throwaway if they get rewritten on Supabase/Vercel.
 
 7. **`enabled_spaces` backfill specificity.** Inspecting actual data per business is straightforward for FS / Finance / PM (existence of profile = space was used). Less obvious for Events, Network, Property Pulse if they're not already represented as separate profile entities. Need to map each space type to a backfill signal before writing the migration script.
+
+---
+
+## Section 8 — Planning Decisions (Mycelia + Doron, 2026-04-26 evening)
+
+After Hyphae's audit landed (commit `1ed1a6c`), Mycelia and Doron walked the seven open questions in Section 7 and made the following decisions. These close the planning loop and feed directly into Phase 4 execution prompts.
+
+### 8.1 — Preview pulse: silence by default, signal when warranted
+
+The area below the cockpit at non-leaf folder levels is **conditional, not constant**. When there is nothing alive that needs attention in the centered folder, the area is calm — possibly a single line of label text indicating folder contents, possibly empty space. The pulse appears only when there is something to pulse about: an unsigned estimate, a parent who hasn't confirmed, a transaction that needs categorizing, an event starting soon.
+
+This resolves Open Question #1. It rejects the temptation to fill the space with synthetic activity feeds or stat panels. Filler-content is anti-circulation; it teaches the user to scan rather than to act.
+
+The implementation question becomes: what's the trigger logic for "something needs attention in this folder"? Each folder type has its own answer, derived from the entities it contains. That logic gets specified when the 4.4 (Preview pulse) execution prompt is written, not here.
+
+### 8.2 — Folder placement: shortcuts (user-determined), not dynamic rules (system-determined)
+
+The temptation surfaced during planning to make folder placement dynamic — Playmaker at root for users with one role, nested under Personal for users with many things going on. After discussion, this was rejected in favor of a **user-determined shortcut layer**.
+
+The principle: the user decides what matters most to them. The system does not algorithmically guess.
+
+Phase 4 ships v4.1's universal + contextual root folders as currently described — Directory, Events, Discover, Personal, Businesses (universal); Admin, Playmaker, Networks (contextual). Placement is static.
+
+Future work (post-Phase-4): a shortcut/pin primitive that lets users pull any item from anywhere in the folder tree to either their personal Home, or to root-spinner-level fast-access. This is a meaningful addition to v4.1 and earns its own DEC and design pass when it gets built.
+
+The folder-tree representation in Phase 4 should be designed so that this future shortcut layer doesn't require a refactor. Specifically: the tree should be a function (not a static config) so placement rules can evolve.
+
+### 8.3 — Multiple businesses live under Businesses; holding hierarchy lives in data, not display
+
+Confirmed v4.1's existing structure. A user with three businesses (Doron's case: TCA, Recess, Consulting, plus hidden Mycelia and exempt LocalLane) does not see them at root. They live under the Businesses folder. The user enters Businesses and selects which business to operate as. The DEC-168 switcher pattern handles this exactly right.
+
+The holding-company hierarchy (Mycelia, LLC parents TCA / Recess / Consulting / LocalLane) lives in **data, not display**. Finance roll-up shows the consolidated parent view for tax filing. The dashboard does not represent parent-child as nested folders. All the businesses appear as siblings in the Businesses folder; Mycelia is hidden via `listed_in_directory: false`; LocalLane is exempt from its own fee.
+
+This separation is clean: user mental model is "I have N businesses." Accounting model is "my parent owns these and rolls them up." Both true; live in different places.
+
+### 8.4 — Apple Finder spatial model is the reference (with explicit deltas)
+
+Decades of HCI research have established the folder mental model: tap to descend, back to ascend, breadcrumb shows depth, lateral switching at the same level, folders distinguished from leaves visually. LocalLane should use what users already know rather than reinvent it.
+
+**What to borrow from Finder:**
+
+- Tap-to-descend, back-to-ascend
+- Breadcrumb showing path depth
+- Lateral switching at the same level (matches DEC-168 switcher)
+- Folders are containers (places with stuff), not screens (pages with content)
+- Visual distinction in the cockpit between folders (descend-able) and leaves (workspaces — no further descent)
+
+**What NOT to borrow from Finder:**
+
+- Tree view in a sidebar showing full hierarchy. v4.1 explicitly rejects panoptic views ("the map is alive, relative, and never panoptic"). The user only ever sees the folder they're in plus its siblings, never the full tree.
+- Static thumbnails. We want preview *pulse* — living signal, not frozen snapshot.
+- The desktop metaphor (files on a desk dragged into folders). LocalLane is a navigable garden, not a workspace metaphor.
+
+The folder-leaf visual distinction in cockpit chrome is a small design move worth surfacing during 4.2 build planning. Currently SpaceSpinner doesn't distinguish — every spinner item looks the same. v4.1 names lateral switching (DEC-168) but doesn't explicitly name folder/leaf chrome.
+
+### 8.5 — URL nesting deferred; behavior works as if nested
+
+Per DEC-179 (path-based direct doors deferred to post-migration), Phase 4 does NOT build nested `/mylane/personal/finance` style URLs. Building them on Base44's router would mean writing code that gets rewritten when we migrate to Supabase + Vercel.
+
+However, the *behavior* of nested folders is preserved: descent, return, breadcrumb navigation, lateral switching. The folder tree exists in component state; the URL is a side-effect that Phase 4 does not yet wire up. Post-migration, when the routing layer is something we keep, URL nesting lands naturally without a structural refactor.
+
+This resolves Open Question #6.
+
+### 8.6 — Desk inherits Home's content as-is for Phase 4
+
+The Home → Desk vocabulary swap renames the tab. The content (stats, upcoming events, quick actions per `DashboardHome.jsx`) stays the same in Phase 4. No structural redesign of what Desk shows.
+
+A future design possibility was surfaced and noted: a **pin/shortcut pattern** where items created in a business default to pinning on the Desk, with the user able to unpin or move later. This would align Desk with the preview-pulse principle — Desk shows what's actively being touched, not all the data in the business. This is a Phase 5 or 6 candidate, not a Phase 4 build.
+
+This resolves Open Question #2.
+
+### 8.7 — Discover stays as a fifth root folder
+
+Universal root folders are: **Directory, Events, Discover, Personal, Businesses**. Discover is included alongside the other four (v4.1's Section 14.1 listed only four; this addition reflects what's currently shipping and what users have already learned).
+
+Discover's deliberate dimness in the cockpit is preserved — it's an entry point for exploration without commitment. Users tap into Discover and explore from there.
+
+### 8.8 — Admin: contextual root folder in Phase 4 (Thing 1 only)
+
+Phase 4 ships **Admin as a contextual root folder** for users with admin role. Tap the Admin folder, enter the existing `Admin.jsx` page (resurfaced per DEC-173). This is a wiring task, not a build.
+
+The "admin lens inside every space" concept (per v4.1 Section 17, Phase 4.5) — additional admin-aware affordances on every other space's screen — is **deferred to Phase 4.5**. That's a different surface and shipping it as part of Phase 4 would expand scope unnecessarily.
+
+This resolves Open Question #4.
+
+### 8.9 — Playmaker: contextual root folder, default placement
+
+Phase 4 ships **Playmaker as a contextual root folder** for users with any TeamMember role. This matches what's currently shipping. Placement is static (at root, by default) for Phase 4. Future shortcut/pin work (per Section 8.2) may let users move it.
+
+This resolves Open Question #3 with the simpler answer: keep current shipping behavior, defer fancier placement logic.
+
+### 8.10 — `enabled_spaces` backfill specificity
+
+The migration script for adding `enabled_spaces` to existing businesses uses these rules:
+
+- **Doron's businesses (Mycelia LLC, LocalLane, TCA, Recess, Consulting):** Doron self-activates the spaces he uses on each. The migration script seeds with `["profile"]` and Doron toggles others on via the Add Space UI when 4.5 ships. (Or, if 4.5 isn't shipped yet by the time he needs full activation, the field can be edited directly in Base44.)
+- **Bari's business (Red Umbrella):** Inspect actual usage. Currently using at minimum: Profile, Desk (Field Service), Settings. Finance if there's a finance profile. Seed accordingly per actual data inspection.
+- **All other businesses in the system:** Seed with `["profile"]` only. They are directory-listed but not actively using other spaces. The 4.5 Add Space UI lets them activate more when they want.
+
+This resolves Open Question #7. The backfill is concrete and the migration script can be specced from this directly.
+
+A useful side-effect: the seed values surface real data about the platform — how many businesses are directory-only vs actively using multiple spaces. That's a circulation signal worth tracking.
+
+### Summary of resolution status (Open Questions, Section 7)
+
+| Question | Status |
+|---|---|
+| #1 Preview pulse concretely | **Resolved** — silence by default, signal when warranted (8.1) |
+| #2 Home → Desk content collapse | **Resolved** — inherit as-is for Phase 4, future pin pattern noted (8.6) |
+| #3 Playmaker contextual root vs Team-inside-Personal | **Resolved** — contextual root, default placement, current shipping behavior (8.9) |
+| #4 Admin contextual root vs admin lens in spaces | **Resolved** — Thing 1 (root folder) in Phase 4; Thing 2 (lens) deferred to 4.5 (8.8) |
+| #5 Personal folder vs unscoped at root | **Implicit** — Personal contains personal-flavored items (Home, Finance, Meal Prep, etc.); fast-access at root is a future shortcut concern (8.2) |
+| #6 URL nesting in Phase 4 vs wait | **Resolved** — wait. Behavior works as if nested; URLs land post-migration (8.5) |
+| #7 `enabled_spaces` backfill spec | **Resolved** — concrete per-business rules (8.10) |
 
 ---
 
