@@ -274,9 +274,9 @@ The brief proposed 4.1–4.7. The audit confirms the broad shape but suggests tw
 **Recommended order:**
 
 ```
-4.0  Folder tree as configuration                           [architectural foundation, no UI change]
-4.1  Entity (Business.enabled_spaces + backfill)            [Base44 + code]
-4.2a Root folders (Directory/Events/Personal as cockpit)    [structural, low Bari risk]
+4.0  Folder tree as configuration                           [shipped 2026-04-27]
+4.1  Entity (Business.enabled_spaces + backfill)            [shipped 2026-04-27, one record pending]
+4.2a Root folders (Directory/Events/Personal as cockpit)    [shipped 2026-04-27]
 4.2b Businesses-as-folder + per-business sub-folders        [structural, touches switcher]
 4.3  Home → Desk collapse (structural)                      [follows 4.2b]
 4.4  Preview pulse                                          [needs spec]
@@ -452,6 +452,26 @@ Phase 4.0 (added to the sequence) enforces this for the folder tree specifically
 Adjacent living-feet patterns already shipped in the codebase: `VARIANT_MAP` for cockpit variants (DEC-152), `WORKSPACE_TYPES` for tab structures, `myLaneRegistry` for cards. Phase 4.0 extends this established pattern to the folder tree itself.
 
 The deeper question — whether the relationship-shape entities (TeamMember, Client, Subcontractor, future Engagement) should unify into a single `Relationship` primitive — is parked. Engagements MVP can build on existing entity shapes for now. The unification question is a Phase 5 or Phase 6 architectural call when it becomes load-bearing.
+
+### 8.12 — Phase 4.2a shipped (2026-04-27 afternoon)
+
+Universal root folders moved into the cockpit. Five new entries land on the root spinner: **Directory**, **Events**, **Personal**, **Businesses**, plus the existing **Discover**. Directory and Events lose their header-pill chrome; descent into them via center-tap on the cockpit opens the existing OV.DIR / OV.EVT overlay machinery (resurface, not rebuild — DEC-173). Personal becomes the static folder containing today's personal-flavored leaves (home, meal-prep/Kitchen, field-service/Desk, finance, team, property-pulse). Businesses replaces the singular `business` leaf as the descent point for the DEC-168 switcher.
+
+**Folder tree representation chosen: nested `children` arrays** in `src/config/folderTree.js`. Picked over `parent_id` because the tree shape is immediately visible from the file (one glance shows the hierarchy) and adding a child entry can't typo a parent reference. Helpers exported alongside the data — `rootItems`, `folderItems`, `locateLeaf`, `allLeaves` — so MyLaneSurface stays a thin renderer. Phase 4.0's predicate registry (`folderPredicates.js`) remained unchanged — every new folder uses an existing predicate (`always`, `has_owned_business`, `is_admin`).
+
+**The Phase 4.0 abstraction held.** The folder-tree config absorbed the new universal roots without a rewrite — only additive entries plus the small `children` extension. MyLaneSurface gained ~42 lines (1373 → 1415) — descent state, center-tap descent gesture, cross-folder `navigateToId` helper, folder-vs-leaf branch in `renderContent`. SpaceSpinner stayed untouched per DEC-173. The `kind: 'folder' | 'leaf'` field introduced in 4.0 became load-bearing in 4.2a as predicted.
+
+**Switcher mode (DEC-168) preserved without structural changes.** The space-name pill still triggers `enterSwitcher` exactly as before. Phase 4.2a adds a second entry path — center-tapping the Businesses folder on the root cockpit also enters switcher mode — but the existing pill-tap path is untouched. Switcher commit now lands on Personal/Home (descended) rather than spinnerIndex 0 of a flat list, preserving the post-commit "user is at Home of new business context" UX.
+
+**Rendering at folder positions: silence-by-default per Section 8.1.** When the centered cockpit item is a folder (kind === 'folder'), the area below renders an empty 24px-min spacer. No preview pulse machinery built. Directory and Events open their existing full-page overlays on descent — those overlays are the folder's "content," in effect.
+
+**Logo behavior generalized.** The "Local Lane" wordmark click now clears descended state, exits switcher, AND snaps spinnerIndex to 0 — matches v4.1 §14.2's "logo returns to root at any depth." Escape key also unwinds the descent stack as its final step.
+
+**One judgment call flagged for review:** the welcome card's `WELCOME_LABELS` map still includes `'business': 'business'` from before 4.2a. There is no longer a leaf with id `business` — the welcome flow's "Go to <space>" button for that key is now a no-op (graceful degradation; no crash). The card path is rare and runs through invite-state localStorage; chose to flag rather than redesign the welcome flow inside this pass. Revisit in 4.2b or 4.6.
+
+**Cold-open landing position is now Directory** (root index 0). Today's cold-open landed on Home (Personal/home). Doron will path-walk this — if root[0] = Directory feels jarring, adjust by reordering folderTree.js or initializing spinnerIndex to point at Personal. No hard data on which is right; preserved spec order from v4.1 §14.1 for now.
+
+**Risk to paying user remains effectively zero.** Bari is not yet using LocalLane for daily work. Doron is the smoke-test for both switcher preservation and the descent gestures.
 
 ### Summary of resolution status (Open Questions, Section 7)
 
