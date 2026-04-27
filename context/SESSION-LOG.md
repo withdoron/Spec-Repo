@@ -1365,3 +1365,64 @@ This is the first Hyphae session running from the Mac mini. The path-alignment c
 **Ship-it timestamp:** 2026-04-25, evening. Session closed. Phase 3 closed. Ready for Phase 4.
 
 ---
+
+## Session Log — 2026-04-26 (Phase 4 warmup + DEC-182 + Cursor retirement + Field Instrument seed committed)
+
+**Surface:** Claude.ai (Mycelia thread) + Hyphae on Mac mini.
+
+**Focus:** Phase 4 warmup (community-node doc-drift sync) ran clean; the four findings it produced compounded into three downstream pieces of work in the same session — DEC-182 (architectural call ratifying the no-mirror policy), Cursor retirement from canonical docs, and the cleanup of two stale community-node root files. Plus: FIELD-INSTRUMENT-SEED.md (private repo) finally committed after living on the laptop since 2026-04-12; Pedrom thread brought current with v0.1 protocol outcome (live test 2026-04-24).
+
+**Shipped to community-node (origin/main):**
+
+1. **Phase 4 warmup — context layer drift sync (`fe9fad9`):** community-node `CLAUDE.md`, `AGENTS.md`, and all three `context/` files (PROJECT-BRAIN, ACTIVE-CONTEXT, SESSION-LOG) brought current with Spec-Repo canonical. Drift gap from 2026-04-15 closed. Spec-Repo's 1367-line SESSION-LOG replaced community-node's stale 654-line copy (community-node had condensed-mirror entries for 2026-04-04 and 2026-04-05 — fully covered by Spec-Repo's superset, so replacement was clean, not divergent). Three findings flagged: broken `@`-imports in CLAUDE.md (`@ARCHITECTURE.md`, `@STYLE-GUIDE.md`, `@.cursorrules` — none exist locally), Cursor-retirement inconsistency across docs, two orphan root files. All addressed in subsequent commits today.
+2. **Cursor + stale-files cleanup (`b7b1a19`):** `community-node/PUNCH-PASS-AUDIT.md` removed (2026-02-07 Punch Pass → Joy Coins language audit, pre-Community-Pass artifact, no code references). `community-node/DEC-025-ENTITY-PERMISSIONS.md` removed (Phase 3a entity-permission deployment checklist, settings superseded multiple times since via DEC-115 / DEC-136 / DEC-140). `community-node/context/PROJECT-BRAIN.md` re-synced from Spec-Repo canonical — first explicit demonstration of the DEC-182 single-source-with-sync flow (Spec-Repo edited as canonical, community-node mirror refreshed downstream in the same pass).
+
+**Shipped to Spec-Repo (origin/main):**
+
+3. **`.cursorrules` deleted (`4cb0e3d`):** Cursor-era artifact removed via `git rm`. (This commit was supposed to also include the PROJECT-BRAIN edits and DEC-182 append but those weren't staged — the Edit tool leaves changes unstaged. Caught on the next `git status`. Lesson recorded; see Posture note.)
+4. **PROJECT-BRAIN Cursor retirement + DEC-182 (`6638c29`):** Continuation commit. PROJECT-BRAIN.md drops "Cursor IDE (visual editing)" from AI Tools, drops "Base44+Cursor" from the living-feet tooling-stack progression, removes the entire "Cursor Prompt Format" section, removes `.cursorrules` row from the File Map, bumps Last updated stamp. **DEC-182 (Single-Source Documentation, Scheduled Drift Sync) appended to DECISIONS.md** — codifies the architectural call: Spec-Repo is canonical for project documentation, tool-specific repos reach across via explicit `~/Documents/GitHub/Spec-Repo/...` paths, the narrow `context/` mirror in community-node is refreshed by scheduled drift-sync passes (one Hyphae prompt per Phase or per Monthly Sharpening), CLAUDE.md and AGENTS.md remain community-node-native (not mirrors). DEC-182 wording adjusted from the suggested text to make the file-categories distinction precise (CLAUDE.md/AGENTS.md don't exist in Spec-Repo at all, so they aren't mirrors — only `context/` is).
+
+**Shipped to private (origin/main):**
+
+5. **FIELD-INSTRUMENT-SEED.md committed to root (`e00bcda`):** Originally drafted 2026-04-12 in Mycelia thread, saved to laptop outputs, never committed. Located today on laptop, reviewed, substantively updated to fold in v0.1 outcome (live test 2026-04-24 with Pedrom Rejai — both AIs hit the posture the protocol asked for; Pedrom's AI flagged a framing-bias failure mode that became the single most valuable output of v0.1; both parties agreed to keep building). Revised to remove personal-to-Doron and LocalLane-specific framing — now a project-only living document. 244 lines. Placed at private repo root to match the existing flat organizational pattern (no `projects/` subfolder exists; other seed-stage cross-project work — BOMB-SQUAD-GROWERS.md, BJJ-RANKED-QUEUE.md, BOOK-FRAMEWORKS.md — also lives at root).
+
+**Decisions made:**
+
+- **DEC-182 — Single-Source Documentation, Scheduled Drift Sync.** Spec-Repo is canonical; tool-specific repos reach across, do not mirror. The narrow exception is `community-node/context/` (PROJECT-BRAIN, ACTIVE-CONTEXT, SESSION-LOG), refreshed via scheduled drift-sync. Demonstrated in commit `b7b1a19` (community-node mirror refresh in same session as the Spec-Repo edit).
+
+**Cleanup completed:**
+
+- Cursor IDE removed from canonical PROJECT-BRAIN docs in both repos.
+- Spec-Repo `/.cursorrules` deleted.
+- `community-node/PUNCH-PASS-AUDIT.md` deleted (pre-Community-Pass artifact).
+- `community-node/DEC-025-ENTITY-PERMISSIONS.md` deleted (superseded permission model from Phase 3a).
+- Two-commit lesson recorded for Hyphae: stage all modifications via `git add` before commit; `git rm` stages deletions but the Edit tool leaves modifications unstaged. Manifested as the `4cb0e3d` → `6638c29` Spec-Repo split today.
+
+**Field Instrument (sibling product, seed-stage, separate from LocalLane):**
+
+- v0.1 protocol live-tested 2026-04-24 with Pedrom Rejai. Successful — both AIs hit the posture the protocol asked for. Pedrom's AI flagged a framing-bias failure mode in the protocol — the single most valuable output of v0.1.
+- Mycelia drafted a post-meeting follow-up email (em-dash-free, two variants) ready to send.
+- Flagged a Eugene Bigfoot Beverages Director of Operations posting to Pedrom as a possible fractional-consulting opportunity tied to his Junction City client visit.
+- GitHub repo `alibi-protocol` planned but deferred pending Pedrom's response.
+- Companion artifacts (HYPHAE briefings, SELF-PORTRAIT-TEMPLATE, PARTICIPATION-GUIDELINES) remain on laptop; will commit alongside repo setup once moved to mini.
+
+**Carryover items (still pending):**
+
+- Sweep remaining Cursor references in `Spec-Repo/WORKFLOW.md` (~17 occurrences), `ARCHITECTURE.md:156`, `README.md:261/265/277`, and `checklists/farm-program-launch.md:60`. `MAP-VIEW.md:9` (historical estimate) and `DECISIONS.md:93` (DEC-099 historical rationale) intentionally left intact as append-only history. Queued for the May 4 Monthly Sharpening.
+- `community-node/docs/migration-research.md` cleanup (still pending from 2026-04-25).
+- DECISIONS.md drift between Spec-Repo and community-node (pre-existing, dedicated session needed).
+- NODE-LAB-MODEL.md phase-review note for Field Service crossing production-shaped (private repo, deliberate review pending — flagged again this session, not updated as a side-effect of ship-it).
+- Phase 4 main work: MyLaneSurface hook reordering, MyLaneDrillView lines 48-52 latent bug, eslint-plugin-react-hooks exhaustive-deps enforcement, resurfacing buried surfaces per DEC-173.
+- Bug log carryovers: Base44 SDK 404 console spam, duplicate DC key React warning, `Business.categories` empty field per DEC-176.
+
+**Posture note for the record:**
+
+Today was a heavier session than the morning briefing planned. The Phase 4 warmup ran clean and the four findings it produced created bandwidth for the architectural call (DEC-182), the cleanup, and the Field Instrument capture. The day compounded rather than drifted. Worth noticing: this is the pattern when warmups go well. Plan light, ship clean, let downstream work earn its place.
+
+One self-correction worth recording: Mycelia overweighted a casual phrase from Pedrom's email ("my Mycelia") and was about to write a "two Mycelias in this work" observation into the canonical seed doc. Doron caught it. Pulled from the doc in revision. Worth noting because it's the framing-bias failure mode Pedrom's AI flagged in v0.1, manifesting in real time, in this conversation. The protocol's own first lesson lived through.
+
+The collaboration may continue tonight before bed. This ship-it captures state through this point.
+
+**Ship-it timestamp:** 2026-04-26, evening. Session closed.
+
+---
