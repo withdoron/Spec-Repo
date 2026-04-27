@@ -1,0 +1,355 @@
+# Phase 4 Migration Plan — Pre-Build Audit
+
+> Authored by Hyphae, 2026-04-26.
+> Maps the current `community-node/src/` structure against the folder model in
+> `LOCALLANE-CORE-ARCHITECTURE-v4-1.md` (Sections 10.1, 13.1, 14, 17, 20).
+> Docs-only artifact. No code touched. Input to future Phase 4 execution prompts.
+
+---
+
+## Section 1 — v4.1's Folder Model (Summarized)
+
+v4.1 reframes navigation as a **folder tree** rendered by a **cockpit**. Every folder either contains sub-folders or a workspace; the cockpit is the chrome that lets the user move through that tree. At the root, the cockpit shows **universal folders** (Directory, Events, Personal, Businesses) plus **contextual folders** the user has earned (Admin if admin, Playmaker if any Playmaker role, Networks if joined any). Inside a folder, the cockpit shows that folder's contents — which may themselves be folders (Businesses → your businesses → one business → its spaces) or, eventually, workspaces.
+
+The viewport below the cockpit changes meaning with depth. **At leaves** (a specific space of a specific business: Desk, Finance, Profile, Settings) the area below the cockpit is the actual workspace. **Above leaves** the area below shows a **preview pulse** — living-tile language describing what's alive in the centered folder, so the user has context before entering it. Different cockpit styles (Spinner, Compass, future Voice) render the same folder tree in their own visual languages.
+
+Every folder and workspace is **URL-addressable** (Section 14.3): `/mylane`, `/mylane/personal`, `/mylane/personal/finance`, `/mylane/businesses`, `/b/{slug}`, `/b/{slug}/desk`. URL is the **primary source of scope** — `useActiveBusiness` reads URL first, localStorage second. The `/b/{slug}` form is a "direct door" — same URL, auth-aware rendering (public profile for visitors, tools for operators). Per **DEC-179** (logged 2026-04-25, after v4.1 was written), the path-based direct doors are deferred to post-migration so we don't pay the fragility cost twice; the folder-tree restructure proceeds independently inside `/mylane`.
+
+Three load-bearing sub-principles tie this together:
+
+- **Cockpits as folder renderers (10.1).** The cockpit is one component that knows how to render a folder, not a screen-per-space.
+- **Hidden entities (13.1).** `listed_in_directory: false` is the sole hide mechanism. Directory queries filter on `!== false`. Owners' surfaces never apply the filter.
+- **Resurface before rebuild (20).** When a new architecture needs a previously-built surface (admin, feedback affordance), find the existing component first and rewire it. Only rebuild if genuinely lost. This audit is the first concrete application of that principle to Phase 4.
+
+---
+
+## Section 2 — Current MyLane Structure Inventory
+
+This walks the files involved in MyLane navigation, surface rendering, drill-through, business-context switching, and the dashboard tab structure. One line each — what it does, no critique.
+
+### Router & shell
+
+- `src/App.jsx` (237 lines) — React Router root. PUBLIC_PAGES set. Wraps every route in `<Layout>` unless a route opts out. Authenticated `/` redirects to `/MyLane`. Routes: `/`, `/{PageName}` (PascalCase, from `pages.config.js`), `/Events/:eventId`, `/my-lane/transactions`, `/networks`, `/networks/:slug`, `/claim-business`, `/join/:inviteCode`, `/door/:slug`, `/join-field-service/:inviteCode`, `/join-pm/:inviteCode`, `/client-portal/...`, `/frequency`, `/frequency/:slug`. **No `/b/{slug}` or `/u/{slug}` routes.** **No nested `/mylane/...` routes.**
+- `src/Layout.jsx` (284 lines) — Top header chrome (logo, Directory/Events nav links, avatar dropdown to MyLane / Admin / Settings / Logout, mobile sheet). Hidden on `/MyLane` and on the unauthenticated `/Home` page. Footer also hidden on `/MyLane`.
+- `src/pages.config.js` (60 lines) — PAGES map. `mainPage: "MyLane"`. `Layout: __Layout`. Top-level note: `BusinessDashboard retired (DEC-131)`.
+
+### MyLane page + surface
+
+- `src/pages/MyLane.jsx` (364 lines) — Wraps `<MyLaneSurface>`. Inline welcome flow for cold users (name capture, `onboarding_complete` write). Pulls workspace-profile data via `getMyLaneProfiles` server fn (DEC-130 single-call pattern), with per-entity fallback. Redirects to invite/door routes if pending invite is in localStorage.
+- `src/components/mylane/MyLaneSurface.jsx` (1385 lines) — The big surface. Holds:
+  - `OverlayContainer` (the DEC-148 containment primitive — backdrop + panel below header, above bottom UI stack).
+  - `AccountOverlay` (Settings, Theme picker, Cockpit picker, Sound, Newsletter, Philosophy, Support, Terms, Privacy, Logout — rendered inside the avatar overlay).
+  - `OV` constant (FREQ, DIR, EVT, ACCT, PHILOSOPHY, SUPPORT, NETWORK) — single source of overlay names per DEC-146.
+  - `SPACE_CONFIG` map and `buildSpinnerItems()` — produces the cockpit's spinner items from active workspace profiles + ownedBusinesses (home, meal-prep, field-service[Desk], finance, team, business, property-pulse, discover, dev-lab[admin]).
+  - `buildBusinessSwitcherItems()` — recasts ownedBusinesses as spinner items for switcher mode (DEC-168).
+  - Header (logo, Music icon, Directory pill, Events pill, avatar) with "operating as" label in switcher mode.
+  - State for `switcherMode`, `spinnerIndex`, `drilledTab`, `activeOverlay`, plus stacked overlays `overlayBusinessId` / `overlayRecommend` / `overlayNetworkSlug`.
+  - Renders `<SpaceSpinner>` (cockpit), then `<HomeFeed>` / `<DiscoverPosition>` / `<MyLaneDrillView>` / `<DevLab>` based on which spinner position is active.
+  - Lazy-imports overlay pages (`Directory`, `Events`, `Settings`, `BusinessProfile`, `Philosophy`, `Support`, `Recommend`, `NetworkPage`, `FrequencyStation`).
+- `src/components/mylane/SpaceSpinner.jsx` (870 lines) — The cockpit itself. `data-cockpit` attribute + MutationObserver mirror the theme plumbing (DEC-152). Variant render functions: `renderFlat`, `renderDrum`, `renderCoverFlow`, `renderCompass`. `VARIANT_MAP` registers them. Per-theme physics (mass + friction). Audio tick + haptics on each crossing. Switcher mode reuses the same component — businesses ride the same spinner as spaces.
+- `src/components/mylane/MyLaneDrillView.jsx` (265 lines) — Renders a workspace's tabs inside MyLane. `WORKSPACE_KEY_MAP` translates drill workspace name → `WORKSPACE_TYPES` key. Pulls the right profile from props or `useActiveBusiness`. For business workspace: fetches business events, RSVP counts, revenue, builds scope, renders `TabComponent`. Tab bar at top, tab content below.
+- `src/components/mylane/HomeFeed.jsx` (271 lines) — Home position content. Three tabs: Attention | This week | Spaces. Each tab feeds a `PrioritySpinner` of items derived from the user's profiles and urgency signals (per DEC-131).
+- `src/components/mylane/DiscoverPosition.jsx` (184 lines) — Discover position content (the dim spinner item).
+- `src/components/mylane/DevLab.jsx` (165 lines) — Admin-only Dev Lab spinner position content (physics tuner, etc.).
+- `src/components/mylane/CommandBar.jsx` (238 lines) — Bottom-docked command/agent input. Allowlist-gated to MYLANE_AGENT_ALLOWLIST per DEC-147.
+- `src/components/mylane/PrioritySpinner.jsx` (122 lines) — Vertical scroll/spin used inside HomeFeed.
+- `src/components/mylane/HouseholdManager.jsx` (300 lines) — Household manager UI; imported by `pages/Settings.jsx`.
+- `src/components/mylane/SectionWrapper.jsx` (26 lines) — Tiny presentational wrapper.
+- `src/components/mylane/ConfirmationCard.jsx` (147 lines) — Renders agent's TYPE 3 RENDER_CONFIRM cards.
+- `src/components/mylane/parseRenderInstruction.js` (100 lines) — Parses HTML-comment render instructions (TYPE 1 RENDER, TYPE 2 RENDER_DATA) from agent messages, per DEC-111.
+- `src/components/mylane/renderEntityView.jsx` (372 lines) — Universal renderer for TYPE 2 RENDER_DATA. Holds the `HIDDEN_FIELDS` Set (33 internal fields excluded from cards).
+- `src/components/mylane/useMyLaneState.js` (224 lines) — Card-reorder state, time-aware urgency tracking, last-visited tracking.
+- `src/components/mylane/cards/*` (7 files, 41–176 lines each) — Card components: `ActiveProjectsCard`, `EnoughNumberCard`, `PendingEstimatesCard`, `PlayerReadinessCard`, `PropertyOverviewCard`, `RecipeBookCard`, `RemindersCard`. Registered by `myLaneRegistry.js` (in `config/`, **not** `components/mylane/`).
+
+### Business-context machinery
+
+- `src/hooks/useActiveBusiness.js` (81 lines) — Single source of truth for "which business am I operating as." Reads localStorage key `locallane.activeBusinessId`. Validates against owned-businesses query on every render. Falls back to oldest owned by `created_date`. Cross-component updates via `locallane-active-business-change` event. **localStorage is the primary source today.**
+- `src/hooks/useMylane.js` (65 lines) — Mylane access tier (`basic` / `beta` / `admin`).
+- `src/hooks/useBusinessRevenue.js` — Business revenue analytics (consumed by `MyLaneDrillView`).
+- `src/components/business/BusinessCard.jsx` — Generic business card preview.
+- `src/components/business/JoyCoinHours.jsx` — Joy coin hours widget.
+- `src/components/business/SlugMultiSelect.jsx` — Multi-slug select (DEC-176, used for `subcategories[]` and `service_area`).
+- `src/components/business/rankingUtils.jsx` — Directory ranking utilities.
+
+### Workspace types config + tab implementations
+
+- `src/config/workspaceTypes.js` (302 lines) — Tab registry per workspace type. Maps each workspace type (business, team, finance, fieldservice, property_management, meal_prep) to its tab list (id, label, icon, component, getProps). `BUSINESS_TABS = [Home, Joy Coins, Revenue, Events, Settings]`. `ARCHETYPE_TITLES` for subtitle copy.
+- `src/components/dashboard/DashboardHome.jsx` (203 lines) — Business-workspace "Home" tab (stats, upcoming events, quick actions).
+- `src/components/dashboard/BusinessSettings.jsx` (1469 lines) — Business-workspace "Settings" tab. **Holds the `listed_in_directory` toggle (line 247).** Holds the universal services editor, tagline, gallery, accepts toggles (Build B + Build E + Build F).
+- `src/components/dashboard/AccessWindowManager.jsx` (366 lines) — "Joy Coins" tab.
+- `src/components/dashboard/AccessWindowModal.jsx` (225 lines) — Joy Coins access-window modal.
+- `src/components/dashboard/RevenueOverview.jsx` (241 lines) — "Revenue" tab.
+- `src/components/dashboard/widgets/EventsWidget.jsx` (541 lines) — "Events" tab.
+- `src/components/dashboard/widgets/StaffWidget.jsx` (612 lines) — Staff management widget.
+- `src/components/dashboard/EventEditor.jsx` (1694 lines) — Event editor modal.
+- `src/components/dashboard/IdeasBoard.jsx` (672 lines) — Ideas board.
+- `src/components/dashboard/DashboardSettings.jsx` (48 lines) — Dashboard-level settings shim.
+- `src/components/dashboard/BusinessCard.jsx` (97 lines) — Dashboard-flavored business card.
+- Per-workspace folders (not catalogued line-by-line, but their tab components are imported by `workspaceTypes.js`): `src/components/team/*`, `src/components/finance/*`, `src/components/fieldservice/*`, `src/components/propertymgmt/*`, `src/components/mealprep/*`.
+
+### Pages used by MyLane (rendered as overlays per DEC-148, also reachable as standalone routes)
+
+- `src/pages/Home.jsx` (384 lines) — Public landing page (unauthenticated). Authenticated users redirect to `/MyLane`.
+- `src/pages/Directory.jsx` (289 lines) — Directory surface. Filters via `directoryVisibility.js`.
+- `src/pages/Events.jsx` (306 lines) — Events surface.
+- `src/pages/BusinessProfile.jsx` (730 lines) — A business's public profile (the future "Profile space"). Stacked overlay drill-in target.
+- `src/pages/Settings.jsx` (302 lines) — User-level settings (name, phone, region, household).
+- `src/pages/Admin.jsx` (357 lines) — Admin panel; bird's-eye admin hub. Standalone page; reachable via avatar-dropdown link. Not folded into MyLane today.
+- `src/pages/Networks.jsx`, `src/pages/NetworkPage.jsx` — Networks list + detail.
+- `src/pages/FrequencyStation.jsx`, `src/pages/SongDetail.jsx` — Frequency Station.
+- `src/pages/Recommend.jsx`, `src/pages/Philosophy.jsx`, `src/pages/Support.jsx`, `src/pages/Privacy.jsx`, `src/pages/Terms.jsx` — Identity + legal pages.
+- `src/pages/JoyCoinsHistory.jsx` — Joy Coins history.
+- Onboarding pages: `BusinessOnboarding.jsx` (517 lines, creates Business but does **not** set any `enabled_spaces` field), `UserOnboarding.jsx`, `TeamOnboarding.jsx`, `FinanceOnboarding.jsx`, `FieldServiceOnboarding.jsx`, `PropertyManagementOnboarding.jsx`, `MealPrepOnboarding.jsx`.
+- `src/pages/JoinTeam.jsx`, `src/pages/JoinFieldService.jsx`, `src/pages/JoinPM.jsx`, `src/pages/ClaimBusiness.jsx`, `src/pages/ClientPortal.jsx` — Invite/join flows.
+
+### Registry + utils
+
+- `src/config/myLaneRegistry.js` (98 lines) — MyLane card registry (7 entries; cards live under `components/mylane/cards/` but the registry lives in `config/`).
+- `src/utils/directoryVisibility.js` (~22 lines) — Single filter helper for `listed_in_directory !== false`. Used by Directory, NetworkPage, Home.
+
+### Files mentioned in the brief that **do not exist** at expected paths
+
+The brief's prior-session list named the following — confirmed absent at those paths and not relocated:
+
+- `MyLaneBreadcrumb.jsx` — does not exist anywhere in the codebase.
+- `WhatsChangedBar.jsx` — does not exist anywhere in the codebase.
+- `BusinessDashboard.jsx` — retired (DEC-131); replaced by `MyLaneDrillView` + `WORKSPACE_TYPES.business`.
+- `OverlayContainer.jsx` — exists, but as an inline component **inside** `MyLaneSurface.jsx` (lines 98–153), not as a separate file.
+- `BusinessSwitcher.jsx` — does not exist as a separate component. Switcher mode is state inside `MyLaneSurface` that re-uses `SpaceSpinner` with switcher items (DEC-168).
+
+These five "missing" names are not gaps in v4.1 — they're stale references in earlier session logs. Phase 4 should not assume any of them exist.
+
+---
+
+## Section 3 — Mapping Current Files to v4.1 Concepts
+
+Each row pairs a v4.1 concept with the current file(s) and a category: **DIRECT** (reuse as-is or with light edits), **MOVE/RENAME** (move or rename), **PARTIAL** (split, augment, or refactor), **NET-NEW** (no current implementation), **RETIRE** (concern is gone in v4.1).
+
+### Cockpit / folder rendering (Section 10.1)
+
+| v4.1 concept | Current file(s) | Category | Notes |
+|---|---|---|---|
+| Cockpit as folder renderer (one component, not screen-per-space) | `components/mylane/SpaceSpinner.jsx`, `components/mylane/MyLaneSurface.jsx` | **PARTIAL** | SpaceSpinner already renders any item array as cockpit chrome (spaces, businesses in switcher mode). The "folder" abstraction isn't named, but the structural pattern is already there. MyLaneSurface decides which items to feed it — that decision logic is the part that needs the folder-tree shape. |
+| Cockpit registry (Spinner / Compass / future Voice) | `SpaceSpinner.jsx` `VARIANT_MAP` | **DIRECT** | DEC-152 already implemented: `VARIANT_MAP = { flat, drum, coverFlow, compass }`. Adding a new cockpit is a render function and a COCKPITS entry. Nothing to change. |
+| Folder tree as data structure (root → folder → sub-folder → workspace) | none | **NET-NEW** | The current code computes spinner items imperatively from profile arrays inside `buildSpinnerItems`. There is no declared tree. Phase 4 needs a tree representation (likely a config or builder fn) that the cockpit renders. |
+| "Cockpit dissolves laterally into sibling-selection" (switcher mode) | `MyLaneSurface.jsx` `switcherMode` state + `buildBusinessSwitcherItems` | **DIRECT** | DEC-168 cockpit-native switcher already does this for businesses. Same pattern generalizes to any folder where lateral switching makes sense (the v4.1 hint at the end of 10.1). Reuse, don't rebuild. |
+| Workspace at the leaf | `components/mylane/MyLaneDrillView.jsx` + `config/workspaceTypes.js` tabs | **DIRECT** | When a space is the active spinner item and the user drills into it, MyLaneDrillView renders the workspace's tabs below the cockpit. v4.1's "leaf = workspace below cockpit" is what's already shipping. |
+| Preview pulse at non-leaf levels | none | **NET-NEW** | Today, when no space is "drilled," the home position shows `HomeFeed` (Attention/Week/Spaces) and the Discover position shows `DiscoverPosition`. There is no per-folder preview-pulse component. **Ambiguous:** Hyphae cannot tell from v4.1 alone whether `HomeFeed` is meant to remain as the Home space's content or whether its spirit (composite urgency view) is what the preview-pulse should be. Flag for planning. |
+
+### Root-level folders (Section 14.1)
+
+| v4.1 root folder | Current implementation | Category | Notes |
+|---|---|---|---|
+| Directory (universal) | `pages/Directory.jsx`, opened as overlay via OV.DIR + lazy-loaded inside MyLaneSurface; also reachable at `/Directory` | **PARTIAL** | The page exists and works inside the shell as an overlay. v4.1 wants it as a top-level cockpit folder, not an overlay tap on a header pill. The page content can be reused; what changes is the entry pattern (cockpit position rather than header chip). |
+| Events (universal) | `pages/Events.jsx`, opened as overlay via OV.EVT + lazy-loaded inside MyLaneSurface; also `/Events` and `/Events/:eventId` | **PARTIAL** | Same as Directory — the page is reused; the entry shifts from header pill to cockpit folder. |
+| Personal (universal for members) | none, conceptually | **NET-NEW (assembly)** | The constituent spaces of Personal exist (Home → HomeFeed; Personal Finance → finance workspace scoped to user; Meal Prep → mealprep workspace; Networks → Networks page; Playmaker → team-as-playmaker context). What's missing is the **Personal folder as a container** — a cockpit position whose contents are these spaces, distinct from business-scoped versions of the same spaces. Today, finance/meal-prep show up at the root spinner unscoped. |
+| Businesses (universal for members) | `useActiveBusiness` hook + switcher mode in MyLaneSurface | **PARTIAL** | The list of owned businesses is computed; the switcher is the lateral-navigation primitive. What's missing is the **Businesses folder containing one folder per business**. Today, switcher mode is entered by tapping the space-name pill while operating in business context — the businesses-as-a-folder concept isn't represented. |
+| Admin (contextual) | `pages/Admin.jsx`, accessed via avatar-dropdown link to `/Admin/*`; never inside MyLane | **MOVE/PARTIAL** | The admin panel is a complete standalone surface and should be resurfaced (DEC-173) as a contextual root folder rather than rebuilt. The page itself is reusable; what changes is its entry — MyLane root folder instead of Layout dropdown link. **Ambiguous:** v4.1 14.1 says contextual root; v4.1 14.2 also implies "admin lens inside every space" (Phase 4.5). The two surfaces are different. |
+| Playmaker (contextual) | Currently surfaces as the `team` spinner item in MyLane (when user has a team profile) | **PARTIAL** | The team workspace is the Playmaker substrate today. Phase 4 needs to consider whether "Playmaker" becomes a contextual root folder distinct from "Team within Personal," and what gates its appearance. Flag for planning. |
+| Networks (contextual) | `pages/Networks.jsx`, `pages/NetworkPage.jsx` (live as standalone routes + as overlay-stacked drill-ins via `overlayNetworkSlug`) | **PARTIAL** | Standalone pages exist. v4.1 wants Networks as a contextual root folder containing the user's joined networks. Page content is reusable; the wrapping shifts. |
+
+### Header elements (Section 14.2)
+
+| v4.1 element | Current implementation | Category | Notes |
+|---|---|---|---|
+| Left: LocalLane logo, tap returns to root | `MyLaneSurface.jsx` "Local Lane" wordmark, `handleLogoClick` | **DIRECT** | Already exists. May need behavior change to "back to root" when nested. |
+| Right: Frequency Station glyph + small gap + avatar | Music icon (OV.FREQ toggle) + Directory pill + Events pill + avatar (OV.ACCT toggle) | **PARTIAL** | The Frequency glyph and avatar both exist. **Directory and Events pills move out of the header** under v4.1 — they become root cockpit positions, not header chips. That's a deletion in the header, not a new build. |
+| Avatar opens settings/themes/account/feedback/sign out | `AccountOverlay` inside `MyLaneSurface.jsx` | **DIRECT** | Already does Settings, Theme, Cockpit, Sound, Newsletter, Philosophy, Support, Terms, Privacy, Logout. **Feedback affordance is missing** (DEC-137 routes feedback through Mylane companion; v4.1 14.2 implies a persistent feedback affordance — that's the resurface candidate per DEC-173). |
+
+### URL addressability (Section 14.3)
+
+| v4.1 URL | Current routing | Category | Notes |
+|---|---|---|---|
+| `/mylane` (root) | `/MyLane` (PascalCase from `pages.config.js`) | **PARTIAL** | Works, but case differs and there's no nesting under it. |
+| `/mylane/personal`, `/mylane/personal/finance`, `/mylane/businesses` | none | **NET-NEW** | App.jsx has no nested routing under `/mylane`. The folder tree has no URL representation today. |
+| `/b/{slug}`, `/b/{slug}/desk`, `/b/{slug}/profile` | none | **NET-NEW (deferred)** | **Per DEC-179, path-based direct doors are deferred to post-migration.** Phase 4 is not the place for this. v4.1 written before DEC-179. |
+| URL as primary source of scope (Section 14.3 final paragraph) | `useActiveBusiness` reads localStorage first, no URL awareness | **PARTIAL** | The hook's contract should remain (DEC-146), but its source-of-truth flips. Until nested URLs exist (NET-NEW above), there's no URL to read — so this can't change in Phase 4 cleanly without the routing-restructure prerequisite. |
+
+### Descent, return, lateral switching (Section 14.4)
+
+| v4.1 | Current | Category | Notes |
+|---|---|---|---|
+| Descent: tap centered folder to enter | SpaceSpinner `onCenterTap` (switcher mode) + `commitSwitcher` in MyLaneSurface | **DIRECT** | The mechanic exists. Generalize beyond switcher. |
+| Return: logo to root, back affordance up one level | Logo click goes to `/MyLane`; "‹ back" appears in header in switcher mode only | **PARTIAL** | Logo behavior is right. The "back one level" affordance only exists for switcher; needs to generalize for nested folders. |
+| Lateral switching via space-name pill (DEC-168) | switcherMode in MyLaneSurface | **DIRECT** | Already implemented for business switching. Reuse for any folder. |
+
+### Workspace at leaf (Section 14.5)
+
+| v4.1 | Current | Category | Notes |
+|---|---|---|---|
+| Cockpit stays at top, workspace below, swipe between sibling spaces | MyLaneDrillView renders tabs below SpaceSpinner; spaces switch via spinner | **DIRECT** | Today's drill view already matches this shape. |
+
+### Business: spaces & defaults (Section 6)
+
+| v4.1 concept | Current | Category | Notes |
+|---|---|---|---|
+| `enabled_spaces: array<string>` field on Business | none | **NET-NEW** | Confirmed via grep — no occurrence anywhere in `src/`. Needs Base44 prompt + code (DEC-178 paired update). |
+| Default `["desk", "finance", "profile", "settings"]` at business creation | none | **NET-NEW** | `pages/BusinessOnboarding.jsx` creates a Business record but does not set `enabled_spaces` (line 104). Needs both onboarding-flow update and a backfill strategy for existing businesses. |
+| "+ Add Space" / remove space mechanic in Business Settings | none | **NET-NEW** | Confirmed via grep — no add-space UI exists. Adjacent UI (BusinessSettings.jsx is 1469 lines) is the natural home. |
+| Backfill: inspect actual data per business to seed `enabled_spaces` | none | **NET-NEW** | Will need a one-off migration script (live alongside existing `src/scripts/migrations/phase-2-production-migration.js` pattern). |
+| Dark-until-explored for spaces (Section 6.5) | `buildSpinnerItems` already gates spinner items by profile presence | **DIRECT** | The principle is enforced today. Once `enabled_spaces` lands, the gate moves from "has profile?" to "is in `enabled_spaces`?" but the principle is identical. |
+
+### Business: Profile + directory presence (Sections 6.3, 13.1)
+
+| v4.1 concept | Current | Category | Notes |
+|---|---|---|---|
+| Profile space (logo, tagline, services, gallery, contact) | `pages/BusinessProfile.jsx` (730 lines) | **DIRECT** | Already a complete public-profile page. v4.1 imagines it as a space inside the Business; the page itself is reusable. |
+| `listed_in_directory` toggle in Business Settings | `components/dashboard/BusinessSettings.jsx` line 247 (Build 2) | **DIRECT** | **Already shipped.** v4.1 explicitly listed this as a Phase 4 item (it was Phase 3 Build 2, absorbed into Phase 4 per Section 17). Treat as done — no rebuild. |
+| `directoryVisibility.js` filter helper | `src/utils/directoryVisibility.js` | **DIRECT** | Already shipped (DEC-146 single source per Build 2). |
+| Hidden entities (Mycelia, LLC) — no separate `is_hidden` field needed | Already enforced by Phase 2 production migration | **DIRECT** | Mycelia exists as `listed_in_directory: false` per Phase 2. |
+
+### Home → Desk collapse (Section 14, DEC-170)
+
+| v4.1 / DEC-170 | Current | Category | Notes |
+|---|---|---|---|
+| Vocabulary: "Jobsite" → "Desk" in user-visible strings | Build C (DEC-170) did MyLane label + welcome map + HomeFeed priority spinner. Comment in BUILD-PROTOCOL says "FieldServiceAgent persona text intentionally preserved." | **PARTIAL** | The user-visible vocabulary in three high-traffic spots is already swapped. The full pass is the "~92 strings, ~40 files" mechanical job called out in v4.1 Section 17. |
+| Structural: no separate Home inside a business — Desk is the home of business work | The business workspace tabs still include `home: DashboardHome`. Inside `BUSINESS_TABS` Home is the first tab. | **PARTIAL** | Vocabulary is half-done; structural collapse is undone. The Home tab's stats may need to migrate into Desk-as-home, or DashboardHome may need to become Desk's landing. **Ambiguous:** v4.1 doesn't specify whether DashboardHome's content moves into Desk verbatim or is rethought. Flag. |
+
+### Resurface candidates (Section 20, DEC-173)
+
+| v4.1 mention | Current | Category | Notes |
+|---|---|---|---|
+| Persistent feedback affordance | The OLD floating bug button was deleted (DEC-104, DEC-137); feedback flows through Mylane companion as a "Have feedback?" chip | **PARTIAL — RESURFACE** | The chip exists in some space positions but isn't persistent across all surfaces. The "resurface" task is to make a single feedback affordance that appears in every space, not invent one. |
+| Admin panel as contextual root | `pages/Admin.jsx` + 17 `components/admin/*` files | **MOVE** | Page is whole and complete (DEC-173). Move means folding the entry into the cockpit's contextual root folder list, not rebuilding. |
+| Other buried surfaces | TBD (Section 20 says "others yet to be identified") | **OPEN QUESTION** | Phase 4.5 sweep candidate. Out of scope for the structural Phase 4. |
+
+---
+
+## Section 4 — Net-New Work in Phase 4
+
+Pulled from Section 3, the discrete pieces that aren't represented in current code at all and have to be built fresh. Listed in approximate dependency order, not delivery order.
+
+1. **Folder-tree representation.** A declarative or builder-fn shape that lists root folders (Directory, Events, Personal, Businesses + contextual Admin / Playmaker / Networks) and, for each, what their contents are (sub-folders or workspaces). The cockpit consumes this. Today the equivalent is `buildSpinnerItems` returning a flat array; the new shape needs depth.
+2. **Cockpit handling of folder vs leaf.** SpaceSpinner already renders an array of items; what's new is teaching MyLaneSurface to decide what to render below — preview pulse for folders, drill view for leaves. Today MyLaneSurface picks between HomeFeed / DiscoverPosition / MyLaneDrillView / DevLab based on which spinner item is active; the new logic generalizes to any folder vs leaf.
+3. **Preview pulse component.** A living-tile renderer that takes a folder's contents and renders a pulse view — what's alive in this folder right now. New component. **Possibly reuses `HomeFeed`'s spirit and the `cards/` collection** — that's the resurface lens. Worth specifying before building from scratch.
+4. **`Business.enabled_spaces` field.** Base44 prompt to add `array<string>` field. Default at create: `["desk", "finance", "profile", "settings"]`. Backfill script for existing businesses (inspect FS profiles, finance profiles, etc., and seed accordingly).
+5. **Default-spaces-at-business-creation logic.** `BusinessOnboarding.jsx` writes `enabled_spaces` on Business.create (line ~104).
+6. **"+ Add Space" / remove space UI in Business Settings.** New section in `BusinessSettings.jsx`. Reads/writes `enabled_spaces`. Surfaces the available-but-not-enabled spaces (Events, Network, Property Pulse, etc.).
+7. **Personal folder as a container.** Today Finance/Meal Prep show up at the root spinner unscoped. The Personal folder needs to be the parent of those when the user is in personal context — distinct from business-scoped versions.
+8. **Businesses folder as a container.** A folder whose contents are one sub-folder per owned business, each containing that business's `enabled_spaces`. The switcher pattern (DEC-168) becomes the descent mechanic into a specific business.
+9. **Contextual root: Admin as a folder.** Wire `pages/Admin.jsx` into the cockpit's root folder list when `currentUser.role === 'admin'`. Don't rebuild; resurface.
+10. **Contextual root: Networks as a folder.** Wire `pages/Networks.jsx` + `NetworkPage.jsx` into the cockpit's root folder list when the user has joined any network. Containing folder lists their joined networks.
+11. **Contextual root: Playmaker as a folder.** Decide whether Playmaker is distinct from "Team inside Personal" and how the gate works. **Open question.**
+12. **Persistent feedback affordance.** Resurface the existing "Have feedback?" chip pattern as a once-per-shell element, not a per-space element.
+13. **Desk rename — full pass.** ~92 strings across ~40 files (per v4.1 Section 17). Mechanical find-replace, but careful: agent persona text intentionally preserved per DEC-170.
+
+### Items the brief listed as candidates that turn out to be **not Phase 4**
+
+- **Direct doors path-based routing (`/b/{slug}`).** Deferred to post-migration per DEC-179.
+- **Auth-aware rendering on `/b/{slug}` URLs.** Same — deferred per DEC-179.
+- **`listed_in_directory` toggle in Business Settings.** Already shipped in Build 2.
+- **Home → Desk vocabulary swap** in three high-traffic spots — already done in Build C; what remains is the wider mechanical pass.
+
+### Items the brief listed as candidates that **need clarification before building**
+
+- **Home → Desk collapse (structural).** Vocabulary is partly done. Whether `DashboardHome`'s stats move into Desk verbatim, get rethought, or stay where they are is unspecified.
+
+---
+
+## Section 5 — Sequencing Recommendations
+
+The brief proposed 4.1–4.7. The audit confirms the broad shape but suggests two adjustments and one removal:
+
+**Confirmed sequence:**
+
+- **4.1 — Entity work (Base44).** Add `Business.enabled_spaces` field. Paired Base44 prompt + code per DEC-178. Backfill existing businesses. **Note:** `listed_in_directory` is already done — no Base44 work needed for that.
+- **4.2 — Folder structure refactor.** The structural move:
+  - Define folder-tree shape.
+  - Teach MyLaneSurface to render folder vs leaf based on tree depth, not based on a flat spinner-items array.
+  - Wire Personal, Businesses as containers. Wire Directory and Events as root cockpit positions (rather than header pills — and remove the Directory/Events pills from the header). Wire Admin / Networks / Playmaker as contextual root folders.
+  - Preserves the cockpit code (SpaceSpinner) untouched — only changes what MyLaneSurface feeds it.
+- **4.3 — Home → Desk collapse (structural + remaining vocab).** Decide structural shape, do the ~92-string mechanical pass last (so structural moves don't invalidate it). **Note:** the brief's instinct to put the rename pass last is right — confirmed.
+- **4.4 — Preview pulse.** New component for non-leaf cockpit positions. Probably reuses HomeFeed's spirit and the cards/ collection (resurface lens). Needs spec before build because v4.1 leaves the implementation underspecified.
+- **4.5 — Spaces add/remove mechanic UI.** Section in BusinessSettings to toggle items in `enabled_spaces`. Cleanest after 4.1 (field exists) and 4.2 (folder rendering uses the field).
+- **4.6 — Resurface pass.** Persistent feedback affordance + any other buried surfaces identified during 4.2–4.4 work. Per Section 20 / DEC-173.
+
+**Recommended adjustments:**
+
+- **Drop "4.6 Directory toggle UI" — already shipped in Build 2.** The brief's 4.6 is duplicative.
+- **Reorder 4.4 (Preview pulse) before 4.5 (Spaces add/remove).** The preview pulse is what the user sees while navigating; the add-space mechanic is configuration. Building the navigation experience before the configuration UI lets the configuration UI be informed by what the navigation actually looks like.
+- **Consider splitting 4.2 (Folder structure refactor) into 4.2a (root folders) and 4.2b (Businesses-as-folder + per-business sub-folders).** 4.2a is mostly mechanical (Directory, Events, Personal as cockpit positions). 4.2b touches the switcher pattern (DEC-168) and the business-context machinery — higher risk because it's where Bari's daily flow lives. Splitting lets 4.2a ship and stabilize before 4.2b lands.
+
+**Recommended order:**
+
+```
+4.1  Entity (Business.enabled_spaces + backfill)            [Base44 + code]
+4.2a Root folders (Directory/Events/Personal as cockpit)    [structural, low Bari risk]
+4.2b Businesses-as-folder + per-business sub-folders        [structural, touches switcher]
+4.3  Home → Desk collapse (structural)                      [follows 4.2b]
+4.4  Preview pulse                                          [needs spec]
+4.5  Spaces add/remove mechanic UI                          [depends on 4.1 + 4.2b]
+4.6  Resurface pass (feedback, admin folder, others)        [Section 20 sweep]
+4.7  Desk rename full pass                                  [mechanical, last]
+```
+
+---
+
+## Section 6 — Dependencies and Risks
+
+**Dependencies on work outside Phase 4:**
+
+- **Phase 3.5 Direct Doors are no longer a Phase 4 dependency.** Per DEC-179, path-based direct doors deferred to post-migration. v4.1 was written before that decision; Phase 4 should not assume `/b/{slug}` routing. The "URL as primary source of scope" line in v4.1 §14.3 cannot be fulfilled in Phase 4 without nested `/mylane/...` routing — which can be built without `/b/{slug}` if desired, but isn't a hard requirement.
+- **Phase 5 (Pre-Migration Cleanup, DEC-180)** is downstream and consumes nothing from Phase 4.
+- **Phase 6 (Region foundation)** needs `region_id` on records but is downstream. Not a Phase 4 dependency.
+
+**Internal Phase 4 dependencies:**
+
+- 4.5 (Spaces add/remove UI) **requires** 4.1 (`enabled_spaces` field). Hard.
+- 4.2b (Businesses-as-folder) **builds on** 4.2a (root folders) but isn't strictly blocked.
+- 4.4 (Preview pulse) **needs spec** before build — v4.1 underspecifies and HomeFeed's spirit overlaps. Recommend a Mycelia + Doron design pass before 4.4 starts.
+- 4.7 (Desk rename pass) **must be last**: structural moves rename strings before the mechanical pass would have caught them.
+
+**Risks:**
+
+- **Bari is the only paying user** ($500 retainer 2026-04-24). Anything that touches his business-context flow is real-cost risk. The DEC-168 switcher and `useActiveBusiness` are the load-bearing pieces. 4.2b is the highest-risk Phase 4 step. Strong recommendation: ship 4.2a first, verify Bari's flow uninterrupted, then 4.2b.
+- **The OV constant + overlay containment (DEC-148)** is the current way pages-rendered-as-overlays work. Phase 4 changes the entry pattern (cockpit folder, not header chip) but the underlying overlay primitive remains. Care needed not to rebuild overlay machinery while restructuring entry.
+- **Hardcoded z-indices (z-50 / 55 / 60) for stacked overlays** are flagged tech debt in ACTIVE-CONTEXT. Phase 4 may add stacking patterns (folder drill-in might be a stack). If a third stacked-overlay scenario appears during Phase 4, refactor z-index to stack-based assignment in the same pass (per the audit's own guidance in DEC-148 footnote).
+- **`MyLaneSurface.jsx` is 1385 lines.** Phase 4 work concentrates here. There's a real risk of accidentally breaking adjacent state (overlays, switcher mode, Escape stack handling) while moving folder-render logic in. ACTIVE-CONTEXT names "MyLaneSurface hook reordering" as a Phase 4 priority — that suggests prior known instability that should be addressed before or during Phase 4.2.
+- **The "MyLaneDrillView latent bug fix"** named in ACTIVE-CONTEXT is unspecified here but listed as a Phase 4 priority. If it shipped first, it might inform 4.2b sequencing. Worth pulling forward to scope.
+- **Eslint exhaustive-deps enforcement** (also a Phase 4 priority per ACTIVE-CONTEXT) is orthogonal to the folder refactor but typically generates churn in MyLaneSurface and the hooks adjacent to it. Recommend running it before 4.2 starts so the diffs in 4.2 are pure folder work.
+
+---
+
+## Section 7 — Open Questions
+
+These are the spots where the audit found enough ambiguity to warrant a Mycelia + Doron planning conversation before execution prompts get written.
+
+1. **Preview pulse — what is it concretely?** v4.1 says "living-tile language describing what's alive in the folder." HomeFeed already does something close to that for the Home position (Attention / This week / Spaces tabs feeding a PrioritySpinner). Is the preview pulse:
+   - HomeFeed's pattern, generalized per folder?
+   - A new compact tile-based view (one tile per child)?
+   - Something else entirely?
+   The answer shapes 4.4's scope and whether it's a build or a resurface.
+
+2. **Home → Desk structural collapse — what content moves?** Vocabulary is partly done. Today `DashboardHome` (the Business workspace's "Home" tab) shows stats, upcoming events, quick actions. v4.1 / DEC-170 says no separate Home inside a business. Does that mean:
+   - DashboardHome's content becomes Desk's landing tab (rename + structure-preserve)?
+   - DashboardHome retires and Desk's existing landing absorbs the relevant pieces?
+   - The stats and quick actions move elsewhere and Desk's landing is reconceived?
+
+3. **Playmaker as contextual root — what's the gate?** v4.1 14.1 says "appears for users with any Playmaker role." Today the team workspace surfaces in MyLane for users with a TeamMember row. The "Playmaker role" concept implies parent-coach-player distinctions per DEC-123. Is Playmaker a separate root folder distinct from "Team inside Personal," and what role-check determines visibility?
+
+4. **Admin contextual root vs. admin lens inside spaces.** v4.1 14.1 places Admin as a contextual root folder. Phase 4.5 in Section 17 talks about "Admin lens inside every space (authority-aware affordances)." Different surfaces. Phase 4 builds the root folder; Phase 4.5 builds the lens. Confirm split.
+
+5. **Personal folder vs. unscoped spinner items.** Today Finance and Meal Prep show up at the root spinner without scope (they're personal-flavored by default since user's the only operator). v4.1 says these live inside Personal. Is the migration:
+   - Move them under Personal and surface Personal at root, OR
+   - Keep them at root but mark them Personal-flavored, OR
+   - Both (Personal contains them, but they also appear at root for fast access)?
+
+6. **URL nesting in Phase 4 vs. waiting for migration.** v4.1 14.3 wants `/mylane/personal/finance` etc. Building nested routing is independent of `/b/{slug}` direct doors (which are deferred). Should Phase 4 add the nested `/mylane/...` routes, or wait until the post-migration stack? Building them on Base44 is throwaway if they get rewritten on Supabase/Vercel.
+
+7. **`enabled_spaces` backfill specificity.** Inspecting actual data per business is straightforward for FS / Finance / PM (existence of profile = space was used). Less obvious for Events, Network, Property Pulse if they're not already represented as separate profile entities. Need to map each space type to a backfill signal before writing the migration script.
+
+---
+
+## Appendix — Files Inspected but Out of Scope for Phase 4
+
+For completeness, files inspected during the audit but not relevant to the folder-architecture refactor:
+
+- Per-workspace tab implementations (`components/team/*`, `components/finance/*`, `components/fieldservice/*`, `components/propertymgmt/*`, `components/mealprep/*`) — internal to leaf workspaces; structural change happens above them.
+- `components/admin/*` (17+ files) — internal to the Admin page; resurface task is wiring entry, not editing internals.
+- `components/onboarding/*`, per-workspace onboarding pages — not folder-tree related.
+- `components/events/*`, `components/categories/*`, `components/locations/*`, `components/recommendations/*`, `components/region/*`, `components/frequency/*`, `components/field/*` — feature internals, unaffected by Phase 4.
+- `src/api/*`, `src/lib/*`, `src/scripts/*` — infra; not folder-tree related.
+
+---
+
+*End of plan. Future Phase 4 execution prompts read this as the canonical reference for what's already standing, what gets reused, what gets moved, and what needs to be built fresh.*
