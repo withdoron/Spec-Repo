@@ -563,6 +563,8 @@ Tile cockpit gained uniform navigation and its first per-business descent surfac
 
 **Two new descent state slots in `MyLaneSurface`:** `descendedBusinessId` (null or business id) and `descendedSpaceId` (null or SPACE_TYPES id). Both are tile-cockpit-only — spinner cockpit never reads them. Logo-click clears all descent state; Escape unwinds level-by-level (space → business → leaf → folder → root). The `tileLeafSelected` slot from tiles-3 remains for Personal-folder leaf workspace rendering.
 
+**Cleanup follow-up (community-node `2c01950`, 2026-04-28):** Removed `field-service` (Desk) from Personal's children — Desk is a business-only space per the city/buildings architectural metaphor; it lives inside each business via `enabled_spaces`, never under Personal. Dropped the orphaned `has_field_service_profile` predicate, the `Briefcase` icon import in folderTree.js, and the Estimates card-builder block in HomeFeed that was navigating to the now-retired leaf. The `WORKSPACE_TYPES.field_service` entry, the Field Service workspace components, all invite/agent/admin flows referencing `field-service`, and the `desk` entry in `spaceTypes.js` were intentionally left untouched — they'll be reached when tiles-5+ wires the per-business Desk space.
+
 ### Summary of resolution status (Open Questions, Section 7)
 
 | Question | Status |
