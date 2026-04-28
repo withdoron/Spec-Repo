@@ -283,7 +283,7 @@ The brief proposed 4.1–4.7. The audit confirms the broad shape but suggests tw
 Phase 4.2-tiles — design pivot, absorbs 4.2b/4.3/4.4/4.5
 4.2-tiles-1 ✅ Generic Tile primitive extracted from BusinessCard      [shipped 2026-04-28, a3ac463]
 4.2-tiles-2 ✅ Breadcrumb component (cockpit-agnostic, hybrid modes)   [shipped 2026-04-28, caae822]
-4.2-tiles-3   Tile cockpit rendering at root                           [behind cockpit picker]
+4.2-tiles-3 ✅ Tile cockpit rendering at root                          [shipped 2026-04-28, 77571b7]
 4.2-tiles-4   Per-business folder rendering (first enabled_spaces consumer)
 4.2-tiles-5   Settings space surface (lifted from BusinessSettings.jsx)
 4.2-tiles-6   Cockpit picker allowlist gate, tile becomes default      [DEC-147 pattern]
@@ -530,6 +530,28 @@ Cockpit-agnostic `<BreadcrumbPath>` primitive landed at `src/components/ui/Bread
 **Resurface, not rebuild (DEC-173).** Composes the shadcn primitives in `src/components/ui/breadcrumb.jsx` (`Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbPage`, `BreadcrumbSeparator`) for the a11y wrapping, then overrides shadcn's default classes to match LocalLane's pill language. **Naming flag:** the file is `BreadcrumbPath.jsx` rather than `Breadcrumb.jsx` because the lowercase shadcn `breadcrumb.jsx` already exists at the same path; APFS is case-insensitive, so the two would collide. The "Path" suffix also signals the segments-as-path API.
 
 **Not yet wired in.** Component exists as a tested standalone. tiles-3 will be the first real consumer — mounted inside the tile cockpit in `mode="primary"`. Future cockpits (spinner, future Voice) can mount it `mode="adjacent"` for free. No existing files were modified beyond this migration plan.
+
+### 8.16 — Phase 4.2-tiles-3 shipped (2026-04-28)
+
+Tile cockpit landed and became the v1 default for everyone. New `TilesCockpit.jsx` at `src/components/mylane/TilesCockpit.jsx` (158 lines) composes the tiles-1 `<Tile>` primitive and the tiles-2 `<BreadcrumbPath>` primitive into a coherent cockpit experience. Pure rendering — `TilesCockpit` receives `state`, `descendedFolderId`, `tileLeafSelected`, and the leaf-currently-selected as props; emits `onDescendFolder`/`onSelectLeaf`/`onAscend` callbacks. The composition is the point: this file is small because the foundations were laid in tiles-1 and tiles-2.
+
+**Force-migration + allowlist (DEC-147).** New constant `COCKPIT_PICKER_ALLOWLIST = ['doron.bsg@gmail.com']` in `MyLaneSurface.jsx` (paralleling the existing `MYLANE_AGENT_ALLOWLIST`). The cockpit toggle in `AccountOverlay` is wrapped in `cockpitPickerEnabled && (…)` — non-allowlisted users see no toggle at all. The toggle cycle is `tiles → spinner → compass → tiles` for allowlisted devs. Force-migration runs in a `useEffect` keyed on `currentUser?.email` inside `MyLaneSurface`: if the user is non-allowlisted and `ll_cockpit` is `'spinner'` or `'compass'`, overwrites localStorage to `'tiles'` and updates the `data-cockpit` DOM attribute. Allowlisted users keep their preference.
+
+**Default-cockpit bootstrap.** `src/main.jsx` now sets `ll_cockpit='tiles'` and `data-cockpit='tiles'` on first paint when no value is stored — flipping the v1 default from implicit spinner to explicit tiles for new users.
+
+**Cockpit detection at the surface level.** `MyLaneSurface.jsx` gained a local `useCockpit`-style hook (MutationObserver on `data-cockpit`, mirrors the SpaceSpinner internal pattern from DEC-152) so the surface can branch on `currentCockpit === 'tiles'` without depending on SpaceSpinner internals. `SpaceSpinner.jsx` was not modified.
+
+**Tile-leaf-selected state.** New `tileLeafSelected` boolean state in `MyLaneSurface` distinguishes "browsing folder children as tiles" from "a leaf has been tapped, render its workspace below." The `descendedFolderId` state from 4.2a is preserved unchanged; tile-leaf-selected is additive. Logo-click and Escape-key handlers were extended to clear the new state alongside descent.
+
+**Folder-tile accent palette.** Hardcoded inside `TilesCockpit.jsx` as `FOLDER_ACCENTS = { directory: 'border-l-gray-700', events: 'border-l-purple-700', personal: 'border-l-teal-700', businesses: 'border-l-amber-700', discover: 'border-l-blue-700', 'dev-lab': 'border-l-muted-foreground' }`. Drawn from the same `border-l-{color}-700` family as the Directory category accents in `BusinessCard.jsx` (DEC-060). Net-new colors (gray, purple, blue) avoid collision with existing category accents (amber/teal/violet/sky/rose). Flag: if a fourth/fifth folder lands and the hardcode becomes a stone, move accents into `folderTree.js` as a per-entry field.
+
+**No icons.** Tiles render with label + accent border only; the `icon` prop on `<Tile>` stays unused for now (deferred per scope).
+
+**No pinned favorites.** Zone 2 collapses entirely at root (silence by default per Section 8.1). Pinning is deferred until use surfaces real need.
+
+**Untouched per scope:** `SpaceSpinner.jsx`, the compass cockpit code (internal to SpaceSpinner's VARIANT_MAP), `Tile.jsx`, `BreadcrumbPath.jsx`, `folderTree.js`, `folderPredicates.js`. Hook reordering and eslint exhaustive-deps are also untouched (separate Phase 4 priorities, owed but out of scope).
+
+This is the first build that puts tiles-1 and tiles-2 in front of users. Path-walking begins.
 
 ### Summary of resolution status (Open Questions, Section 7)
 
