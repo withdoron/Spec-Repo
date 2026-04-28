@@ -271,18 +271,25 @@ The brief proposed 4.1–4.7. The audit confirms the broad shape but suggests tw
 
 **Phase 4.0 added 2026-04-27.** Before any Phase 4 UI work, the folder tree is established as a declarative configuration (in `src/config/folderTree.js`) read by a small predicate registry (in `src/config/folderPredicates.js`). MyLaneSurface's imperative `buildSpinnerItems()` is refactored to filter the config rather than build items inline. This is invisible to users (same folders, same conditions, same order) but converts the cockpit from "stone stairs" (every new folder = a code edit) to "living feet" (every new folder = a config entry). Phase 4.0 makes everything after it cheaper and makes the eventual Engagements addition (planned but not yet a DEC) a one-line config plug-in.
 
+**Phase 4.2-tiles added 2026-04-28.** Smoke testing 4.2a surfaced friction with the spinner-as-cockpit pattern when folder-vs-leaf rendering was introduced. Tiles become the primary cockpit pattern; the spinner is preserved as a selectable alternate cockpit (DEC-152 pattern, behind a dev allowlist for v1 per DEC-147). Phase 4.2-tiles absorbs the original 4.2b (Businesses-as-folder), 4.3 (Home → Desk collapse), 4.4 (Preview pulse), and 4.5 (Spaces add/remove UI) into a unified sequence of six sub-builds. Each ships separately per DEC-183 path-walking — ship one, use it, then write the next prompt. 4.6 and 4.7 remain as planned. Full design captured in Section 8.13.
+
 **Recommended order:**
 
 ```
-4.0  Folder tree as configuration                           [shipped 2026-04-27]
-4.1  Entity (Business.enabled_spaces + backfill)            [shipped 2026-04-27, one record pending]
-4.2a Root folders (Directory/Events/Personal as cockpit)    [shipped 2026-04-27]
-4.2b Businesses-as-folder + per-business sub-folders        [structural, touches switcher]
-4.3  Home → Desk collapse (structural)                      [follows 4.2b]
-4.4  Preview pulse                                          [needs spec]
-4.5  Spaces add/remove mechanic UI                          [depends on 4.1 + 4.2b]
-4.6  Resurface pass (feedback, admin folder, others)        [Section 20 sweep]
-4.7  Desk rename full pass                                  [mechanical, last]
+4.0    ✅ Folder tree as configuration                                  [shipped 2026-04-27, 73a3d53/077c89a]
+4.1    ✅ Entity (Business.enabled_spaces + backfill)                   [functional 2026-04-27, one record pending Base44 support]
+4.2a   ✅ Universal root folders, header pills removed                  [shipped 2026-04-27, d47ac7d/304e538]
+
+Phase 4.2-tiles — design pivot, absorbs 4.2b/4.3/4.4/4.5
+4.2-tiles-1   Generic Tile primitive extracted from BusinessCard       [no behavior change]
+4.2-tiles-2   Breadcrumb component (cockpit-agnostic, hybrid modes)    [net-new component]
+4.2-tiles-3   Tile cockpit rendering at root                           [behind cockpit picker]
+4.2-tiles-4   Per-business folder rendering (first enabled_spaces consumer)
+4.2-tiles-5   Settings space surface (lifted from BusinessSettings.jsx)
+4.2-tiles-6   Cockpit picker allowlist gate, tile becomes default      [DEC-147 pattern]
+
+4.6    Resurface pass (Admin folder, feedback affordance, others)      [Section 20 sweep]
+4.7    Desk rename mechanical pass                                      [last, ~92 strings, ~40 files]
 ```
 
 ---
@@ -473,17 +480,52 @@ Universal root folders moved into the cockpit. Five new entries land on the root
 
 **Risk to paying user remains effectively zero.** Bari is not yet using LocalLane for daily work. Doron is the smoke-test for both switcher preservation and the descent gestures.
 
+### 8.13 — Tile cockpit design pivot (2026-04-27 evening through 2026-04-28 morning)
+
+After Phase 4.2a shipped, smoke testing surfaced three real frictions with the spinner-as-cockpit pattern: (1) the pill-switcher's contextual meaning shifts confusingly with depth — clicking the "finances" pill enters business switcher mode anywhere it appears; (2) folder-centered positions render to silence below the cockpit (per Section 8.1) which is fine philosophically but felt empty in real use; (3) the "what's inside this folder" question doesn't have a natural spinner answer — the spinner gives you one centered thing, but a folder is many things.
+
+The pivot: tiles become the primary cockpit pattern. The current spinner area gets repurposed visually for breadcrumb path navigation. The spinner cockpit is preserved as a selectable alternate (not deleted) — the existing DEC-152 cockpit library pattern handles this naturally.
+
+A pre-build investigation (2026-04-27 evening) inspected codebase reusability for the new pattern and surfaced findings that shape the build. The locked decisions:
+
+**Tile primitive:** A generic `<Tile>` component takes `{ id, label, sublabel?, icon?, accentColor?, kind, onClick }` and renders the visual shell — `rounded-lg`, `bg-gradient-to-br from-secondary to-secondary/90`, `border-l-4` with accent, hover lift (`hover:-translate-y-0.5`), 300ms ease-out transition, 0.08 opacity primary glow on hover. `BusinessCard` becomes a thin wrapper that adds Business-specific decoration (network chips, tier badges, vitality state) and resolves Business-specific data (category labels via `useCategories()`, network chips via `useConfig()`). Folder tiles, leaf tiles, and any future tile kind use the generic Tile directly.
+
+**Settings as a universal space:** Settings is never listed in `enabled_spaces`. Profile and Settings render unconditionally for every business alongside whatever opt-in spaces the business has activated. `enabled_spaces` means "additional opt-in spaces" only. No follow-up backfill is needed — Phase 4.1's seeded values stay as they are. Reasoning: a business with no Settings is unreachable (no way to edit name, toggle directory listing, or delete). It's part of what *being a business in LocalLane* means, not a feature flag. The 4.5 Add/Remove Space UI manages only the opt-in subset, not the universal pair.
+
+**Category-driven accents preserved:** No per-business `brand_color` field added to Business in v1. The existing `resolveCategoryAccent()` pattern in `BusinessCard.jsx` (keyed on `main_category` slug, with archetype fallback) stays. Visual story remains "category at a glance," not "personalized brand color." Revisit if path-walking surfaces a real owner-personalization need.
+
+**Folder tile accents:** Folder tiles (Directory, Events, Personal, Businesses, Discover, Admin, Engagements) need their own accent assignments alongside the existing category palette. Defer to the first build prompt — Hyphae proposes a five-to-eight-color palette from the existing `border-l-{color}-700` family that complements the theme and doesn't collide with category accents.
+
+**Cockpit picker pattern (DEC-147 + DEC-152):** Tile cockpit is the v1 default for everyone. The spinner and compass cockpits are gated behind an email allowlist constant — `COCKPIT_PICKER_ALLOWLIST` — same pattern as `MYLANE_AGENT_ALLOWLIST` in MyLaneSurface.jsx. Allowlisted users see the AccountOverlay's "Cockpit" toggle with all three options. Non-allowlisted users see no cockpit toggle (no placeholder, no "coming soon" — DEC-147 says nothing). localStorage drives the choice (`ll_cockpit` key already exists from DEC-152). No User entity changes for v1. Upgrade path when tile cockpit is proven: drop the allowlist gate, optionally promote `ll_cockpit` to a server-stored field on User if cross-device persistence becomes worth it.
+
+**Breadcrumb component (cockpit-agnostic, hybrid modes):** The breadcrumb is its own component, separate from any cockpit. It reads navigation state and renders breadcrumb segments with current-segment highlight and click-to-jump-back. Two presentation modes via prop:
+
+- `mode="primary"` for tile cockpit — breadcrumb takes the prominent position where the spinner area was, large segments, central to the experience
+- `mode="adjacent"` for spinner cockpit and future cockpits — small "you are here" affordance, less prominent, supporting the cockpit's primary navigation
+
+Same data, same logic, different visual weight per cockpit. Future cockpits inherit the breadcrumb for free. The spinner cockpit gains nested-folder support as a side effect, extending its useful life for users who prefer it.
+
+This is genuinely net-new UI; the `MyLaneBreadcrumb.jsx` referenced in older session logs as if it existed was a stale reference.
+
+**Space-type catalog:** When Phase 4.2-tiles-4 ships per-business folder rendering, the renderer must read from a space-type catalog config (likely `src/config/spaceTypes.js`), never from inline conditionals. Each space type maps to its tile metadata — label, icon, accent, route. The renderer iterates `enabled_spaces`, unions with the universal `['profile', 'settings']`, and looks up each type-string in the catalog to produce tiles. Adding a new space type later means one config entry. This is the same living-feet pattern as `folderTree.js`, `folderPredicates.js`, `VARIANT_MAP`, and `WORKSPACE_TYPES` — the codebase already has the discipline; tiles-4 applies it to space types.
+
+**Cold-open synthetic root:** The user lands on a synthetic "Home" root that shows all universal + contextual root folder tiles. The breadcrumb shows "Home" highlighted. From there: tap any tile to descend. Click "Home" in the breadcrumb (or the LocalLane logo top-left) to return to root from any depth.
+
+**`enabled_spaces` is unconsumed code:** Phase 4.1 added the field on Business and seeded most records, but no `src/` code reads or writes it yet. The first consumer is Phase 4.2-tiles-4. Worth verifying directly in Base44 before tiles-4 starts whether the seeding is current.
+
+**Breadcrumb plus tile-tap descent supersedes the spinner's center-tap-descent gesture from 4.2a.** The descent state machine added in 4.2a (per Section 8.12) is rewireable to the tile model — tile-tap is the descent gesture, breadcrumb segments are the ascent gesture, the underlying state shape is preserved. Not net-new state, just rewired.
+
 ### Summary of resolution status (Open Questions, Section 7)
 
 | Question | Status |
 |---|---|
-| #1 Preview pulse concretely | **Resolved** — silence by default, signal when warranted (8.1) |
-| #2 Home → Desk content collapse | **Resolved** — inherit as-is for Phase 4, future pin pattern noted (8.6) |
+| #1 Preview pulse concretely | **Superseded by Phase 4.2-tiles design (Section 8.13)** — silence-by-default (8.1) was the answer for the spinner cockpit; the tile cockpit replaces folder-position rendering entirely with a grid of child tiles, so preview pulse is no longer the question being asked at non-leaf levels. |
+| #2 Home → Desk content collapse | **Superseded by Phase 4.2-tiles design (Section 8.13)** — the structural collapse question is now part of the tile cockpit's per-business folder rendering (Phase 4.2-tiles-4). Desk inherits its content as-is per the original 8.6 resolution; what changed is the surface that surrounds it. |
 | #3 Playmaker contextual root vs Team-inside-Personal | **Resolved** — contextual root, default placement, current shipping behavior (8.9) |
 | #4 Admin contextual root vs admin lens in spaces | **Resolved** — Thing 1 (root folder) in Phase 4; Thing 2 (lens) deferred to 4.5 (8.8) |
 | #5 Personal folder vs unscoped at root | **Implicit** — Personal contains personal-flavored items (Home, Finance, Meal Prep, etc.); fast-access at root is a future shortcut concern (8.2) |
-| #6 URL nesting in Phase 4 vs wait | **Resolved** — wait. Behavior works as if nested; URLs land post-migration (8.5) |
-| #7 `enabled_spaces` backfill spec | **Resolved** — concrete per-business rules (8.10) |
+| #6 URL nesting in Phase 4 vs wait | **Superseded by Phase 4.2-tiles design (Section 8.13)** — original 8.5 resolution still holds (URL nesting waits for post-migration); the tile cockpit + breadcrumb provides the as-if-nested behavior, replacing what 4.2b would have built. |
+| #7 `enabled_spaces` backfill spec | **Resolved** — concrete per-business rules (8.10). First consumer is Phase 4.2-tiles-4 (8.13). |
 
 ---
 
