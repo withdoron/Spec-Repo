@@ -284,7 +284,7 @@ Phase 4.2-tiles — design pivot, absorbs 4.2b/4.3/4.4/4.5
 4.2-tiles-1 ✅ Generic Tile primitive extracted from BusinessCard      [shipped 2026-04-28, a3ac463]
 4.2-tiles-2 ✅ Breadcrumb component (cockpit-agnostic, hybrid modes)   [shipped 2026-04-28, caae822]
 4.2-tiles-3 ✅ Tile cockpit rendering at root                          [shipped 2026-04-28, 77571b7]
-4.2-tiles-4   Per-business folder rendering (first enabled_spaces consumer)
+4.2-tiles-4 ✅ Per-business folder rendering (first enabled_spaces consumer)  [shipped 2026-04-28, 84a9889]
 4.2-tiles-5   Settings space surface (lifted from BusinessSettings.jsx)
 4.2-tiles-6   Cockpit picker allowlist gate, tile becomes default      [DEC-147 pattern]
 
@@ -552,6 +552,16 @@ Tile cockpit landed and became the v1 default for everyone. New `TilesCockpit.js
 **Untouched per scope:** `SpaceSpinner.jsx`, the compass cockpit code (internal to SpaceSpinner's VARIANT_MAP), `Tile.jsx`, `BreadcrumbPath.jsx`, `folderTree.js`, `folderPredicates.js`. Hook reordering and eslint exhaustive-deps are also untouched (separate Phase 4 priorities, owed but out of scope).
 
 This is the first build that puts tiles-1 and tiles-2 in front of users. Path-walking begins.
+
+### 8.17 — Phase 4.2-tiles-4 shipped (2026-04-28)
+
+Tile cockpit gained uniform navigation and its first per-business descent surface. New `src/config/spaceTypes.js` (123 lines) holds the space-type catalog — eight entries for now (`profile`, `settings`, `desk`, `finance`, `team`, `kitchen`, `property`, `events`), with `profile` and `settings` flagged `universal: true` so they render for every business regardless of `enabled_spaces` (per Section 8.13's "Settings as universal space" decision). The `resolveBusinessSpaces(business)` helper unions the universal pair with the business's `enabled_spaces` array, deduplicates, and returns ordered tile metadata. This is the first build that consumes `enabled_spaces` from the Business entity (added in Phase 4.1, dormant until now). Bari's `["profile", "desk", "settings"]` resolves to four tiles total: Profile, Settings (both universal), Desk (from his array). Other businesses with `["profile"]` resolve to two tiles: Profile + Settings.
+
+**Three patterns retired for tile cockpit users (preserved for spinner cockpit).** DEC-148 overlay shortcut for Directory/Events: tile cockpit now descends into them (sets `descendedFolderId`), and the page content renders inline using the same `.overlay-page-content` wrapper class so the existing page-header suppression carries forward (DEC-173 resurface, no page rebuild). DEC-168 lateral switcher for Businesses: tile cockpit descends to a tile grid of owned businesses, each rendered as a `<Tile>` with category accent via `resolveCategoryAccent` (DEC-060 visual continuity). Tap a business → `setActiveBusiness` is called (mirrors the DEC-168 commit logic exactly) AND `descendedBusinessId` is set, descending into that business's spaces tile grid. Dev Lab removed from `folderTree.js` and the orphaned `space.id === 'dev-lab'` branch cleaned out of `renderContent` — the `DevLab` component itself stays as the admin physics tuner toggle, unrelated to the folder tree. Every tile cockpit descent is now uniform: tap → set state → render breadcrumb + content. Spinner cockpit's `handleCenterTap` is untouched; allowlisted users who toggle to spinner still get the overlays and switcher.
+
+**Per-business space tile-tap renders a v1 placeholder for every space type** (`BusinessSpacePlaceholder`, inline in MyLaneSurface). The placeholder reads label + sublabel from the SPACE_TYPES catalog so the tile and the placeholder share one source of label truth. Real workspace surfaces — `BusinessProfilePage` for Profile, the lifted `BusinessSettings` for Settings (tiles-5), business-scoped `MyLaneDrillView` paths for Desk/Finance/Team/etc. — are deferred to tiles-5+. v1 ships uniform navigation; later builds wire the workspaces with careful per-business profile scoping. Each tile renders honestly: the user can see the space exists, what it's for, and that the workspace surface is on the way.
+
+**Two new descent state slots in `MyLaneSurface`:** `descendedBusinessId` (null or business id) and `descendedSpaceId` (null or SPACE_TYPES id). Both are tile-cockpit-only — spinner cockpit never reads them. Logo-click clears all descent state; Escape unwinds level-by-level (space → business → leaf → folder → root). The `tileLeafSelected` slot from tiles-3 remains for Personal-folder leaf workspace rendering.
 
 ### Summary of resolution status (Open Questions, Section 7)
 
