@@ -281,7 +281,7 @@ The brief proposed 4.1–4.7. The audit confirms the broad shape but suggests tw
 4.2a   ✅ Universal root folders, header pills removed                  [shipped 2026-04-27, d47ac7d/304e538]
 
 Phase 4.2-tiles — design pivot, absorbs 4.2b/4.3/4.4/4.5
-4.2-tiles-1   Generic Tile primitive extracted from BusinessCard       [no behavior change]
+4.2-tiles-1 ✅ Generic Tile primitive extracted from BusinessCard      [shipped 2026-04-28, a3ac463]
 4.2-tiles-2   Breadcrumb component (cockpit-agnostic, hybrid modes)    [net-new component]
 4.2-tiles-3   Tile cockpit rendering at root                           [behind cockpit picker]
 4.2-tiles-4   Per-business folder rendering (first enabled_spaces consumer)
@@ -514,6 +514,14 @@ This is genuinely net-new UI; the `MyLaneBreadcrumb.jsx` referenced in older ses
 **`enabled_spaces` is unconsumed code:** Phase 4.1 added the field on Business and seeded most records, but no `src/` code reads or writes it yet. The first consumer is Phase 4.2-tiles-4. Worth verifying directly in Base44 before tiles-4 starts whether the seeding is current.
 
 **Breadcrumb plus tile-tap descent supersedes the spinner's center-tap-descent gesture from 4.2a.** The descent state machine added in 4.2a (per Section 8.12) is rewireable to the tile model — tile-tap is the descent gesture, breadcrumb segments are the ascent gesture, the underlying state shape is preserved. Not net-new state, just rewired.
+
+### 8.14 — Phase 4.2-tiles-1 shipped (2026-04-28)
+
+Generic `<Tile>` primitive landed at `src/components/ui/Tile.jsx` (121 lines). The visual signature of the Directory tile — rounded card, `bg-gradient-to-br from-secondary to-secondary/90`, `border-l-4` accent, hover lift, 300ms ease-out transition — now lives in one place. `BusinessCard.jsx` was refactored to wrap `<Tile>` (201 → 184 lines) by passing business-specific resolved values (label, sublabel, accentClass) and rendering business-specific decoration (network chips, tier badges, location, product tags) as Tile children. The smaller-than-anticipated drop on BusinessCard reflects that the file's bulk was always business-specific resolution and decoration — the visual shell itself was ~17 lines, all of which moved out cleanly.
+
+**Public API preserved.** `BusinessCard` default export and `resolveCategoryAccent` named export both kept unchanged; the three consumers (`Directory.jsx`, `NetworkPage.jsx`, `BusinessProfile.jsx`) needed no edits. Hover effects gate on interactivity (only apply when `onClick` or `href` is provided), so static-tile usage in future builds (folder tiles, leaf tiles) gets the right affordance for free. The `data-tile-kind` attribute carries the `kind` prop through to the DOM as a hook for any future per-kind styling. No behavior change observed at the Directory or NetworkPage surfaces — the refactor is structural only.
+
+This unlocks tiles-2 (breadcrumb component) and tiles-3 (tile cockpit at root); both will use `<Tile>` directly rather than building their own visual shell.
 
 ### Summary of resolution status (Open Questions, Section 7)
 
