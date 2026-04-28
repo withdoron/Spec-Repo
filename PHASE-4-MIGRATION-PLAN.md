@@ -282,7 +282,7 @@ The brief proposed 4.1–4.7. The audit confirms the broad shape but suggests tw
 
 Phase 4.2-tiles — design pivot, absorbs 4.2b/4.3/4.4/4.5
 4.2-tiles-1 ✅ Generic Tile primitive extracted from BusinessCard      [shipped 2026-04-28, a3ac463]
-4.2-tiles-2   Breadcrumb component (cockpit-agnostic, hybrid modes)    [net-new component]
+4.2-tiles-2 ✅ Breadcrumb component (cockpit-agnostic, hybrid modes)   [shipped 2026-04-28, caae822]
 4.2-tiles-3   Tile cockpit rendering at root                           [behind cockpit picker]
 4.2-tiles-4   Per-business folder rendering (first enabled_spaces consumer)
 4.2-tiles-5   Settings space surface (lifted from BusinessSettings.jsx)
@@ -522,6 +522,14 @@ Generic `<Tile>` primitive landed at `src/components/ui/Tile.jsx` (121 lines). T
 **Public API preserved.** `BusinessCard` default export and `resolveCategoryAccent` named export both kept unchanged; the three consumers (`Directory.jsx`, `NetworkPage.jsx`, `BusinessProfile.jsx`) needed no edits. Hover effects gate on interactivity (only apply when `onClick` or `href` is provided), so static-tile usage in future builds (folder tiles, leaf tiles) gets the right affordance for free. The `data-tile-kind` attribute carries the `kind` prop through to the DOM as a hook for any future per-kind styling. No behavior change observed at the Directory or NetworkPage surfaces — the refactor is structural only.
 
 This unlocks tiles-2 (breadcrumb component) and tiles-3 (tile cockpit at root); both will use `<Tile>` directly rather than building their own visual shell.
+
+### 8.15 — Phase 4.2-tiles-2 shipped (2026-04-28)
+
+Cockpit-agnostic `<BreadcrumbPath>` primitive landed at `src/components/ui/BreadcrumbPath.jsx` (121 lines). Takes a `segments` array (ordered root → current) plus a `mode` prop (`"primary"` or `"adjacent"`) and renders a horizontal pill trail. The last segment is the current location, rendered non-interactively with `aria-current="page"`; earlier segments fire their own `onClick` callbacks when tapped. Pure rendering — no state, no navigation logic, the consumer owns both. Both modes share the same warm-on-hover pill family (`bg-primary/10 text-primary border-primary/30` for the active segment, matching the network chips in `BusinessCard.jsx` and the `<Tile>` hover state); they differ only in size — primary uses `text-sm px-4 py-1.5` with `py-3` container padding for prominence, adjacent uses `text-xs px-2 py-0.5` with tighter `py-1` padding to sit lighter alongside another nav primitive.
+
+**Resurface, not rebuild (DEC-173).** Composes the shadcn primitives in `src/components/ui/breadcrumb.jsx` (`Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbPage`, `BreadcrumbSeparator`) for the a11y wrapping, then overrides shadcn's default classes to match LocalLane's pill language. **Naming flag:** the file is `BreadcrumbPath.jsx` rather than `Breadcrumb.jsx` because the lowercase shadcn `breadcrumb.jsx` already exists at the same path; APFS is case-insensitive, so the two would collide. The "Path" suffix also signals the segments-as-path API.
+
+**Not yet wired in.** Component exists as a tested standalone. tiles-3 will be the first real consumer — mounted inside the tile cockpit in `mode="primary"`. Future cockpits (spinner, future Voice) can mount it `mode="adjacent"` for free. No existing files were modified beyond this migration plan.
 
 ### Summary of resolution status (Open Questions, Section 7)
 
