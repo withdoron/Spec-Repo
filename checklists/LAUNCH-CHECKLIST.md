@@ -141,7 +141,22 @@
 - [x] **Phase 3: Build H — workspace content centering on wide monitors** (2026-04-25, `9c3d080` — closes Phase 3)
 - [x] **Base44 schema fix:** `Business.service_area` field type `string` → `array<string>` (2026-04-25, DEC-178 codifies the pairing rule)
 - [ ] ~~**Phase 3.5: Direct doors `/b/{slug}`**~~ — **Deferred to post-migration per DEC-179.** Bari has redumbrellaservices.com, no farmers-market URL pressure; build once on post-migration stack.
-- [ ] **Phase 4: Desk implementation rename + business-scoped rendering** (DEC-160, DEC-156) — code-tier rename; tools filter by `business_id` when in a business context. Plus: MyLaneSurface hook reordering, MyLaneDrillView latent bug fix, eslint-plugin-react-hooks exhaustive-deps enforcement, resurfacing buried surfaces per DEC-173.
+- [x] **Phase 4.0: Folder tree as configuration** (2026-04-27, `73a3d53` community-node, `077c89a` Spec-Repo) — declarative `src/config/folderTree.js` + predicate registry `src/config/folderPredicates.js`; MyLaneSurface refactored from imperative `buildSpinnerItems()` to filter the config (Living Feet — every new folder = a config entry, not a code edit)
+- [x] **Phase 4.1: Business.enabled_spaces field added (Base44) + backfill** (2026-04-27 functional; one record pending Base44 support resolved 2026-04-28) — paired Base44 + code per DEC-178; backfill seeded `["profile"]` for most businesses, Bari's Red Umbrella `["profile", "desk", "settings"]` per Section 8.10
+- [x] **Phase 4.2a: Universal root folders, header pills removed** (2026-04-27, `d47ac7d` community-node, `304e538` Spec-Repo) — Directory, Events, Personal, Businesses, Discover land on root cockpit; folder-vs-leaf rendering shipped; Section 8.12 captures flagged items from smoke test
+- [x] **Phase 4.2-tiles design pivot ratified (DEC-185)** (2026-04-28, `a96ae43` Spec-Repo) — tiles primary cockpit, spinner alternate behind allowlist; absorbs original 4.2b/4.3/4.4/4.5 into a unified six-step sequence
+- [x] **Phase 4.2-tiles-1: Generic Tile primitive** (2026-04-28, `a3ac463` community-node) — `src/components/ui/Tile.jsx` (121 lines); BusinessCard refactored to wrap it
+- [x] **Phase 4.2-tiles-2: BreadcrumbPath component** (2026-04-28, `caae822` community-node, DEC-189) — `src/components/ui/BreadcrumbPath.jsx` (121 lines); cockpit-agnostic, two presentation modes; composes shadcn primitives
+- [x] **Phase 4.2-tiles-3: Tile cockpit at root** (2026-04-28, `77571b7` community-node, DEC-188) — `src/components/mylane/TilesCockpit.jsx` (158 lines); tiles becomes v1 default; `COCKPIT_PICKER_ALLOWLIST` gates spinner/compass picker
+- [x] **Phase 4.2-tiles-4: Per-business folder rendering + uniform navigation** (2026-04-28, `84a9889` community-node, DEC-186/190/191) — `src/config/spaceTypes.js` (123 lines, eight entries with Profile + Settings universal); first consumer of `enabled_spaces`; DEC-148 overlays + DEC-168 switcher retired for tile users; Dev Lab removed from folder tree
+- [x] **Cleanup: Field Service removed from Personal** (2026-04-28, `2c01950` community-node) — Desk is a business-only space per the city/buildings metaphor; `has_field_service_profile` predicate dropped, HomeFeed Estimates card-builder removed
+- [x] **Engagement entity built in Base44** (2026-04-28, DEC-192) — design fully closed; one Read permission deviation noted (multi-field OR not supported at schema layer; row-level scoping moves to query logic)
+- [ ] **Phase 4.2-tiles-5: Settings + Profile workspace surfaces + pricing-structure design** (next session) — pre-build design conversation about Profile/Settings split + pricing-model shape; BusinessSettings lifted from dashboard tab into Settings space; BusinessProfilePage wired as Profile space
+- [ ] **Phase 4.2-tiles-6: Cockpit picker allowlist gate cleanup or extension as needed**
+- [ ] **Phase 4.2-tiles-7: Personal Profile + Settings — architectural symmetry** — adds `enabled_spaces` field to User entity; Personal's Profile + Settings spaces; public/private toggle; foundation for user reviews; 2-3 sub-builds
+- [ ] **Per-business workspace wiring** for Profile/Desk/Finance/Team — existing renderers take user-scope props that need re-scoping; Field Service specifically needs business-scoped resolver (`MyLaneDrillView.jsx:53`)
+- [ ] **Phase 4.6: Resurface pass** (Admin folder, feedback affordance, others) — Section 20 sweep
+- [ ] **Phase 4.7: Desk rename mechanical pass** — ~92 strings, ~40 files; last in Phase 4 per DEC-183
 - [ ] **Phase 4.5: Seedlings** — Admin Impersonation, post-migration welcome flow
 - [ ] **Phase 5 (NEW): Pre-migration cleanup** (DEC-180) — dead code removal, unused entity audit, archetype/main_category/sub_category_id consolidation into `subcategories[]`, walking-the-app cleanup findings:
   - [ ] Remove `legacyCategoryMapping` (`categoryData.jsx:229-240` — pre-DEC-055 IDs)
@@ -158,10 +173,12 @@
 
 ### Critical path to real users (next blockers)
 
-1. Phase 4 — Desk implementation rename + business-scoped rendering
-2. Phase 4.5 — Seedlings (Admin Impersonation, post-migration welcome flow)
-3. Phase 5 (NEW) — Pre-migration cleanup (DEC-180)
-4. Phase 6 — Migration window + Region backfill (DEC-175 Pattern C+)
-5. Post-migration — Membership gate, Direct Doors, Stripe Connect (payment infrastructure built once on the new stack)
+1. Phase 4.2-tiles-5 — Settings + Profile workspace surfaces + pricing-structure design (next session)
+2. Phase 4.2-tiles-6 / tiles-7 — cockpit picker cleanup + Personal Profile/Settings (architectural symmetry)
+3. Phase 4.6 / 4.7 — Resurface pass + Desk rename mechanical
+4. Phase 4.5 — Seedlings (Admin Impersonation, post-migration welcome flow)
+5. Phase 5 (NEW) — Pre-migration cleanup (DEC-180)
+6. Phase 6 — Migration window + Region backfill (DEC-175 Pattern C+)
+7. Post-migration — Membership gate, Direct Doors, Stripe Connect (payment infrastructure built once on the new stack)
 
 ---

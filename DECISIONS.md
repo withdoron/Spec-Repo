@@ -1003,3 +1003,90 @@ Links to Living Feet (DEC-146): the schema definition is "stone" (one source in 
 **Status:** Active. Aligned with `FIELD-INSTRUMENT-SEED.md`'s posture and DEC-175's Phase 6 timing.
 
 ---
+
+### DEC-185: Phase 4.2-tiles Design Pivot — Tiles as Primary Cockpit (2026-04-28)
+
+**Date:** 2026-04-28
+**Context:** Phase 4.2a shipped (2026-04-27 afternoon) introduced folder-vs-leaf rendering on the spinner cockpit. Smoke testing surfaced three real frictions: (1) the pill-switcher's contextual meaning shifted confusingly with depth — clicking the "finances" pill entered business switcher mode anywhere it appeared; (2) folder-centered positions rendered to silence below the cockpit (Section 8.1) — philosophically clean but felt empty in real use; (3) the "what's inside this folder" question doesn't have a natural spinner answer — the spinner gives one centered thing, a folder is many things. The pre-build investigation (2026-04-27 evening) confirmed the existing primitives (Tile shape inside BusinessCard, shadcn breadcrumb) could compose into a tile cockpit cleanly without rebuilding what already existed.
+**Decision:** Tiles become the primary cockpit pattern. The spinner is preserved as a selectable alternate cockpit gated behind `COCKPIT_PICKER_ALLOWLIST` (DEC-147 R&D allowlist pattern, codified separately as DEC-188). Phase 4.2-tiles absorbs the original 4.2b (Businesses-as-folder), 4.3 (Home → Desk collapse), 4.4 (Preview pulse), and 4.5 (Spaces add/remove UI) into a unified six-step sub-build sequence. Each ships separately per DEC-183 path-walking. Section 8.13 of `PHASE-4-MIGRATION-PLAN.md` captures the eleven load-bearing design decisions (tile primitive shape, Settings universal, category-driven accents preserved, cockpit picker pattern, hybrid-mode breadcrumb, space-type catalog principle, cold-open synthetic root, breadcrumb supersedes center-tap descent, etc.).
+**Rationale:** The spinner's "one centered thing" model fights the "folder of many things" navigation question. Tiles answer it natively — a grid is a folder is a grid. The spinner cockpit retains its identity-distinctive role for users who prefer it (DEC-152 cockpit library pattern); tiles don't replace, they become the primary surface most users see. Six smaller sub-builds shipped via path-walking generate friction signal that informs the next, vs. one large pre-sequenced refactor. The tile cockpit specifically enables uniform navigation (DEC-191) — every root tile descends into the render layer with breadcrumb above — which the spinner can't structurally do.
+**Status:** Active. Tiles-1 through tiles-4 shipped 2026-04-28 (community-node `a3ac463`, `caae822`, `77571b7`, `84a9889`; Spec-Repo `a96ae43`, `4598419`, `081882b`, `65ff952`, `8b94ec1`). Cleanup pass (`2c01950` community-node, `1551f30` Spec-Repo) removed Field Service from Personal as the city/buildings architectural metaphor required. Tiles-5 next (Settings + Profile workspace surfaces + pricing-structure design).
+
+---
+
+### DEC-186: Settings as a Universal Space (2026-04-28)
+
+**Date:** 2026-04-28
+**Context:** Phase 4.1 added `Business.enabled_spaces: array<string>` for opt-in space activation. The pre-build investigation surfaced the question of whether Settings (and Profile) should be listed in `enabled_spaces` or guaranteed as universal. Per Section 8.10's backfill, Bari's `enabled_spaces` is `["profile", "desk", "settings"]` and most others are `["profile"]`. A business with no Settings space would be unreachable — no way to edit its name, toggle directory listing, or delete itself.
+**Decision:** Profile and Settings are universal — they render unconditionally for every business regardless of `enabled_spaces`. They are listed in the SPACE_TYPES catalog with `universal: true` and never added to `enabled_spaces` in any backfill; their presence is guaranteed by composition in `resolveBusinessSpaces()`. `enabled_spaces` means "additional opt-in spaces" only.
+**Rationale:** Settings + Profile are part of what *being a business in LocalLane* means, not a feature flag. The 4.5 Add/Remove Space UI manages only the opt-in subset, simpler to think about. Backfill logic stays minimal — adding a new Business doesn't need to remember to set Profile + Settings in `enabled_spaces`. Defensive: a stale Base44 record without Settings still gets a Settings tile.
+**Status:** Active. Implemented in `src/config/spaceTypes.js` (Phase 4.2-tiles-4) with `universal: true` flag on the `profile` and `settings` entries. The `resolveBusinessSpaces()` helper unions universal entries with `enabled_spaces` and dedupes.
+
+---
+
+### DEC-187: Category-Driven Tile Accents Preserved — No Per-Business Brand Color in v1 (2026-04-28)
+
+**Date:** 2026-04-28
+**Context:** Phase 4.2-tiles needed accent-color decisions for tiles. The existing Directory tile (BusinessCard) uses a category-derived accent via `resolveCategoryAccent(business)` (DEC-060) — colors keyed on `main_category` slug. The pre-build investigation considered introducing a per-business `brand_color` field for personalized accents.
+**Decision:** v1 preserves the category-driven accent pattern. No `brand_color` field added to Business. Owned-business tiles in tile cockpit reuse `resolveCategoryAccent` for visual continuity with Directory. Folder tiles (Directory, Events, Personal, Businesses, Discover) get hardcoded accents in `TilesCockpit.jsx`'s FOLDER_ACCENTS map, drawn from the same `border-l-{color}-700` palette. Per-business space tiles get their accents from the SPACE_TYPES catalog (DEC-190).
+**Rationale:** Adding `brand_color` is a Base44 schema change (DEC-178 paired update) plus settings UI plus a backfill plus owner-personalization design — meaningful scope outside tiles-4. The category palette already serves "category at a glance," which is a real design property. Path-walking surfaces whether per-business personalization is worth the work; if so, additive later (one new optional field on Business + a Settings color picker, no migration of accent code paths).
+**Status:** Active. Revisit if path-walking surfaces a real owner-personalization need.
+
+---
+
+### DEC-188: Cockpit Picker Dev-Allowlist via COCKPIT_PICKER_ALLOWLIST (2026-04-28)
+
+**Date:** 2026-04-28
+**Context:** Tiles cockpit became the v1 default for everyone (DEC-185). Spinner and compass cockpits are preserved per DEC-152 but were no longer the default. The pre-build investigation considered three patterns for handling the cockpit-picker UI: (1) full picker visible to all users with three options; (2) picker hidden entirely; (3) picker gated to a dev allowlist mirroring the existing `MYLANE_AGENT_ALLOWLIST`.
+**Decision:** Pattern 3. New constant `COCKPIT_PICKER_ALLOWLIST = ['doron.bsg@gmail.com']` in `MyLaneSurface.jsx`, paralleling the existing `MYLANE_AGENT_ALLOWLIST`. Gates the AccountOverlay's cockpit toggle row — non-allowlisted users see no toggle (DEC-147 — no placeholder, no "coming soon"). Force-migration `useEffect` in MyLaneSurface mount overwrites localStorage from spinner/compass to tiles for non-allowlisted users; allowlisted users keep their preference. The toggle cycle is `tiles → spinner → compass → tiles` for allowlisted users.
+**Rationale:** Tiles cockpit needs to prove out before the spinner/compass options become user-visible. Hiding the toggle keeps the v1 surface clean while preserving developer access to alternate cockpits for testing. Pattern matches DEC-147 R&D allowlist convention. When tiles is proven, drop the gate; the option becomes user-visible without code changes beyond removing the conditional. DEC-148 footnote: if a third allowlist constant lands, extract to a shared `DEV_USER_ALLOWLIST`.
+**Status:** Active. Implemented Phase 4.2-tiles-3 (`77571b7` community-node).
+
+---
+
+### DEC-189: Hybrid-Mode Breadcrumb Component (2026-04-28)
+
+**Date:** 2026-04-28
+**Context:** The tile cockpit needs a path indicator showing folder descent. The spinner cockpit could also benefit from a path indicator for nested-folder support. Two design questions: (a) build cockpit-specific breadcrumb components, or one shared component with mode-driven sizing? (b) build from scratch or compose the existing shadcn breadcrumb primitive set in `src/components/ui/breadcrumb.jsx`?
+**Decision:** One cockpit-agnostic `BreadcrumbPath` component with two presentation modes via `mode` prop: `"primary"` for tile cockpit (large segments, prominent position where the spinner area was) and `"adjacent"` for spinner cockpit and future cockpits (smaller, supporting affordance). Both modes share the same warm-on-hover pill family — same data, same logic, different visual weight per cockpit. The component composes the existing shadcn breadcrumb primitives (DEC-173 resurface) for a11y wrapping (`<nav aria-label>`, `<ol>`, `<li>`, `aria-current="page"`); overrides shadcn's default classes for LocalLane's pill language. The file is named `BreadcrumbPath.jsx` (not `Breadcrumb.jsx`) to avoid case-insensitive APFS collision with the existing lowercase `breadcrumb.jsx`.
+**Rationale:** Future cockpits inherit the breadcrumb for free by mounting it in either mode. The compose-not-extend pattern preserves the shadcn primitives' a11y semantics while wrapping them in the LocalLane visual language. Mirrors the `ConfirmDialog`/`alert-dialog` precedent — opinionated wrapper alongside primitive set.
+**Status:** Active. Shipped Phase 4.2-tiles-2 as `src/components/ui/BreadcrumbPath.jsx` (`caae822` community-node). Currently consumed only by TilesCockpit in `mode="primary"`. The spinner cockpit could mount it `mode="adjacent"` if Doron toggles to spinner and wants nested-folder breadcrumbing.
+
+---
+
+### DEC-190: Space-Type Catalog Principle (2026-04-28)
+
+**Date:** 2026-04-28
+**Context:** Phase 4.2-tiles-4 became the first consumer of `Business.enabled_spaces`. The renderer needed a way to map space-type strings (as stored in the array — `'profile'`, `'settings'`, `'desk'`, etc.) to tile metadata (label, sublabel, accent class, eventual workspace renderer reference). The pre-build investigation identified that this is the same living-feet pattern as `folderTree.js`, `folderPredicates.js`, `VARIANT_MAP`, `WORKSPACE_TYPES` — config-driven dispatch over inline conditionals.
+**Decision:** Any consumer of `enabled_spaces` (or analogous space-type fields on other entities) reads space metadata from a single config catalog (`src/config/spaceTypes.js`), never from inline conditionals in the renderer. Each catalog entry maps a space-type id to its tile metadata + universal flag (DEC-186) + (eventually) workspace renderer reference. Adding a new space type means one config entry. The companion helper `resolveBusinessSpaces(business)` unions universal entries with the business's `enabled_spaces` and dedupes.
+**Rationale:** Same living-feet pattern as the four other config-driven dispatches in the codebase (folderTree, folderPredicates, VARIANT_MAP, WORKSPACE_TYPES). Inline `if (spaceId === 'profile')` chains don't scale and don't compose; config does both. The catalog is also where the universal-vs-opt-in distinction lives (DEC-186), so Settings/Profile semantics are one source of truth. Future Engagements-as-folder, per-business event spaces, etc. plug in via additional catalog entries without renderer changes.
+**Status:** Active. First catalog has eight entries (`profile`, `settings`, `desk`, `finance`, `team`, `kitchen`, `property`, `events`); `profile` and `settings` flagged universal. Workspace renderer references deferred until tiles-5+ wires per-business workspace surfaces (each space type needs careful per-business profile-scoping; not a one-line dispatch).
+
+---
+
+### DEC-191: Uniform Navigation Pattern — DEC-148/DEC-168 Retired for Tile Users (2026-04-28)
+
+**Date:** 2026-04-28
+**Context:** Tile cockpit's tiles-3 ship preserved the DEC-148 overlay shortcut for Directory/Events and the DEC-168 lateral switcher for Businesses as transitional special-cases. Tiles-4's smoke testing confirmed the design philosophy: every tile descent should work the same way. No special cases. The render layer is location-aware; whatever's at the current location renders there.
+**Decision:** For tile cockpit users, the DEC-148 overlay pattern and DEC-168 lateral switcher pattern are retired. Tile-tap on Directory/Events descends and renders the page content inline (using the same `.overlay-page-content` wrapper class so existing page-header suppression carries forward — DEC-173 resurface, no page rebuild). Tile-tap on Businesses descends to a tile grid of owned businesses (each rendered as a generic `<Tile>` with category accent via `resolveCategoryAccent`); tap a business to commit operating-as context (mirrors DEC-168 commit logic exactly via `setActiveBusiness`) AND descend into that business's spaces tile grid. Spinner cockpit users (allowlisted) keep both patterns — `handleCenterTap` still triggers `OV.DIR`/`OV.EVT` overlays and `enterSwitcher`. The DEC-148 overlay machinery and DEC-168 switcher state remain in MyLaneSurface unchanged; only the tile cockpit's tile-tap handlers stop triggering them.
+**Rationale:** Uniform navigation = predictable navigation. The render layer carries the breadcrumb + content; every tile descends the same way. Tiles can do uniform descent because the grid handles "many things at this level" naturally; the spinner cannot do uniform descent because its model is "one centered thing." Preserving both patterns for spinner users keeps DEC-152 cockpit-library decoupling intact — each cockpit retains its own descent vocabulary. The split is honest: each cockpit's affordances match its visual model.
+**Status:** Active. Implemented Phase 4.2-tiles-4 (`84a9889` community-node). Spinner cockpit's preservation verified by inspection: `handleCenterTap` in `MyLaneSurface.jsx` still routes Directory/Events through overlays and Businesses through `enterSwitcher`. Allowlisted users who toggle to spinner reproduce all prior behavior.
+
+---
+
+### DEC-192: Engagements Design Fully Closed (2026-04-28)
+
+**Date:** 2026-04-28
+**Context:** Engagements concept seeded 2026-04-26 evening, structurally locked 2026-04-27 morning with three open detail questions deferred (permissions blob granularity, project-level authorship, acceptance and notification flow). Pre-build investigation (2026-04-28 morning) addressed all three plus surfaced two architectural patterns worth flagging for future. Engagement entity built in Base44 the same day.
+**Decision:** Three detail questions resolved (full text in `private/users/bari/ENGAGEMENTS-DESIGN-NOTES.md` Section "Resolved Open Questions"):
+1. **Permissions blob granularity:** Smart defaults per `recipient_role`. Setting role to `"client"` auto-populates a default permissions blob with the standard client view; setting role to `"subcontractor"` populates a different default. The override surface exists in the schema but no UI exposes it in v1. The role string carries semantic meaning.
+2. **Project-level authorship:** The `permissions.initiator_to_recipient` blob encodes both view permissions AND action permissions in one structured object. View permissions = what the recipient *sees*; action permissions = what they *can do* (sign estimate, approve change order, log time). Change orders specifically trigger e-sign for both initiator and recipient — same two-party state machine as engagement acceptance.
+3. **Acceptance and notification flow:** Email + in-app notification (no SMS in v1). Pending engagement appears in recipient's Engagements folder with a muted-state visual + accept/decline buttons; sits indefinitely (no auto-decline). Initiator can withdraw (`status: withdrawn`); recipient can decline (`status: declined`, historical record preserved); re-invitation creates a new record.
+
+Two architectural patterns flagged for future (out of scope for v1):
+- **Two-party acceptance as a recurring primitive** — engagement acceptance, change order approval, project completion sign-off all share the same shape. Don't extract until a third or fourth instance lands; name the pattern so the extraction case becomes obvious. Likely shape: `TwoPartyAction` primitive (initiator + recipient + state + initiator_signoff + recipient_signoff + history).
+- **Bid-request / job-listing workflow** — the inverse direction (homeowner posts a need, contractors apply, homeowner picks one). Lives upstream of Engagement; v1 schema's `created_by` may differ from `initiator_id` in some cases (the listing-poster created the situation, but the chosen contractor is the engagement's initiator). v1 schema shouldn't preclude this entry path.
+**Rationale:** Closes the design state of Engagements so the entity build can proceed without waiting on additional planning. v1 ships smart defaults that serve the common case; override surface accommodates the edge case when someone asks for it. The two flagged architectural patterns are named not built — DEC-183 path-walking applies (don't pre-build the abstraction; ship the concrete cases first, extract when the pattern repeats three times).
+**Status:** Active — design fully locked. Engagement entity created in Base44 (2026-04-28; one Read permission deviation: Base44 doesn't support multi-field OR conditions on read at the schema layer, so set to authenticated with row-level scoping moved to query logic — existing precedent: Recommendation, Debt entities). Pattern saved: post-Supabase migration, RLS policy `(auth.uid() = initiator_id) OR (auth.uid() = recipient_id)` replaces this workaround. First live instance (Doron-Bari retainer) pending entity availability + UI build. Engagements remains a parallel workstream not yet integrated into Phase 4 sequencing. Engagement scoped-query server function owed during tiles-5+ area; will retire during Supabase migration in favor of RLS.
+
+---

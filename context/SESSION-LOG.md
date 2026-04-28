@@ -1479,3 +1479,71 @@ Five commits across two repos today before this ship-it. Two earlier ship-it com
 **Ship-it timestamp:** 2026-04-26, late evening. Session closed in fully-planned state. Tomorrow opens on Phase 4.1.
 
 ---
+
+## Session Log — 2026-04-28 (Phase 4.2-tiles structurally complete + Engagements entity)
+
+**Surface:** Hyphae on Mac mini. Single coherent day arc — ten Hyphae shipments across community-node, Spec-Repo, private, plus one Base44 entity, in roughly half a day.
+
+**Focus:** Phase 4.2-tiles design pivot ratified and shipped end-to-end. Tiles cockpit became the v1 default; spinner gated to dev allowlist (DEC-147 pattern). Six sub-builds shipped per DEC-183 path-walking — design pivot doc, tile primitive, breadcrumb component, tile cockpit at root, per-business folder rendering, plus two bug fixes surfaced when tile cockpit routed more users through Events. Engagements design fully closed and entity built in Base44. Field Service removed from Personal as cleanup follow-up. Eight new DECs ratified.
+
+**Shipped to community-node (origin/main):**
+
+1. **Phase 4.2-tiles-1 — Generic Tile primitive (`a3ac463`):** Created `src/components/ui/Tile.jsx` (121 lines). Refactored `src/components/business/BusinessCard.jsx` (201 → 184 lines) to wrap Tile. Three import sites verified unchanged. `data-tile-kind` attribute pattern introduced for future per-kind styling.
+2. **Phase 4.2-tiles-2 — BreadcrumbPath component (`caae822`):** Created `src/components/ui/BreadcrumbPath.jsx` (121 lines). Cockpit-agnostic with `mode="primary"` and `mode="adjacent"` presentation modes. Composes existing shadcn breadcrumb primitives (DEC-173 compose-not-extend). PascalCase `Path` suffix avoids APFS case-insensitive collision with the existing lowercase `breadcrumb.jsx`.
+3. **Phase 4.2-tiles-3 — Tile cockpit at root (`77571b7`):** Created `src/components/mylane/TilesCockpit.jsx` (158 lines). Modified `src/main.jsx` (pre-paint cockpit bootstrap — tiles is the new default). Modified `src/components/mylane/MyLaneSurface.jsx` (+178/-30): COCKPIT_PICKER_ALLOWLIST constant, force-migration useEffect, tileLeafSelected state, AccountOverlay cockpit toggle gated to allowlist. Tile cockpit became default for everyone; spinner/compass gated to allowlisted users only.
+4. **joyCoinCost TDZ fix (`34bc25a`):** Three joy-coin derivation lines moved up in `EventDetailModal.jsx` to precede their consumers. Root cause: Base44 auto-builder commit `cfdcdb9e` (2026-04-22) re-added declarations 75 lines below the original references — latent regression exposed when tile cockpit routed more users through Events. Pattern saved to SuperMemory: Base44 auto-builder commits warrant code review, not blind trust.
+5. **Network undefined fix (`ae2d723`):** Optional-chained four unguarded `event.x` reads in `EventDetailModal.jsx` that occurred above the existing `if (!event) return null;` guard. Older defensive-coding gap exposed by tile cockpit routing more users through Events flow. Race condition flagged at Events.jsx call site for future cleanup if silent-fail-to-open becomes confusing.
+6. **Phase 4.2-tiles-4 — Per-business folder rendering + uniform navigation (`84a9889`):** Created `src/config/spaceTypes.js` (123 lines) — eight-entry catalog (`profile`, `settings`, `desk`, `finance`, `team`, `kitchen`, `property`, `events`; Profile + Settings flagged universal) with `resolveBusinessSpaces()` helper. TilesCockpit grew to 338 lines (handles five tile-grid modes including owned-business tiles + per-business space tiles). MyLaneSurface +150/-54 (descendedBusinessId, descendedSpaceId state, handleSelectBusiness, handleSelectSpace, handleTileAscend, BusinessSpacePlaceholder). Removed Dev Lab from folder tree (FlaskConical import dropped, dev-lab branch in renderContent removed). DEC-148 overlay pattern retired for tile cockpit users (still active for spinner). DEC-168 lateral switcher pattern retired for tile cockpit users. Per-business spaces all render placeholders for v1; workspace wiring deferred to tiles-5+. **First consumer of `Business.enabled_spaces`.**
+7. **Cleanup — Field Service removed from Personal (`2c01950`):** 3 files +14/-14. Removed `field-service` leaf entry from Personal's children in `folderTree.js` + dropped Briefcase import. Removed orphaned `has_field_service_profile` predicate in `folderPredicates.js`. Removed Estimates card-builder block in `HomeFeed.jsx` (was looking up the now-missing field-service space). Field Service workspace component, `WORKSPACE_TYPES.field_service` entry, agent/admin/invite/registry surfaces all preserved as infrastructure for tiles-5+ business-Desk wiring.
+
+**Shipped to Spec-Repo (origin/main):**
+
+8. **Tile cockpit design pivot — Section 5 + 8.13 (`a96ae43`):** Section 5 sequence updated; Phase 4.2-tiles absorbed 4.2b/4.3/4.4/4.5. Section 8.13 added — eleven locked design decisions covering tile primitive shape, Settings universal, category-driven accents preserved, cockpit picker pattern, hybrid-mode breadcrumb, space-type catalog principle, cold-open synthetic root, enabled_spaces unconsumed (until tiles-4), breadcrumb supersedes center-tap descent.
+9. **Phase 4.2-tiles-1 shipped (`4598419`):** Section 5 marks 4.2-tiles-1 ✅; Section 8.14 added.
+10. **Phase 4.2-tiles-2 shipped (`081882b`):** Section 5 marks 4.2-tiles-2 ✅; Section 8.15 added.
+11. **Phase 4.2-tiles-3 shipped (`65ff952`):** Section 5 marks 4.2-tiles-3 ✅; Section 8.16 added — force-migration logic, allowlist gate, default-cockpit bootstrap, accent palette decision.
+12. **Phase 4.2-tiles-4 shipped (`8b94ec1`):** Section 5 marks 4.2-tiles-4 ✅; Section 8.17 added — space-type catalog, retired patterns, placeholder strategy.
+13. **Field-service-from-Personal cleanup note (`1551f30`):** Section 8.17 follow-up paragraph documenting the cleanup.
+
+**Shipped to private (origin/main):**
+
+14. **Engagements design close (`406154b`):** Three resolved open questions — smart defaults per role, view+action permissions blob with two-party e-sign for change orders, email + in-app notification + indefinite pending. Two architectural flags — two-party-acceptance recurring primitive, bid-request / job-listing upstream workflow. Engagements design now structurally locked + all detail questions resolved.
+
+**Shipped to Base44:**
+
+15. **Engagement entity created.** All fields per spec. Read permission deviation: Base44 doesn't support multi-field OR conditions on read at the schema layer; set to authenticated, with row-level scoping moved into query logic (existing precedent: Recommendation, Debt entities). Pattern saved to SuperMemory: post-Supabase migration, RLS policy `(auth.uid() = initiator_id) OR (auth.uid() = recipient_id)` replaces this workaround.
+
+**Decisions made today:**
+
+- **DEC-185** — Phase 4.2-tiles design pivot. Tiles primary cockpit pattern; spinner preserved as dev-only alternate.
+- **DEC-186** — Settings as a universal space (never in enabled_spaces). Profile + Settings render unconditionally for every business.
+- **DEC-187** — Category-driven tile accents preserved; no per-business `brand_color` field added in v1.
+- **DEC-188** — Cockpit picker dev-allowlist via `COCKPIT_PICKER_ALLOWLIST` (DEC-147 pattern).
+- **DEC-189** — Hybrid-mode breadcrumb component (`mode="primary"` for tile cockpit, `mode="adjacent"` for spinner/future).
+- **DEC-190** — Space-type catalog principle: enabled_spaces consumers read from a config (`spaceTypes.js`), never inline conditionals.
+- **DEC-191** — Uniform navigation pattern: every root tile descends into render layer; DEC-148 overlays and DEC-168 switcher retired for tile cockpit users.
+- **DEC-192** — Engagements design fully closed: smart defaults per role, view+action permissions blob, change orders trigger e-sign for both parties, email + in-app notification with indefinite pending.
+
+**Carryover items + flags (parking lot for tiles-5+ planning):**
+
+1. **Tiles-5 next session:** Settings + Profile workspace surfaces + pricing-structure design. Pre-build design conversation about Profile/Settings split-point + pricing-model shape. Pricing field architecture in `spaceTypes.js` (null for now); charging deferred until Stripe integration.
+2. **Tiles-7 (queued):** Personal Profile + Settings — architectural symmetry. Adds `enabled_spaces` (or equivalent) field to User entity in Base44. Personal's Profile + Settings spaces. Public/private toggle. Foundation for user reviews. 2-3 sub-builds.
+3. **Per-business workspace wiring** for Profile/Desk/Finance/Team — existing renderers take user-scope props that need re-scoping. Field Service specifically requires a business-scoped resolver (`MyLaneDrillView.jsx:53` resolves `fieldServiceProfiles?.[0]`). Meaningfully more work than a simple dispatch.
+4. **JoinFieldService welcome-card "Go to desk" button** soft-broken (gracefully degrades to no-op). Fix in tiles-5+ Desk-wiring or as small adjacent cleanup. Same shape as existing `'business'` welcome no-op from Section 8.12.
+5. **Engagement scoped-query server function** owed during tiles-5+ area; will retire during Supabase migration in favor of RLS policy.
+6. **Phase 5 pre-migration cleanup catalog** — accumulating items; cataloging sweep before migration starts.
+7. **Optional-chain harmonization sweep** + **defensive-gap audit** — small consistency/safety passes.
+8. **MyLaneSurface size** (1,682 lines) approaching split-worthy; possibly during the queued hook reordering work.
+9. **Visual affordance check on breadcrumb segments** — verify click-to-ascend is discoverable in real use.
+10. **Reviews infrastructure** for users + businesses (future, tied to tiles-7).
+11. **Bari's Estimates surface dark in HomeFeed** until tiles-5 wires per-business Desk. Real-user signal blackout window. Path-walking acceptable.
+
+**Tomorrow's first move:** Phase 4.2-tiles-5 — Settings + Profile workspace surfaces + pricing-structure design conversation. Mycelia drafts the prompt fresh in the next session.
+
+**Posture note for the record:**
+
+Today's arc — six tiles sub-builds, two bug fixes, one design close, one entity creation, one cleanup pass — fit into roughly half a day because the foundation laid in tiles-1 and tiles-2 (small generic primitives) compounded across tiles-3 and tiles-4. The space-type catalog (`spaceTypes.js`) is the third living-feet config in the codebase (alongside `folderTree.js` + `folderPredicates.js`); future Engagements-as-folder additions plug in without refactor. DEC-183 path-walking held — each sub-build shipped, was inspected, and informed the next without back-to-back execution. Two regressions surfaced (joyCoinCost TDZ from a Base44 auto-commit, network-undefined defensive-gap older latent bug) were caught and fixed in flight; the joyCoinCost finding generalized to a Base44 auto-builder pattern saved to SuperMemory. Engagements parallel workstream advanced from "structurally locked, three details open" (yesterday) to "structurally locked, all questions answered, entity built" (today). Phase 4.2-tiles is structurally complete; the remaining tiles work (5+) is workspace wiring per space type, not navigation architecture.
+
+**Ship-it timestamp:** 2026-04-28, end of day. Phase 4.2-tiles structurally complete. Tomorrow opens on tiles-5 (Settings + Profile + pricing).
+
+---
