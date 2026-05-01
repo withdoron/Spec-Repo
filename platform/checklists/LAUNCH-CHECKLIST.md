@@ -32,6 +32,25 @@
 - [x] Lightweight legal disclaimer on system templates (banner + footer — 2026-04-23)
 - [x] Business.video_url field + allowlist + Settings input (render deferred to BusinessProfile redesign)
 - [x] Bari's Red Umbrella contracts loaded (2026-04-23 — General Construction Contract + Subcontractor Agreement, business-scoped to Red Umbrella)
+- [x] **Phase 1 Item 1 — FSPayment direction + party fields + Project original_budget immutability** (2026-04-30, Base44 schema applied; Bari's Holman backfilled `original_budget = $121,657.57`)
+- [x] **Phase 1 Item 2a — Estimate calculated lines + co_number auto-increment** (covered by `e72e28c` shared `calcTotals` + `db138bf` Mgmt Fee fields + `generateCONumber()`)
+- [x] **Phase 1 Item 2b — CO math wiring through builder + render** (`32ccb92`, `e72e28c`, `ef14ae9` — CO form unified with estimate, percentage fields wired, draft Edit added)
+- [x] **Phase 1 Item 2c — CO signing flow + total_budget recompute** (2026-04-30, `32ccb92`) — `signChangeOrder` server function, portal token fields on FSChangeOrder, RLS relaxations, signed CO `amount` canonical for recompute (DEC-193)
+- [x] **Phase 1 Item 3 — Edit-Draft on COs** (2026-04-30, `ef14ae9`)
+- [x] **Phase 1 Item 4 — Log Sub Payment + Client Payment types** (2026-04-30, `c55504c`) — universal capture surface gains payment entry types per FINANCIAL-WORKFLOW-SPEC §2.6; `useFSPayments` shared hook
+- [x] **Phase 1 Item 5 — Project Detail financial header** (2026-04-30, `c55504c`) — Contract / Received / Paid Out / Net Cash four-metric banner
+- [x] **Phase 1 Item 6 — Management Fee separated from O&P** (2026-04-30, `db138bf`, DEC-195) — two first-class features, both subtotal-only basis, never stack; display order locked across all surfaces (Subtotal → Mgmt Fee → O&P → Other → Tax → Total)
+- [x] **Phase 1 polish bundle** (2026-04-30, `148290d`) — Sales Tax toggle (default off, gates inputs + renders); `CurrencyInput` extracted to 10 sites; Estimate Cancel button; PDF branding (LocalLane title + per-print swaps); CO Delete (drafts) + Void (signed/accepted) with `voidChangeOrder` server function
+- [x] **Phase 1 Settings persistence + scroll + format-while-typing** (2026-04-30, `317950e`) — `invalidateFSProfiles` helper targeting actual `['mylane-profiles-v2', userId]` cache (DEC-196); `scrollToTopOf` helper extracted on second consumer (Living Feet); CurrencyInput format-while-typing with cursor-managed digit-and-dot-count invariant
+- [x] **Phase 1 feature flag wiring fix** (2026-04-30, `3c218d4`, DEC-194) — `getFeatures(profile)` helper, `features_json` canonical, asymmetric failure pattern documented
+- [ ] **Dogfood verification of `317950e`** (2026-05-01 morning) — Settings persistence across all 8 toggles, scroll-to-top after save, format-while-typing on every CurrencyInput site
+- [ ] **Apply paired Base44 prompt for CO Void schema** (`community-node/base44-prompts/PHASE-1-CO-VOID-STATUS.md`) if not yet applied — adds `voided` enum value + `voided_at` + `voided_reason`
+- [ ] **Estimate Types expansion** (next session) — adds `estimate_type` enum + 4 supporting fields to FSEstimate and FSChangeOrder; supports `fixed_price` / `flat_fee` / `time_and_materials` per FINANCIAL-WORKFLOW-INTENT §2; Base44 prompt + Hyphae prompt drafted, queued
+- [ ] **Bari's first real estimate entry** against the new Phase 1 surface (after Estimate Types ships)
+- [ ] **Permits library enhancement** — saved per-profile portal links with last-used surfacing (Phase 2; seedling)
+- [ ] **E-sign hardening** (deferred per Doron) — email magic link auth; wait until real risk surfaces (bigger CO amounts, less-known clients, or first dispute)
+- [ ] **Base44 legacy field cleanup** (staged, not blocking) — `community-node/base44-prompts/PHASE-1-DEPRECATE-LEGACY-FEATURE-FLAGS.md`; removes deprecated top-level boolean fields per DEC-194
+- [ ] **`['fs-profile']` (singular) cache audit** — separate narrower pass when convenient
 - [ ] Settings tab walkthrough with Bari
 - [ ] View permissions customization
 - [ ] Industry presets (DEC-090)
@@ -173,12 +192,28 @@
 
 ### Critical path to real users (next blockers)
 
-1. Phase 4.2-tiles-5 — Settings + Profile workspace surfaces + pricing-structure design (next session)
+**Field Service track (Bari is the live first paying user — drives this track):**
+
+1. **Dogfood verification of `317950e`** (2026-05-01) — Settings persistence + scroll + format-while-typing
+2. **Estimate Types expansion** (Base44 + Hyphae prompts queued) — `fixed_price` / `flat_fee` / `time_and_materials` enum + 4 supporting fields
+3. **Bari's first real estimate entry** against new Phase 1 + Estimate Types surface
+4. Permits library enhancement (seedling, Phase 2)
+5. E-sign hardening (deferred — email magic link auth when real risk surfaces)
+6. Bari workspace + workflow walkthrough; capture any frictions for Phase 2
+7. Deeper dogfood across the four-metric financial header during real project lifecycle
+
+**MyLane navigation track (Phase 4.2-tiles, parallel workstream):**
+
+1. Phase 4.2-tiles-5 — Settings + Profile workspace surfaces + pricing-structure design
 2. Phase 4.2-tiles-6 / tiles-7 — cockpit picker cleanup + Personal Profile/Settings (architectural symmetry)
-3. Phase 4.6 / 4.7 — Resurface pass + Desk rename mechanical
-4. Phase 4.5 — Seedlings (Admin Impersonation, post-migration welcome flow)
-5. Phase 5 (NEW) — Pre-migration cleanup (DEC-180)
-6. Phase 6 — Migration window + Region backfill (DEC-175 Pattern C+)
-7. Post-migration — Membership gate, Direct Doors, Stripe Connect (payment infrastructure built once on the new stack)
+3. Per-business workspace wiring — Field Service-specific business-scoped resolver (`MyLaneDrillView.jsx:53`)
+4. Phase 4.6 / 4.7 — Resurface pass + Desk rename mechanical
+
+**Platform-level path:**
+
+1. Phase 4.5 — Seedlings (Admin Impersonation, post-migration welcome flow)
+2. Phase 5 (NEW) — Pre-migration cleanup (DEC-180)
+3. Phase 6 — Migration window + Region backfill (DEC-175 Pattern C+)
+4. Post-migration — Membership gate, Direct Doors, Stripe Connect (payment infrastructure built once on the new stack)
 
 ---

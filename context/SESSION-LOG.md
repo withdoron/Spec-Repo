@@ -1547,3 +1547,89 @@ Today's arc — six tiles sub-builds, two bug fixes, one design close, one entit
 **Ship-it timestamp:** 2026-04-28, end of day. Phase 4.2-tiles structurally complete. Tomorrow opens on tiles-5 (Settings + Profile + pricing).
 
 ---
+
+## Session Log — 2026-04-30 (Field Service Phase 1 build sprint — eight commits + paired Base44 schema + five DECs)
+
+**Surface:** Hyphae on Mac mini. Single intense build day compressed what was originally scoped as a multi-week effort. Phase 1 of the Field Service financial workflow shipped end-to-end across community-node + Base44.
+
+**Focus:** Phase 1 Field Service is functionally complete. The estimate-to-CO-to-payment pipeline now carries the full architecture from `FINANCIAL-WORKFLOW-INTENT.md` and `FINANCIAL-WORKFLOW-SPEC.md`: estimate as project spine, signed COs as additive amendments with their own e-sign + recompute math, layered cost tracking via Sub Payment + Client Payment in the universal Log surface, project-level financial header (Contract / Received / Paid Out / Net Cash), and a daily-driver polish bundle that makes the workspace feel finished. Bari-prep window remains open; tomorrow morning's first move is dogfood verification of today's last commit then Estimate Types prompts to support Bari's first real estimate entry.
+
+**Shipped to community-node (origin/main):**
+
+1. **Phase 1 Item 2c — CO math + signing flow + total_budget recompute (`32ccb92`):** Created `signChangeOrder` server function (mirrors `signEstimate` pattern). Added portal token fields to FSChangeOrder (`portal_token`, `portal_link_active`, `sent_for_signature_at`, `recalled_at`). Relaxed FSChangeOrder + FSProject Update RLS to "No restrictions" (DEC-095/DEC-140 pattern — security membrane moves to function level). Per-project sequential CO numbers via `generateCONumber()` (`CO-001`, `CO-002`, …). Lightweight Project Detail / Client Portal CO blocks. **Architectural primitive:** signed CO `amount` is the canonical contribution to FSProject.total_budget; the recompute formula is `original_budget + sum(amount where status='signed')`.
+
+2. **Phase 1 — CO form unification + RQ v5 invalidation fix (`e72e28c`):** Extracted `LineItemsEditor` (typed line items, voice input, qty/unit price/amount math) shared between FSEstimate and FSChangeOrder builders. Extracted `calcTotals` + `CATEGORIES` + helpers into `src/utils/fsLineItems.js`. Added percentage fields to FSChangeOrder (`overhead_profit_pct`, `tax_rate`, `tax_amount`, `other_amount`) so COs share the estimate's math vocabulary. Fixed React Query v5 invalidation bug across 5 sites — bare-array form `invalidateQueries(['key'])` is a silent no-op in v5; must be `invalidateQueries({ queryKey: ['key'] })`.
+
+3. **Phase 1 — Edit-Draft on COs (`ef14ae9`):** New `editingCOId` state, `openEditCOForm` helper, `saveCOMutation` branches between create and update. Edit button only renders for draft COs; locked once status moves into the signing flow (awaiting_signature, signed, accepted, declined, voided).
+
+4. **Phase 1 Items 4 + 5 — Log payment types + Project Detail financial header (`c55504c`):** Log surface gains a type picker — Daily Log (existing) + Sub Payment (new) + Client Payment (new). Sub Payment / Client Payment write FSPayment with the right `direction` + party fields per `FINANCIAL-WORKFLOW-SPEC` §2.6. New `useFSPayments` shared query hook. Project Detail four-metric financial header (Contract / Received / Paid Out / Net Cash) sits above the existing Budget breakdown — same data, daily check-in framing. Existing Payments section becomes view-only with a "Log a payment" handoff to the new Log entry. Financial Ledger Estimated column now iterates signed CO line items (per Item 2c, signed COs amend the contract; the ledger composition needs to reflect that).
+
+5. **Phase 1 — Feature flag wiring fix (`3c218d4`):** Root cause: `MyLaneDrillView.jsx:177` was reading `profile.features` (a key that doesn't exist on the entity; the entity has `features_json`). Fix: extracted `getFeatures(profile)` helper into `src/utils/fsFeatures.js` with `FEATURE_DEFAULTS`. All flags now read consistently from `features_json` per **DEC-194**. Asymmetric failure pattern documented in commit body and DEC: default-off `=== true` flags broke (O&P, Xactimate); default-on `!== false` flags appeared to work — both broken, only the default-off ones surfaced.
+
+6. **Phase 1 — Management Fee separated from O&P + Log scroll-to-top (`db138bf`):** New `management_fee_pct` + `management_fee_amount` fields on FSEstimate + FSChangeOrder. New Settings toggle (defaults off). `calcTotals` extended to accept Management Fee as a 5th argument; backward-compatible. Display order across all five render surfaces: **Subtotal → Management Fee → O&P → Other → Tax → Total** — Management Fee precedes O&P because for GCs (the more common Eugene case) it's the primary line. **DEC-195** ratified: two first-class features, both subtotal-only basis, never stack. Log mount effect added — walks up to closest scrollable ancestor and resets scrollTop=0 (the `.mylane-content-area` scroll position persists across tab switches; "Log a payment" from deep on Project Detail was landing users at the bottom of the Log form).
+
+7. **Phase 1 polish bundle (`148290d`):** Sales Tax toggle (defaults off, gates Tax inputs and renders across Estimate Builder, CO Builder, Estimate Preview, CO list breakdown, Client Portal CO blocks). Extracted `CurrencyInput` component applied to 10 sites (DEC-089 fractal audit — Unit Price + every dollar-amount input the user sees). Estimate Cancel button (mirrors CO form pattern). PDF branding: `index.html` title `Base44 APP` → `LocalLane`, per-print title swaps producing `Estimate-EST-2026-001.pdf` / `ChangeOrder-CO-001.pdf` filenames. CO Delete (drafts, single-step) + Void (signed/accepted, two-step typed VOID confirmation). New `voidChangeOrder` server function mirrors `signChangeOrder` pattern — voided CO status preserved for audit, excluded from `total_budget` recompute (filter `signed | accepted` naturally excludes voided as its own status). Voided CO render: muted gray badge, line-through title and amount, action row replaced with "Voided {date} — {reason}" info line.
+
+8. **Phase 1 — Settings persistence + scroll-to-top after save + format-while-typing (`317950e`):** Root cause of "toggles appear to revert after save": Settings invalidated `['fs-profiles']` after every write, but the actual profile cache lives at `['mylane-profiles-v2', userId]` per DEC-130 — invalidation against an unsubscribed key is a silent no-op in React Query. New `invalidateFSProfiles(queryClient, userId)` helper applied to 10 invalidation sites — **DEC-196**. Bug had been latent since the original Settings was written; only became visible under rapid-iteration testing because mylane-profiles-v2 has a 5-minute `staleTime` that masked the issue when users left enough time between save and re-visit. New `scrollToTopOf(startEl)` helper extracted into `src/utils/scrollToTop.js`; FieldServiceLog refactored to use it (Living Feet — second consumer earned the extraction). CurrencyInput format-while-typing with cursor management via the digit-and-dot-count-before-cursor invariant — count digit/dot chars before the cursor in the raw input, place cursor after the same count of digit/dots in the reformatted output.
+
+**Shipped to Base44 (paired with code commits):**
+
+- **FSPayment** — `direction`, `party_type`, `party_name`, `party_id`, `method` (merged enum), `reference`, `notes` (Phase 1 Item 4 schema).
+- **FSProject** — `original_budget` documented as immutable, `total_budget` documented as derived; Update RLS relaxed to "No restrictions" (DEC-140 pattern); Bari's Holman project backfilled `original_budget = $121,657.57`.
+- **FSChangeOrder** — status enum extended with `awaiting_signature`, `signed`, `voided`; new fields `signed_at`, `signature_data`, `amount`, `voided_at`, `voided_reason`; portal fields `portal_token`, `portal_link_active`, `sent_for_signature_at`, `recalled_at`; Update RLS relaxed; signing flow + void flow server functions published.
+- **FSEstimate** — `management_fee_amount` added (`management_fee_pct` already existed in schema).
+- **FSChangeOrder** percentage fields — `management_fee_pct`, `management_fee_amount`, `overhead_profit_pct`, `tax_rate`, `tax_amount`, `other_amount`.
+
+**Decisions ratified today (DEC-193 through DEC-197 — see `Spec-Repo/platform/DECISIONS.md`):**
+
+- **DEC-193** — FSChangeOrder `total` vs `amount` distinction. `amount` is canonical for `total_budget` recompute; `total` is the line-items working/display number. The two diverge when modifiers (Mgmt Fee, O&P, Tax, Other) land on a CO; conflating them would silently under-bill the parent project.
+- **DEC-194** — `features_json` is the canonical FieldServiceProfile feature flag store. All reads through `getFeatures(profile)`; top-level legacy boolean fields deprecated. Asymmetric failure pattern (default-off broken, default-on appearing-to-work) documented for future flag work.
+- **DEC-195** — Management Fee distinct from O&P. Two first-class features, both subtotal-only basis, never stack on each other or on Tax. Display order locked across all surfaces.
+- **DEC-196** — Cache invalidation must target the subscriber's actual queryKey. RQ v5 invalidates against unsubscribed keys are silent no-ops; helper-per-canonical-cache pattern (`invalidateFSProfiles`) prevents drift.
+- **DEC-197** — Fee/insurance toggles default off. Opt-in only; no industry-preset auto-defaults; no location-based heuristics. Standard infrastructure flags (Permits, Subs, Payments, Timeline) default on because they're visibility-only.
+
+**Operational notes (decisions made today that didn't rise to DEC-level):**
+
+- **CO signing flow uses clipboard, not email.** Already covered by DEC-096 (Request Signature Is One Action) — same pattern as FSEstimate. E-sign hardening with email magic link auth deferred until real risk surfaces (bigger CO amounts, less-known clients, or first dispute). No new DEC.
+- **Voided CO render pattern.** Detail-level: muted gray "Voided" badge, line-through title and amount, action row replaced with `Voided {date} — {reason}` info line. Filter `signed | accepted` naturally excludes voided records — no filter changes needed anywhere. Operational, not architectural.
+- **Living Feet (DEC-146) applied twice today.** `CurrencyInput` extracted on its second consumer (was inline in 10+ places before). `scrollToTopOf` extracted on its second consumer (was inlined in FieldServiceLog mount effect from `db138bf`). Same shape both times: a small primitive earns its extraction once it has more than one consumer.
+
+**Things deferred / staged but not shipped today:**
+
+- **E-sign hardening (email magic link auth).** Deferred per Doron until a real risk surfaces. Current portal-token + clipboard model is the right shape for now; harden when scale or stakes change.
+- **Base44 schema cleanup of legacy top-level feature flag fields.** Paired prompt staged at `community-node/base44-prompts/PHASE-1-DEPRECATE-LEGACY-FEATURE-FLAGS.md`. Doron runs when ready; not blocking anything.
+- **Estimate Types expansion** (`fixed_price` / `flat_fee` / `time_and_materials`). Base44 prompt + Hyphae prompt drafted, ready to ship in a fresh session tomorrow morning. Adds `estimate_type` enum + 4 supporting fields to both FSEstimate and FSChangeOrder. Supports the three first-class billing models from `FINANCIAL-WORKFLOW-INTENT.md` §2 (transparency-as-architecture).
+- **Permits library enhancement** — saved per-profile portal links with last-used surfacing. Phase 2 work; seedling.
+- **`management_fees_enabled` flag cleanup.** Confirmed dead in `features_json` (now correctly resurrected for the Management Fee feature). No follow-up needed.
+- **`['fs-profile']` (singular) cache audit.** Separate narrower cache used by FieldServiceHome's `guide_dismissed` toggle and one Settings invitee handler. Not part of `invalidateFSProfiles` helper. Worth a separate pass when convenient; not blocking.
+
+**Pending human verification (dogfood test window 2026-05-01 morning):**
+
+- Commit `317950e` end-to-end — Settings persistence across all 8 toggles (Permits, Subs, Management Fee, O&P, Xactimate, Sales Tax, Payments, Timeline), scroll-to-top after save lands the toast in view, format-while-typing on every CurrencyInput site (Unit Price, Other Amount, Hourly Rate, Total Budget, Sub/Client Payment, Material unit cost, Labor rate, CO Other Amount).
+- Apply paired Base44 prompt `community-node/base44-prompts/PHASE-1-CO-VOID-STATUS.md` if not yet applied. CO Void requires the schema fields (`voided` enum value, `voided_at`, `voided_reason`) to be live in the Base44 dashboard.
+
+**Tomorrow's first move:**
+
+Dogfood verification of `317950e` (above), then Estimate Types prompts (Base44 schema + Hyphae build), then Bari's first real estimate entry against the new Phase 1 surface. Parallel: Dan Sikes logo variants via Gemini (separate workstream, doesn't block).
+
+**Carryover items + flags (still pending across the broader project):**
+
+- Phase 4.2-tiles-5 still next on the tiles workstream (Settings + Profile workspace surfaces + pricing-structure design conversation). Today was Phase 1 FS, not Phase 4 tiles — the two workstreams ran in parallel.
+- Base44 publish blocker workaround documented (Kathy at Base44 ran a checkpoint reset to clear it). Today's Base44 schema work + server functions published cleanly under that workaround. Escalation request `95a004a0` remains open as durable fix.
+- `community-node/docs/migration-research.md` cleanup pending (since 2026-04-25).
+- DECISIONS.md drift between Spec-Repo and community-node — pre-existing structural divergence; queued for May 4 Sharpening.
+- NODE-LAB-MODEL.md phase-review note for Field Service crossing production-shaped — flag persists.
+
+**Posture note for the record:**
+
+Today compressed what was originally scoped as a multi-week effort into one intense build day. Eight commits in community-node, five new DECs, one paired Base44 schema arc covering FSPayment + FSProject + FSChangeOrder + FSEstimate. Two of the eight commits were diagnostic-led: `3c218d4` chased a feature flag bug to a typo'd key name three layers deep (`profile.features` vs `profile.features_json`) — the asymmetric failure pattern is now a saved lesson; `317950e` chased a Settings persistence bug to an invalidation queryKey that hadn't matched a live subscriber since DEC-130 collapsed the profile queries — invalidation against an unsubscribed key is a silent no-op, masked by 5-min staleTime, surfaced only under fast iteration. Both bugs had been latent for weeks. Both ratified into DECs (DEC-194 and DEC-196) so the next equivalent bug is structurally precluded rather than just fixed.
+
+The CO Void path specifically deserves a note: the two-step typed-VOID confirmation pattern came from the existing workspace-delete dialog (FieldServiceSettings), preserving consistency on destructive-action friction; the void render (line-through + muted badge + replaced action row) came from the spec's "preserve as legal artifact, mark as undone" framing in FINANCIAL-WORKFLOW-SPEC §2.4. The fact that the existing `signed | accepted` filter naturally excluded voided records (because `voided` is its own status enum value) meant zero filter changes anywhere downstream — a clean architectural payoff from naming the new state precisely.
+
+The CurrencyInput's format-while-typing algorithm uses one invariant — count of digit-and-dot chars before the cursor in the raw input — to manage cursor position across reformat. That count is invariant under thousands-separator and dollar-sign insertion, which is what makes the cursor stay where the user expects when typing in the middle of a formatted number. Built by hand in ~40 lines + glue rather than adding a `react-number-format` dep; tradeoff captured in the commit body.
+
+Field Service is now production-shaped at the architectural level, not just at the score level. Bari's day-to-day workflow is supported end-to-end. Tomorrow's work moves from "build the architecture" to "use it on a real estimate."
+
+**Ship-it timestamp:** 2026-04-30, end of day. Phase 1 Field Service functionally complete, pending dogfood test of `317950e`. Tomorrow opens on dogfood + Estimate Types prompts + Bari's first real estimate.
+
+---
